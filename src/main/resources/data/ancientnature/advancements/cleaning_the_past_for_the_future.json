@@ -1,0 +1,23 @@
+{
+  "display": {
+    "icon": {
+      "item": "ancientnature:anomalocaris_fossil"
+    },
+    "title": {
+      "translate": "advancements.cleaning_the_past_for_the_future.title"
+    },
+    "description": {
+      "translate": "advancements.cleaning_the_past_for_the_future.descr"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "cleaning_the_past_for_the_future": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "parent": "ancientnature:paleontologist"
+}

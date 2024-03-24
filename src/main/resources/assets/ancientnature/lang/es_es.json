@@ -1,0 +1,16 @@
+{
+  "item.ancientnature.amber": "Ámbar",
+  "item.ancientnature.mosquito_amber": "Mosquito en ámbar",
+  "item.ancientnature.cambrian_fossil": "Fósil del cámbrico",
+  "item.ancientnature.anomalocaris_fossil": "Fósil de anomalocaris",
+
+  "advancements.cleaning_the_past_for_the_future.title": "Digno de museo",
+  "advancements.cleaning_the_past_for_the_future.descr": "¡Límpialo para descubrir su interior!",
+  "advancements.paleontologist.title": "Paleontólogo",
+  "advancements.paleontologist.descr": "Obtén tu primer fósil",
+
+  "creativetab.ancientnature_tab": "Naturaleza Antigua",
+
+  "block.ancientnature.deepslate_cambrian_fossil": "Fósil del cámbrico de pizarra profunda",
+  "block.ancientnature.deepslate_amber": "Ámbar de pizarra profunda"
+}

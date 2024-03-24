@@ -1,0 +1,16 @@
+{
+  "item.ancientnature.amber": "Amber",
+  "item.ancientnature.mosquito_amber": "Mosquito Amber",
+  "item.ancientnature.cambrian_fossil": "Cambrian Fossil",
+  "item.ancientnature.anomalocaris_fossil": "Anomalocaris Fossil",
+
+  "advancements.cleaning_the_past_for_the_future.title": "Belongs to a museum",
+  "advancements.cleaning_the_past_for_the_future.descr": "Clean up a fossil for see what have inside!",
+  "advancements.paleontologist.title": "Paleontologist",
+  "advancements.paleontologist.descr": "Obtain your fist fossil",
+
+  "creativetab.ancientnature_tab": "Ancient Nature",
+
+  "block.ancientnature.deepslate_cambrian_fossil": "Deepslate Cambrian Fossil",
+  "block.ancientnature.deepslate_amber": "Deepslate Amber"
+}
