@@ -13,13 +13,12 @@ public class ClickEventHandler {
         mainHandItem = event.getPlayer().getHeldItemMainhand();
         ItemStack offHandItem;
         offHandItem = event.getPlayer().getHeldItemOffhand();
-
         if (!mainHandItem.isEmpty() && mainHandItem.getItem().getDescriptionId().equals("minecraft:brush") &&
                 !offHandItem.isEmpty() && offHandItem.getItem() == ModItems.CAMBRIAN_FOSSIL.get()) {
 
             if (Math.random() < 0.3) {
 
-                event.getPlayer().addItemStackToInventory(new ItemStack(ModItems.ANOMALOCARIS_FOSSIL.get()));
+                 event.getPlayer().addItemStackToInventory(new ItemStack(ModItems.ANOMALOCARIS_FOSSIL.get()));
             } else {
                 event.getPlayer().setHeldItem(event.getHand(), ItemStack.EMPTY);
             }
