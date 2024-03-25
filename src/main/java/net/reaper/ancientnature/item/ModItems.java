@@ -1,5 +1,6 @@
 package net.reaper.ancientnature.item;
 
+import net.minecraft.world.item.Rarity;
 import net.reaper.ancientnature.AncientNature;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -19,7 +20,7 @@ public class ModItems {
             () ->new Item(new Item.Properties()));
 
     public static final RegistryObject<Item> ANOMALOCARIS_FOSSIL = ITEMS.register("anomalocaris_fossil",
-            () ->new Item(new Item.Properties()));
+            () ->new Item(new Item.Properties().rarity(Rarity.RARE)));
 
 
     public static void register(IEventBus eventBus) {

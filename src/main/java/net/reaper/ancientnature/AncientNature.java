@@ -1,6 +1,7 @@
 package net.reaper.ancientnature;
 
 import com.mojang.logging.LogUtils;
+import net.minecraft.world.item.ItemUtils;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -13,6 +14,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.reaper.ancientnature.block.ModBlocks;
+import net.reaper.ancientnature.event.ClickEventHandler;
 import net.reaper.ancientnature.item.ModCreativeModTabs;
 import net.reaper.ancientnature.item.ModItems;
 import org.slf4j.Logger;
@@ -53,7 +55,7 @@ public class AncientNature
 
     private void commonSetup(final FMLCommonSetupEvent event)
     {
-        // Some common setup code
+        MinecraftForge.EVENT_BUS.register(ClickEventHandler.class);
 
     }
 

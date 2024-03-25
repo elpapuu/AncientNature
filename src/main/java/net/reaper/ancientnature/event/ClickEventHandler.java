@@ -1,6 +1,4 @@
 package net.reaper.ancientnature.event;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fml.common.Mod;
@@ -11,10 +9,12 @@ public class ClickEventHandler {
 
     public static void onPlayerLeftClick(PlayerInteractEvent.RightClickItem event) {
 
-        ItemStack mainHandItem = event.getPlayer().getHeldItemMainhand();
-        ItemStack offHandItem = event.getPlayer().getHeldItemOffhand();
+        ItemStack mainHandItem;
+        mainHandItem = event.getPlayer().getHeldItemMainhand();
+        ItemStack offHandItem;
+        offHandItem = event.getPlayer().getHeldItemOffhand();
 
-        if (!mainHandItem.isEmpty() && mainHandItem.getItem().getRegistryName().toString().equals("minecraft:brush") &&
+        if (!mainHandItem.isEmpty() && mainHandItem.getItem().getDescriptionId().equals("minecraft:brush") &&
                 !offHandItem.isEmpty() && offHandItem.getItem() == ModItems.CAMBRIAN_FOSSIL.get()) {
 
             if (Math.random() < 0.3) {
