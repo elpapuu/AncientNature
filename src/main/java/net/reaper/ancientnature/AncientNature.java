@@ -1,6 +1,8 @@
 package net.reaper.ancientnature;
 
 import com.mojang.logging.LogUtils;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.ItemUtils;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -17,6 +19,7 @@ import net.reaper.ancientnature.block.ModBlocks;
 import net.reaper.ancientnature.event.ClickEventHandler;
 import net.reaper.ancientnature.item.ModCreativeModTabs;
 import net.reaper.ancientnature.item.ModItems;
+import net.reaper.ancientnature.sound.ModSounds;
 import org.slf4j.Logger;
 
 import java.util.AbstractMap;
@@ -47,10 +50,11 @@ public class AncientNature
 
         modEventBus.addListener(this::commonSetup);
 
+        ModSounds.register(modEventBus);
+
         MinecraftForge.EVENT_BUS.register(this);
         modEventBus.addListener(this::addCreative);
     }
-
 
 
     private void commonSetup(final FMLCommonSetupEvent event)
