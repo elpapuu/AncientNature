@@ -14,7 +14,7 @@ public class ModSounds {
             DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, AncientNature.MOD_ID);
     public static final RegistryObject<SoundEvent> CLEANED_FOSSIL = registerSoundEvents("cleaned_fossil");
 
-    public static final RegistryObject<SoundEvent> registerSoundEvents(String name) {
+    private static  RegistryObject<SoundEvent> registerSoundEvents(String name) {
         return SOUND_EVENTS.register(name,() -> SoundEvent.createVariableRangeEvent(new ResourceLocation(AncientNature.MOD_ID, name)));
     }
 
