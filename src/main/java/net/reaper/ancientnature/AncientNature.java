@@ -1,6 +1,7 @@
 package net.reaper.ancientnature;
 
 import com.mojang.logging.LogUtils;
+import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.ItemUtils;
@@ -16,6 +17,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.reaper.ancientnature.block.ModBlocks;
+import net.reaper.ancientnature.entity.ModEntities;
+import net.reaper.ancientnature.entity.client.ArandaspisRenderer;
 import net.reaper.ancientnature.event.ClickEventHandler;
 import net.reaper.ancientnature.item.ModCreativeModTabs;
 import net.reaper.ancientnature.item.ModItems;
@@ -52,6 +55,8 @@ public class AncientNature
 
         ModSounds.register(modEventBus);
 
+        ModEntities.register(modEventBus);
+
         MinecraftForge.EVENT_BUS.register(this);
         modEventBus.addListener(this::addCreative);
     }
@@ -78,6 +83,7 @@ public class AncientNature
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
+            EntityRenderers.register(ModEntities.ARANDASPIS.get(), ArandaspisRenderer::new);
         
         }
 
