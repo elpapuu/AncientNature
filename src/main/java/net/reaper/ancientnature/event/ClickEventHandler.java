@@ -1,7 +1,5 @@
 package net.reaper.ancientnature.event;
 
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -10,7 +8,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.reaper.ancientnature.item.ModItems;
 import net.reaper.ancientnature.sound.ModSounds;
 
-import static org.apache.commons.lang3.RandomUtils.nextFloat;
 
 @Mod.EventBusSubscriber(modid = "ancientnature", bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ClickEventHandler {
