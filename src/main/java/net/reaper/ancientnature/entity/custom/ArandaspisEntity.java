@@ -31,15 +31,14 @@ public final AnimationState swimAnimationState = new AnimationState();
 
     }
 
-    @Override
-    protected void updateSwimAnimation(float pPartialTick) {
+    protected void updateSwimAnimation(float pPartialTick, float v) {
         float f;
         if(this.getPose() == Pose.STANDING) {
             f = Math.min(pPartialTick * 6f, 1f);
         } else {
             f = 0f;
         }
-        this.swimAnimation.update(f, 0.2f);
+        this.updateSwimAnimation(f, 0.2f);
     }
     @Override
     protected void registerGoals() {
