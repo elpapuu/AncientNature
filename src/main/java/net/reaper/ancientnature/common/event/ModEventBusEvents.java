@@ -1,4 +1,4 @@
-package net.reaper.ancientnature.event;
+package net.reaper.ancientnature.common.event;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
