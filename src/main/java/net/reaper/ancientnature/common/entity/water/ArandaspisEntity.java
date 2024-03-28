@@ -1,4 +1,4 @@
-package net.reaper.ancientnature.entity.custom;
+package net.reaper.ancientnature.common.entity.water;
 
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EntityType;
@@ -15,31 +15,31 @@ public class ArandaspisEntity extends WaterAnimal {
     public ArandaspisEntity(EntityType<? extends WaterAnimal> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
-public final AnimationState swimAnimationState = new AnimationState();
+
+    public final AnimationState swimAnimationState = new AnimationState();
     private int swimAnimationTimeout = 0;
 
     @Override
     public void tick() {
         super.tick();
-
-        if(this.level().isClientSide()) {
+        if (this.level().isClientSide()) {
 
         }
     }
 
     private void setupAnimationStates() {
-
     }
 
     protected void updateSwimAnimation(float pPartialTick, float v) {
         float f;
-        if(this.getPose() == Pose.STANDING) {
+        if (this.getPose() == Pose.STANDING) {
             f = Math.min(pPartialTick * 6f, 1f);
         } else {
             f = 0f;
         }
         this.updateSwimAnimation(f, 0.2f);
     }
+
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new TryFindWaterGoal(this));

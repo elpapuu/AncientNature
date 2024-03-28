@@ -1,4 +1,4 @@
-package net.reaper.ancientnature.block;
+package net.reaper.ancientnature.core.init;
 
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.block.DropExperienceBlock;
@@ -12,8 +12,6 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import net.reaper.ancientnature.AncientNature;
-import net.reaper.ancientnature.item.ModItems;
 
 import java.util.function.Supplier;
 

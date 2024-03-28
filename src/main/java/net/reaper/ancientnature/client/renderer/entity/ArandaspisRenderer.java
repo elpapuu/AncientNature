@@ -1,14 +1,18 @@
-package net.reaper.ancientnature.entity.client;
+package net.reaper.ancientnature.client.renderer.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.reaper.ancientnature.AncientNature;
-import net.reaper.ancientnature.entity.custom.ArandaspisEntity;
-
-public class ArandaspisRenderer extends MobRenderer<ArandaspisEntity,ArandaspisModel<ArandaspisEntity>> {
+import net.reaper.ancientnature.client.model.entity.ArandaspisModel;
+import net.reaper.ancientnature.client.model.ModModelLayers;
+import net.reaper.ancientnature.common.entity.water.ArandaspisEntity;
+@OnlyIn(Dist.CLIENT)
+public class ArandaspisRenderer extends MobRenderer<ArandaspisEntity, ArandaspisModel<ArandaspisEntity>> {
     public ArandaspisRenderer(EntityRendererProvider.Context pContext) {
         super(pContext, new ArandaspisModel<>(pContext.bakeLayer(ModModelLayers.ARANDASPIS_LAYER)), 0.6f);
     }

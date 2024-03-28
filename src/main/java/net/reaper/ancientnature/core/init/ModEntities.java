@@ -1,6 +1,5 @@
-package net.reaper.ancientnature.entity;
+package net.reaper.ancientnature.core.init;
 
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -8,7 +7,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.reaper.ancientnature.AncientNature;
-import net.reaper.ancientnature.entity.custom.ArandaspisEntity;
+import net.reaper.ancientnature.common.entity.water.ArandaspisEntity;
 
 public class ModEntities {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES =

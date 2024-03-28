@@ -1,4 +1,4 @@
-package net.reaper.ancientnature.item;
+package net.reaper.ancientnature.core.init;
 
 import net.minecraft.world.item.Rarity;
 import net.reaper.ancientnature.AncientNature;

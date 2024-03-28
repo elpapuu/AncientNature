@@ -1,4 +1,4 @@
-package net.reaper.ancientnature.item;
+package net.reaper.ancientnature.core.init;
 
 import net.reaper.ancientnature.AncientNature;
 import net.minecraft.core.registries.Registries;
@@ -8,8 +8,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
-import net.reaper.ancientnature.AncientNature;
-import net.reaper.ancientnature.block.ModBlocks;
+import net.reaper.ancientnature.core.init.ModBlocks;
+import net.reaper.ancientnature.core.init.ModItems;
 
 public class ModCreativeModTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =

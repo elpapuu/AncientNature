@@ -5,8 +5,8 @@ import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.reaper.ancientnature.AncientNature;
-import net.reaper.ancientnature.entity.ModEntities;
-import net.reaper.ancientnature.entity.custom.ArandaspisEntity;
+import net.reaper.ancientnature.core.init.ModEntities;
+import net.reaper.ancientnature.common.entity.water.ArandaspisEntity;
 
 @Mod.EventBusSubscriber(modid = AncientNature.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ModEventBusEvents {
