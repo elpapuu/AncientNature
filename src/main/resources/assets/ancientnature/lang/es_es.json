@@ -1,6 +1,7 @@
 {
   "item.ancientnature.amber": "Ámbar",
   "item.ancientnature.mosquito_amber": "Mosquito en ámbar",
+  "item.ancientnature.lizard_amber": "Lagarto en ámbar",
   "item.ancientnature.cambrian_fossil": "Fósil del cámbrico",
   "item.ancientnature.anomalocaris_fossil": "Fósil de anomalocaris",
 
@@ -14,5 +15,7 @@
   "subtitles.ancientnature.cleaned_fossil": "Fósil limpiado",
 
   "block.ancientnature.deepslate_cambrian_fossil": "Fósil del cámbrico de pizarra profunda",
+    "block.ancientnature.suspicious_fossilized_gravel": "Grava fosilizada sospechosa"
+  "block.ancientnature.fossilized_gravel": "Grava fosilizada"
   "block.ancientnature.deepslate_amber": "Ámbar de pizarra profunda"
 }
