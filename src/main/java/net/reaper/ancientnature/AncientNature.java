@@ -1,6 +1,7 @@
 package net.reaper.ancientnature;
 
 import com.mojang.logging.LogUtils;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -30,6 +31,10 @@ public class AncientNature {
 
         ModEntities.register(modEventBus);
         ModBlockEntities.TES.register(modEventBus);
+    }
+
+    public static ResourceLocation modLoc(String name){
+        return new ResourceLocation(MOD_ID, name);
     }
 
 }

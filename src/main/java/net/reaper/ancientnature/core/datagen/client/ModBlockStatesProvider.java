@@ -2,10 +2,12 @@ package net.reaper.ancientnature.core.datagen.client;
 
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BrushableBlock;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
+import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.reaper.ancientnature.AncientNature;
@@ -30,7 +32,16 @@ public class ModBlockStatesProvider extends BlockStateProvider {
             String name = registryName.getPath();
             name += "_" + dusted;
             ConfiguredModel.Builder<?> model = ConfiguredModel.builder().modelFile(models().cubeAll(name, modLoc("block/" + name)));
+            if (dusted == 1){
+                this.simpleBlockItem(block, models().cubeAll(name, modLoc("block/" + name)));
+            }
             return model.build();
         });
+    }
+
+    @Override
+    public void simpleBlock(Block block, ModelFile model) {
+        super.simpleBlock(block, model);
+        simpleBlockItem(block, model);
     }
 }

@@ -26,6 +26,7 @@ public class ModBlockLoot extends BlockLootSubProvider {
     @Override
     protected void generate() {
         dropSelf(ModBlocks.FOSSILIZED_GRAVEL.get());
+        dropOther(ModBlocks.SUSPICIOUS_FOSSILIZED_GRAVEL.get(), ModBlocks.FOSSILIZED_GRAVEL.get());
         makeAmberdrops(ModBlocks.DEEPSLATE_AMBER.get(), new int[]{20, 1, 1}, ModItems.AMBER.get(), ModItems.MOSQUITO_AMBER.get(), ModItems.LIZARD_AMBER.get());
         this.createOreDrop(ModBlocks.DEEPSLATE_CAMBRIAN_FOSSIL.get(), ModItems.CAMBRIAN_FOSSIL.get());
     }

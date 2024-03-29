@@ -26,6 +26,8 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModBlocks.DEEPSLATE_CAMBRIAN_FOSSIL.get());
                         pOutput.accept(ModItems.ANOMALOCARIS_FOSSIL.get());
                         pOutput.accept(ModItems.LIZARD_AMBER.get());
+                        pOutput.accept(ModBlocks.FOSSILIZED_GRAVEL.get());
+                        pOutput.accept(ModBlocks.SUSPICIOUS_FOSSILIZED_GRAVEL.get());
 
                     })
 

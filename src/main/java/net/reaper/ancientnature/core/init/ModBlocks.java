@@ -1,20 +1,24 @@
 package net.reaper.ancientnature.core.init;
 
+import net.minecraft.Util;
+import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.valueproviders.UniformInt;
-import net.minecraft.world.level.block.BrushableBlock;
-import net.minecraft.world.level.block.DropExperienceBlock;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BrushableBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.reaper.ancientnature.AncientNature;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.Random;
 import java.util.function.Supplier;
 
 public class ModBlocks {
@@ -27,9 +31,17 @@ public class ModBlocks {
     public static final RegistryObject<Block> DEEPSLATE_CAMBRIAN_FOSSIL = registryBlock("deepslate_cambrian_fossil",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_IRON_ORE)
                     .strength(5f).requiresCorrectToolForDrops()));
-    public static final RegistryObject<Block> FOSSILIZED_GRAVEL = registryBlock("fossilized_gravel", () -> new Block(BlockBehaviour.Properties.of().strength(1)));
+    public static final RegistryObject<FallingBlock> FOSSILIZED_GRAVEL = registryBlock("fossilized_gravel", () -> new FallingBlock(BlockBehaviour.Properties.of().strength(1)));
 
-    public static final RegistryObject<BrushableBlock> SUSPICIOUS_FOSSILIZED_GRAVEL = registryBlock("suspicious_fossilized_gravel", () -> new BrushableBlock(ModBlocks.FOSSILIZED_GRAVEL.get(), BlockBehaviour.Properties.of().strength(1), SoundEvents.BRUSH_GRAVEL, SoundEvents.BRUSH_GRAVEL_COMPLETED));
+    public static final RegistryObject<BrushableBlock> SUSPICIOUS_FOSSILIZED_GRAVEL = registryBlock("suspicious_fossilized_gravel", () -> new BrushableBlock(ModBlocks.FOSSILIZED_GRAVEL.get(), BlockBehaviour.Properties.of().strength(1), SoundEvents.BRUSH_GRAVEL, SoundEvents.BRUSH_GRAVEL_COMPLETED){
+        @Override
+        public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
+            BrushableBlockEntity te = new BrushableBlockEntity(pPos, pState);
+            Random random = new Random();
+            te.setLootTable(ModLootTables.SUSPICIOUS_GRAVEL_BRUSH, random.nextLong());
+            return te;
+        }
+    });
 
 
 
