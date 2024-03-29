@@ -1,6 +1,7 @@
 {
   "item.ancientnature.amber": "Amber",
   "item.ancientnature.mosquito_amber": "Mosquito Amber",
+   "item.ancientnature.lizard_amber": "Lizard Amber",
   "item.ancientnature.cambrian_fossil": "Cambrian Fossil",
   "item.ancientnature.anomalocaris_fossil": "Anomalocaris Fossil",
 
@@ -14,5 +15,7 @@
   "subtitles.ancientnature.cleaned_fossil": "Cleaned Fossil",
 
   "block.ancientnature.deepslate_cambrian_fossil": "Deepslate Cambrian Fossil",
+  "block.ancientnature.suspicious_fossilized_gravel": "Suspicious Fossilized Gravel"
+  "block.ancientnature.fossilized_gravel": "Fossilized Gravelr"
   "block.ancientnature.deepslate_amber": "Deepslate Amber"
 }
