@@ -19,7 +19,10 @@ public class ModItemModelsProvider extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
-        simple(ModItems.LIZARD_AMBER.get());
+        simple(ModItems.LIZARD_AMBER.get(), ModItems.AMBER.get());
+        simple(ModItems.ANOMALOCARIS_FOSSIL.get(), ModItems.CAMBRIAN_FOSSIL.get());
+        simple(ModItems.MOSQUITO_AMBER.get());
+
     }
 
     protected void simple(ItemLike... items){

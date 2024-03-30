@@ -21,6 +21,8 @@ public class ModBlockStatesProvider extends BlockStateProvider {
     @Override
     protected void registerStatesAndModels() {
         simpleBlock(ModBlocks.FOSSILIZED_GRAVEL.get());
+        simpleBlock(ModBlocks.DEEPSLATE_AMBER.get());
+        simpleBlock(ModBlocks.DEEPSLATE_CAMBRIAN_FOSSIL.get());
         makeFossil(ModBlocks.SUSPICIOUS_FOSSILIZED_GRAVEL.get());
     }
 

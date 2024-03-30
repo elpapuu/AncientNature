@@ -10,6 +10,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.reaper.ancientnature.AncientNature;
 import net.reaper.ancientnature.core.datagen.client.ModBlockStatesProvider;
 import net.reaper.ancientnature.core.datagen.client.ModItemModelsProvider;
+import net.reaper.ancientnature.core.datagen.client.ModEnglishLanguageProvider;
+import net.reaper.ancientnature.core.datagen.client.ModSpanishLanguageProvider;
 import net.reaper.ancientnature.core.datagen.server.ModBlockTagsProvider;
 import net.reaper.ancientnature.core.datagen.server.ModLoot;
 
@@ -21,7 +23,6 @@ public class DataRunner {
 
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event) {
-        System.out.println("wtf");
         PackOutput output = event.getGenerator().getPackOutput();
         DataGenerator gen = event.getGenerator();
         ExistingFileHelper helper = event.getExistingFileHelper();
@@ -31,6 +32,8 @@ public class DataRunner {
         gen.addProvider(event.includeServer(), new ModBlockTagsProvider(output, holderLookup, helper));
         gen.addProvider(event.includeServer(), new ModLoot(output));
         gen.addProvider(event.includeClient(), new ModItemModelsProvider(output, helper));
+        gen.addProvider(event.includeClient(), new ModEnglishLanguageProvider(output));
+        gen.addProvider(event.includeClient(), new ModSpanishLanguageProvider(output));
 
         try {
             gen.run();

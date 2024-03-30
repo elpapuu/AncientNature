@@ -17,7 +17,7 @@ public class ModArcheologyLoot implements LootTableSubProvider {
 
     @Override
     public void generate(BiConsumer<ResourceLocation, LootTable.Builder> biConsumer) {
-            LootTable.Builder builder = LootTable.lootTable().withPool(LootPool.lootPool().when(LootItemRandomChanceCondition.randomChance(0.9f)).add(LootItem.lootTableItem(ModItems.CAMBRIAN_FOSSIL.get()).setWeight(6)).add(LootItem.lootTableItem(ModItems.ANOMALOCARIS_FOSSIL.get())));
+            LootTable.Builder builder = LootTable.lootTable().withPool(LootPool.lootPool().when(LootItemRandomChanceCondition.randomChance(0.012f)).add(LootItem.lootTableItem(ModItems.CAMBRIAN_FOSSIL.get()).setWeight(6)).add(LootItem.lootTableItem(ModItems.ANOMALOCARIS_FOSSIL.get())));
             biConsumer.accept(ModLootTables.SUSPICIOUS_GRAVEL_BRUSH, builder);
     }
 }

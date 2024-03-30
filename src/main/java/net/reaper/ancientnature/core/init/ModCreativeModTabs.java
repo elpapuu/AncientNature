@@ -17,7 +17,7 @@ public class ModCreativeModTabs {
 
     public static final RegistryObject<CreativeModeTab> ANCIENTNATURE_TAB = CREATIVE_MODE_TABS.register("ancientnature_tab",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.AMBER.get()))
-                    .title(Component.translatable("creativetab.ancientnature_tab"))
+                    .title(Component.translatable(createTranslationKey("ancientnature_tab")))
                     .displayItems((itemDisplayParameters, pOutput) -> {
                         pOutput.accept(ModItems.AMBER.get());
                         pOutput.accept(ModItems.MOSQUITO_AMBER.get());
@@ -37,6 +37,15 @@ public class ModCreativeModTabs {
 
 public static void register(IEventBus eventBus) {
     CREATIVE_MODE_TABS.register(eventBus);
+}
+
+    /**
+     * this creates the translation key for the creative tabs
+     * for example: input: "test_tab" -> "creativetab.(modid).test_tab"
+     * this is used so the LanguageProvider can actually use this as translation key
+     */
+    public static String createTranslationKey(String name){
+    return "creativetab." + AncientNature.MOD_ID + "." + name;
 }
 
 }
