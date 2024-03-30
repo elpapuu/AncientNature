@@ -5,19 +5,26 @@ package net.reaper.ancientnature.client.model.entity;// Made with Blockbench 4.9
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.reaper.ancientnature.common.entity.animations.ModAnimationDefinition;
+import net.reaper.ancientnature.common.entity.water.ArandaspisEntity;
+import org.jetbrains.annotations.NotNull;
 
 @OnlyIn(Dist.CLIENT)
-public class ArandaspisModel<T extends Entity> extends HierarchicalModel<T> {
+public class ArandaspisModel extends HierarchicalModel<ArandaspisEntity> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	private final ModelPart body;
-	public ArandaspisModel(ModelPart root) {
+	private final ModelPart body, root;
+
+	public ArandaspisModel(@NotNull ModelPart root) {
+		this.root = root;
 		this.body = root.getChild("body");
 	}
 
@@ -37,8 +44,20 @@ public class ArandaspisModel<T extends Entity> extends HierarchicalModel<T> {
 	}
 
 	@Override
-	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void setupAnim(ArandaspisEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		this.root().getAllParts().forEach(ModelPart::resetPose);
+		applyHeadRotation(entity, netHeadYaw, headPitch, ageInTicks);
+		this.animate(entity.swimAnimationState, ModAnimationDefinition.ArandaspisAnimation.ARANDASPIS_SWIM, ageInTicks, .5f);
+		this.animate(entity.flopAnimation, ModAnimationDefinition.ArandaspisAnimation.ARANDASPIS_FLOP, ageInTicks, 1f);
 
+	}
+
+	private void applyHeadRotation(ArandaspisEntity pEntity, float pNetHeadYaw, float pHeadPitch, float pAgeInTicks) {
+		pNetHeadYaw = Mth.clamp(pNetHeadYaw, -30.0F, 30.0F);
+		pHeadPitch = Mth.clamp(pHeadPitch, -25.0F, 45.0F);
+
+		this.body.yRot = pNetHeadYaw * 0.017453292F;
+		this.body.xRot = pHeadPitch * 0.017453292F;
 	}
 
 	@Override
@@ -48,7 +67,7 @@ public class ArandaspisModel<T extends Entity> extends HierarchicalModel<T> {
 
 	@Override
 	public ModelPart root() {
-		return body;
+		return root;
 	}
 
 }

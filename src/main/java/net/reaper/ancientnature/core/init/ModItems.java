@@ -1,6 +1,9 @@
 package net.reaper.ancientnature.core.init;
 
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.item.MobBucketItem;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.level.material.Fluids;
 import net.reaper.ancientnature.AncientNature;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -22,6 +25,8 @@ public class ModItems {
 
     public static final RegistryObject<Item> ANOMALOCARIS_FOSSIL = ITEMS.register("anomalocaris_fossil",
             () ->new Item(new Item.Properties().rarity(Rarity.RARE)));
+
+    public static final RegistryObject<MobBucketItem> ARANDASPIS_BUCKET = ITEMS.register("arandaspis_bucket", () -> new MobBucketItem(ModEntities.ARANDASPIS, () -> Fluids.WATER, () -> SoundEvents.BUCKET_FILL_FISH, new Item.Properties().stacksTo(1)));
 
 
     public static void register(IEventBus eventBus) {

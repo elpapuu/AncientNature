@@ -25,6 +25,7 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         auto(ModItems.ANOMALOCARIS_FOSSIL.get());
         auto(ModItems.LIZARD_AMBER.get());
         auto(ModItems.MOSQUITO_AMBER.get());
+        auto(ModItems.ARANDASPIS_BUCKET.get());
 
         auto(ModBlocks.FOSSILIZED_GRAVEL.get());
         auto(ModBlocks.DEEPSLATE_AMBER.get());

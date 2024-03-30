@@ -22,6 +22,7 @@ public class ModItemModelsProvider extends ItemModelProvider {
         simple(ModItems.LIZARD_AMBER.get(), ModItems.AMBER.get());
         simple(ModItems.ANOMALOCARIS_FOSSIL.get(), ModItems.CAMBRIAN_FOSSIL.get());
         simple(ModItems.MOSQUITO_AMBER.get());
+        simple(ModItems.ARANDASPIS_BUCKET.get());
 
     }
 

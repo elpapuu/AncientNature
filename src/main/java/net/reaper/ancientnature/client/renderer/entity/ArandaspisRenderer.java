@@ -12,9 +12,9 @@ import net.reaper.ancientnature.client.model.entity.ArandaspisModel;
 import net.reaper.ancientnature.client.model.ModModelLayers;
 import net.reaper.ancientnature.common.entity.water.ArandaspisEntity;
 @OnlyIn(Dist.CLIENT)
-public class ArandaspisRenderer extends MobRenderer<ArandaspisEntity, ArandaspisModel<ArandaspisEntity>> {
+public class ArandaspisRenderer extends MobRenderer<ArandaspisEntity, ArandaspisModel> {
     public ArandaspisRenderer(EntityRendererProvider.Context pContext) {
-        super(pContext, new ArandaspisModel<>(pContext.bakeLayer(ModModelLayers.ARANDASPIS_LAYER)), 0.6f);
+        super(pContext, new ArandaspisModel(pContext.bakeLayer(ModModelLayers.ARANDASPIS_LAYER)), 0.6f);
     }
 
     @Override
