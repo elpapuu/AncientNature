@@ -19,7 +19,7 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider pProvider) {
-        tag(BlockTags.MINEABLE_WITH_SHOVEL).add(ModBlocks.SUSPICIOUS_FOSSILIZED_GRAVEL.get(), ModBlocks.FOSSILIZED_GRAVEL.get());
+        tag(BlockTags.MINEABLE_WITH_SHOVEL).add(ModBlocks.MUD_WITH_FOSSILS.get());
         tag(BlockTags.MINEABLE_WITH_PICKAXE).add(ModBlocks.DEEPSLATE_AMBER.get(), ModBlocks.DEEPSLATE_CAMBRIAN_FOSSIL.get());
         tag(BlockTags.NEEDS_IRON_TOOL).add(ModBlocks.DEEPSLATE_AMBER.get(), ModBlocks.DEEPSLATE_CAMBRIAN_FOSSIL.get());
     }

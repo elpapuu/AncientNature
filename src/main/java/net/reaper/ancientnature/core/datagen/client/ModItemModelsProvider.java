@@ -23,6 +23,8 @@ public class ModItemModelsProvider extends ItemModelProvider {
         simple(ModItems.ANOMALOCARIS_FOSSIL.get(), ModItems.CAMBRIAN_FOSSIL.get());
         simple(ModItems.MOSQUITO_AMBER.get());
         simple(ModItems.ARANDASPIS_BUCKET.get());
+        simple(ModItems.CARBONIFEROUS_FOSSIL.get(), ModItems.DEEPSLATE_PERMIAN_FOSSIL.get());
+        simple(ModItems.MUDDY_PERIMAN_FOSSIL.get(), ModItems.STONE_PERMIAN_FOSSIL.get());
 
     }
 

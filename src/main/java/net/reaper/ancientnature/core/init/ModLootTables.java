@@ -5,5 +5,5 @@ import net.reaper.ancientnature.AncientNature;
 
 public class ModLootTables {
 
-    public static final ResourceLocation SUSPICIOUS_GRAVEL_BRUSH = AncientNature.modLoc("brushing/suspicious_gravel");
+    public static final ResourceLocation MUD_FOSSIL_BRUSH = AncientNature.modLoc("brushing/mud_fossil");
 }

@@ -1,6 +1,5 @@
 package net.reaper.ancientnature.core.init;
 
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -31,14 +30,13 @@ public class ModBlocks {
     public static final RegistryObject<Block> DEEPSLATE_CAMBRIAN_FOSSIL = registryBlock("deepslate_cambrian_fossil",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_IRON_ORE)
                     .strength(5f).requiresCorrectToolForDrops()));
-    public static final RegistryObject<FallingBlock> FOSSILIZED_GRAVEL = registryBlock("fossilized_gravel", () -> new FallingBlock(BlockBehaviour.Properties.of().strength(1)));
 
-    public static final RegistryObject<BrushableBlock> SUSPICIOUS_FOSSILIZED_GRAVEL = registryBlock("suspicious_fossilized_gravel", () -> new BrushableBlock(ModBlocks.FOSSILIZED_GRAVEL.get(), BlockBehaviour.Properties.of().strength(1), SoundEvents.BRUSH_GRAVEL, SoundEvents.BRUSH_GRAVEL_COMPLETED){
+    public static final RegistryObject<BrushableBlock> MUD_WITH_FOSSILS = registryBlock("mud_with_fossils", () -> new BrushableBlock(Blocks.MUD, BlockBehaviour.Properties.of().strength(1), SoundEvents.BRUSH_GRAVEL, SoundEvents.BRUSH_GRAVEL_COMPLETED){
         @Override
         public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
             BrushableBlockEntity te = new BrushableBlockEntity(pPos, pState);
             Random random = new Random();
-            te.setLootTable(ModLootTables.SUSPICIOUS_GRAVEL_BRUSH, random.nextLong());
+            te.setLootTable(ModLootTables.MUD_FOSSIL_BRUSH, random.nextLong());
             return te;
         }
     });

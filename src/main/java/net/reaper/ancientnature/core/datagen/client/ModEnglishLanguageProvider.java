@@ -26,11 +26,14 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         auto(ModItems.LIZARD_AMBER.get());
         auto(ModItems.MOSQUITO_AMBER.get());
         auto(ModItems.ARANDASPIS_BUCKET.get());
+        auto(ModItems.CARBONIFEROUS_FOSSIL.get());
+        auto(ModItems.DEEPSLATE_PERMIAN_FOSSIL.get());
+        auto(ModItems.MUDDY_PERIMAN_FOSSIL.get());
+        auto(ModItems.STONE_PERMIAN_FOSSIL.get());
 
-        auto(ModBlocks.FOSSILIZED_GRAVEL.get());
+        auto(ModBlocks.MUD_WITH_FOSSILS.get());
         auto(ModBlocks.DEEPSLATE_AMBER.get());
         auto(ModBlocks.DEEPSLATE_CAMBRIAN_FOSSIL.get());
-        auto(ModBlocks.SUSPICIOUS_FOSSILIZED_GRAVEL.get());
 
         //advancements
         add("advancements.cleaning_the_past_for_the_future.title", "Belongs to a museum");

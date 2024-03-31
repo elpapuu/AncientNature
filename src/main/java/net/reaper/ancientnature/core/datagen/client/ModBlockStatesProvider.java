@@ -20,21 +20,20 @@ public class ModBlockStatesProvider extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
-        simpleBlock(ModBlocks.FOSSILIZED_GRAVEL.get());
         simpleBlock(ModBlocks.DEEPSLATE_AMBER.get());
         simpleBlock(ModBlocks.DEEPSLATE_CAMBRIAN_FOSSIL.get());
-        makeFossil(ModBlocks.SUSPICIOUS_FOSSILIZED_GRAVEL.get());
+        makeFossil(ModBlocks.MUD_WITH_FOSSILS.get());
     }
 
     protected void makeFossil(BrushableBlock block){
         getVariantBuilder(block).forAllStates(state -> {
             int dusted = state.getValue(BlockStateProperties.DUSTED);
-            dusted++;
             ResourceLocation registryName = ForgeRegistries.BLOCKS.getKey(block);
             String name = registryName.getPath();
-            name += "_" + dusted;
+            if (dusted > 0)
+                name += "_" + dusted;
             ConfiguredModel.Builder<?> model = ConfiguredModel.builder().modelFile(models().cubeAll(name, modLoc("block/" + name)));
-            if (dusted == 1){
+            if (dusted <= 0){
                 this.simpleBlockItem(block, models().cubeAll(name, modLoc("block/" + name)));
             }
             return model.build();

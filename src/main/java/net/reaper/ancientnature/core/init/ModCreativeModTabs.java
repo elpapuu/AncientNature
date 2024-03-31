@@ -26,8 +26,13 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModBlocks.DEEPSLATE_CAMBRIAN_FOSSIL.get());
                         pOutput.accept(ModItems.ANOMALOCARIS_FOSSIL.get());
                         pOutput.accept(ModItems.LIZARD_AMBER.get());
-                        pOutput.accept(ModBlocks.FOSSILIZED_GRAVEL.get());
-                        pOutput.accept(ModBlocks.SUSPICIOUS_FOSSILIZED_GRAVEL.get());
+                        pOutput.accept(ModItems.ARANDASPIS_BUCKET.get());
+                        pOutput.accept(ModItems.MUDDY_PERIMAN_FOSSIL.get());
+                        pOutput.accept(ModItems.DEEPSLATE_PERMIAN_FOSSIL.get());
+                        pOutput.accept(ModItems.STONE_PERMIAN_FOSSIL.get());
+                        pOutput.accept(ModItems.CARBONIFEROUS_FOSSIL.get());
+                        pOutput.accept(ModBlocks.MUD_WITH_FOSSILS.get());
+
 
                     })
 

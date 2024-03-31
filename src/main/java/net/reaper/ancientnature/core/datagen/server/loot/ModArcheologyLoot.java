@@ -1,8 +1,6 @@
 package net.reaper.ancientnature.core.datagen.server.loot;
 
-import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.data.loot.LootTableSubProvider;
-import net.minecraft.data.loot.packs.VanillaArchaeologyLoot;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -18,6 +16,6 @@ public class ModArcheologyLoot implements LootTableSubProvider {
     @Override
     public void generate(BiConsumer<ResourceLocation, LootTable.Builder> biConsumer) {
             LootTable.Builder builder = LootTable.lootTable().withPool(LootPool.lootPool().when(LootItemRandomChanceCondition.randomChance(0.012f)).add(LootItem.lootTableItem(ModItems.CAMBRIAN_FOSSIL.get()).setWeight(6)).add(LootItem.lootTableItem(ModItems.ANOMALOCARIS_FOSSIL.get())));
-            biConsumer.accept(ModLootTables.SUSPICIOUS_GRAVEL_BRUSH, builder);
+            biConsumer.accept(ModLootTables.MUD_FOSSIL_BRUSH, builder);
     }
 }
