@@ -14,6 +14,7 @@ import net.reaper.ancientnature.core.datagen.client.ModEnglishLanguageProvider;
 import net.reaper.ancientnature.core.datagen.client.ModSpanishLanguageProvider;
 import net.reaper.ancientnature.core.datagen.server.ModBlockTagsProvider;
 import net.reaper.ancientnature.core.datagen.server.ModLoot;
+import net.reaper.ancientnature.core.datagen.server.ModRecipeProvider;
 
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
@@ -34,6 +35,7 @@ public class DataRunner {
         gen.addProvider(event.includeClient(), new ModItemModelsProvider(output, helper));
         gen.addProvider(event.includeClient(), new ModEnglishLanguageProvider(output));
         gen.addProvider(event.includeClient(), new ModSpanishLanguageProvider(output));
+        gen.addProvider(event.includeServer(), new ModRecipeProvider(output));
 
         try {
             gen.run();

@@ -31,6 +31,7 @@ public class AncientNature {
 
         ModEntities.register(modEventBus);
         ModBlockEntities.TES.register(modEventBus);
+        ModRecipes.register(modEventBus);
     }
 
     public static ResourceLocation modLoc(String name){
