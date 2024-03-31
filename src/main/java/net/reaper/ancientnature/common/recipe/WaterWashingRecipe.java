@@ -19,21 +19,19 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
 
-public class WaterBrushingRecipe implements Recipe<Container> {
+public class WaterWashingRecipe implements Recipe<Container> {
 
     public static final Serializer SERIALIZER = new Serializer();
 
     protected final ResourceLocation id;
     protected final Ingredient input;
-    protected final Ingredient brush;
     protected final ItemStack output;
     protected final float probabilityForOutput;
     protected Random cachedRandom;
 
-    public WaterBrushingRecipe(ResourceLocation id, Ingredient input, Ingredient brush, ItemStack output, float probabilityForOutput) {
+    public WaterWashingRecipe(ResourceLocation id, Ingredient input, ItemStack output, float probabilityForOutput) {
         this.id = id;
         this.input = input;
-        this.brush = brush;
         this.output = output;
         this.probabilityForOutput = probabilityForOutput;
     }
@@ -44,13 +42,9 @@ public class WaterBrushingRecipe implements Recipe<Container> {
      */
     @Override
     public boolean matches(Container pContainer, Level pLevel) {
-        if (pContainer.getContainerSize() != 2) {
-            if (brush.test(pContainer.getItem(0)) && pContainer.getItem(0).isDamageableItem() && input.test(pContainer.getItem(1)))
-                return true;
-            if (input.test(pContainer.getItem(0)) && brush.test(pContainer.getItem(1)) && pContainer.getItem(1).isDamageableItem())
-                return true;
+        if (pContainer.getContainerSize() != 1) {
+            return this.input.test(pContainer.getItem(0));
         }
-
         return false;
     }
 
@@ -59,10 +53,6 @@ public class WaterBrushingRecipe implements Recipe<Container> {
         if (this.cachedRandom == null)
             this.cachedRandom = new Random();
         return this.cachedRandom.nextFloat() <= this.probabilityForOutput ? this.output.copy() : ItemStack.EMPTY;
-    }
-
-    public Ingredient getBrush() {
-        return brush;
     }
 
     @Override
@@ -87,34 +77,31 @@ public class WaterBrushingRecipe implements Recipe<Container> {
 
     @Override
     public RecipeType<?> getType() {
-        return ModRecipes.BRUSHING_RECIPE.get();
+        return ModRecipes.WATER_WASHING.get();
     }
 
-    public static class Serializer implements RecipeSerializer<WaterBrushingRecipe> {
+    public static class Serializer implements RecipeSerializer<WaterWashingRecipe> {
 
         @Override
-        public WaterBrushingRecipe fromJson(ResourceLocation pRecipeId, JsonObject pSerializedRecipe) {
+        public WaterWashingRecipe fromJson(ResourceLocation pRecipeId, JsonObject pSerializedRecipe) {
             float probability = Mth.clamp(GsonHelper.getAsFloat(pSerializedRecipe, "probability", 0.2f), 0f, 1f);
             Ingredient input = Ingredient.fromJson(pSerializedRecipe.get("input"));
-            Ingredient brush = Ingredient.fromJson(pSerializedRecipe.get("brush"));
             ItemStack output = CraftingHelper.getItemStack(GsonHelper.getAsJsonObject(pSerializedRecipe, "output"), true);
-            return new WaterBrushingRecipe(pRecipeId, input, brush, output, probability);
+            return new WaterWashingRecipe(pRecipeId, input, output, probability);
         }
 
         @Override
-        public @Nullable WaterBrushingRecipe fromNetwork(ResourceLocation pRecipeId, FriendlyByteBuf pBuffer) {
+        public @Nullable WaterWashingRecipe fromNetwork(ResourceLocation pRecipeId, FriendlyByteBuf pBuffer) {
             float probability = pBuffer.readFloat();
             Ingredient input = Ingredient.fromNetwork(pBuffer);
-            Ingredient brush = Ingredient.fromNetwork(pBuffer);
             ItemStack output = pBuffer.readItem();
-            return new WaterBrushingRecipe(pRecipeId, input, brush, output, probability);
+            return new WaterWashingRecipe(pRecipeId, input, output, probability);
         }
 
         @Override
-        public void toNetwork(FriendlyByteBuf pBuffer, WaterBrushingRecipe pRecipe) {
+        public void toNetwork(FriendlyByteBuf pBuffer, WaterWashingRecipe pRecipe) {
             pBuffer.writeFloat(pRecipe.probabilityForOutput);
             pRecipe.input.toNetwork(pBuffer);
-            pRecipe.brush.toNetwork(pBuffer);
             pBuffer.writeItem(pRecipe.output);
         }
     }

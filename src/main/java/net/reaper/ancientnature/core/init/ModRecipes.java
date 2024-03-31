@@ -9,6 +9,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.reaper.ancientnature.AncientNature;
 import net.reaper.ancientnature.common.recipe.BrushingRecipe;
+import net.reaper.ancientnature.common.recipe.WaterWashingRecipe;
 
 import java.util.function.Supplier;
 
@@ -18,6 +19,7 @@ public class ModRecipes {
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, AncientNature.MOD_ID);
 
     public static final RegistryObject<RecipeType<BrushingRecipe>> BRUSHING_RECIPE = register("brushing_recipe", () -> BrushingRecipe.SERIALIZER);
+    public static final RegistryObject<RecipeType<WaterWashingRecipe>> WATER_WASHING = register("water_washing", () -> WaterWashingRecipe.SERIALIZER);
 
 
     public static void register(IEventBus bus) {
