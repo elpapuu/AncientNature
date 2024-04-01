@@ -42,7 +42,7 @@ public class WaterWashingRecipe implements Recipe<Container> {
      */
     @Override
     public boolean matches(Container pContainer, Level pLevel) {
-        if (pContainer.getContainerSize() != 1) {
+        if (pContainer.getContainerSize() == 1) {
             return this.input.test(pContainer.getItem(0));
         }
         return false;

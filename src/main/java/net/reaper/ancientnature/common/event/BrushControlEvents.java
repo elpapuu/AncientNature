@@ -68,7 +68,7 @@ public class BrushControlEvents {
     }
 
     public static boolean handleWaterBrushing(PlayerInteractEvent.RightClickItem event, boolean selectingWater) {
-        List<WaterWashingRecipe> finalRecipes = new ArrayList<>();
+        List<WaterWashingRecipe> finalRecipes;
         if (selectingWater) {
             List<WaterWashingRecipe> recipes = new ArrayList<>(event.getLevel().getRecipeManager().getAllRecipesFor(ModRecipes.WATER_WASHING.get()));
             recipes.removeIf(r -> !r.matches(new SimpleContainer(event.getEntity().getMainHandItem()), event.getLevel()) && !r.matches(new SimpleContainer(event.getEntity().getOffhandItem()), event.getLevel()));
@@ -89,18 +89,26 @@ public class BrushControlEvents {
             addOrDropStack(event.getEntity(), stack);
             if (!selectingWater) {
                 if (isWaterBottle(event.getEntity().getOffhandItem())) {
-                    PotionUtils.setPotion(event.getEntity().getOffhandItem(), Potions.EMPTY);
-                }else {
-                    PotionUtils.setPotion(event.getEntity().getMainHandItem(), Potions.EMPTY);
+                    event.getEntity().setItemInHand(InteractionHand.OFF_HAND, Items.GLASS_BOTTLE.getDefaultInstance());
+                    event.getEntity().getMainHandItem().shrink(1);
+                } else {
+                    event.getEntity().setItemInHand(InteractionHand.MAIN_HAND, Items.GLASS_BOTTLE.getDefaultInstance());
+                    event.getEntity().getOffhandItem().shrink(1);
                 }
+            } else {
+                event.getItemStack().shrink(1);
             }
         }
+        if (!finalRecipes.isEmpty()) {
+            event.setCancellationResult(InteractionResult.SUCCESS);
+            return true;
+        }
 
-        return !finalRecipes.isEmpty();
+        return false;
     }
 
     protected static boolean isWaterBottle(ItemStack stack) {
-        return stack.is(Items.GLASS_BOTTLE) && PotionUtils.getPotion(stack) == Potions.WATER;
+        return stack.is(Items.POTION) && PotionUtils.getPotion(stack) == Potions.WATER;
     }
 
     protected static BlockHitResult getPlayerPOVHitResult(Level pLevel, Player pPlayer, ClipContext.Fluid pFluidMode) {
@@ -120,9 +128,12 @@ public class BrushControlEvents {
 
 
     protected static void addOrDropStack(Player player, ItemStack stack) {
-        if (!player.addItem(stack)) {
-            ItemEntity item = player.drop(stack, false);
-            player.level().addFreshEntity(item);
+        if (!stack.isEmpty()) {
+            if (!player.addItem(stack)) {
+                ItemEntity item = player.drop(stack, false);
+                if (item != null)
+                    player.level().addFreshEntity(item);
+            }
         }
     }
 }

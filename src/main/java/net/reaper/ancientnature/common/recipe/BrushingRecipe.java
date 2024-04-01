@@ -14,6 +14,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.crafting.CraftingHelper;
+import net.reaper.ancientnature.AncientNature;
 import net.reaper.ancientnature.core.init.ModRecipes;
 import org.jetbrains.annotations.Nullable;
 
@@ -44,13 +45,12 @@ public class BrushingRecipe implements Recipe<Container> {
      */
     @Override
     public boolean matches(Container pContainer, Level pLevel) {
-        if (pContainer.getContainerSize() != 2) {
+        if (pContainer.getContainerSize() == 2) {
             if (brush.test(pContainer.getItem(0)) && pContainer.getItem(0).isDamageableItem() && input.test(pContainer.getItem(1)))
                 return true;
             if (input.test(pContainer.getItem(0)) && brush.test(pContainer.getItem(1)) && pContainer.getItem(1).isDamageableItem())
                 return true;
         }
-
         return false;
     }
 
