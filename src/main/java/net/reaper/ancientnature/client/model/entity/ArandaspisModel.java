@@ -47,8 +47,8 @@ public class ArandaspisModel extends HierarchicalModel<ArandaspisEntity> {
 	public void setupAnim(ArandaspisEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 		applyHeadRotation(entity, netHeadYaw, headPitch, ageInTicks);
-		this.animate(entity.swimAnimationState, ModAnimationDefinition.ArandaspisAnimation.ARANDASPIS_SWIM, ageInTicks, .5f);
-		this.animate(entity.flopAnimation, ModAnimationDefinition.ArandaspisAnimation.ARANDASPIS_FLOP, ageInTicks, 1f);
+		this.animate(entity.swimAnimationState, ModAnimationDefinition.ArandaspisAnimation.ARANDASPIS_SWIM, ageInTicks, 2f);
+		this.animate(entity.flopAnimation, ModAnimationDefinition.ArandaspisAnimation.ARANDASPIS_FLOP, ageInTicks, 1.5f);
 
 	}
 

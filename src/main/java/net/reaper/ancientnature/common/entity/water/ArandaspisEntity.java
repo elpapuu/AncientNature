@@ -42,9 +42,11 @@ public class ArandaspisEntity extends AbstractFish {
 
     private void setupAnimationStates() {
         //flopping condition
-        if (!this.isInWater() && this.onGround() && this.verticalCollision){
+        if (!this.isInWater()) {
+            if (this.swimAnimationState.isStarted())
+                this.swimAnimationState.stop();
             this.flopAnimation.startIfStopped(this.tickCount);
-        }else {
+        } else {
             this.flopAnimation.stop();
             if (this.swimAnimationTimeout <= 0) {
                 this.swimAnimationTimeout = this.random.nextInt(40) + 80;
@@ -53,17 +55,6 @@ public class ArandaspisEntity extends AbstractFish {
                 --this.swimAnimationTimeout;
             }
         }
-    }
-
-    @Override
-    protected void updateWalkAnimation(float pPartialTick) {
-        float f;
-        if (this.getPose() == Pose.STANDING && !this.flopAnimation.isStarted()) {
-            f = Math.min(pPartialTick * 6f, 1f);
-        } else {
-            f = 0f;
-        }
-        this.swimAnimationState.updateTime(pPartialTick, f);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
