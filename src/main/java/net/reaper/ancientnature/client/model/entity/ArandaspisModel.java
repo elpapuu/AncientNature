@@ -1,17 +1,13 @@
-package net.reaper.ancientnature.client.model.entity;// Made with Blockbench 4.9.4
-// Exported for Minecraft version 1.17 or later with Mojang mappings
-// Paste this class into your mod and generate all required imports
+package net.reaper.ancientnature.client.model.entity;
 
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.reaper.ancientnature.common.entity.animations.ModAnimationDefinition;
@@ -33,8 +29,8 @@ public class ArandaspisModel extends HierarchicalModel<ArandaspisEntity> {
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
 		PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(23, 3).addBox(-3.0F, -3.5F, -5.5F, 6.0F, 2.0F, 11.0F, new CubeDeformation(0.0F))
-		.texOffs(0, 0).addBox(-3.0F, -1.5F, -5.5F, 6.0F, 3.0F, 11.0F, new CubeDeformation(0.0F))
-		.texOffs(0, 14).addBox(-3.0F, 1.5F, -5.5F, 6.0F, 2.0F, 11.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 20.5F, -1.5F));
+				.texOffs(0, 0).addBox(-3.0F, -1.5F, -5.5F, 6.0F, 3.0F, 11.0F, new CubeDeformation(0.0F))
+				.texOffs(0, 14).addBox(-3.0F, 1.5F, -5.5F, 6.0F, 2.0F, 11.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 20.5F, -1.5F));
 
 		PartDefinition tail = body.addOrReplaceChild("tail", CubeListBuilder.create().texOffs(26, 19).addBox(-1.0F, -2.5F, 0.0F, 2.0F, 5.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 5.5F));
 

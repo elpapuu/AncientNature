@@ -8,6 +8,5 @@ import net.reaper.ancientnature.AncientNature;
 
 @OnlyIn(Dist.CLIENT)
 public class ModModelLayers {
-    public static final ModelLayerLocation ARANDASPIS_LAYER = new ModelLayerLocation(
-            new ResourceLocation(AncientNature.MOD_ID, "arandaspis_layer"), "main");
+    public static final ModelLayerLocation ARANDASPIS_LAYER = new ModelLayerLocation(AncientNature.modLoc("arandaspis_layer"), "main");
 }

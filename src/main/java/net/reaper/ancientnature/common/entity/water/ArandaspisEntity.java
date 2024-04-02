@@ -16,6 +16,7 @@ import net.minecraft.world.entity.animal.AbstractFish;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.ForgeMod;
 import net.reaper.ancientnature.core.init.ModItems;
 
 public class ArandaspisEntity extends AbstractFish {
@@ -60,7 +61,8 @@ public class ArandaspisEntity extends AbstractFish {
     public static AttributeSupplier.Builder createAttributes() {
         return WaterAnimal.createLivingAttributes()
                 .add(Attributes.MAX_HEALTH, 4)
-                .add(Attributes.MOVEMENT_SPEED, 0.5)
+                .add(Attributes.MOVEMENT_SPEED, 2.0d)
+                .add(ForgeMod.SWIM_SPEED.get(), 2d)
                 .add(Attributes.FOLLOW_RANGE, 25d);
 
     }
