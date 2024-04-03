@@ -14,26 +14,26 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BrushableBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-public class FossilBlock extends Block implements EntityBlock, Fallable {
+public class FossilBlock extends Block implements EntityBlock {
 
-    public static final IntegerProperty PROGRESS = IntegerProperty.create("progress", 0, 4);
+    public static final IntegerProperty DUSTED = BlockStateProperties.DUSTED;
     public FossilBlock(Properties pProperties) {
         super(pProperties);
     }
+
+
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
         super.createBlockStateDefinition(pBuilder);
-        pBuilder.add(PROGRESS);
+        pBuilder.add(DUSTED);
     }
 
-    public RenderShape getRenderShape(BlockState pState) {
-        return RenderShape.MODEL;
-    }
 
     public void onPlace(BlockState pState, Level pLevel, BlockPos pPos, BlockState pOldState, boolean pIsMoving) {
         pLevel.scheduleTick(pPos, this, 2);
@@ -55,33 +55,6 @@ public class FossilBlock extends Block implements EntityBlock, Fallable {
         if (blockentity instanceof BrushableBlockEntity brushableblockentity) {
             brushableblockentity.checkReset();
         }
-
-        if (FallingBlock.isFree(pLevel.getBlockState(pPos.below())) && pPos.getY() >= pLevel.getMinBuildHeight()) {
-            FallingBlockEntity fallingblockentity = FallingBlockEntity.fall(pLevel, pPos, pState);
-            fallingblockentity.disableDrop();
-        }
-    }
-
-    public void onBrokenAfterFall(Level pLevel, BlockPos pPos, FallingBlockEntity pFallingBlock) {
-        Vec3 vec3 = pFallingBlock.getBoundingBox().getCenter();
-        pLevel.levelEvent(2001, BlockPos.containing(vec3), Block.getId(pFallingBlock.getBlockState()));
-        pLevel.gameEvent(pFallingBlock, GameEvent.BLOCK_DESTROY, vec3);
-    }
-
-    /**
-     * Called periodically clientside on blocks near the player to show effects (like furnace fire particles).
-     */
-    public void animateTick(BlockState pState, Level pLevel, BlockPos pPos, RandomSource pRandom) {
-        if (pRandom.nextInt(16) == 0) {
-            BlockPos blockpos = pPos.below();
-            if (FallingBlock.isFree(pLevel.getBlockState(blockpos))) {
-                double d0 = (double)pPos.getX() + pRandom.nextDouble();
-                double d1 = (double)pPos.getY() - 0.05D;
-                double d2 = (double)pPos.getZ() + pRandom.nextDouble();
-                pLevel.addParticle(new BlockParticleOption(ParticleTypes.FALLING_DUST, pState), d0, d1, d2, 0.0D, 0.0D, 0.0D);
-            }
-        }
-
     }
     @Nullable
     @Override

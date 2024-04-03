@@ -60,14 +60,14 @@ public class ArandaspisEntity extends AbstractFish {
     public void travel(Vec3 pTravelVector) {
         super.travel(pTravelVector);
         if (this.level().isClientSide) {
-            if (this.isSprinting()) {
+            if (this.getLastHurtByMob() != null) {
                 spawnBubbles();
             }
         }
     }
 
     protected void spawnBubbles() {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 5; i++) {
             this.level().addParticle(ParticleTypes.BUBBLE, getX() + this.random.nextFloat() * .4f - .2f, getY() + this.random.nextFloat() * .4f - .2f + .3f, getZ() + this.random.nextFloat() * .4f - .2f, 0, 0.01, (-0.3));
         }
     }
