@@ -59,11 +59,19 @@ public class ArandaspisEntity extends AbstractFish {
     @Override
     public void travel(Vec3 pTravelVector) {
         super.travel(pTravelVector);
-        if (this.level().isClientSide) {
+        if (!this.level().isClientSide) {
             if (this.getLastHurtByMob() != null) {
-                spawnBubbles();
+                this.level().broadcastEntityEvent(this, (byte) 7);
             }
         }
+    }
+
+    @Override
+    public void handleEntityEvent(byte pId) {
+        if (pId == 7) {
+            this.spawnBubbles();
+        } else
+            super.handleEntityEvent(pId);
     }
 
     protected void spawnBubbles() {
