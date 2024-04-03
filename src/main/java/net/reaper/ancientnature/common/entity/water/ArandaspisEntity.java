@@ -67,7 +67,7 @@ public class ArandaspisEntity extends AbstractFish {
     }
 
     protected void spawnBubbles() {
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 3; i++) {
             this.level().addParticle(ParticleTypes.BUBBLE, getX() + this.random.nextFloat() * .4f - .2f, getY() + this.random.nextFloat() * .4f - .2f + .3f, getZ() + this.random.nextFloat() * .4f - .2f, 0, 0.01, (-0.3));
         }
     }
