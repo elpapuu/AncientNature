@@ -1,5 +1,7 @@
 package net.reaper.ancientnature.common.entity.water;
 
+import com.mojang.math.Axis;
+import net.minecraft.core.Vec3i;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -22,6 +24,7 @@ import net.reaper.ancientnature.common.entity.goals.AvoidEntitySprinting;
 import net.reaper.ancientnature.common.entity.goals.FishSwimGoal;
 import net.reaper.ancientnature.common.entity.goals.PanicSprintingGoal;
 import net.reaper.ancientnature.core.init.ModItems;
+import org.joml.*;
 
 public class ArandaspisEntity extends AbstractFish {
     public final AnimationState flopAnimation = new AnimationState();
@@ -76,7 +79,7 @@ public class ArandaspisEntity extends AbstractFish {
 
     protected void spawnBubbles() {
         for (int i = 0; i < 3; i++) {
-            this.level().addParticle(ParticleTypes.BUBBLE, getX() + this.random.nextFloat() * .4f - .2f, getY() + this.random.nextFloat() * .4f - .2f + .3f, getZ() + this.random.nextFloat() * .4f - .2f, 0, 0.01, (-0.3));
+            this.level().addParticle(ParticleTypes.BUBBLE, getX() + this.random.nextFloat() * .4f -.2f, getY() +.3f, getZ() + this.random.nextFloat() * .4f -.2f, 0, 0.01, (-0.3));
         }
     }
 

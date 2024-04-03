@@ -25,12 +25,20 @@ public class ModItemModelsProvider extends ItemModelProvider {
         simple(ModItems.ARANDASPIS_BUCKET.get());
         simple(ModItems.CARBONIFEROUS_FOSSIL.get(), ModItems.DEEPSLATE_PERMIAN_FOSSIL.get());
         simple(ModItems.MUDDY_PERIMAN_FOSSIL.get(), ModItems.STONE_PERMIAN_FOSSIL.get());
+        spawnEgg(ModItems.ARANDASPIS_SPAWN_EGG.get());
 
     }
 
     protected void simple(ItemLike... items){
         for (ItemLike item : items){
             this.basicItem(item.asItem());
+        }
+    }
+
+    protected void spawnEgg(ItemLike... items){
+         for (ItemLike item : items){
+             ResourceLocation id = ForgeRegistries.ITEMS.getKey(item.asItem());
+             getBuilder(id.toString()).parent(getExistingFile(mcLoc("item/template_spawn_egg")));
         }
     }
 }

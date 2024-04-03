@@ -32,6 +32,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.STONE_PERMIAN_FOSSIL.get());
                         pOutput.accept(ModItems.CARBONIFEROUS_FOSSIL.get());
                         pOutput.accept(ModBlocks.MUD_WITH_FOSSILS.get());
+                        pOutput.accept(ModItems.ARANDASPIS_SPAWN_EGG.get());
 
 
                     })
