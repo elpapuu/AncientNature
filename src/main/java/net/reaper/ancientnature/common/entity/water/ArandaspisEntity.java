@@ -36,8 +36,8 @@ public class ArandaspisEntity extends AbstractFish {
     }
 
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new PanicSprintingGoal(this));
-        this.goalSelector.addGoal(2, new AvoidEntitySprinting<>(this, Player.class, 8.0F, EntitySelector.NO_SPECTATORS::test));
+        this.goalSelector.addGoal(0, new PanicSprintingGoal(this, 4f));
+        this.goalSelector.addGoal(2, new AvoidEntitySprinting<>(this, Player.class, 8.0F,1f, 4f, EntitySelector.NO_SPECTATORS::test));
         this.goalSelector.addGoal(4, new FishSwimGoal(this));
     }
 
@@ -83,21 +83,10 @@ public class ArandaspisEntity extends AbstractFish {
         }
     }
 
-    /*
     @Override
     public void setSprinting(boolean pSprinting) {
         this.setSharedFlag(3, pSprinting);
-        AttributeInstance attributeinstance = this.getAttribute(Attributes.MOVEMENT_SPEED);
-        if (attributeinstance.getModifier(SPEED_MODIFIER_SPRINTING.getId()) != null) {
-            attributeinstance.removeModifier(SPEED_MODIFIER_SPRINTING.getId());
-        }
-
-        if (pSprinting) {
-            attributeinstance.addTransientModifier(new AttributeModifier("Sprinting speed boost", .5d, AttributeModifier.Operation.MULTIPLY_TOTAL));
-        }
     }
-
-     */
 
     private void setupAnimationStates() {
         if (this.idleAnimationTimeout <= 0) {

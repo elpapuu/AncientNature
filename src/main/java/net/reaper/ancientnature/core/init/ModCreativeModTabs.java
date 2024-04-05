@@ -33,25 +33,22 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.CARBONIFEROUS_FOSSIL.get());
                         pOutput.accept(ModBlocks.MUD_WITH_FOSSILS.get());
                         pOutput.accept(ModItems.ARANDASPIS_SPAWN_EGG.get());
-
-
                     })
 
                     .build());
 
 
-
-public static void register(IEventBus eventBus) {
-    CREATIVE_MODE_TABS.register(eventBus);
-}
+    public static void register(IEventBus eventBus) {
+        CREATIVE_MODE_TABS.register(eventBus);
+    }
 
     /**
      * this creates the translation key for the creative tabs
      * for example: input: "test_tab" -> "creativetab.(modid).test_tab"
      * this is used so the LanguageProvider can actually use this as translation key
      */
-    public static String createTranslationKey(String name){
-    return "creativetab." + AncientNature.MOD_ID + "." + name;
-}
+    public static String createTranslationKey(String name) {
+        return "creativetab." + AncientNature.MOD_ID + "." + name;
+    }
 
 }

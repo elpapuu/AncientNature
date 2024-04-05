@@ -14,13 +14,15 @@ import java.util.EnumSet;
 
 public class PanicSprintingGoal extends Goal {
     protected final PathfinderMob mob;
+    protected final double speedModifier;
     protected double posX;
     protected double posY;
     protected double posZ;
     protected boolean isRunning;
 
-    public PanicSprintingGoal(PathfinderMob pMob) {
+    public PanicSprintingGoal(PathfinderMob pMob, double pSpeedModifier) {
         this.mob = pMob;
+        this.speedModifier = pSpeedModifier;
         this.setFlags(EnumSet.of(Goal.Flag.MOVE));
     }
 
@@ -70,9 +72,9 @@ public class PanicSprintingGoal extends Goal {
      * Execute a one shot task or start executing a continuous task
      */
     public void start() {
-        this.mob.setSprinting(true);
-        this.mob.getNavigation().moveTo(this.posX, this.posY, this.posZ, 1.0d);
+        this.mob.getNavigation().moveTo(this.posX, this.posY, this.posZ, this.speedModifier);
         this.isRunning = true;
+        this.mob.setSprinting(true);
     }
 
     /**

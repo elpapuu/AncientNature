@@ -15,8 +15,9 @@ import java.util.EnumSet;
 import java.util.function.Predicate;
 
 public class AvoidEntitySprinting<T extends LivingEntity> extends Goal {
-
     protected final PathfinderMob mob;
+    private final double walkSpeedModifier;
+    private final double sprintSpeedModifier;
     @Nullable
     protected T toAvoid;
     protected final float maxDist;
@@ -32,18 +33,20 @@ public class AvoidEntitySprinting<T extends LivingEntity> extends Goal {
     /**
      * Goal that helps mobs avoid mobs of a specific class
      */
-    public AvoidEntitySprinting(PathfinderMob pMob, Class<T> pEntityClassToAvoid, float pMaxDistance) {
-        this(pMob, pEntityClassToAvoid, (p_25052_) -> true, pMaxDistance, EntitySelector.NO_CREATIVE_OR_SPECTATOR::test);
+    public AvoidEntitySprinting(PathfinderMob pMob, Class<T> pEntityClassToAvoid, float pMaxDistance, double pWalkSpeedModifier, double pSprintSpeedModifier) {
+        this(pMob, pEntityClassToAvoid, (p_25052_) -> true, pMaxDistance, pWalkSpeedModifier, pSprintSpeedModifier, EntitySelector.NO_CREATIVE_OR_SPECTATOR::test);
     }
 
     /**
      * Goal that helps mobs avoid mobs of a specific class
      */
-    public AvoidEntitySprinting(PathfinderMob pMob, Class<T> pEntityClassToAvoid, Predicate<LivingEntity> pAvoidPredicate, float pMaxDistance, Predicate<LivingEntity> pPredicateOnAvoidEntity) {
+    public AvoidEntitySprinting(PathfinderMob pMob, Class<T> pEntityClassToAvoid, Predicate<LivingEntity> pAvoidPredicate, float pMaxDistance, double pWalkSpeedModifier, double pSprintSpeedModifier, Predicate<LivingEntity> pPredicateOnAvoidEntity) {
         this.mob = pMob;
         this.avoidClass = pEntityClassToAvoid;
         this.avoidPredicate = pAvoidPredicate;
         this.maxDist = pMaxDistance;
+        this.walkSpeedModifier = pWalkSpeedModifier;
+        this.sprintSpeedModifier = pSprintSpeedModifier;
         this.predicateOnAvoidEntity = pPredicateOnAvoidEntity;
         this.pathNav = pMob.getNavigation();
         this.setFlags(EnumSet.of(Goal.Flag.MOVE));
@@ -53,8 +56,8 @@ public class AvoidEntitySprinting<T extends LivingEntity> extends Goal {
     /**
      * Goal that helps mobs avoid mobs of a specific class
      */
-    public AvoidEntitySprinting(PathfinderMob pMob, Class<T> pEntityClassToAvoid, float pMaxDistance, Predicate<LivingEntity> pPredicateOnAvoidEntity) {
-        this(pMob, pEntityClassToAvoid, (p_25049_) -> true, pMaxDistance, pPredicateOnAvoidEntity);
+    public AvoidEntitySprinting(PathfinderMob pMob, Class<T> pEntityClassToAvoid, float pMaxDistance, double pWalkSpeedModifier, double pSprintSpeedModifier, Predicate<LivingEntity> pPredicateOnAvoidEntity) {
+        this(pMob, pEntityClassToAvoid, (p_25049_) -> true, pMaxDistance, pWalkSpeedModifier, pSprintSpeedModifier, pPredicateOnAvoidEntity);
     }
 
     /**
@@ -89,7 +92,7 @@ public class AvoidEntitySprinting<T extends LivingEntity> extends Goal {
      * Execute a one shot task or start executing a continuous task
      */
     public void start() {
-        this.pathNav.moveTo(this.path, 1);
+        this.pathNav.moveTo(this.path, this.walkSpeedModifier);
     }
 
     /**
@@ -97,6 +100,7 @@ public class AvoidEntitySprinting<T extends LivingEntity> extends Goal {
      */
     public void stop() {
         this.toAvoid = null;
+        this.mob.setSprinting(false);
     }
 
     /**
@@ -104,8 +108,10 @@ public class AvoidEntitySprinting<T extends LivingEntity> extends Goal {
      */
     public void tick() {
         if (this.mob.distanceToSqr(this.toAvoid) < 49.0D) {
+            this.mob.getNavigation().setSpeedModifier(this.sprintSpeedModifier);
             this.mob.setSprinting(true);
         } else {
+            this.mob.getNavigation().setSpeedModifier(this.walkSpeedModifier);
             this.mob.setSprinting(false);
         }
 
