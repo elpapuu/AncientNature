@@ -63,10 +63,15 @@ public class ArandaspisEntity extends AbstractFish {
     public void travel(Vec3 pTravelVector) {
         super.travel(pTravelVector);
         if (!this.level().isClientSide) {
-            if (this.getLastHurtByMob() != null) {
+            this.setSharedFlag(8, this.getLastHurtByMob() != null && isInWater());
+            if (getSharedFlag(8)) {
                 this.level().broadcastEntityEvent(this, (byte) 7);
             }
         }
+    }
+
+    public boolean isPanicing(){
+        return this.getSharedFlag(8);
     }
 
     @Override

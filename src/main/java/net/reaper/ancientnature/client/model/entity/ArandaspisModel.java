@@ -42,7 +42,7 @@ public class ArandaspisModel extends HierarchicalModel<ArandaspisEntity> {
     public void setupAnim(ArandaspisEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         this.root().getAllParts().forEach(ModelPart::resetPose);
         applyHeadRotation(entity, netHeadYaw, headPitch, ageInTicks);
-        if (entity.isSprinting())
+        if (entity.isPanicing())
             this.animateWalk(ArandaspisAnimation.ARANDASPIS_RUN, limbSwing, limbSwingAmount, 4f, 4.5f);
         else
             this.animateWalk(ArandaspisAnimation.ARANDASPIS_SWIM, limbSwing, limbSwingAmount, 4f, 4.5f);
