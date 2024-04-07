@@ -35,6 +35,9 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         auto(ModBlocks.MUD_WITH_FOSSILS.get());
         auto(ModBlocks.DEEPSLATE_AMBER.get());
         auto(ModBlocks.DEEPSLATE_CAMBRIAN_FOSSIL.get());
+        auto(ModBlocks.STONE_PERMIAN_FOSSIL.get());
+        auto(ModBlocks.DEEPSLATE_DEVONIAN_FOSSIL.get());
+        auto(ModBlocks.DEEPSLATE_CARBONIFEROUS.get());
 
         //advancements
         add("advancements.cleaning_the_past_for_the_future.title", "Belongs to a museum");

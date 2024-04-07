@@ -22,6 +22,9 @@ public class ModBlockStatesProvider extends BlockStateProvider {
     protected void registerStatesAndModels() {
         simpleBlock(ModBlocks.DEEPSLATE_AMBER.get());
         simpleBlock(ModBlocks.DEEPSLATE_CAMBRIAN_FOSSIL.get());
+        simpleBlock(ModBlocks.DEEPSLATE_CARBONIFEROUS.get());
+        simpleBlock(ModBlocks.DEEPSLATE_DEVONIAN_FOSSIL.get());
+        simpleBlock(ModBlocks.STONE_PERMIAN_FOSSIL.get());
         makeFossil(ModBlocks.MUD_WITH_FOSSILS.get());
     }
 
