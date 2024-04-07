@@ -15,6 +15,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import net.reaper.ancientnature.common.block.MudFossilBlock;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
@@ -31,15 +32,7 @@ public class ModBlocks {
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_IRON_ORE)
                     .strength(5f).requiresCorrectToolForDrops()));
 
-    public static final RegistryObject<BrushableBlock> MUD_WITH_FOSSILS = registryBlock("mud_with_fossils", () -> new BrushableBlock(Blocks.MUD, BlockBehaviour.Properties.of().strength(1), SoundEvents.BRUSH_GRAVEL, SoundEvents.BRUSH_GRAVEL_COMPLETED){
-        @Override
-        public @Nullable BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-            BrushableBlockEntity te = new BrushableBlockEntity(pPos, pState);
-            Random random = new Random();
-            te.setLootTable(ModLootTables.MUD_FOSSIL_BRUSH, random.nextLong());
-            return te;
-        }
-    });
+    public static final RegistryObject<BrushableBlock> MUD_WITH_FOSSILS = registryBlock("mud_with_fossils", () -> new MudFossilBlock(Blocks.MUD, BlockBehaviour.Properties.copy(Blocks.MUD), SoundEvents.BRUSH_GRAVEL, SoundEvents.BRUSH_GRAVEL_COMPLETED, ModLootTables.MUD_FOSSIL_BRUSH));
 
 
 
