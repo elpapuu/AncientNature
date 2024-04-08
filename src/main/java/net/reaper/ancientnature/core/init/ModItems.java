@@ -27,6 +27,7 @@ public class ModItems {
     public static final RegistryObject<Item> MUDDY_PERIMAN_FOSSIL = ITEMS.register("muddy_permian_fossil", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> STONE_PERMIAN_FOSSIL = ITEMS.register("stone_permian_fossil", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> CARBONIFEROUS_FOSSIL = ITEMS.register("carboniferous_fossil", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> DEVONIAN_FOSSIL = ITEMS.register("devonian_fossil", () -> new Item(new Item.Properties()));
 
     public static final RegistryObject<Item> ANOMALOCARIS_FOSSIL = ITEMS.register("anomalocaris_fossil",
             () ->new Item(new Item.Properties().rarity(Rarity.RARE)));

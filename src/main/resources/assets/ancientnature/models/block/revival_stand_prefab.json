@@ -3,8 +3,8 @@
 	"parent": "revival_stand",
 	"texture_size": [32, 32],
 	"textures": {
-		"0": "AncientNatureStuff:block/texture_revival_stand_stage1",
-		"particle": "AncientNatureStuff:block/texture_revival_stand_stage1"
+		"0": "#texture",
+		"particle": "#texture"
 	},
 	"elements": [
 		{

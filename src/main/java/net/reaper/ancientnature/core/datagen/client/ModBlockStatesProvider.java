@@ -1,5 +1,6 @@
 package net.reaper.ancientnature.core.datagen.client;
 
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
@@ -11,7 +12,10 @@ import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.reaper.ancientnature.AncientNature;
+import net.reaper.ancientnature.common.block.RevivalStand;
 import net.reaper.ancientnature.core.init.ModBlocks;
+
+import javax.sound.sampled.ReverbType;
 
 public class ModBlockStatesProvider extends BlockStateProvider {
     public ModBlockStatesProvider(PackOutput output, ExistingFileHelper exFileHelper) {
@@ -26,6 +30,22 @@ public class ModBlockStatesProvider extends BlockStateProvider {
         simpleBlock(ModBlocks.DEEPSLATE_DEVONIAN_FOSSIL.get());
         simpleBlock(ModBlocks.STONE_PERMIAN_FOSSIL.get());
         makeFossil(ModBlocks.MUD_WITH_FOSSILS.get());
+        revivalStand(ModBlocks.REVIVAL_STAND.get());
+    }
+
+    protected void revivalStand(Block block){
+        getVariantBuilder(block).forAllStates(state -> {
+            ResourceLocation registryName = ForgeRegistries.BLOCKS.getKey(block);
+            String name = registryName.getPath();
+            int stage = state.getValue(RevivalStand.STAGE);
+            if (stage < 4){
+                name += "_stage" + stage;
+            }else {
+                boolean active = state.getValue(RevivalStand.ACTIVE);
+                name += active ? "_active" : "_unactive";
+            }
+            return ConfiguredModel.builder().modelFile(models().getBuilder(name).parent(models().getExistingFile(AncientNature.modLoc("block/revival_stand_prefab"))).texture("texture", AncientNature.modLoc("block/" + name))).build();
+        });
     }
 
     protected void makeFossil(BrushableBlock block){

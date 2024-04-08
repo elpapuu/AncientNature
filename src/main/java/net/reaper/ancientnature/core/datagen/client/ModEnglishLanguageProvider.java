@@ -31,7 +31,9 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         auto(ModItems.MUDDY_PERIMAN_FOSSIL.get());
         auto(ModItems.STONE_PERMIAN_FOSSIL.get());
         auto(ModItems.ARANDASPIS_SPAWN_EGG.get());
+        auto(ModItems.DEVONIAN_FOSSIL.get());
 
+        auto(ModBlocks.REVIVAL_STAND.get());
         auto(ModBlocks.MUD_WITH_FOSSILS.get());
         auto(ModBlocks.DEEPSLATE_AMBER.get());
         auto(ModBlocks.DEEPSLATE_CAMBRIAN_FOSSIL.get());

@@ -13,6 +13,7 @@ import net.reaper.ancientnature.core.datagen.client.ModItemModelsProvider;
 import net.reaper.ancientnature.core.datagen.client.ModEnglishLanguageProvider;
 import net.reaper.ancientnature.core.datagen.client.ModSpanishLanguageProvider;
 import net.reaper.ancientnature.core.datagen.server.ModBlockTagsProvider;
+import net.reaper.ancientnature.core.datagen.server.ModItemTagsProvider;
 import net.reaper.ancientnature.core.datagen.server.ModLoot;
 import net.reaper.ancientnature.core.datagen.server.ModRecipeProvider;
 
@@ -30,7 +31,8 @@ public class DataRunner {
         CompletableFuture<HolderLookup.Provider> holderLookup = event.getLookupProvider();
 
         gen.addProvider(event.includeClient(), new ModBlockStatesProvider(output, helper));
-        gen.addProvider(event.includeServer(), new ModBlockTagsProvider(output, holderLookup, helper));
+        ModBlockTagsProvider blockTags = gen.addProvider(event.includeServer(), new ModBlockTagsProvider(output, holderLookup, helper));
+        gen.addProvider(event.includeServer(), new ModItemTagsProvider(output, holderLookup, blockTags.contentsGetter(), helper));
         gen.addProvider(event.includeServer(), new ModLoot(output));
         gen.addProvider(event.includeClient(), new ModItemModelsProvider(output, helper));
         gen.addProvider(event.includeClient(), new ModEnglishLanguageProvider(output));

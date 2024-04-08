@@ -17,6 +17,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.reaper.ancientnature.common.block.MudFossilBlock;
+import net.reaper.ancientnature.common.block.RevivalStand;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
@@ -36,6 +37,7 @@ public class ModBlocks {
     public static final RegistryObject<DropExperienceBlock> STONE_PERMIAN_FOSSIL = registryBlock("stone_permian_fossil_ore", () -> new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.STONE).requiresCorrectToolForDrops(), ConstantInt.of(1)));
 
     public static final RegistryObject<BrushableBlock> MUD_WITH_FOSSILS = registryBlock("mud_with_fossils", () -> new MudFossilBlock(Blocks.MUD, BlockBehaviour.Properties.copy(Blocks.MUD), SoundEvents.BRUSH_GRAVEL, SoundEvents.BRUSH_GRAVEL_COMPLETED, ModLootTables.MUD_FOSSIL_BRUSH));
+    public static final RegistryObject<RevivalStand> REVIVAL_STAND = registryBlock("revival_stand", RevivalStand::new);
 
 
 

@@ -36,6 +36,8 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModBlocks.DEEPSLATE_DEVONIAN_FOSSIL.get());
                         pOutput.accept(ModBlocks.DEEPSLATE_CARBONIFEROUS.get());
                         pOutput.accept(ModBlocks.STONE_PERMIAN_FOSSIL.get());
+                        pOutput.accept(ModItems.DEVONIAN_FOSSIL.get());
+                        pOutput.accept(ModBlocks.REVIVAL_STAND.get());
                     })
 
                     .build());
