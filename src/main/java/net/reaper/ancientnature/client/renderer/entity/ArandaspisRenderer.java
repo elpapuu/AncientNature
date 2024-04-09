@@ -8,13 +8,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.reaper.ancientnature.AncientNature;
+import net.reaper.ancientnature.client.model.entity.AnomalocrisModel;
 import net.reaper.ancientnature.client.model.entity.ArandaspisModel;
-import net.reaper.ancientnature.client.model.ModModelLayers;
 import net.reaper.ancientnature.common.entity.water.ArandaspisEntity;
 @OnlyIn(Dist.CLIENT)
 public class ArandaspisRenderer extends MobRenderer<ArandaspisEntity, ArandaspisModel> {
     public ArandaspisRenderer(EntityRendererProvider.Context pContext) {
-        super(pContext, new ArandaspisModel(pContext.bakeLayer(ModModelLayers.ARANDASPIS_LAYER)), 0.6f);
+        super(pContext, new ArandaspisModel(pContext.bakeLayer(ArandaspisModel.ARANDASPIS_LAYER)), 0.6f);
     }
 
     @Override

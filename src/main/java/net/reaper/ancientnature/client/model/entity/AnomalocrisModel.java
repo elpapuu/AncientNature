@@ -11,14 +11,19 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.Entity;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.reaper.ancientnature.AncientNature;
+import net.reaper.ancientnature.common.entity.water.Anomalocris;
 
-public class AnomalocrisModel<T extends Entity> extends EntityModel<T> {
+@OnlyIn(Dist.CLIENT)
+public class AnomalocrisModel extends EntityModel<Anomalocris> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(AncientNature.modLoc("anomalocaris"), "main");
-	private final ModelPart body;
+	private final ModelPart body, root;
 
 	public AnomalocrisModel(ModelPart root) {
+		this.root = root;
 		this.body = root.getChild("body");
 	}
 
@@ -71,7 +76,7 @@ public class AnomalocrisModel<T extends Entity> extends EntityModel<T> {
 	}
 
 	@Override
-	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void setupAnim(Anomalocris entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 
 	}
 

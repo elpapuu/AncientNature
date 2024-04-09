@@ -23,7 +23,6 @@ public class AncientNature {
 
     public AncientNature() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        modEventBus.addListener(this::clientSetup);
 
         ModCreativeModTabs.register(modEventBus);
 
@@ -38,14 +37,12 @@ public class AncientNature {
         ModRecipes.register(modEventBus);
     }
 
-    public void clientSetup(FMLClientSetupEvent event){
-        event.enqueueWork(() -> {
-           //ItemBlockRenderTypes.setRenderLayer(ModBlocks.REVIVAL_STAND.get(), RenderType.cutout());
-        });
-    }
-
     public static ResourceLocation modLoc(String name){
         return new ResourceLocation(MOD_ID, name);
+    }
+
+    public static ResourceLocation entityTexture(String name){
+        return modLoc("textures/entity/" + name);
     }
 
 }

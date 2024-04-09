@@ -3,6 +3,7 @@ package net.reaper.ancientnature.core.datagen.client;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
@@ -11,6 +12,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.reaper.ancientnature.AncientNature;
 import net.reaper.ancientnature.core.init.ModBlocks;
 import net.reaper.ancientnature.core.init.ModCreativeModTabs;
+import net.reaper.ancientnature.core.init.ModEntities;
 import net.reaper.ancientnature.core.init.ModItems;
 
 public class ModEnglishLanguageProvider extends LanguageProvider {
@@ -42,6 +44,9 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         auto(ModBlocks.DEEPSLATE_DEVONIAN_FOSSIL.get());
         auto(ModBlocks.DEEPSLATE_CARBONIFEROUS.get());
 
+        auto(ModEntities.ARANDASPIS.get());
+        auto(ModEntities.ANOMALOCRIS.get());
+
         //advancements
         add("advancements.cleaning_the_past_for_the_future.title", "Belongs to a museum");
         add("advancements.cleaning_the_past_for_the_future.descr", "Clean up a fossil for see what have inside!");
@@ -57,6 +62,11 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
     public void auto(ItemLike item) {
         add(item.asItem(), toTitleCase(ForgeRegistries.ITEMS.getKey(item.asItem()).getPath()));
     }
+
+
+  public void auto(EntityType<?> type){
+        add(type, toTitleCase(ForgeRegistries.ENTITY_TYPES.getKey(type).getPath()));
+  }
 
     /**
      * important pass in here the same name that u passed in in {@link net.reaper.ancientnature.core.init.ModCreativeModTabs#createTranslationKey(String)}

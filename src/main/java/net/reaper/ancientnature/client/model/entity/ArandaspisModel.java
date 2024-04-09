@@ -4,18 +4,22 @@ package net.reaper.ancientnature.client.model.entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.HierarchicalModel;
+import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.reaper.ancientnature.AncientNature;
 import net.reaper.ancientnature.client.animations.entity.ArandaspisAnimation;
 import net.reaper.ancientnature.common.entity.water.ArandaspisEntity;
 import org.jetbrains.annotations.NotNull;
 
 @OnlyIn(Dist.CLIENT)
 public class ArandaspisModel extends HierarchicalModel<ArandaspisEntity> {
+
+    public static final ModelLayerLocation ARANDASPIS_LAYER = new ModelLayerLocation(AncientNature.modLoc("arandaspis_layer"), "main");
     private final ModelPart body, root;
 
     public ArandaspisModel(@NotNull ModelPart root) {
