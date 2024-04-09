@@ -18,9 +18,11 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.reaper.ancientnature.common.block.MudFossilBlock;
 import net.reaper.ancientnature.common.block.RevivalStand;
+import net.reaper.ancientnature.common.item.RevivalStandItem;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class ModBlocks {
@@ -37,7 +39,7 @@ public class ModBlocks {
     public static final RegistryObject<DropExperienceBlock> STONE_PERMIAN_FOSSIL = registryBlock("stone_permian_fossil_ore", () -> new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.STONE).requiresCorrectToolForDrops(), ConstantInt.of(1)));
 
     public static final RegistryObject<BrushableBlock> MUD_WITH_FOSSILS = registryBlock("mud_with_fossils", () -> new MudFossilBlock(Blocks.MUD, BlockBehaviour.Properties.copy(Blocks.MUD), SoundEvents.BRUSH_GRAVEL, SoundEvents.BRUSH_GRAVEL_COMPLETED, ModLootTables.MUD_FOSSIL_BRUSH));
-    public static final RegistryObject<RevivalStand> REVIVAL_STAND = registryBlock("revival_stand", RevivalStand::new);
+    public static final RegistryObject<RevivalStand> REVIVAL_STAND = register("revival_stand", RevivalStand::new, b -> new RevivalStandItem(b, new Item.Properties()));
 
 
 
@@ -45,6 +47,16 @@ public class ModBlocks {
         return registryBlock(name, () -> new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_IRON_ORE).strength(5f).requiresCorrectToolForDrops(), ConstantInt.of(1)));
     }
 
+
+    public static <T extends Block> RegistryObject<T> register(String name, Supplier<T> blockSupplier, Supplier<Item.Properties> properties) {
+        return register(name, blockSupplier, b -> new BlockItem(b, properties.get()));
+    }
+
+    public static <T extends Block> RegistryObject<T> register(String name, Supplier<T> blockSupplier, Function<Block, Item> blockItemFunction) {
+        RegistryObject<T> block = BLOCKS.register(name, blockSupplier);
+        ModItems.ITEMS.register(name, () -> blockItemFunction.apply(block.get()));
+        return block;
+    }
 
     private static <T extends Block> RegistryObject<T> registryBlock(String name, Supplier<T> block) {
         RegistryObject<T> toReturn = BLOCKS.register(name, block);

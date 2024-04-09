@@ -1,14 +1,19 @@
 package net.reaper.ancientnature.core.datagen.server.loot;
 
+import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.levelgen.structure.templatesystem.BlockStateMatchTest;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.predicates.ExplosionCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.reaper.ancientnature.common.block.RevivalStand;
 import net.reaper.ancientnature.core.init.ModBlocks;
 import net.reaper.ancientnature.core.init.ModItems;
 
@@ -32,10 +37,17 @@ public class ModBlockLoot extends BlockLootSubProvider {
         createOreDrop(ModBlocks.DEEPSLATE_DEVONIAN_FOSSIL.get(), ModItems.DEVONIAN_FOSSIL.get());
         makeOreDrop(ModBlocks.DEEPSLATE_CARBONIFEROUS.get(), ModItems.CARBONIFEROUS_FOSSIL.get());
         makeOreDrop(ModBlocks.STONE_PERMIAN_FOSSIL.get(), ModItems.STONE_PERMIAN_FOSSIL.get());
+        revivalStandDrops(ModBlocks.REVIVAL_STAND.get());
     }
 
-    protected void makeOreDrop(Block block, ItemLike item){
+    protected void makeOreDrop(Block block, ItemLike item) {
         this.add(block, createOreDrop(block, item.asItem()));
+    }
+
+    protected void revivalStandDrops(Block block) {
+        this.add(block, LootTable.lootTable().withPool(
+                this.applyExplosionCondition(block, LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)))
+                        .add(LootItem.lootTableItem(block).when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(RevivalStand.STAGE, 4))))));
     }
 
     protected void makeAmberdrops(Block amber, int[] weights, ItemLike... drops) {
