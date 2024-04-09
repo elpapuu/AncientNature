@@ -40,7 +40,7 @@ public class AncientNature {
 
     public void clientSetup(FMLClientSetupEvent event){
         event.enqueueWork(() -> {
-           ItemBlockRenderTypes.setRenderLayer(ModBlocks.REVIVAL_STAND.get(), RenderType.cutout());
+           //ItemBlockRenderTypes.setRenderLayer(ModBlocks.REVIVAL_STAND.get(), RenderType.cutout());
         });
     }
 

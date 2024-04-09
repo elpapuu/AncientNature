@@ -11,6 +11,7 @@ public class ModTags {
     public static class Items{
 
         public static final TagKey<Item> FOSSILS = bind("fossils");
+        public static final TagKey<Item> AMBER = bind("amber");
 
         private static TagKey<Item> bind(String pName) {
             return TagKey.create(Registries.ITEM, AncientNature.modLoc(pName));

@@ -18,13 +18,13 @@ public class RevivalStandCreator {
     public static void handleRightClick(PlayerInteractEvent.RightClickBlock event){
         BlockState hit = event.getEntity().level().getBlockState(event.getHitVec().getBlockPos());
         if (hit.getBlock() == Blocks.BREWING_STAND && event.getItemStack().is(ModTags.Items.FOSSILS)){
-            event.getEntity().level().setBlock(event.getHitVec().getBlockPos(), ModBlocks.REVIVAL_STAND.get().defaultBlockState(), 3);
-            if (!event.getEntity().isCreative()){
-                event.getItemStack().shrink(1);
+            if (!event.getLevel().isClientSide) {
+                event.getEntity().level().setBlock(event.getHitVec().getBlockPos(), ModBlocks.REVIVAL_STAND.get().defaultBlockState(), 3);
+                if (!event.getEntity().isCreative()) {
+                    event.getItemStack().shrink(1);
+                }
             }
-            event.setUseBlock(Event.Result.DENY);
-            event.setUseItem(Event.Result.DENY);
-            event.setCancellationResult(InteractionResult.SUCCESS);
+            event.setCancellationResult(InteractionResult.sidedSuccess(event.getLevel().isClientSide));
         }
     }
 }

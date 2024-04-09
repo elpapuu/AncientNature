@@ -38,6 +38,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModBlocks.STONE_PERMIAN_FOSSIL.get());
                         pOutput.accept(ModItems.DEVONIAN_FOSSIL.get());
                         pOutput.accept(ModBlocks.REVIVAL_STAND.get());
+                        pOutput.accept(ModItems.ARANDASPIS_FOSSIL.get());
                     })
 
                     .build());

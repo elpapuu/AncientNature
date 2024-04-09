@@ -44,7 +44,10 @@ public class ModBlockStatesProvider extends BlockStateProvider {
                 boolean active = state.getValue(RevivalStand.ACTIVE);
                 name += active ? "_active" : "_unactive";
             }
-            return ConfiguredModel.builder().modelFile(models().getBuilder(name).parent(models().getExistingFile(AncientNature.modLoc("block/revival_stand_prefab"))).texture("texture", AncientNature.modLoc("block/" + name))).build();
+            if (stage == 4 && !state.getValue(RevivalStand.ACTIVE)){
+                simpleBlockItem(block, models().getBuilder(name).parent(models().getExistingFile(AncientNature.modLoc("block/revival_stand_prefab"))).texture("texture", AncientNature.modLoc("block/" + name)).renderType(mcLoc("cutout")));
+            }
+            return ConfiguredModel.builder().modelFile(models().getBuilder(name).parent(models().getExistingFile(AncientNature.modLoc("block/revival_stand_prefab"))).texture("texture", AncientNature.modLoc("block/" + name)).renderType(mcLoc("cutout"))).build();
         });
     }
 
