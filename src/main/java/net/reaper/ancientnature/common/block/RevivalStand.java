@@ -26,6 +26,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.reaper.ancientnature.common.blockentity.RevivalStandBlockEntity;
 import net.reaper.ancientnature.common.util.WorldUtils;
+import net.reaper.ancientnature.core.init.ModParticles;
 import net.reaper.ancientnature.core.init.ModTags;
 import org.jetbrains.annotations.Nullable;
 
@@ -93,7 +94,7 @@ public class RevivalStand extends BlockEntityBlock {
             for (int i = 0; i < 3; i++) {
                 double dx =  Mth.nextDouble(pRandom, -.02d, .02d);
                 double dz =  Mth.nextDouble(pRandom, -.02d, .02d);
-                pLevel.addParticle(ParticleTypes.FLAME, pPos.getX() + .5d, pPos.getY() + 1d, pPos.getZ() + 0.5d, dx, 0.04D, dz);
+                pLevel.addParticle(ModParticles.REVIVAL_STAND_PARTICLE.get(), pPos.getX() + .5d, pPos.getY() + 1d, pPos.getZ() + 0.5d, dx, 0.04D, dz);
             }
         }
     }
