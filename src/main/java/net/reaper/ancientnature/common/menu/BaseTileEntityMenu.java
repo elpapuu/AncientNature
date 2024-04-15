@@ -36,7 +36,7 @@ public abstract class BaseTileEntityMenu<T extends BlockEntity & Container> exte
 	 * @param type the type this container is associated to
 	 * @param id the window id normally get provided from open {@link MenuProvider#createMenu(int, Inventory, Player)}
 	 * @param inv the player inventory which should be displayed in the gui
-	 * @param buffer the buffer where the client values will be synced the pos of the TileEntity has be written here, can be done in {@link net.minecraftforge.network.NetworkHooks#openGui(ServerPlayer, MenuProvider, BlockPos)}
+	 * @param buffer the buffer where the client values will be synced the pos of the TileEntity has be written here, can be done in {@link net.minecraftforge.network.NetworkHooks#openScreen(ServerPlayer, MenuProvider, BlockPos)}
 	 */
 	public BaseTileEntityMenu(MenuType<?> type, int id, Inventory inv, FriendlyByteBuf buffer) {
 		this(type, id, inv, getClientTileEntity(inv, buffer));
