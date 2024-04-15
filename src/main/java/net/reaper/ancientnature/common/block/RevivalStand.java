@@ -2,6 +2,7 @@ package net.reaper.ancientnature.common.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Containers;
@@ -16,6 +17,8 @@ import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
@@ -24,8 +27,11 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.network.NetworkHooks;
 import net.reaper.ancientnature.common.blockentity.RevivalStandBlockEntity;
 import net.reaper.ancientnature.common.util.WorldUtils;
+import net.reaper.ancientnature.core.init.ModBlockEntities;
+import net.reaper.ancientnature.core.init.ModBlocks;
 import net.reaper.ancientnature.core.init.ModParticles;
 import net.reaper.ancientnature.core.init.ModTags;
 import org.jetbrains.annotations.Nullable;
@@ -36,6 +42,7 @@ public class RevivalStand extends BlockEntityBlock {
     public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
 
     protected static final VoxelShape SHAPE = Shapes.or(Block.box(1.0D, 0.0D, 1.0D, 15.0D, 2.0D, 15.0D), Block.box(8.0D, 0.0D, 7.0D, 10.0D, 10.0D, 9.0D));
+
     public RevivalStand() {
         super(RevivalStandBlockEntity::new, Properties.copy(Blocks.BREWING_STAND).strength(1.5f).noOcclusion());
         this.registerDefaultState(this.defaultBlockState().setValue(ACTIVE, false).setValue(STAGE, 1));
@@ -43,16 +50,17 @@ public class RevivalStand extends BlockEntityBlock {
 
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
-        if (pPlayer.getItemInHand(pHand).is(ModTags.Items.AMBER) && pState.getValue(STAGE) == 4){
-            if (!pLevel.isClientSide){
-                pLevel.setBlock(pPos, pState.setValue(ACTIVE, true), 3);
-                if (!pPlayer.isCreative())
-                    pPlayer.getItemInHand(pHand).shrink(1);
+        if (pState.getValue(STAGE) == 4) {
+            if (!pLevel.isClientSide) {
+                RevivalStandBlockEntity te = WorldUtils.getTileEntity(RevivalStandBlockEntity.class, pLevel, pPos);
+                if (te != null){
+                    NetworkHooks.openScreen((ServerPlayer) pPlayer, te, pPos);
+                }
             }
             return InteractionResult.sidedSuccess(pLevel.isClientSide);
         }
-        if (pPlayer.getItemInHand(pHand).is(ModTags.Items.FOSSILS) && pState.getValue(STAGE) < 4){
-            if (!pLevel.isClientSide){
+        if (pPlayer.getItemInHand(pHand).is(ModTags.Items.FOSSILS) && pState.getValue(STAGE) < 4) {
+            if (!pLevel.isClientSide) {
                 pLevel.setBlock(pPos, pState.setValue(STAGE, pState.getValue(STAGE) + 1), 3);
                 RevivalStandBlockEntity te = WorldUtils.getTileEntity(RevivalStandBlockEntity.class, pLevel, pPos);
                 if (te != null) {
@@ -70,7 +78,7 @@ public class RevivalStand extends BlockEntityBlock {
 
     @Override
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        if (pState.getValue(ACTIVE)){
+        if (pState.getValue(ACTIVE)) {
             return Shapes.or(SHAPE, Block.box(8.0D, 0.0D, 7.0D, 10.0D, 15.0D, 9.0D));
         }
         return SHAPE;
@@ -78,11 +86,15 @@ public class RevivalStand extends BlockEntityBlock {
 
     @Override
     public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
-        if (!pState.is(pNewState.getBlock()) && pState.getValue(STAGE) != 4){
+        if (!pState.is(pNewState.getBlock())) {
             RevivalStandBlockEntity te = WorldUtils.getTileEntity(RevivalStandBlockEntity.class, pLevel, pPos);
-            if (te != null){
-                Containers.dropContents(pLevel, pPos, new SimpleContainer(te.getFossilsUsed().toArray(new ItemStack[0])));
-                Containers.dropContents(pLevel, pPos, new SimpleContainer(new ItemStack(Blocks.BREWING_STAND)));
+            if (te != null) {
+                if (pState.getValue(STAGE) != 4) {
+                    Containers.dropContents(pLevel, pPos, new SimpleContainer(te.getFossilsUsed().toArray(new ItemStack[0])));
+                    Containers.dropContents(pLevel, pPos, new SimpleContainer(new ItemStack(Blocks.BREWING_STAND)));
+                } else {
+
+                }
             }
         }
         super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
@@ -90,10 +102,10 @@ public class RevivalStand extends BlockEntityBlock {
 
     @Override
     public void animateTick(BlockState pState, Level pLevel, BlockPos pPos, RandomSource pRandom) {
-        if (pState.getValue(ACTIVE) && pLevel.getBlockState(pPos.above()).isAir()){
+        if (pState.getValue(ACTIVE) && pLevel.getBlockState(pPos.above()).isAir()) {
             for (int i = 0; i < 3; i++) {
-                double dx =  Mth.nextDouble(pRandom, -.02d, .02d);
-                double dz =  Mth.nextDouble(pRandom, -.02d, .02d);
+                double dx = Mth.nextDouble(pRandom, -.02d, .02d);
+                double dz = Mth.nextDouble(pRandom, -.02d, .02d);
                 pLevel.addParticle(ModParticles.REVIVAL_STAND_PARTICLE.get(), pPos.getX() + .5d, pPos.getY() + 1d, pPos.getZ() + 0.5d, dx, 0.04D, dz);
             }
         }
@@ -103,5 +115,11 @@ public class RevivalStand extends BlockEntityBlock {
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
         super.createBlockStateDefinition(pBuilder);
         pBuilder.add(STAGE, ACTIVE);
+    }
+
+    @Nullable
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
+        return pLevel.isClientSide ? null : createTickerHelper(pBlockEntityType, ModBlockEntities.REVIVAL_STAND.get(), RevivalStandBlockEntity::serverTick);
     }
 }

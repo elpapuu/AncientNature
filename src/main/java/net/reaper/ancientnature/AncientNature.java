@@ -6,9 +6,12 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.reaper.ancientnature.common.config.AncientNatureConfig;
 import net.reaper.ancientnature.core.init.*;
 import org.slf4j.Logger;
 
@@ -24,6 +27,8 @@ public class AncientNature {
     public AncientNature() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, AncientNatureConfig.SPEC);
+
         ModCreativeModTabs.register(modEventBus);
 
         ModItems.register(modEventBus);
@@ -36,6 +41,7 @@ public class AncientNature {
         ModBlockEntities.TES.register(modEventBus);
         ModRecipes.register(modEventBus);
         ModParticles.PARTICLES.register(modEventBus);
+        ModMenus.MENUS.register(modEventBus);
     }
 
     public static ResourceLocation modLoc(String name){
