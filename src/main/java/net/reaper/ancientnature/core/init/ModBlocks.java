@@ -1,13 +1,9 @@
 package net.reaper.ancientnature.core.init;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BrushableBlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
 import net.reaper.ancientnature.AncientNature;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -18,10 +14,9 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.reaper.ancientnature.common.block.MudFossilBlock;
 import net.reaper.ancientnature.common.block.RevivalStand;
+import net.reaper.ancientnature.common.block.RoeBlock;
 import net.reaper.ancientnature.common.item.RevivalStandItem;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.Random;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -40,6 +35,8 @@ public class ModBlocks {
 
     public static final RegistryObject<BrushableBlock> MUD_WITH_FOSSILS = registryBlock("mud_with_fossils", () -> new MudFossilBlock(Blocks.MUD, BlockBehaviour.Properties.copy(Blocks.MUD), SoundEvents.BRUSH_GRAVEL, SoundEvents.BRUSH_GRAVEL_COMPLETED, ModLootTables.MUD_FOSSIL_BRUSH));
     public static final RegistryObject<RevivalStand> REVIVAL_STAND = register("revival_stand", RevivalStand::new, b -> new RevivalStandItem(b, new Item.Properties()));
+
+    public static final RegistryObject<RoeBlock> ARANDASPIS_ROE = register("arandaspis_roe", () -> new RoeBlock(BlockBehaviour.Properties.copy(Blocks.FROGSPAWN), 3600, 12000, 1, 3, ModEntities.ARANDASPIS::get), () -> new Item.Properties().stacksTo(16));
 
 
 

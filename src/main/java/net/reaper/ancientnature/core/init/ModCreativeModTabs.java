@@ -39,7 +39,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.DEVONIAN_FOSSIL.get());
                         pOutput.accept(ModBlocks.REVIVAL_STAND.get());
                         pOutput.accept(ModItems.ARANDASPIS_FOSSIL.get());
-                        pOutput.accept(ModItems.ARANDASPIS_ROE.get());
+                        pOutput.accept(ModBlocks.ARANDASPIS_ROE.get());
                     })
 
                     .build());

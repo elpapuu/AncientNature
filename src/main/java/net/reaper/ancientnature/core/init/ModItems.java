@@ -31,8 +31,6 @@ public class ModItems {
 
     public static final RegistryObject<Item> ARANDASPIS_FOSSIL = ITEMS.register("arandaspis_fossil", () -> new Item(new Item.Properties()));
 
-    public static final RegistryObject<Item> ARANDASPIS_ROE = ITEMS.register("arandaspis_roe", () -> new Item(new Item.Properties().stacksTo(16)));
-
     public static final RegistryObject<Item> ANOMALOCARIS_FOSSIL = ITEMS.register("anomalocaris_fossil",
             () ->new Item(new Item.Properties().rarity(Rarity.RARE)));
 
