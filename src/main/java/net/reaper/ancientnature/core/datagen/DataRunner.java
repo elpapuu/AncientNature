@@ -9,10 +9,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.reaper.ancientnature.AncientNature;
 import net.reaper.ancientnature.core.datagen.client.*;
-import net.reaper.ancientnature.core.datagen.server.ModBlockTagsProvider;
-import net.reaper.ancientnature.core.datagen.server.ModItemTagsProvider;
-import net.reaper.ancientnature.core.datagen.server.ModLoot;
-import net.reaper.ancientnature.core.datagen.server.ModRecipeProvider;
+import net.reaper.ancientnature.core.datagen.server.*;
 
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
@@ -36,6 +33,8 @@ public class DataRunner {
         gen.addProvider(event.includeClient(), new ModSpanishLanguageProvider(output));
         gen.addProvider(event.includeServer(), new ModRecipeProvider(output));
         gen.addProvider(event.includeClient(), new ModParticleProvider(output, helper));
+        gen.addProvider(event.includeServer(), new ModLootModifierProvider(output));
+        gen.addProvider(event.includeServer(), new ModEntityTagsProvider(output, holderLookup, helper));
 
         try {
             gen.run();

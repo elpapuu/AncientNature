@@ -42,6 +42,7 @@ public class AncientNature {
         ModRecipes.register(modEventBus);
         ModParticles.PARTICLES.register(modEventBus);
         ModMenus.MENUS.register(modEventBus);
+        ModLootModifiers.LOOT_MODIFIERS.register(modEventBus);
     }
 
     public static ResourceLocation modLoc(String name){

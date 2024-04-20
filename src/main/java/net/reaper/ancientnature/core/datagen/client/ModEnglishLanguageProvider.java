@@ -36,6 +36,7 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         auto(ModItems.DEVONIAN_FOSSIL.get());
         auto(ModItems.ARANDASPIS_FOSSIL.get());
         auto(ModBlocks.ARANDASPIS_ROE.get());
+        auto(ModItems.FISH_ROE.get());
 
         auto(ModBlocks.REVIVAL_STAND.get());
         auto(ModBlocks.MUD_WITH_FOSSILS.get());
