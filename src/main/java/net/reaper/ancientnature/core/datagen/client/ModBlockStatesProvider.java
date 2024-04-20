@@ -10,6 +10,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
+import net.minecraftforge.client.model.generators.ModelBuilder;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -54,7 +55,13 @@ public class ModBlockStatesProvider extends BlockStateProvider {
                 simpleBlockItem(block, models().getBuilder(name).parent(models().getExistingFile(AncientNature.modLoc("block/revival_stand_prefab"))).texture("texture", AncientNature.modLoc("block/" + name)).renderType(mcLoc("cutout")));
             }
              */
-            return ConfiguredModel.builder().modelFile(models().getBuilder(name).parent(models().getExistingFile(AncientNature.modLoc("block/revival_stand_prefab"))).texture("texture", AncientNature.modLoc("block/" + name)).renderType(mcLoc("cutout"))).build();
+            ModelBuilder<?> modelBuilder = models().getBuilder(name).parent(models().getExistingFile(AncientNature.modLoc("block/revival_stand_prefab"))).texture("texture", AncientNature.modLoc("block/" + name));
+            if (state.getValue(RevivalStand.ACTIVE)){
+                modelBuilder = modelBuilder.renderType(mcLoc("translucent"));
+            }else {
+                modelBuilder = modelBuilder.renderType(mcLoc("cutout"));
+            }
+            return ConfiguredModel.builder().modelFile(modelBuilder).build();
         });
     }
 

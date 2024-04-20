@@ -13,8 +13,8 @@ import java.util.function.Predicate;
 
 public abstract class UtilMenu extends AbstractContainerMenu {
 
-    public static Component makeTranslationKey(String name){
-        return Component.translatable("menu." + AncientNature.MOD_ID + "." + name);
+    public static String makeTranslationKey(String name){
+        return "menu." + AncientNature.MOD_ID + "." + name;
     }
 
     protected Inventory playerInventory;
@@ -109,6 +109,18 @@ public abstract class UtilMenu extends AbstractContainerMenu {
         @Override
         public boolean mayPlace(ItemStack pStack) {
             return this.validation.test(pStack);
+        }
+    }
+
+    protected static class SingletonSlot extends Slot{
+
+        public SingletonSlot(Container pContainer, int pSlot, int pX, int pY) {
+            super(pContainer, pSlot, pX, pY);
+        }
+
+        @Override
+        public int getMaxStackSize() {
+            return 1;
         }
     }
 }

@@ -28,9 +28,9 @@ public class RevivalStandMenu extends BaseTileEntityMenu<RevivalStandBlockEntity
         this.addSlot(new Slot(this.tileEntity, 1, 17, 17));//Amber slot
         this.addSlot(new Slot(this.tileEntity, 2, 79, 17));//fossil slot
 
-        this.addSlot(new LockedSlot(this.tileEntity, 3, 56, 51));//egg 1
-        this.addSlot(new LockedSlot(this.tileEntity, 4, 79, 58));//egg 2
-        this.addSlot(new LockedSlot(this.tileEntity, 5, 102, 51));//egg 3
+        this.addSlot(new SingletonSlot(this.tileEntity, 3, 56, 51));//egg 1
+        this.addSlot(new SingletonSlot(this.tileEntity, 4, 79, 58));//egg 2
+        this.addSlot(new SingletonSlot(this.tileEntity, 5, 102, 51));//egg 3
 
         addPlayerInventory(8, 84);
 

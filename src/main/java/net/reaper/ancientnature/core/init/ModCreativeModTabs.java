@@ -16,7 +16,7 @@ public class ModCreativeModTabs {
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, AncientNature.MOD_ID);
 
     public static final RegistryObject<CreativeModeTab> ANCIENTNATURE_TAB = CREATIVE_MODE_TABS.register("ancientnature_tab",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.AMBER.get()))
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.MOSQUITO_AMBER.get()))
                     .title(Component.translatable(createTranslationKey("ancientnature_tab")))
                     .displayItems((itemDisplayParameters, pOutput) -> {
                         pOutput.accept(ModItems.AMBER.get());
@@ -40,6 +40,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModBlocks.REVIVAL_STAND.get());
                         pOutput.accept(ModItems.ARANDASPIS_FOSSIL.get());
                         pOutput.accept(ModBlocks.ARANDASPIS_ROE.get());
+                        pOutput.accept(ModItems.FISH_ROE.get());
                     })
 
                     .build());

@@ -34,6 +34,7 @@ public class RevivalStandRecipeBuilder {
 
     protected final ItemStack eggs;
     protected int amberInfusionTime, fossilInfusionTime;
+    protected Ingredient baseRoe;
     protected IngredientCount fossil, amber;
 
     public RevivalStandRecipeBuilder(ItemStack eggs) {
@@ -110,6 +111,25 @@ public class RevivalStandRecipeBuilder {
         return this;
     }
 
+
+    public RevivalStandRecipeBuilder baseRoe(TagKey<Item> baseRoe){
+        return baseRoe(Ingredient.of(baseRoe));
+    }
+
+    public RevivalStandRecipeBuilder baseRoe(ItemLike... baseRoe){
+       return baseRoe(Ingredient.of(baseRoe));
+    }
+
+    /**
+     *
+     * @param baseRoe the row that needs to be placed on the bottom slots in order for that to work
+     * @return
+     */
+    public RevivalStandRecipeBuilder baseRoe(Ingredient baseRoe){
+        this.baseRoe = baseRoe;
+        return this;
+    }
+
     /**
      * will create a recipe named exactly after the eggs
      */
@@ -129,7 +149,7 @@ public class RevivalStandRecipeBuilder {
      */
     public void build(Consumer<FinishedRecipe> consumer, ResourceLocation id){
         this.validate();
-        consumer.accept(new Result(ResourceLocationUtils.prepend(id, "revival_stand/"), fossil, amber, amberInfusionTime, fossilInfusionTime, eggs));
+        consumer.accept(new Result(ResourceLocationUtils.prepend(id, "revival_stand/"), fossil, amber, this.baseRoe, amberInfusionTime, fossilInfusionTime, eggs));
     }
 
     protected void validate(){
@@ -151,13 +171,15 @@ public class RevivalStandRecipeBuilder {
 
         protected final ResourceLocation id;
         protected final IngredientCount fossil, amber;
+        protected final Ingredient basRoe;
         protected final int amberInfusionTime, fossilInfusionTime;
         protected final ItemStack eggs;
 
-        public Result(ResourceLocation id, IngredientCount fossil, IngredientCount amber, int amberInfusionTime, int fossilInfusionTime, ItemStack eggs) {
+        public Result(ResourceLocation id, IngredientCount fossil, IngredientCount amber, Ingredient basRoe, int amberInfusionTime, int fossilInfusionTime, ItemStack eggs) {
             this.id = id;
             this.fossil = fossil;
             this.amber = amber;
+            this.basRoe = basRoe;
             this.amberInfusionTime = amberInfusionTime;
             this.fossilInfusionTime = fossilInfusionTime;
             this.eggs = eggs;
@@ -174,6 +196,10 @@ public class RevivalStandRecipeBuilder {
             }
             if (this.fossilInfusionTime != 200){
                 pJson.addProperty("fossilInfusionTime", this.fossilInfusionTime);
+            }
+            if (this.basRoe != null){
+                JsonElement baseEl = this.basRoe.toJson();
+                pJson.add("base_roe", baseEl);
             }
             JsonObject eggObject = new JsonObject();
             eggObject.addProperty("item", ForgeRegistries.ITEMS.getKey(this.eggs.getItem()).toString());

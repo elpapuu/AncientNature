@@ -7,13 +7,12 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.common.data.LanguageProvider;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.reaper.ancientnature.AncientNature;
-import net.reaper.ancientnature.core.init.ModBlocks;
-import net.reaper.ancientnature.core.init.ModCreativeModTabs;
-import net.reaper.ancientnature.core.init.ModEntities;
-import net.reaper.ancientnature.core.init.ModItems;
+import net.reaper.ancientnature.common.menu.UtilMenu;
+import net.reaper.ancientnature.core.init.*;
 
 public class ModEnglishLanguageProvider extends LanguageProvider {
     public ModEnglishLanguageProvider(PackOutput output) {
@@ -49,6 +48,8 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         auto(ModEntities.ARANDASPIS.get());
         auto(ModEntities.ANOMALOCRIS.get());
 
+        guiTranslation(ModBlockEntities.REVIVAL_STAND.get());
+
         //advancements
         add("advancements.cleaning_the_past_for_the_future.title", "Belongs to a museum");
         add("advancements.cleaning_the_past_for_the_future.descr", "Clean up a fossil for see what have inside!");
@@ -63,6 +64,10 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
 
     public void auto(ItemLike item) {
         add(item.asItem(), toTitleCase(ForgeRegistries.ITEMS.getKey(item.asItem()).getPath()));
+    }
+
+    public void guiTranslation(BlockEntityType<?> type){
+        this.add(UtilMenu.makeTranslationKey(ForgeRegistries.BLOCK_ENTITY_TYPES.getKey(type).getPath()), toTitleCase(ForgeRegistries.BLOCK_ENTITY_TYPES.getKey(type).getPath()));
     }
 
 

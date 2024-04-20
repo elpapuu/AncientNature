@@ -4,6 +4,9 @@ import com.sun.jna.platform.win32.WinDef;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.Container;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
@@ -16,8 +19,10 @@ import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.extensions.IForgeBlockEntity;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.reaper.ancientnature.AncientNature;
 import net.reaper.ancientnature.common.block.RevivalStand;
@@ -92,6 +97,13 @@ public class RevivalStandBlockEntity extends BlockEntity implements Container, M
                 }
                 return super.isItemValid(slot, stack);
             }
+
+            @Override
+            protected void onContentsChanged(int slot) {
+                super.onContentsChanged(slot);
+                RevivalStandBlockEntity.this.setChanged();
+                RevivalStandBlockEntity.this.blockUpdate();
+            }
         };
     }
 
@@ -102,7 +114,6 @@ public class RevivalStandBlockEntity extends BlockEntity implements Container, M
             RevivalStandRecipe recipe = potentialRecipe.get();
             if (te.amberProgress == 0) {
                 te.startProcessing(recipe);
-                AncientNature.LOGGER.debug(recipe.getAmberInfusionTime() + "|" + recipe.getFossilInfusionTime());
                 te.process(recipe);
             } else if (te.fossilProgress < te.maxFossilProgress) {
                 te.process(recipe);
@@ -130,6 +141,10 @@ public class RevivalStandBlockEntity extends BlockEntity implements Container, M
         }
     }
 
+    public void blockUpdate(){
+        this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
+    }
+
     protected void startProcessing(RevivalStandRecipe recipe) {
         this.maxFossilProgress = recipe.getFossilInfusionTime();
         this.maxAmberProgress = recipe.getAmberInfusionTime();
@@ -147,10 +162,24 @@ public class RevivalStandBlockEntity extends BlockEntity implements Container, M
     protected void finishProcessing(RevivalStandRecipe recipe) {
         ItemStack eggs = recipe.assemble(this, this.level.registryAccess());
         for (int i = 0; i < eggs.getCount(); i++) {
-            ItemStack eggCopy = eggs.copy();
-            eggCopy.setCount(1);
-            this.setItem(3 + i, eggCopy);
+            if (!getItem(3 + i).isEmpty()){
+                ItemStack eggCopy = eggs.copy();
+                eggCopy.setCount(1);
+                this.setItem(3 + i, eggCopy);
+            }
+
         }
+    }
+
+    @Nullable
+    @Override
+    public Packet<ClientGamePacketListener> getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this, IForgeBlockEntity::serializeNBT);
+    }
+
+    @Override
+    public CompoundTag getUpdateTag() {
+        return this.serializeNBT();
     }
 
     protected void reset() {
@@ -242,6 +271,8 @@ public class RevivalStandBlockEntity extends BlockEntity implements Container, M
         return true;
     }
 
+
+
     @Override
     public ItemStack getItem(int pSlot) {
         return this.inv.getStackInSlot(pSlot);
@@ -276,7 +307,7 @@ public class RevivalStandBlockEntity extends BlockEntity implements Container, M
 
     @Override
     public Component getDisplayName() {
-        return UtilMenu.makeTranslationKey("revival_stand");
+        return Component.translatable(UtilMenu.makeTranslationKey(ForgeRegistries.BLOCK_ENTITY_TYPES.getKey(this.getType()).getPath()));
     }
 
     @Nullable
