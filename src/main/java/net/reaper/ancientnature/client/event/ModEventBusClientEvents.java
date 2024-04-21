@@ -12,6 +12,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.reaper.ancientnature.AncientNature;
 import net.reaper.ancientnature.client.model.entity.AnomalocrisModel;
+import net.reaper.ancientnature.client.model.entity.ArandaspisBabyModel;
 import net.reaper.ancientnature.client.renderer.blockentity.RevivalStandRenderer;
 import net.reaper.ancientnature.client.renderer.entity.AnomalocrisRenderer;
 import net.reaper.ancientnature.client.screens.RevivalStandScreen;
@@ -30,6 +31,7 @@ public class ModEventBusClientEvents {
     public static void registerLayer(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(ArandaspisModel.ARANDASPIS_LAYER, ArandaspisModel::createBodyLayer);
         event.registerLayerDefinition(AnomalocrisModel.LAYER_LOCATION, AnomalocrisModel::createBodyLayer);
+        event.registerLayerDefinition(ArandaspisBabyModel.ARANDASPIS_BABY_LAYER, ArandaspisBabyModel::createBodyLayer);
     }
 
     @SubscribeEvent

@@ -26,7 +26,7 @@ import net.reaper.ancientnature.common.entity.goals.PanicSprintingGoal;
 import net.reaper.ancientnature.core.init.ModItems;
 import org.joml.*;
 
-public class ArandaspisEntity extends AbstractFish {
+public class ArandaspisEntity extends AgeableFish {
     public final AnimationState flopAnimation = new AnimationState();
     public final AnimationState idleAnimation = new AnimationState();
     private int idleAnimationTimeout = 0;

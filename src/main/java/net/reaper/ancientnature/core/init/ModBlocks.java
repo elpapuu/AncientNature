@@ -35,8 +35,8 @@ public class ModBlocks {
 
     public static final RegistryObject<BrushableBlock> MUD_WITH_FOSSILS = registryBlock("mud_with_fossils", () -> new MudFossilBlock(Blocks.MUD, BlockBehaviour.Properties.copy(Blocks.MUD), SoundEvents.BRUSH_GRAVEL, SoundEvents.BRUSH_GRAVEL_COMPLETED, ModLootTables.MUD_FOSSIL_BRUSH));
     public static final RegistryObject<RevivalStand> REVIVAL_STAND = register("revival_stand", RevivalStand::new, b -> new RevivalStandItem(b, new Item.Properties()));
-
-    public static final RegistryObject<RoeBlock> ARANDASPIS_ROE = register("arandaspis_roe", () -> new RoeBlock(BlockBehaviour.Properties.copy(Blocks.FROGSPAWN), 3600, 12000, 1, 3, ModEntities.ARANDASPIS::get), () -> new Item.Properties().stacksTo(16));
+//3600, 12000
+    public static final RegistryObject<RoeBlock> ARANDASPIS_ROE = register("arandaspis_roe", () -> new RoeBlock(BlockBehaviour.Properties.copy(Blocks.FROGSPAWN), 100, 200, 1, 3, ModEntities.ARANDASPIS::get), () -> new Item.Properties().stacksTo(16));
 
 
 

@@ -28,6 +28,7 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.reaper.ancientnature.common.entity.water.AgeableFish;
 
 import java.util.function.Supplier;
 
@@ -131,7 +132,7 @@ public class RoeBlock extends Block implements SimpleWaterloggedBlock {
     }
 
     protected void spawnTadpoles(ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
-        int i = pRandom.nextInt(2, 6);
+        int i = pRandom.nextInt(minEntities, maxEntities);
 
         for (int j = 1; j <= i; ++j) {
             Entity tadpole = this.entitySupplier.get().create(pLevel);
@@ -144,9 +145,10 @@ public class RoeBlock extends Block implements SimpleWaterloggedBlock {
                     living.setPersistenceRequired();
                 }
                 if (tadpole instanceof AgeableMob ageable) {
-                    ageable.setAge(-24000);
+                    ageable.setAge(AgeableFish.BABY_START_AGE);
+                } else if (tadpole instanceof AgeableFish ageFish) {
+                    ageFish.setAge(AgeableFish.BABY_START_AGE);
                 }
-
                 pLevel.addFreshEntity(tadpole);
             }
         }
