@@ -17,6 +17,6 @@ public class AnomalocrisRenderer extends MobRenderer<Anomalocris, AnomalocrisMod
 
     @Override
     public ResourceLocation getTextureLocation(Anomalocris pEntity) {
-        return AncientNature.entityTexture("");
+        return AncientNature.entityTexture("anomalocaris_texture.png");
     }
 }

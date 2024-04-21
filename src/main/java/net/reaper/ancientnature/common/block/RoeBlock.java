@@ -39,7 +39,7 @@ public class RoeBlock extends Block implements SimpleWaterloggedBlock {
     /**
      * @param pProperties
      * @param minHatchTicks  the min amount of ticks this will need to hatch (inclusvie)
-     * @param maxHatchTicks  the max amount of ticks this will need to hatch (exclusvie)
+     * @param maxHatchTicks  the max amount of ticks this will need to hatch (inclusvie)
      * @param minEntities    the min amount of entities that might come out (inclusvie)
      * @param maxEntities    the max amount of entities that can come out (inclusvie)
      * @param entitySupplier the entity that will spawn, note that the supplier is required otherwise this will throw errors
@@ -140,7 +140,7 @@ public class RoeBlock extends Block implements SimpleWaterloggedBlock {
                 double d0 = (double) pPos.getX() + this.getRandomTadpolePositionOffset(pRandom);
                 double d1 = (double) pPos.getZ() + this.getRandomTadpolePositionOffset(pRandom);
                 int k = pRandom.nextInt(1, 361);
-                tadpole.moveTo(d0, (double) pPos.getY() - 0.5D, d1, (float) k, 0.0F);
+                tadpole.moveTo(d0, (double) pPos.getY() + .5d, d1, (float) k, 0.0F);
                 if (tadpole instanceof Mob living) {
                     living.setPersistenceRequired();
                 }
