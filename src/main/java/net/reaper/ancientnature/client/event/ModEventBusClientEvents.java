@@ -9,11 +9,11 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.reaper.ancientnature.AncientNature;
-import net.reaper.ancientnature.client.model.entity.AnomalocrisModel;
+import net.reaper.ancientnature.client.model.entity.AnomalocarisModel;
 import net.reaper.ancientnature.client.model.entity.ArandaspisModel;
 import net.reaper.ancientnature.client.model.entity.TuataraModel;
 import net.reaper.ancientnature.client.renderer.blockentity.RevivalStandRenderer;
-import net.reaper.ancientnature.client.renderer.entity.AnomalocrisRenderer;
+import net.reaper.ancientnature.client.renderer.entity.AnomalocarisRenderer;
 import net.reaper.ancientnature.client.renderer.entity.ArandaspisRenderer;
 import net.reaper.ancientnature.client.renderer.entity.TuataraRenderer;
 import net.reaper.ancientnature.client.screens.RevivalStandScreen;
@@ -30,14 +30,14 @@ public class ModEventBusClientEvents {
     public static void registerLayer(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(ArandaspisModel.ARANDASPIS_LAYER, ArandaspisModel::createBodyLayer);
         event.registerLayerDefinition(TuataraModel.TUATARA_LAYER, TuataraModel::createBodyLayer);
-        event.registerLayerDefinition(AnomalocrisModel.LAYER_LOCATION, AnomalocrisModel::createBodyLayer);
+        event.registerLayerDefinition(AnomalocarisModel.ANOMALOCARIS_LAYER, AnomalocarisModel::createBodyLayer);
     }
 
     @SubscribeEvent
     public static void registerRenderes(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ModEntities.ARANDASPIS.get(), ArandaspisRenderer::new);
         event.registerEntityRenderer(ModEntities.ARANDASPIS.get(), ArandaspisRenderer::new);
-        event.registerEntityRenderer(ModEntities.ANOMALOCRIS.get(), AnomalocrisRenderer::new);
+        event.registerEntityRenderer(ModEntities.ANOMALOCARIS.get(), AnomalocarisRenderer::new);
         event.registerEntityRenderer(ModEntities.TUATARA.get(), TuataraRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.REVIVAL_STAND.get(), RevivalStandRenderer::new);
     }

@@ -9,7 +9,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.reaper.ancientnature.AncientNature;
 import net.reaper.ancientnature.common.entity.ground.TuataraEntity;
-import net.reaper.ancientnature.common.entity.water.Anomalocris;
+import net.reaper.ancientnature.common.entity.water.Anomalocaris;
 import net.reaper.ancientnature.common.entity.water.ArandaspisEntity;
 
 import java.util.function.Supplier;
@@ -21,10 +21,14 @@ public class ModEntities {
     public static final RegistryObject<EntityType<ArandaspisEntity>> ARANDASPIS =
             ENTITY_TYPES.register("arandaspis", () -> EntityType.Builder.of(ArandaspisEntity::new, MobCategory.WATER_CREATURE)
                     .sized(0.6f, 0.7f).build("arandaspis"));
+
     public static final RegistryObject<EntityType<TuataraEntity>> TUATARA =
             ENTITY_TYPES.register("tuatara", () -> EntityType.Builder.of(TuataraEntity::new, MobCategory.CREATURE)
                     .sized(0.6f, 0.7f).build("tuatara"));
-    public static final RegistryObject<EntityType<Anomalocris>> ANOMALOCRIS = register("anomalocris", () -> EntityType.Builder.of(Anomalocris::new, MobCategory.WATER_CREATURE).sized(1f, 0.8f));
+
+    public static final RegistryObject<EntityType<Anomalocaris>> ANOMALOCARIS =
+            register("anomalocaris", () -> EntityType.Builder.of(Anomalocaris::new, MobCategory.WATER_CREATURE)
+                    .sized(1f, 0.2f));
 
     public static final <T extends Entity> RegistryObject<EntityType<T>> register(String name, Supplier<EntityType.Builder<T>> builder){
         return ENTITY_TYPES.register(name, () -> builder.get().build(AncientNature.modLoc(name).toString()));

@@ -12,6 +12,7 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.reaper.ancientnature.common.config.AncientNatureConfig;
+import net.reaper.ancientnature.core.datagen.client.ModBlockStatesProvider;
 import net.reaper.ancientnature.core.init.*;
 import org.slf4j.Logger;
 
@@ -38,6 +39,9 @@ public class AncientNature {
         ModSounds.register(modEventBus);
 
         ModEntities.register(modEventBus);
+
+
+
         ModBlockEntities.TES.register(modEventBus);
         ModRecipes.register(modEventBus);
         ModParticles.PARTICLES.register(modEventBus);

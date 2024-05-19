@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "ancientnature:block/deepslate_cambrian_fossil"
+  }
+}

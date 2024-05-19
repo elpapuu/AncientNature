@@ -49,7 +49,7 @@ public class AvoidEntitySprinting<T extends LivingEntity> extends Goal {
         this.sprintSpeedModifier = pSprintSpeedModifier;
         this.predicateOnAvoidEntity = pPredicateOnAvoidEntity;
         this.pathNav = pMob.getNavigation();
-        this.setFlags(EnumSet.of(Goal.Flag.MOVE));
+        this.setFlags(EnumSet.of(Flag.MOVE));
         this.avoidEntityTargeting = TargetingConditions.forCombat().range((double)pMaxDistance).selector(pPredicateOnAvoidEntity.and(pAvoidPredicate));
     }
 

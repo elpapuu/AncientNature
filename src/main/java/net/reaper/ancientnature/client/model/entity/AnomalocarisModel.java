@@ -5,25 +5,26 @@ package net.reaper.ancientnature.client.model.entity;// Made with Blockbench 4.9
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.reaper.ancientnature.AncientNature;
-import net.reaper.ancientnature.common.entity.water.Anomalocris;
+import net.reaper.ancientnature.common.entity.water.Anomalocaris;
 
 @OnlyIn(Dist.CLIENT)
-public class AnomalocrisModel extends EntityModel<Anomalocris> {
+public class AnomalocarisModel extends HierarchicalModel<Anomalocaris> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(AncientNature.modLoc("anomalocaris"), "main");
-	private final ModelPart body, root;
+	public static final ModelLayerLocation ANOMALOCARIS_LAYER = new ModelLayerLocation(new ResourceLocation(
+			AncientNature.MOD_ID, "anomalocaris"), "main");
 
-	public AnomalocrisModel(ModelPart root) {
-		this.root = root;
+	private final ModelPart body;
+
+	public AnomalocarisModel(ModelPart root) {
 		this.body = root.getChild("body");
 	}
 
@@ -76,12 +77,18 @@ public class AnomalocrisModel extends EntityModel<Anomalocris> {
 	}
 
 	@Override
-	public void setupAnim(Anomalocris entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void setupAnim(Anomalocaris entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 
 	}
 
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+
 		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+	}
+
+	@Override
+	public ModelPart root() {
+		return body;
 	}
 }

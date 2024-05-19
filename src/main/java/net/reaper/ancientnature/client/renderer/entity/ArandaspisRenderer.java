@@ -8,7 +8,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.reaper.ancientnature.AncientNature;
-import net.reaper.ancientnature.client.model.entity.AnomalocrisModel;
 import net.reaper.ancientnature.client.model.entity.ArandaspisModel;
 import net.reaper.ancientnature.common.entity.water.ArandaspisEntity;
 @OnlyIn(Dist.CLIENT)

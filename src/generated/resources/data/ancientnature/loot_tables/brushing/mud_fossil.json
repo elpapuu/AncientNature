@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:archaeology",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "chance": 0.894,
+          "condition": "minecraft:random_chance"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "ancientnature:muddy_permian_fossil",
+          "weight": 6
+        },
+        {
+          "type": "minecraft:item",
+          "name": "ancientnature:anomalocaris_fossil"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "ancientnature:brushing/mud_fossil"
+}

@@ -1,11 +1,7 @@
 package net.reaper.ancientnature.core.datagen.client;
 
-import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.common.data.LanguageProvider;
@@ -46,7 +42,7 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         auto(ModBlocks.DEEPSLATE_CARBONIFEROUS.get());
 
         auto(ModEntities.ARANDASPIS.get());
-        auto(ModEntities.ANOMALOCRIS.get());
+        auto(ModEntities.ANOMALOCARIS.get());
 
         guiTranslation(ModBlockEntities.REVIVAL_STAND.get());
 
@@ -76,7 +72,7 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
   }
 
     /**
-     * important pass in here the same name that u passed in in {@link net.reaper.ancientnature.core.init.ModCreativeModTabs#createTranslationKey(String)}
+     * important pass in here the same name that u passed in in {@link ModCreativeModTabs#createTranslationKey(String)}
      */
     public void addTab(String tab, String translation){
         this.add(ModCreativeModTabs.createTranslationKey(tab), translation);

@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "active=false,stage=1": {
+      "model": "ancientnature:block/revival_stand_stage1"
+    },
+    "active=false,stage=2": {
+      "model": "ancientnature:block/revival_stand_stage2"
+    },
+    "active=false,stage=3": {
+      "model": "ancientnature:block/revival_stand_stage3"
+    },
+    "active=false,stage=4": {
+      "model": "ancientnature:block/revival_stand_unactive"
+    },
+    "active=true,stage=1": {
+      "model": "ancientnature:block/revival_stand_stage1"
+    },
+    "active=true,stage=2": {
+      "model": "ancientnature:block/revival_stand_stage2"
+    },
+    "active=true,stage=3": {
+      "model": "ancientnature:block/revival_stand_stage3"
+    },
+    "active=true,stage=4": {
+      "model": "ancientnature:block/revival_stand_active"
+    }
+  }
+}
