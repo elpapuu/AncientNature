@@ -21,6 +21,7 @@ import net.minecraft.world.entity.ai.goal.TryFindWaterGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
+import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -121,19 +122,27 @@ public class Anomalocaris extends WaterAnimal {
         super.tick();
     }
 
-    @Override
+    // thank the camel
     protected void positionRider(Entity pPassenger, Entity.MoveFunction pCallback) {
-        super.positionRider(pPassenger, pCallback);
-        float f = Mth.sin(this.yBodyRot * ((float)Math.PI / 180F));
-        float f1 = Mth.cos(this.yBodyRot * ((float)Math.PI / 180F));
-        float f2 = 0.1F;
-        float f3 = 0.0F;
-        pCallback.accept(pPassenger, this.getX() + (double)(f2 * f), this.getY(0.5D) + pPassenger.getMyRidingOffset() + f3, this.getZ() - (double)(f2 * f1));
-        if (pPassenger instanceof LivingEntity) {
-            ((LivingEntity)pPassenger).yBodyRot = this.yBodyRot;
-        }
+      int i = this.getPassengers().indexOf(pPassenger);
+      if (i >= 0) {
+         boolean flag = i == 0;
+         float f = 0.5F;
+         if (this.getPassengers().size() > 1) {
+            if (!flag) {
+               f = -0.7F;
+            }
 
-    }
+            if (pPassenger instanceof Animal) {
+               f += 0.2F;
+            }
+         }
+
+         Vec3 vec3 = (new Vec3(0.0D, 0.0D, f)).yRot(-this.yBodyRot * ((float)Math.PI / 180F));
+         pCallback.accept(pPassenger, this.getX() + vec3.x * 1.3F, this.getY() - 0.2F, this.getZ() + vec3.z * 1.3F);
+         //this.clampRotation(pPassenger);
+      }
+   }
 
     @Override
     public void travel(Vec3 vector) {
