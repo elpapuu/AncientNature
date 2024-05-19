@@ -18,21 +18,25 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
     @Override
     protected void addTranslations() {
         auto(ModItems.AMBER.get());
-        auto(ModItems.CAMBRIAN_FOSSIL.get());
-        auto(ModItems.ANOMALOCARIS_FOSSIL.get());
         auto(ModItems.LIZARD_AMBER.get());
         auto(ModItems.MOSQUITO_AMBER.get());
-        auto(ModItems.ARANDASPIS_BUCKET.get());
+
+        auto(ModItems.CAMBRIAN_FOSSIL.get());
+        auto(ModItems.ANOMALOCARIS_FOSSIL.get());
         auto(ModItems.CARBONIFEROUS_FOSSIL.get());
         auto(ModItems.DEEPSLATE_PERMIAN_FOSSIL.get());
         auto(ModItems.MUDDY_PERIMAN_FOSSIL.get());
         auto(ModItems.STONE_PERMIAN_FOSSIL.get());
-        auto(ModItems.ARANDASPIS_SPAWN_EGG.get());
         auto(ModItems.DEVONIAN_FOSSIL.get());
         auto(ModItems.ARANDASPIS_FOSSIL.get());
-        auto(ModBlocks.ARANDASPIS_ROE.get());
-        auto(ModItems.FISH_ROE.get());
 
+        auto(ModItems.FISH_ROE.get());
+        auto(ModItems.ARANDASPIS_BUCKET.get());
+
+        auto(ModItems.ARANDASPIS_SPAWN_EGG.get());
+        auto(ModItems.ANOMALOCARIS_SPAWN_EGG.get());
+
+        auto(ModBlocks.ARANDASPIS_ROE.get());
         auto(ModBlocks.REVIVAL_STAND.get());
         auto(ModBlocks.MUD_WITH_FOSSILS.get());
         auto(ModBlocks.DEEPSLATE_AMBER.get());
@@ -51,6 +55,12 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         add("advancements.cleaning_the_past_for_the_future.descr", "Clean up a fossil for see what have inside!");
         add("advancements.paleontologist.title", "Paleontologist");
         add("advancements.paleontologist.descr", "Obtain your fist fossil");
+
+        //subtitles
+        add("sound.ancientnature.cleaned_fossil", "[Fossil cleaning]");
+        add("sound.ancientnature.anomalocaris_eat", "[Anomalocaris eating]");
+        add("sound.ancientnature.anomalocaris_hurt", "[Anomalocaris hurt]");
+        add("sound.ancientnature.anomalocaris_death", "[Anomalocaris dying]");
 
         //creative tab
         addTab("ancientnature_tab", "Ancient Nature");

@@ -30,11 +30,11 @@ public class ModItemModelsProvider extends ItemModelProvider {
         simple(ModItems.FISH_ROE.get());
         simple(ModBlocks.ARANDASPIS_ROE.get());
         spawnEgg(ModItems.ARANDASPIS_SPAWN_EGG.get());
-
+        spawnEgg(ModItems.ANOMALOCARIS_SPAWN_EGG.get());
     }
 
     protected void simple(ItemLike... items){
-        for (ItemLike item : items){
+        for (ItemLike item : items) {
             this.basicItem(item.asItem());
         }
     }

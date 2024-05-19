@@ -16,7 +16,7 @@ public class SmallerEntityTargetGoal<T extends LivingEntity> extends NearestAtta
         if (this.mob.getRandom().nextBoolean()) {
 
             this.findTarget();
-            return target != null && target.getBoundingBox().getSize() < this.mob.getBoundingBox().getSize();
+            return target != null && !target.isPassenger() && target.getBoundingBox().getSize() < this.mob.getBoundingBox().getSize();
         } else {
 
             return false;
