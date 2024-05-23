@@ -154,15 +154,6 @@ public class Anomalocaris extends BreedableWaterAnimal implements Bucketable {
                     this.setDigesting(false);
                     --this.ticksUntilHungry;
                 }
-
-                // dolphin out of water behavior ig
-                if (this.onGround()) {
-
-                    this.setDeltaMovement(this.getDeltaMovement().add((this.random.nextFloat() * 2.0F - 1.0F) * 0.2F, 0.5D, (this.random.nextFloat() * 2.0F - 1.0F) * 0.2F));
-                    this.setYRot(this.random.nextFloat() * 360.0F);
-                    this.setOnGround(false);
-                    this.hasImpulse = true;
-                }
             }
         }
         super.tick();
