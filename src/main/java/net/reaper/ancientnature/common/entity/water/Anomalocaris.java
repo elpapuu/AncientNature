@@ -6,6 +6,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -18,10 +19,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
-import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
-import net.minecraft.world.entity.ai.goal.TryFindWaterGoal;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
@@ -32,9 +30,11 @@ import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.reaper.ancientnature.common.entity.goals.SmallerEntityTargetGoal;
+import net.reaper.ancientnature.core.init.ModEntities;
 import net.reaper.ancientnature.core.init.ModItems;
 import net.reaper.ancientnature.core.init.ModSounds;
 import org.jetbrains.annotations.NotNull;
@@ -42,7 +42,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
 
-public class Anomalocaris extends WaterAnimal implements Bucketable {
+public class Anomalocaris extends BreedableWaterAnimal implements Bucketable {
     private static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(Anomalocaris.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> DIGESTING_ID = SynchedEntityData.defineId(Anomalocaris.class, EntityDataSerializers.BOOLEAN);
     public static final String DIGESTING_TAG = "DigestingTime";
@@ -62,7 +62,7 @@ public class Anomalocaris extends WaterAnimal implements Bucketable {
     private int idleAnimationTimeout = 0;
     private int attackAnimationTimeout = 0;
 
-    public Anomalocaris(EntityType<? extends WaterAnimal> pEntityType, Level pLevel) {
+    public Anomalocaris(EntityType<? extends BreedableWaterAnimal> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.02F, 0.1F, true);
         this.lookControl = new SmoothSwimmingLookControl(this, 10);
@@ -72,9 +72,11 @@ public class Anomalocaris extends WaterAnimal implements Bucketable {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new TryFindWaterGoal(this));
         this.goalSelector.addGoal(1, new Anomalocaris.PanicGoal(2.0D));
-        this.goalSelector.addGoal(2, new Anomalocaris.DashToEnsnareGoal(this));
-        this.goalSelector.addGoal(3, new Anomalocaris.MeleeGoal(this, 1.2D, true));
-        this.goalSelector.addGoal(4, new Anomalocaris.SwimGoal(this, 1.0D));
+        this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
+        this.goalSelector.addGoal(3, new TemptGoal(this, 1.2D, Ingredient.of(Items.COD), false));
+        this.goalSelector.addGoal(4, new Anomalocaris.DashToEnsnareGoal(this));
+        this.goalSelector.addGoal(5, new Anomalocaris.MeleeGoal(this, 1.2D, true));
+        this.goalSelector.addGoal(6, new Anomalocaris.SwimGoal(this, 1.0D));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this, Anomalocaris.class));
         this.targetSelector.addGoal(2, new SmallerEntityTargetGoal<>(this, WaterAnimal.class, false, p -> p.isInWater() && !p.isPassenger() && !(p instanceof Anomalocaris)));
     }
@@ -349,6 +351,30 @@ public class Anomalocaris extends WaterAnimal implements Bucketable {
         }
     }
 
+    public Anomalocaris getBreedOffspring(ServerLevel pLevel, AgeableMob pOtherParent) {
+        return ModEntities.ANOMALOCARIS.get().create(pLevel);
+    }
+
+    public boolean isFood(ItemStack pStack) {
+        return pStack.is(Items.COD);
+    }
+
+    @Nullable
+    @Override
+    protected SoundEvent getHurtSound(DamageSource pDamageSource) {
+        return this.random.nextInt(2) == 0 ? ModSounds.ANOMALOCARIS_HURT_1.get() : ModSounds.ANOMALOCARIS_HURT_2.get();
+    }
+
+    @Nullable
+    @Override
+    protected SoundEvent getDeathSound() {
+        return this.random.nextInt(2) == 0 ? ModSounds.ANOMALOCARIS_DEATH_1.get() : ModSounds.ANOMALOCARIS_DEATH_2.get();
+    }
+
+    protected void playMunchSound() {
+        this.level().playSound(null, this.getOnPos(), (this.random.nextInt(2) == 0 ? ModSounds.ANOMALOCARIS_EAT_1.get() : ModSounds.ANOMALOCARIS_EAT_2.get()) , SoundSource.NEUTRAL, 2.0F, 1.0F);
+    }
+
     /** Goals */
     class PanicGoal extends net.minecraft.world.entity.ai.goal.PanicGoal {
         public PanicGoal(double modifier) {
@@ -425,22 +451,6 @@ public class Anomalocaris extends WaterAnimal implements Bucketable {
             return super.canUse() && !this.mob.isVehicle() && this.mob.getTarget() != null
                     && this.mob.getTarget().getBoundingBox().getSize() > this.mob.getTarget().getBoundingBox().getSize();
         }
-    }
-
-    @Nullable
-    @Override
-    protected SoundEvent getHurtSound(DamageSource pDamageSource) {
-        return this.random.nextInt(2) == 0 ? ModSounds.ANOMALOCARIS_HURT_1.get() : ModSounds.ANOMALOCARIS_HURT_2.get();
-    }
-
-    @Nullable
-    @Override
-    protected SoundEvent getDeathSound() {
-        return this.random.nextInt(2) == 0 ? ModSounds.ANOMALOCARIS_DEATH_1.get() : ModSounds.ANOMALOCARIS_DEATH_2.get();
-    }
-
-    protected void playMunchSound() {
-        this.level().playSound(null, this.getOnPos(), (this.random.nextInt(2) == 0 ? ModSounds.ANOMALOCARIS_EAT_1.get() : ModSounds.ANOMALOCARIS_EAT_2.get()) , SoundSource.NEUTRAL, 2.0F, 1.0F);
     }
 
     static class SwimGoal extends RandomSwimmingGoal {

@@ -31,4 +31,13 @@ public class AnomalocarisRenderer extends MobRenderer<Anomalocaris, Anomalocaris
 
         super.render(pEntity, pEntityYaw, pPartialTicks, pMatrixStack, pBuffer, pPackedLight);
     }
+
+    @Override
+    protected void scale(Anomalocaris pLivingEntity, PoseStack pMatrixStack, float pPartialTickTime) {
+        if (pLivingEntity.isBaby()) {
+
+            pMatrixStack.scale(0.5F, 0.5F, 0.5F);
+        }
+        super.scale(pLivingEntity, pMatrixStack, pPartialTickTime);
+    }
 }
