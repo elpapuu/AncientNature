@@ -13,15 +13,15 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
 import net.minecraft.world.entity.animal.Animal;
@@ -34,6 +34,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.reaper.ancientnature.common.entity.goals.SmallerEntityTargetGoal;
+import net.reaper.ancientnature.common.entity.goals.WildBreedGoal;
 import net.reaper.ancientnature.core.init.ModEntities;
 import net.reaper.ancientnature.core.init.ModItems;
 import net.reaper.ancientnature.core.init.ModSounds;
@@ -51,6 +52,7 @@ public class Anomalocaris extends BreedableWaterAnimal implements Bucketable {
     private int ticksDigesting;
     private int ticksUntilHungry;
     int HUNGER_COOLDOWN = 9600; // 8 minutes
+    int MATE_COOLDOWN = 9600; // 8 minutes
     boolean isHungry;
     // anim
     boolean isHolding;
@@ -77,8 +79,14 @@ public class Anomalocaris extends BreedableWaterAnimal implements Bucketable {
         this.goalSelector.addGoal(4, new Anomalocaris.DashToEnsnareGoal(this));
         this.goalSelector.addGoal(5, new Anomalocaris.MeleeGoal(this, 1.2D, true));
         this.goalSelector.addGoal(6, new Anomalocaris.SwimGoal(this, 1.0D));
+        this.goalSelector.addGoal(7, new WildBreedGoal(this, Entity::isInWater, 300));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this, Anomalocaris.class));
         this.targetSelector.addGoal(2, new SmallerEntityTargetGoal<>(this, WaterAnimal.class, false, p -> p.isInWater() && !p.isPassenger() && !(p instanceof Anomalocaris)));
+    }
+
+    @Override
+    public boolean canFallInLove() {
+        return super.canFallInLove() && !this.isHungry;
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -113,10 +121,11 @@ public class Anomalocaris extends BreedableWaterAnimal implements Bucketable {
 
                     setHungry(true);
                 }
-                if (this.isVehicle() && this.getFirstPassenger() instanceof WaterAnimal) {
+                if (this.isVehicle() && this.getFirstPassenger() instanceof WaterAnimal prey) {
 
-                    this.getFirstPassenger().setXRot(this.getXRot());
-                    this.getFirstPassenger().setYRot(this.getYRot());
+                    prey.setXRot(this.getXRot());
+                    prey.setYRot(this.getYRot());
+                    prey.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 400, 5, false, false));
 
                     if (this.isDigesting()) {
                         --this.ticksDigesting;
@@ -124,8 +133,7 @@ public class Anomalocaris extends BreedableWaterAnimal implements Bucketable {
                             this.digest();
                         } else if (this.ticksDigesting % 100 == 0) {
 
-                            if (this.getFirstPassenger() instanceof LivingEntity target)
-                                target.hurt(target.damageSources().mobAttack(this), target instanceof Player ? 5.0F : 0.0F);
+                            prey.hurt(prey.damageSources().mobAttack(this), 0.0F);
 
                             if (!this.isSilent()) {
 
