@@ -5,7 +5,7 @@ import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.client.animation.Keyframe;
 import net.minecraft.client.animation.KeyframeAnimations;
 
-public class AnomalocrisAnimations {
+public class AnomalocarisAnimations {
 
     public static final AnimationDefinition SWIMMING = AnimationDefinition.Builder.withLength(1.5F).looping()
 		.addAnimation("body", new AnimationChannel(AnimationChannel.Targets.ROTATION,

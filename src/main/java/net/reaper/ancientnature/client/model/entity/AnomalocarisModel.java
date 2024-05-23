@@ -11,9 +11,11 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.AnimationState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.reaper.ancientnature.AncientNature;
+import net.reaper.ancientnature.client.animations.entity.AnomalocarisAnimations;
 import net.reaper.ancientnature.common.entity.water.Anomalocaris;
 
 @OnlyIn(Dist.CLIENT)
@@ -78,6 +80,13 @@ public class AnomalocarisModel extends HierarchicalModel<Anomalocaris> {
 
 	@Override
 	public void setupAnim(Anomalocaris entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		this.root().getAllParts().forEach(ModelPart::resetPose);
+
+		this.animateWalk(AnomalocarisAnimations.SWIMMING, limbSwing, limbSwingAmount, 4.0F, 4.0F);
+		this.animate(entity.idleAnimationState, AnomalocarisAnimations.SWIMMING, ageInTicks, 1.0F);
+		this.animate(entity.attackAnimationState, AnomalocarisAnimations.ATTACK, ageInTicks, 1.0F);
+		this.animate(entity.eatingAnimationState, AnomalocarisAnimations.EATING, ageInTicks, 1.0F);
+		this.animate(entity.floppingAnimationState, AnomalocarisAnimations.FLOP, ageInTicks, 1.0F);
 
 	}
 
