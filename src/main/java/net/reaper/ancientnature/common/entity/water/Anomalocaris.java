@@ -305,18 +305,21 @@ public class Anomalocaris extends BreedableWaterAnimal implements Bucketable {
     public void saveToBucketTag(ItemStack pStack) {
         Bucketable.saveDefaultDataToBucketTag(this, pStack);
         CompoundTag compoundtag = pStack.getOrCreateTag();
-        //compoundtag.putInt("Age", this.getAge());
-        Brain<?> brain = this.getBrain();
+        compoundtag.putInt("Age", this.getAge());
+        compoundtag.putInt("TicksUntilHungry", this.ticksUntilHungry);
+        /*Brain<?> brain = this.getBrain();
         if (brain.hasMemoryValue(MemoryModuleType.HAS_HUNTING_COOLDOWN)) {
             compoundtag.putLong("HuntingCooldown", brain.getTimeUntilExpiry(MemoryModuleType.HAS_HUNTING_COOLDOWN));
-        }
-
+        }*/
     }
 
     public void loadFromBucketTag(CompoundTag pTag) {
         Bucketable.loadDefaultDataFromBucketTag(this, pTag);
         if (pTag.contains("Age")) {
-            //this.setAge(pTag.getInt("Age"));
+            this.setAge(pTag.getInt("Age"));
+        }
+        if (pTag.contains("TicksUntilHungry")) {
+            this.ticksUntilHungry = (pTag.getInt("TicksUntilHungry"));
         }
     }
 
