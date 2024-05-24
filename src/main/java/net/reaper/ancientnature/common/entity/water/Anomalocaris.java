@@ -440,7 +440,7 @@ public class Anomalocaris extends AquaticAnimal implements Bucketable {
 
         @Override
         public boolean canUse() {
-            if (this.entity.isVehicle()) {
+            if (this.entity.isHoldingFood() || !this.entity.isHungry()) {
                 return false;
             } else {
                 this.target = this.entity.getTarget();
