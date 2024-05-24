@@ -39,7 +39,7 @@ public class ModEventBusClientEvents {
         event.registerEntityRenderer(ModEntities.ARANDASPIS.get(), ArandaspisRenderer::new);
         event.registerEntityRenderer(ModEntities.ANOMALOCARIS.get(), AnomalocarisRenderer::new);
         event.registerEntityRenderer(ModEntities.TUATARA.get(), TuataraRenderer::new);
-        event.registerBlockEntityRenderer(ModBlockEntities.REVIVAL_STAND.get(), RevivalStandRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.REVIVAL_STAND_ENTITY.get(), RevivalStandRenderer::new);
     }
 
     @SubscribeEvent

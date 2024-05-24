@@ -20,6 +20,6 @@ public class ModItemTagsProvider extends ItemTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider pProvider) {
         tag(ModTags.Items.FOSSILS).add(ModItems.ANOMALOCARIS_FOSSIL.get(), ModItems.CAMBRIAN_FOSSIL.get(), ModItems.CARBONIFEROUS_FOSSIL.get(), ModItems.DEEPSLATE_PERMIAN_FOSSIL.get(), ModItems.STONE_PERMIAN_FOSSIL.get(), ModItems.DEVONIAN_FOSSIL.get());
-        tag(ModTags.Items.AMBER).add(ModItems.LIZARD_AMBER.get(), ModItems.MOSQUITO_AMBER.get());
+        tag(ModTags.Items.ANIMAL_AMBERS).add(ModItems.LIZARD_AMBER.get(), ModItems.MOSQUITO_AMBER.get());
     }
 }

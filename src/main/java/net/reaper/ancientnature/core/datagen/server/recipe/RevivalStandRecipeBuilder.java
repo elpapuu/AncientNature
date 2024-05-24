@@ -24,10 +24,9 @@ public class RevivalStandRecipeBuilder {
     public static RevivalStandRecipeBuilder builder(ItemLike egg){
         return builder(egg, 3);
     }
-    public static RevivalStandRecipeBuilder builder(ItemLike egg, int count){
+    public static RevivalStandRecipeBuilder builder(ItemLike egg, int count) {
         return builder(new ItemStack(egg, Mth.clamp(count, 1, 3)));
     }
-
     public static RevivalStandRecipeBuilder builder(ItemStack egg){
         return new RevivalStandRecipeBuilder(egg);
     }
@@ -93,19 +92,13 @@ public class RevivalStandRecipeBuilder {
         return this;
     }
 
-    /**
-     * the time in ticks that is needed for the horizontal arrow to be full
-     */
+    // horizontal arrow time
     public RevivalStandRecipeBuilder amberInfusionTime(int amberInfusionTime){
         this.amberInfusionTime = Math.max(1, amberInfusionTime);
         return this;
     }
 
-    /**
-     * the time in ticks the vertical arrow need to be finished
-     * @param fossilInfusionTime
-     * @return
-     */
+    // vertical arrow time
     public RevivalStandRecipeBuilder fossilInfusionTime(int fossilInfusionTime){
         this.fossilInfusionTime = Math.max(1, fossilInfusionTime);
         return this;
@@ -120,33 +113,23 @@ public class RevivalStandRecipeBuilder {
        return baseRoe(Ingredient.of(baseRoe));
     }
 
-    /**
-     *
-     * @param baseRoe the row that needs to be placed on the bottom slots in order for that to work
-     * @return
-     */
+    // required roe (bottom slots)
     public RevivalStandRecipeBuilder baseRoe(Ingredient baseRoe){
         this.baseRoe = baseRoe;
         return this;
     }
 
-    /**
-     * will create a recipe named exactly after the eggs
-     */
+    // recipe named after output egg
     public void build(Consumer<FinishedRecipe> consumer){
         build(consumer, ForgeRegistries.ITEMS.getKey(this.eggs.getItem()));
     }
 
-    /**
-     * will create a recipe that is named as the eggs but u can add a suffix here
-     */
+    // recipe named after output egg + suffix
     public void build(Consumer<FinishedRecipe> consumer, String suffix){
         build(consumer, ResourceLocationUtils.extend(ForgeRegistries.ITEMS.getKey(this.eggs.getItem()), suffix));
     }
 
-    /**
-     * will create a recipe with the given ResourceLocation
-     */
+    // recipe named after output egg + resourcelocation
     public void build(Consumer<FinishedRecipe> consumer, ResourceLocation id){
         this.validate();
         consumer.accept(new Result(ResourceLocationUtils.prepend(id, "revival_stand/"), fossil, amber, this.baseRoe, amberInfusionTime, fossilInfusionTime, eggs));

@@ -48,7 +48,7 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         auto(ModEntities.ARANDASPIS.get());
         auto(ModEntities.ANOMALOCARIS.get());
 
-        guiTranslation(ModBlockEntities.REVIVAL_STAND.get());
+        guiTranslation(ModBlockEntities.REVIVAL_STAND_ENTITY.get());
 
         //advancements
         add("advancements.cleaning_the_past_for_the_future.title", "Belongs to a museum");

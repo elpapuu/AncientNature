@@ -1,12 +1,10 @@
 package net.reaper.ancientnature.core.datagen.client;
 
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BrushableBlock;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
@@ -18,9 +16,6 @@ import net.reaper.ancientnature.AncientNature;
 import net.reaper.ancientnature.common.block.RevivalStand;
 import net.reaper.ancientnature.common.util.ResourceLocationUtils;
 import net.reaper.ancientnature.core.init.ModBlocks;
-
-import javax.sound.sampled.ReverbType;
-import java.util.function.Function;
 
 public class ModBlockStatesProvider extends BlockStateProvider {
     public ModBlockStatesProvider(PackOutput output, ExistingFileHelper exFileHelper) {
