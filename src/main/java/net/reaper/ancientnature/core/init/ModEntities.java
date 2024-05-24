@@ -10,7 +10,7 @@ import net.minecraftforge.registries.RegistryObject;
 import net.reaper.ancientnature.AncientNature;
 import net.reaper.ancientnature.common.entity.ground.TuataraEntity;
 import net.reaper.ancientnature.common.entity.water.Anomalocaris;
-import net.reaper.ancientnature.common.entity.water.ArandaspisEntity;
+import net.reaper.ancientnature.common.entity.water.Arandaspis;
 
 import java.util.function.Supplier;
 
@@ -18,9 +18,9 @@ public class ModEntities {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES =
             DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, AncientNature.MOD_ID);
 
-    public static final RegistryObject<EntityType<ArandaspisEntity>> ARANDASPIS =
-            ENTITY_TYPES.register("arandaspis", () -> EntityType.Builder.of(ArandaspisEntity::new, MobCategory.WATER_CREATURE)
-                    .sized(0.6f, 0.7f).build("arandaspis"));
+    public static final RegistryObject<EntityType<Arandaspis>> ARANDASPIS =
+            ENTITY_TYPES.register("arandaspis", () -> EntityType.Builder.of(Arandaspis::new, MobCategory.WATER_CREATURE)
+                    .sized(0.5f, 0.5f).build("arandaspis"));
 
     public static final RegistryObject<EntityType<TuataraEntity>> TUATARA =
             ENTITY_TYPES.register("tuatara", () -> EntityType.Builder.of(TuataraEntity::new, MobCategory.CREATURE)

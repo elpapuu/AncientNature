@@ -1,5 +1,6 @@
 package net.reaper.ancientnature.common.entity.water;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -10,6 +11,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -31,19 +34,29 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.TurtleEggBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.ForgeMod;
 import net.reaper.ancientnature.common.entity.goals.SmallerEntityTargetGoal;
 import net.reaper.ancientnature.common.entity.goals.WildBreedGoal;
+import net.reaper.ancientnature.core.init.ModBlocks;
 import net.reaper.ancientnature.core.init.ModEntities;
 import net.reaper.ancientnature.core.init.ModItems;
 import net.reaper.ancientnature.core.init.ModSounds;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.Nonnull;
 import java.util.EnumSet;
 
-public class Anomalocaris extends BreedableWaterAnimal implements Bucketable {
+public class Anomalocaris extends AquaticAnimal implements Bucketable {
     private static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(Anomalocaris.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> DIGESTING_ID = SynchedEntityData.defineId(Anomalocaris.class, EntityDataSerializers.BOOLEAN);
     public static final String DIGESTING_TAG = "DigestingTime";
@@ -52,10 +65,10 @@ public class Anomalocaris extends BreedableWaterAnimal implements Bucketable {
     private int ticksDigesting;
     private int ticksUntilHungry;
     int HUNGER_COOLDOWN = 9600; // 8 minutes
-    int MATE_COOLDOWN = 9600; // 8 minutes
     boolean isHungry;
     // anim
-    boolean isHolding;
+    boolean isHoldingFood;
+    boolean hasEggs;
     private static final EntityDataAccessor<Boolean> IS_ATTACKING = SynchedEntityData.defineId(Anomalocaris.class, EntityDataSerializers.BOOLEAN);
     public final AnimationState idleAnimationState = new AnimationState();
     public final AnimationState attackAnimationState = new AnimationState();
@@ -64,7 +77,7 @@ public class Anomalocaris extends BreedableWaterAnimal implements Bucketable {
     private int idleAnimationTimeout = 0;
     private int attackAnimationTimeout = 0;
 
-    public Anomalocaris(EntityType<? extends BreedableWaterAnimal> pEntityType, Level pLevel) {
+    public Anomalocaris(EntityType<? extends AquaticAnimal> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.02F, 0.1F, true);
         this.lookControl = new SmoothSwimmingLookControl(this, 10);
@@ -73,20 +86,23 @@ public class Anomalocaris extends BreedableWaterAnimal implements Bucketable {
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new TryFindWaterGoal(this));
-        this.goalSelector.addGoal(1, new Anomalocaris.PanicGoal(2.0D));
-        this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
-        this.goalSelector.addGoal(3, new TemptGoal(this, 1.2D, Ingredient.of(Items.COD), false));
-        this.goalSelector.addGoal(4, new Anomalocaris.DashToEnsnareGoal(this));
-        this.goalSelector.addGoal(5, new Anomalocaris.MeleeGoal(this, 1.2D, true));
-        this.goalSelector.addGoal(6, new Anomalocaris.SwimGoal(this, 1.0D));
-        this.goalSelector.addGoal(7, new WildBreedGoal(this, Entity::isInWater, 300));
+        this.goalSelector.addGoal(1, new PanicGoal(this, 2.0D));
+        this.goalSelector.addGoal(2, new Anomalocaris.EggBreedGoal(this, 1.0D));
+        this.goalSelector.addGoal(3, new Anomalocaris.LayEggGoal(this, 1.0D, 16, 16));
+        this.goalSelector.addGoal(4, new TemptGoal(this, 1.2D, Ingredient.of(ItemTags.FISHES), false));
+        this.goalSelector.addGoal(5, new Anomalocaris.DashToEnsnareGoal(this));
+        this.goalSelector.addGoal(6, new Anomalocaris.MeleeGoal(this, 1.2D, true));
+        this.goalSelector.addGoal(7, new Anomalocaris.SwimGoal(this, 1.0D));
+        this.goalSelector.addGoal(20, new WildBreedGoal(this, Entity::isInWater, 300));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this, Anomalocaris.class));
-        this.targetSelector.addGoal(2, new SmallerEntityTargetGoal<>(this, WaterAnimal.class, false, p -> p.isInWater() && !p.isPassenger() && !(p instanceof Anomalocaris)));
+        this.targetSelector.addGoal(2, new SmallerEntityTargetGoal<>(this, WaterAnimal.class, false, p -> p.isInWater() && !p.isPassenger()));
+        this.targetSelector.addGoal(2, new SmallerEntityTargetGoal<>(this, AquaticAnimal.class, false, p -> p.isInWater() && !p.isPassenger() && !(p instanceof Anomalocaris)));
     }
 
+    // overridden to apply extra condition for WildBreedGoal
     @Override
     public boolean canFallInLove() {
-        return super.canFallInLove() && !this.isHungry;
+        return super.canFallInLove() && !this.isHungry() && !this.isHoldingFood() && !this.doesHaveEggs();
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -98,11 +114,12 @@ public class Anomalocaris extends BreedableWaterAnimal implements Bucketable {
                 .add(Attributes.FOLLOW_RANGE, 4.0D);
     }
 
-    protected float getStandingEyeHeight(Pose pPose, EntityDimensions pSize) {
+    protected float getStandingEyeHeight(@Nonnull Pose pPose, EntityDimensions pSize) {
         return pSize.height * 0.9F;
     }
 
-    protected PathNavigation createNavigation(Level pLevel) {
+    @Nonnull
+    protected PathNavigation createNavigation(@Nonnull Level pLevel) {
         return new WaterBoundPathNavigation(this, pLevel);
     }
 
@@ -113,7 +130,10 @@ public class Anomalocaris extends BreedableWaterAnimal implements Bucketable {
 
                 setupAnimationStates();
             } else {
-                if (this.getTarget() != null && !this.getTarget().isPassenger()) {
+                if (this.getTarget() == null || this.getTarget().isPassenger() || this.isHoldingFood()) {
+
+                    this.setAttacking(false);
+                } else {
 
                     this.getLookControl().setLookAt(this.getTarget().getX(), this.getTarget().getEyeY(), this.getTarget().getZ());
                 }
@@ -177,7 +197,7 @@ public class Anomalocaris extends BreedableWaterAnimal implements Bucketable {
             this.floppingAnimationState.startIfStopped(this.tickCount);
         } else {
             this.floppingAnimationState.stop();
-            this.eatingAnimationState.animateWhen(this.isHolding, this.tickCount);
+            this.eatingAnimationState.animateWhen(this.isHoldingFood, this.tickCount);
         }
 
         // attack anim
@@ -202,7 +222,8 @@ public class Anomalocaris extends BreedableWaterAnimal implements Bucketable {
     }
 
     // thank god for the camel class
-    protected void positionRider(Entity pPassenger, Entity.MoveFunction pCallback) {
+    // used for positioning "riders" as "snared" targets.
+    protected void positionRider(@Nonnull Entity pPassenger, @Nonnull Entity.MoveFunction pCallback) {
         int i = this.getPassengers().indexOf(pPassenger);
         if (i >= 0) {
             boolean flag = i == 0;
@@ -254,13 +275,13 @@ public class Anomalocaris extends BreedableWaterAnimal implements Bucketable {
         this.entityData.define(FROM_BUCKET, false);
     }
 
-    public void addAdditionalSaveData(CompoundTag pCompound) {
+    public void addAdditionalSaveData(@Nonnull CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
         pCompound.putInt(DIGESTING_TAG, this.isDigesting() ? this.ticksDigesting : -1);
         pCompound.putBoolean("FromBucket", this.fromBucket());
     }
 
-    public void readAdditionalSaveData(CompoundTag pCompound) {
+    public void readAdditionalSaveData(@Nonnull CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
         this.setFromBucket(pCompound.getBoolean("FromBucket"));
         if (pCompound.contains(DIGESTING_TAG, 99) && pCompound.getInt(DIGESTING_TAG) > -1) {
@@ -286,7 +307,7 @@ public class Anomalocaris extends BreedableWaterAnimal implements Bucketable {
 
         this.ticksUntilHungry = HUNGER_COOLDOWN;
         setHungry(false);
-        isHolding = false;
+        setHoldingFood(false);
     }
 
     public boolean isHungry() {
@@ -297,22 +318,27 @@ public class Anomalocaris extends BreedableWaterAnimal implements Bucketable {
         isHungry = hungry;
     }
 
-    public InteractionResult mobInteract(Player pPlayer, InteractionHand pHand) {
+    public boolean isHoldingFood() {
+        return isHoldingFood;
+    }
+
+    public void setHoldingFood(boolean holdingFood) {
+        isHoldingFood = holdingFood;
+    }
+
+    @Nonnull
+    public InteractionResult mobInteract(@Nonnull Player pPlayer, @Nonnull InteractionHand pHand) {
         return Bucketable.bucketMobPickup(pPlayer, pHand, this).orElse(super.mobInteract(pPlayer, pHand));
     }
 
-    public void saveToBucketTag(ItemStack pStack) {
+    public void saveToBucketTag(@Nonnull ItemStack pStack) {
         Bucketable.saveDefaultDataToBucketTag(this, pStack);
         CompoundTag compoundtag = pStack.getOrCreateTag();
         compoundtag.putInt("Age", this.getAge());
         compoundtag.putInt("TicksUntilHungry", this.ticksUntilHungry);
-        /*Brain<?> brain = this.getBrain();
-        if (brain.hasMemoryValue(MemoryModuleType.HAS_HUNTING_COOLDOWN)) {
-            compoundtag.putLong("HuntingCooldown", brain.getTimeUntilExpiry(MemoryModuleType.HAS_HUNTING_COOLDOWN));
-        }*/
     }
 
-    public void loadFromBucketTag(CompoundTag pTag) {
+    public void loadFromBucketTag(@Nonnull CompoundTag pTag) {
         Bucketable.loadDefaultDataFromBucketTag(this, pTag);
         if (pTag.contains("Age")) {
             this.setAge(pTag.getInt("Age"));
@@ -358,12 +384,12 @@ public class Anomalocaris extends BreedableWaterAnimal implements Bucketable {
     }
 
     public boolean isFood(ItemStack pStack) {
-        return pStack.is(Items.COD);
+        return pStack.is(ItemTags.FISHES);
     }
 
     @Nullable
     @Override
-    protected SoundEvent getHurtSound(DamageSource pDamageSource) {
+    protected SoundEvent getHurtSound(@Nonnull DamageSource pDamageSource) {
         return this.random.nextInt(2) == 0 ? ModSounds.ANOMALOCARIS_HURT_1.get() : ModSounds.ANOMALOCARIS_HURT_2.get();
     }
 
@@ -374,17 +400,33 @@ public class Anomalocaris extends BreedableWaterAnimal implements Bucketable {
     }
 
     protected void playMunchSound() {
-        this.level().playSound(null, this.getOnPos(), (this.random.nextInt(2) == 0 ? ModSounds.ANOMALOCARIS_EAT_1.get() : ModSounds.ANOMALOCARIS_EAT_2.get()) , SoundSource.NEUTRAL, 2.0F, 1.0F);
+        this.level().playSound(null, this.getOnPos(), (this.random.nextInt(2) == 0 ? ModSounds.ANOMALOCARIS_EAT_1.get() : ModSounds.ANOMALOCARIS_EAT_2.get()) , SoundSource.NEUTRAL, getSoundVolume(), 1.0F);
+    }
+
+    @Override
+    protected float getSoundVolume() {
+        return 0.7F;
+    }
+
+    public boolean doesHaveEggs() {
+        return hasEggs;
+    }
+
+    public void setHasEggs(boolean hasEggs) {
+        this.hasEggs = hasEggs;
     }
 
     /** Goals */
-    class PanicGoal extends net.minecraft.world.entity.ai.goal.PanicGoal {
-        public PanicGoal(double modifier) {
-            super(Anomalocaris.this, modifier);
+    static class PanicGoal extends net.minecraft.world.entity.ai.goal.PanicGoal {
+        private final Anomalocaris entity;
+
+        public PanicGoal(Anomalocaris entity, double modifier) {
+            super(entity, modifier);
+            this.entity = entity;
         }
 
         protected boolean shouldPanic() {
-            return this.mob.isFreezing() || !this.mob.isInWater() || this.mob.isVehicle() || this.mob.isOnFire();
+            return this.entity.isFreezing() || !this.entity.isInWater() || this.entity.isHoldingFood() || this.entity.isOnFire();
         }
     }
 
@@ -398,7 +440,7 @@ public class Anomalocaris extends BreedableWaterAnimal implements Bucketable {
 
         @Override
         public boolean canUse() {
-            if (this.entity.isVehicle() || !this.entity.isHungry()) {
+            if (this.entity.isVehicle()) {
                 return false;
             } else {
                 this.target = this.entity.getTarget();
@@ -406,7 +448,7 @@ public class Anomalocaris extends BreedableWaterAnimal implements Bucketable {
                     return false;
                 } else {
                     double range = this.entity.distanceToSqr(this.target);
-                    if (!(range < 2.0D) && !(range > 16.0D)) {
+                    if (!(range < 1.0D) && !(range > 16.0D)) {
 
                         return this.entity.getRandom().nextInt(reducedTickDelay(5)) == 0;
                     } else {
@@ -427,30 +469,39 @@ public class Anomalocaris extends BreedableWaterAnimal implements Bucketable {
 
             // if within range, and target is a smaller entity
             if (this.entity.getMeleeAttackRangeSqr(target) >= this.entity.distanceToSqr(target.getX(), target.getY(), target.getZ())
-                    && this.target.getBoundingBox().getSize() < this.entity.getBoundingBox().getSize()) {
+                    && this.target.getBoundingBox().getSize() < this.entity.getBoundingBox().getSize()
+                    && this.entity.isHungry() && !this.entity.isHoldingFood()) {
 
                 // snatches it up
                 target.setXRot(this.entity.getXRot());
                 target.setYRot(this.entity.getYRot());
                 target.startRiding(this.entity, true);
-                this.entity.isHolding = true;
+                this.entity.setHoldingFood(true);
+                this.entity.setAttacking(true);
             }
         }
     }
 
     static class MeleeGoal extends MeleeAttackGoal {
         private final Anomalocaris mob;
+        LivingEntity target;
 
         public MeleeGoal(Anomalocaris pMob, double pSpeedModifier, boolean pFollowingTargetEvenIfNotSeen) {
             super(pMob, pSpeedModifier, pFollowingTargetEvenIfNotSeen);
             this.mob = pMob;
+            target = mob.getTarget();
             this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
         }
 
         @Override
         public boolean canUse() {
             // Only attacks entities its size and larger! Eats smaller ones.
-            return super.canUse() && !this.mob.isVehicle() && this.mob.getTarget() != null
+            if (target != null && this.mob.getMeleeAttackRangeSqr(target) >= this.mob.distanceToSqr(target.getX(), target.getY(), target.getZ())) {
+
+                this.mob.setAttacking(true);
+            }
+
+            return super.canUse() && !this.mob.isHoldingFood() && this.mob.getTarget() != null
                     && this.mob.getTarget().getBoundingBox().getSize() > this.mob.getTarget().getBoundingBox().getSize();
         }
     }
@@ -471,6 +522,68 @@ public class Anomalocaris extends BreedableWaterAnimal implements Bucketable {
         @Override
         public boolean canContinueToUse() {
             return this.entity.getTarget() == null && super.canContinueToUse();
+        }
+    }
+
+    /** MODIFIED TURTLE MATING GOALS */
+    static class EggBreedGoal extends BreedGoal {
+        private final Anomalocaris entity;
+
+        public EggBreedGoal(Anomalocaris pAnimal, double pSpeedModifier) {
+            super(pAnimal, pSpeedModifier);
+            this.entity = pAnimal;
+        }
+
+        @Override
+        public boolean canUse() {
+            return super.canUse() && !this.entity.doesHaveEggs();
+        }
+
+        @Override
+        protected void breed() {
+            this.entity.setHasEggs(true);
+            this.entity.setAge(6000);
+            this.animal.resetLove();
+            if (this.partner != null) this.partner.setAge(6000);
+            if (this.partner != null) this.partner.resetLove();
+
+            RandomSource randomsource = this.animal.getRandom();
+            if (this.level.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) {
+                this.level.addFreshEntity(new ExperienceOrb(this.level, this.animal.getX(), this.animal.getY(), this.animal.getZ(), randomsource.nextInt(7) + 1));
+            }
+        }
+    }
+
+    static class LayEggGoal extends MoveToBlockGoal {
+        private final Anomalocaris entity;
+
+        public LayEggGoal(Anomalocaris pMob, double pSpeedModifier, int pSearchRange, int pVerticalSearchRange) {
+            super(pMob, pSpeedModifier, pSearchRange, pVerticalSearchRange);
+            this.entity = pMob;
+        }
+
+        @Override
+        protected boolean isValidTarget(LevelReader pLevel, BlockPos pPos) {
+            BlockState state = pLevel.getBlockState(pPos);
+            BlockState below = pLevel.getBlockState(pPos.below());
+            return !pLevel.canSeeSkyFromBelowWater(pPos) && state.is(Blocks.WATER) && below.isSolid() && !below.is(ModBlocks.ARANDASPIS_ROE.get());
+        }
+
+        public boolean canContinueToUse() {
+            return super.canContinueToUse() && this.entity.doesHaveEggs();
+        }
+
+        public void tick() {
+            super.tick();
+            BlockPos entitypos = this.entity.blockPosition();
+            if (this.entity.isInWater() && this.isReachedTarget()) {
+                Level level = this.entity.level();
+                level.playSound(null, entitypos, SoundEvents.TURTLE_LAY_EGG, SoundSource.BLOCKS, 0.3F, 0.9F + level.random.nextFloat() * 0.2F);
+                BlockState blockstate = ModBlocks.ARANDASPIS_ROE.get().defaultBlockState();
+                level.setBlock(blockPos, blockstate, 3);
+                level.gameEvent(GameEvent.BLOCK_PLACE, blockPos, GameEvent.Context.of(this.entity, blockstate));
+                this.entity.setHasEggs(false);
+            }
         }
     }
 }
