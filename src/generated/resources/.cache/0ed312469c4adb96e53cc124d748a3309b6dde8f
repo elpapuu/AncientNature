@@ -1,6 +1,8 @@
-// 1.20.1	2024-05-18T22:25:18.6506365	Item Models: ancientnature
+// 1.20.1	2024-05-25T10:39:01.2200209	Item Models: ancientnature
 7023ea732e5ee8f4ac39758ca8412bc2a4d806c8 assets/ancientnature/models/item/amber.json
+707159f110b72fa4523354daab7c15e67d2fd7c2 assets/ancientnature/models/item/anomalocaris_bucket.json
 d5e7c6c0dcb2ca09232dceb6ea42e6ea6be03260 assets/ancientnature/models/item/anomalocaris_fossil.json
+63ec6c618a3a23eab4cab9c52d7d3250de9b516e assets/ancientnature/models/item/anomalocaris_spawn_egg.json
 6573d17336bca8fd6dace664f959a2ee76785f6a assets/ancientnature/models/item/arandaspis_bucket.json
 76f3be2faf610b90d33fe3e08fae8d16e458359d assets/ancientnature/models/item/arandaspis_fossil.json
 9655d6a3dd75b534a3a067765af72dd2a3288296 assets/ancientnature/models/item/arandaspis_roe.json

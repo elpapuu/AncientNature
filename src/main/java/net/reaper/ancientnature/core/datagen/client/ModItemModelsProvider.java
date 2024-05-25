@@ -26,7 +26,7 @@ public class ModItemModelsProvider extends ItemModelProvider {
         simple(ModItems.ARANDASPIS_BUCKET.get());
         simple(ModItems.ANOMALOCARIS_BUCKET.get());
         simple(ModItems.CARBONIFEROUS_FOSSIL.get(), ModItems.DEEPSLATE_PERMIAN_FOSSIL.get());
-        simple(ModItems.MUDDY_PERIMAN_FOSSIL.get(), ModItems.STONE_PERMIAN_FOSSIL.get());
+        simple(ModItems.MUDDY_PERMIAN_FOSSIL.get(), ModItems.STONE_PERMIAN_FOSSIL.get());
         simple(ModItems.DEVONIAN_FOSSIL.get(), ModItems.ARANDASPIS_FOSSIL.get());
         simple(ModItems.FISH_ROE.get());
         simple(ModBlocks.ARANDASPIS_ROE.get());

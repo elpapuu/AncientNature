@@ -8,8 +8,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
-import net.reaper.ancientnature.core.init.ModBlocks;
-import net.reaper.ancientnature.core.init.ModItems;
 
 public class ModCreativeModTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
@@ -27,7 +25,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.ANOMALOCARIS_FOSSIL.get());
                         pOutput.accept(ModItems.LIZARD_AMBER.get());
                         pOutput.accept(ModItems.ARANDASPIS_BUCKET.get());
-                        pOutput.accept(ModItems.MUDDY_PERIMAN_FOSSIL.get());
+                        pOutput.accept(ModItems.MUDDY_PERMIAN_FOSSIL.get());
                         pOutput.accept(ModItems.DEEPSLATE_PERMIAN_FOSSIL.get());
                         pOutput.accept(ModItems.STONE_PERMIAN_FOSSIL.get());
                         pOutput.accept(ModItems.CARBONIFEROUS_FOSSIL.get());

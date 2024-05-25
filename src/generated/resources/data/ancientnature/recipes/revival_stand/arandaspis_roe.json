@@ -2,7 +2,7 @@
   "type": "ancientnature:revival_stand_recipe",
   "amber": {
     "ingredient": {
-      "tag": "ancientnature:amber"
+      "tag": "ancientnature:animal_ambers"
     }
   },
   "amberInfusionTime": 100,

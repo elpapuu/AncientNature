@@ -22,7 +22,7 @@ public class ModItems {
 
     public static final RegistryObject<Item> CAMBRIAN_FOSSIL = ITEMS.register("cambrian_fossil", () ->new Item(new Item.Properties()));
     public static final RegistryObject<Item> DEEPSLATE_PERMIAN_FOSSIL = ITEMS.register("deepslate_permian_fossil", () -> new Item(new Item.Properties()));
-    public static final RegistryObject<Item> MUDDY_PERIMAN_FOSSIL = ITEMS.register("muddy_permian_fossil", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> MUDDY_PERMIAN_FOSSIL = ITEMS.register("muddy_permian_fossil", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> STONE_PERMIAN_FOSSIL = ITEMS.register("stone_permian_fossil", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> CARBONIFEROUS_FOSSIL = ITEMS.register("carboniferous_fossil", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> DEVONIAN_FOSSIL = ITEMS.register("devonian_fossil", () -> new Item(new Item.Properties()));
@@ -34,7 +34,7 @@ public class ModItems {
     public static final RegistryObject<MobBucketItem> ANOMALOCARIS_BUCKET = ITEMS.register("anomalocaris_bucket", () -> new MobBucketItem(ModEntities.ANOMALOCARIS, () -> Fluids.WATER, () -> SoundEvents.BUCKET_FILL_FISH, new Item.Properties().stacksTo(1)));
 
     public static final RegistryObject<ForgeSpawnEggItem> ARANDASPIS_SPAWN_EGG = ITEMS.register("arandaspis_spawn_egg", () -> new ForgeSpawnEggItem(ModEntities.ARANDASPIS, 0x5887B8, 0x2E4E77, new Item.Properties()));
-    public static final RegistryObject<ForgeSpawnEggItem> ANOMALOCARIS_SPAWN_EGG = ITEMS.register("anomalocaris_spawn_egg", () -> new ForgeSpawnEggItem(ModEntities.ANOMALOCARIS, 0x303030, 0xed9237, new Item.Properties()));
+    public static final RegistryObject<ForgeSpawnEggItem> ANOMALOCARIS_SPAWN_EGG = ITEMS.register("anomalocaris_spawn_egg", () -> new ForgeSpawnEggItem(ModEntities.ANOMALOCARIS, 0xed9237, 0x303030, new Item.Properties()));
 
 
     public static void register(IEventBus eventBus) {

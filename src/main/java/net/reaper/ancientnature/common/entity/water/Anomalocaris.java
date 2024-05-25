@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -130,49 +131,48 @@ public class Anomalocaris extends AquaticAnimal implements Bucketable {
 
                 setupAnimationStates();
             } else {
-                if (this.getTarget() == null || this.getTarget().isPassenger() || this.isHoldingFood()) {
+                if (this.getTarget() == null || this.isHoldingFood()) {
 
                     this.setAttacking(false);
                 } else {
 
                     this.getLookControl().setLookAt(this.getTarget().getX(), this.getTarget().getEyeY(), this.getTarget().getZ());
+
+                    if (this.isHoldingFood() && getTarget().getMobType() == MobType.WATER) {
+                        LivingEntity prey = getTarget();
+                        prey.setXRot(this.getXRot());
+                        prey.setYRot(this.getYRot());
+                        prey.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 400, 5, false, false));
+
+                        if (this.isDigesting()) {
+
+                            --this.ticksDigesting;
+                            if (this.ticksDigesting < 0) {
+
+                                this.digest();
+                            } else if (this.ticksDigesting % 100 == 0) {
+
+                                if (!this.isSilent()) playMunchSound();
+                                prey.hurt(prey.damageSources().mobAttack(this), 0.0F);
+                            }
+                        } else {
+                            ++this.ticksEnsnaring;
+                            if (this.ticksEnsnaring >= 10) {
+
+                                this.startDigesting(TICKS_TO_DIGEST);
+                            }
+                        }
+                    } else {
+
+                        this.ticksEnsnaring = -1;
+                        this.ticksDigesting = -1;
+                        this.setDigesting(false);
+                        --this.ticksUntilHungry;
+                    }
                 }
                 if (!this.isHungry() && this.ticksUntilHungry == 0) {
 
                     setHungry(true);
-                }
-                if (this.isVehicle() && this.getFirstPassenger() instanceof WaterAnimal prey) {
-
-                    prey.setXRot(this.getXRot());
-                    prey.setYRot(this.getYRot());
-                    prey.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 400, 5, false, false));
-
-                    if (this.isDigesting()) {
-                        --this.ticksDigesting;
-                        if (this.ticksDigesting < 0) {
-                            this.digest();
-                        } else if (this.ticksDigesting % 100 == 0) {
-
-                            prey.hurt(prey.damageSources().mobAttack(this), 0.0F);
-
-                            if (!this.isSilent()) {
-
-                                playMunchSound();
-                            }
-                        }
-                    } else {
-                        ++this.ticksEnsnaring;
-                        if (this.ticksEnsnaring >= 10) {
-
-                            this.startDigesting(TICKS_TO_DIGEST);
-                        }
-                    }
-                } else {
-
-                    this.ticksEnsnaring = -1;
-                    this.ticksDigesting = -1;
-                    this.setDigesting(false);
-                    --this.ticksUntilHungry;
                 }
             }
         }
@@ -180,6 +180,26 @@ public class Anomalocaris extends AquaticAnimal implements Bucketable {
     }
 
     private void setupAnimationStates() {
+        if (this.idleAnimationTimeout <= 0) {
+            this.idleAnimationTimeout = this.random.nextInt(40) + 80;
+            this.idleAnimationState.start(this.tickCount);
+        } else {
+            --this.idleAnimationTimeout;
+        }
+
+        if (!this.isInWater()) {
+            if (this.idleAnimationState.isStarted()) this.idleAnimationState.stop();
+            if (this.eatingAnimationState.isStarted()) this.eatingAnimationState.stop();
+            if (this.attackAnimationState.isStarted()) this.attackAnimationState.stop();
+            this.floppingAnimationState.startIfStopped(this.tickCount);
+        } else {
+            this.floppingAnimationState.stop();
+            this.eatingAnimationState.animateWhen(this.isHoldingFood(), this.tickCount);
+            this.attackAnimationState.animateWhen(this.isAttacking(), this.tickCount);
+        }
+    }
+
+    /*private void setupAnimationStates() {
         // idle anim
         if (this.idleAnimationTimeout <= 0) {
             this.idleAnimationTimeout = this.random.nextInt(40) + 80;
@@ -188,7 +208,14 @@ public class Anomalocaris extends AquaticAnimal implements Bucketable {
             --this.idleAnimationTimeout;
         }
 
-        // eat or flop anim
+        // eat anim
+        if (this.isHoldingFood()) {
+            this.eatingAnimationState.startIfStopped(this.tickCount);
+        } else {
+            this.eatingAnimationState.stop();
+        }
+
+        // flop anim
         if (!this.isInWater()) {
             if (this.idleAnimationState.isStarted())
                 this.idleAnimationState.stop();
@@ -197,7 +224,6 @@ public class Anomalocaris extends AquaticAnimal implements Bucketable {
             this.floppingAnimationState.startIfStopped(this.tickCount);
         } else {
             this.floppingAnimationState.stop();
-            this.eatingAnimationState.animateWhen(this.isHoldingFood, this.tickCount);
         }
 
         // attack anim
@@ -213,7 +239,7 @@ public class Anomalocaris extends AquaticAnimal implements Bucketable {
         if (!this.isAttacking()) {
             attackAnimationState.stop();
         }
-    }
+    }*/
 
     @Override
     protected void updateWalkAnimation(float pPartialTick) {
@@ -297,14 +323,11 @@ public class Anomalocaris extends AquaticAnimal implements Bucketable {
     protected void digest() {
         // kills players, but discards entities to prevent item drops
         if (this.getFirstPassenger() != null) if (this.getFirstPassenger() instanceof Player) this.getFirstPassenger().kill(); else this.getFirstPassenger().discard();
-
         if (!this.isSilent()) {
 
             playMunchSound();
         }
-
         handleEntityEvent((byte) 7);
-
         this.ticksUntilHungry = HUNGER_COOLDOWN;
         setHungry(false);
         setHoldingFood(false);
@@ -328,7 +351,16 @@ public class Anomalocaris extends AquaticAnimal implements Bucketable {
 
     @Nonnull
     public InteractionResult mobInteract(@Nonnull Player pPlayer, @Nonnull InteractionHand pHand) {
-        return Bucketable.bucketMobPickup(pPlayer, pHand, this).orElse(super.mobInteract(pPlayer, pHand));
+        if (pPlayer.getItemInHand(pHand).getItem() == Items.STICK && !pPlayer.level().isClientSide) {
+            /*pPlayer.displayClientMessage(Component.literal(String.valueOf(this.isAttacking())), false);
+            pPlayer.displayClientMessage(Component.literal(String.valueOf(this.isHoldingFood())), false);
+            pPlayer.displayClientMessage(Component.literal(String.valueOf(this.getTarget())), false);
+            pPlayer.displayClientMessage(Component.literal(String.valueOf(this.eatingAnimationState.isStarted())), false);*/
+            return super.mobInteract(pPlayer, pHand);
+        } else {
+
+            return Bucketable.bucketMobPickup(pPlayer, pHand, this).orElse(super.mobInteract(pPlayer, pHand));
+        }
     }
 
     public void saveToBucketTag(@Nonnull ItemStack pStack) {
@@ -465,6 +497,7 @@ public class Anomalocaris extends AquaticAnimal implements Bucketable {
                 ray = ray.normalize().scale(0.4D).add(vector.scale(0.2D));
             }
 
+            this.entity.lookControl.setLookAt(target);
             this.entity.setDeltaMovement(ray.x, ray.y, ray.z);
 
             // if within range, and target is a smaller entity
@@ -496,13 +529,13 @@ public class Anomalocaris extends AquaticAnimal implements Bucketable {
         @Override
         public boolean canUse() {
             // Only attacks entities its size and larger! Eats smaller ones.
-            if (target != null && this.mob.getMeleeAttackRangeSqr(target) >= this.mob.distanceToSqr(target.getX(), target.getY(), target.getZ())) {
+            return super.canUse() && !this.mob.isHoldingFood() && this.mob.getTarget().getBoundingBox().getSize() > this.mob.getTarget().getBoundingBox().getSize();
+        }
 
-                this.mob.setAttacking(true);
-            }
-
-            return super.canUse() && !this.mob.isHoldingFood() && this.mob.getTarget() != null
-                    && this.mob.getTarget().getBoundingBox().getSize() > this.mob.getTarget().getBoundingBox().getSize();
+        @Override
+        protected void checkAndPerformAttack(LivingEntity pEnemy, double pDistToEnemySqr) {
+            this.mob.setAttacking(true);
+            super.checkAndPerformAttack(pEnemy, pDistToEnemySqr);
         }
     }
 
