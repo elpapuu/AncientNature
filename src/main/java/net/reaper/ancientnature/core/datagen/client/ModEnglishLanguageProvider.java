@@ -29,9 +29,11 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         auto(ModItems.STONE_PERMIAN_FOSSIL.get());
         auto(ModItems.DEVONIAN_FOSSIL.get());
         auto(ModItems.ARANDASPIS_FOSSIL.get());
+        auto(ModItems.LYTHRONAX_FOSSIL.get());
 
         auto(ModItems.FISH_ROE.get());
         auto(ModItems.ARANDASPIS_BUCKET.get());
+        auto(ModItems.ANOMALOCARIS_BUCKET.get());
 
         auto(ModItems.ARANDASPIS_SPAWN_EGG.get());
         auto(ModItems.ANOMALOCARIS_SPAWN_EGG.get());

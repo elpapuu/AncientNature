@@ -1,7 +1,0 @@
-{
-  "parent": "ancientnature:block/revival_stand_prefab",
-  "render_type": "minecraft:cutout",
-  "textures": {
-    "texture": "ancientnature:block/revival_stand_unactive"
-  }
-}

@@ -3,7 +3,9 @@
   "item.ancientnature.mosquito_amber": "Mosquito en ámbar",
   "item.ancientnature.lizard_amber": "Lagarto en ámbar",
   "item.ancientnature.cambrian_fossil": "Fósil del cámbrico",
-  "item.ancientnature.anomalocaris_fossil": "Fósil de anomalocaris",
+  "item.ancientnature.anomalocaris_fossil": "Fósil de Anomalocaris",
+  "item.ancientnature.lythronax_fossil" : "Fósil de Lythronax",
+  "item.ancientnature.anomalocaris_bucket" : "Balde con Anomalocaris",
 
   "advancements.cleaning_the_past_for_the_future.title": "Digno de museo",
   "advancements.cleaning_the_past_for_the_future.descr": "¡Límpialo para descubrir su interior!",

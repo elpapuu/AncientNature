@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "ancientnature:block/mud_with_fossils_3"
-  }
-}

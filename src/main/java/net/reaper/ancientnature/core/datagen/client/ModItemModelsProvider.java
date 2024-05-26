@@ -29,6 +29,7 @@ public class ModItemModelsProvider extends ItemModelProvider {
         simple(ModItems.MUDDY_PERIMAN_FOSSIL.get(), ModItems.STONE_PERMIAN_FOSSIL.get());
         simple(ModItems.DEVONIAN_FOSSIL.get(), ModItems.ARANDASPIS_FOSSIL.get());
         simple(ModItems.FISH_ROE.get());
+        simple(ModItems.LYTHRONAX_FOSSIL.get());
         simple(ModBlocks.ARANDASPIS_ROE.get());
         spawnEgg(ModItems.ARANDASPIS_SPAWN_EGG.get());
         spawnEgg(ModItems.ANOMALOCARIS_SPAWN_EGG.get());
