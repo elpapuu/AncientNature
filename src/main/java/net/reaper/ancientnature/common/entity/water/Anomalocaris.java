@@ -131,8 +131,11 @@ public class Anomalocaris extends AquaticAnimal implements Bucketable {
 
                 setupAnimationStates();
             } else {
-                if (this.getTarget() == null || this.isHoldingFood()) {
+                if (this.getTarget() == null) {
+                    if (this.isHoldingFood()) {
 
+                        if (this.hasPassenger(entity -> entity.getBoundingBox().getSize() < this.getBoundingBox().getSize())) this.getFirstPassenger().stopRiding();
+                    }
                     this.setAttacking(false);
                 } else {
 
@@ -352,10 +355,10 @@ public class Anomalocaris extends AquaticAnimal implements Bucketable {
     @Nonnull
     public InteractionResult mobInteract(@Nonnull Player pPlayer, @Nonnull InteractionHand pHand) {
         if (pPlayer.getItemInHand(pHand).getItem() == Items.STICK && !pPlayer.level().isClientSide) {
-            /*pPlayer.displayClientMessage(Component.literal(String.valueOf(this.isAttacking())), false);
+            pPlayer.displayClientMessage(Component.literal(String.valueOf(this.isAttacking())), false);
             pPlayer.displayClientMessage(Component.literal(String.valueOf(this.isHoldingFood())), false);
             pPlayer.displayClientMessage(Component.literal(String.valueOf(this.getTarget())), false);
-            pPlayer.displayClientMessage(Component.literal(String.valueOf(this.eatingAnimationState.isStarted())), false);*/
+            pPlayer.displayClientMessage(Component.literal(String.valueOf(this.eatingAnimationState.isStarted())), false);
             return super.mobInteract(pPlayer, pHand);
         } else {
 

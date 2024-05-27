@@ -31,6 +31,7 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         auto(ModItems.ARANDASPIS_FOSSIL.get());
 
         auto(ModItems.FISH_ROE.get());
+        auto(ModItems.ANOMALOCARIS_BUCKET.get());
         auto(ModItems.ARANDASPIS_BUCKET.get());
 
         auto(ModItems.ARANDASPIS_SPAWN_EGG.get());
@@ -54,13 +55,13 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         add("advancements.cleaning_the_past_for_the_future.title", "Belongs to a museum");
         add("advancements.cleaning_the_past_for_the_future.descr", "Clean up a fossil for see what have inside!");
         add("advancements.paleontologist.title", "Paleontologist");
-        add("advancements.paleontologist.descr", "Obtain your fist fossil");
+        add("advancements.paleontologist.descr", "Obtain your first fossil");
 
         //subtitles
-        add("sound.ancientnature.cleaned_fossil", "[Fossil cleaning]");
-        add("sound.ancientnature.anomalocaris_eat", "[Anomalocaris eating]");
-        add("sound.ancientnature.anomalocaris_hurt", "[Anomalocaris hurt]");
-        add("sound.ancientnature.anomalocaris_death", "[Anomalocaris dying]");
+        add("sound.ancientnature.cleaned_fossil", "Fossil cleaning");
+        add("sound.ancientnature.anomalocaris_eat", "Anomalocaris eating");
+        add("sound.ancientnature.anomalocaris_hurt", "Anomalocaris hurt");
+        add("sound.ancientnature.anomalocaris_death", "Anomalocaris dying");
 
         //creative tab
         addTab("ancientnature_tab", "Ancient Nature");

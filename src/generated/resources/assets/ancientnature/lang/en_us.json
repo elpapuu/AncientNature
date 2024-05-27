@@ -1,7 +1,7 @@
 {
   "advancements.cleaning_the_past_for_the_future.descr": "Clean up a fossil for see what have inside!",
   "advancements.cleaning_the_past_for_the_future.title": "Belongs to a museum",
-  "advancements.paleontologist.descr": "Obtain your fist fossil",
+  "advancements.paleontologist.descr": "Obtain your first fossil",
   "advancements.paleontologist.title": "Paleontologist",
   "block.ancientnature.arandaspis_roe": "Arandaspis Roe",
   "block.ancientnature.deepslate_amber": "Deepslate Amber",
@@ -30,8 +30,8 @@
   "item.ancientnature.muddy_permian_fossil": "Muddy Permian Fossil",
   "item.ancientnature.stone_permian_fossil": "Stone Permian Fossil",
   "menu.ancientnature.revival_stand": "Revival Stand",
-  "sound.ancientnature.anomalocaris_death": "[Anomalocaris dying]",
-  "sound.ancientnature.anomalocaris_eat": "[Anomalocaris eating]",
-  "sound.ancientnature.anomalocaris_hurt": "[Anomalocaris hurt]",
-  "sound.ancientnature.cleaned_fossil": "[Fossil cleaning]"
+  "sound.ancientnature.anomalocaris_death": "Anomalocaris dying",
+  "sound.ancientnature.anomalocaris_eat": "Anomalocaris eating",
+  "sound.ancientnature.anomalocaris_hurt": "Anomalocaris hurt",
+  "sound.ancientnature.cleaned_fossil": "Fossil cleaning"
 }
