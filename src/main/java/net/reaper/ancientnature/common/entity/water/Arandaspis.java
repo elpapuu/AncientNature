@@ -1,6 +1,7 @@
 package net.reaper.ancientnature.common.entity.water;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -30,6 +31,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 import net.reaper.ancientnature.common.entity.goals.AvoidEntitySprinting;
@@ -58,7 +60,7 @@ public class Arandaspis extends AquaticAnimal implements Bucketable {
 
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new PanicSprintingGoal(this, 4f));
-        this.goalSelector.addGoal(1, new AvoidEntitySprinting<>(this, Player.class, 8.0F,1f, 4f, EntitySelector.NO_SPECTATORS::test));
+        this.goalSelector.addGoal(1, new AvoidEntitySprinting<>(this, Player.class, 8.0F,1f, 2f, EntitySelector.NO_SPECTATORS::test));
         this.goalSelector.addGoal(2, new Arandaspis.EggBreedGoal(this, 1.0D));
         this.goalSelector.addGoal(3, new Arandaspis.LayEggGoal(this, 1.0D, 16, 16));
         this.goalSelector.addGoal(4, new FishSwimGoal(this));
@@ -108,8 +110,8 @@ public class Arandaspis extends AquaticAnimal implements Bucketable {
     public static AttributeSupplier.Builder createAttributes() {
         return WaterAnimal.createLivingAttributes()
                 .add(Attributes.MAX_HEALTH, 4)
-                .add(Attributes.MOVEMENT_SPEED, 0.8D)
-                .add(Attributes.FOLLOW_RANGE, 10D);
+                .add(Attributes.MOVEMENT_SPEED, 1.1D)
+                .add(Attributes.FOLLOW_RANGE, 12.0D);
 
     }
 
@@ -296,8 +298,8 @@ public class Arandaspis extends AquaticAnimal implements Bucketable {
             BlockPos entitypos = this.entity.blockPosition();
             if (this.entity.isInWater() && this.isReachedTarget()) {
                 Level level = this.entity.level();
-                level.playSound(null, entitypos, SoundEvents.TURTLE_LAY_EGG, SoundSource.BLOCKS, 0.3F, 0.9F + level.random.nextFloat() * 0.2F);
-                BlockState blockstate = ModBlocks.ARANDASPIS_ROE.get().defaultBlockState();
+                level.playSound(null, entitypos, SoundEvents.TURTLE_LAY_EGG, SoundSource.BLOCKS, this.entity.getSoundVolume(), 1.0F);
+                BlockState blockstate = ModBlocks.ARANDASPIS_ROE.get().defaultBlockState().setValue(BlockStateProperties.FACING, Direction.DOWN);
                 level.setBlock(blockPos, blockstate, 3);
                 level.gameEvent(GameEvent.BLOCK_PLACE, blockPos, GameEvent.Context.of(this.entity, blockstate));
                 this.entity.setHasEggs(false);
