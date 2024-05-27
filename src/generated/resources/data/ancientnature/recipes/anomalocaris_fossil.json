@@ -1,0 +1,13 @@
+{
+  "type": "ancientnature:brushing_recipe",
+  "brush": {
+    "item": "minecraft:brush"
+  },
+  "input": {
+    "item": "ancientnature:cambrian_fossil"
+  },
+  "output": {
+    "item": "ancientnature:anomalocaris_fossil"
+  },
+  "probability": 0.95
+}

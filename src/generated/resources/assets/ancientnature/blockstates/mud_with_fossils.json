@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "dusted=0": {
+      "model": "ancientnature:block/mud_with_fossils"
+    },
+    "dusted=1": {
+      "model": "ancientnature:block/mud_with_fossils_1"
+    },
+    "dusted=2": {
+      "model": "ancientnature:block/mud_with_fossils_2"
+    },
+    "dusted=3": {
+      "model": "ancientnature:block/mud_with_fossils_3"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "ancientnature:block/roe_prefab",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "roe": "ancientnature:block/arandaspis_roe"
+  }
+}
