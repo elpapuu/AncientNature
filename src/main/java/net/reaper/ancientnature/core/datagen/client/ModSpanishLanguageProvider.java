@@ -3,6 +3,7 @@ package net.reaper.ancientnature.core.datagen.client;
 import net.minecraft.data.PackOutput;
 import net.minecraftforge.common.data.LanguageProvider;
 import net.reaper.ancientnature.AncientNature;
+import net.reaper.ancientnature.core.init.ModItems;
 
 public class ModSpanishLanguageProvider extends LanguageProvider {
     public ModSpanishLanguageProvider(PackOutput output) {
@@ -11,6 +12,5 @@ public class ModSpanishLanguageProvider extends LanguageProvider {
 
     @Override
     protected void addTranslations() {
-
     }
 }

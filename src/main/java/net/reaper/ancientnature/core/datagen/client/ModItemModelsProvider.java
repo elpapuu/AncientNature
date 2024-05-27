@@ -31,8 +31,13 @@ public class ModItemModelsProvider extends ItemModelProvider {
         simple(ModItems.FISH_ROE.get());
         simple(ModItems.LYTHRONAX_FOSSIL.get());
         simple(ModBlocks.ARANDASPIS_ROE.get());
+        simple(ModBlocks.ANOMALOCARIS_EGGS.get());
         spawnEgg(ModItems.ARANDASPIS_SPAWN_EGG.get());
         spawnEgg(ModItems.ANOMALOCARIS_SPAWN_EGG.get());
+        simple(ModItems.BLOOD_DAGGER.get());
+        simple(ModItems.LYTHRONAX_TEETH.get());
+        simple(ModItems.ROPE.get());
+        simple(ModItems.WHERE_YOUR_JOURNEY_BEGINS_MUSIC_DISC.get());
     }
 
     protected void simple(ItemLike... items){

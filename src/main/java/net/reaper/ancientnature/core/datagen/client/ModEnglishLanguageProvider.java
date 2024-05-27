@@ -31,6 +31,11 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         auto(ModItems.ARANDASPIS_FOSSIL.get());
         auto(ModItems.LYTHRONAX_FOSSIL.get());
 
+        auto(ModItems.BLOOD_DAGGER.get());
+
+        auto(ModItems.ROPE.get());
+        auto(ModItems.LYTHRONAX_TEETH.get());
+
         auto(ModItems.FISH_ROE.get());
         auto(ModItems.ARANDASPIS_BUCKET.get());
         auto(ModItems.ANOMALOCARIS_BUCKET.get());
@@ -39,13 +44,15 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         auto(ModItems.ANOMALOCARIS_SPAWN_EGG.get());
 
         auto(ModBlocks.ARANDASPIS_ROE.get());
+        auto(ModBlocks.ANOMALOCARIS_EGGS.get());
         auto(ModBlocks.REVIVAL_STAND.get());
         auto(ModBlocks.MUD_WITH_FOSSILS.get());
         auto(ModBlocks.DEEPSLATE_AMBER.get());
         auto(ModBlocks.DEEPSLATE_CAMBRIAN_FOSSIL.get());
-        auto(ModBlocks.STONE_PERMIAN_FOSSIL.get());
         auto(ModBlocks.DEEPSLATE_DEVONIAN_FOSSIL.get());
         auto(ModBlocks.DEEPSLATE_CARBONIFEROUS.get());
+        auto(ModBlocks.DEEPSLATE_PERMIAN_FOSSIL.get());
+        auto(ModBlocks.STONE_PERMIAN_FOSSIL.get());
 
         auto(ModEntities.ARANDASPIS.get());
         auto(ModEntities.ANOMALOCARIS.get());

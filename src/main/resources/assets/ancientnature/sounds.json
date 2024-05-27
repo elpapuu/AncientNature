@@ -38,5 +38,13 @@
     "sounds": [
       "ancientnature:anomalocaris_death_2"
     ]
+  },
+  "where_your_journet_begins": {
+    "sounds": [
+      {
+        "name": "ancientnature:where_your_journey_begins",
+        "stream" : true
+      }
+    ]
   }
 }

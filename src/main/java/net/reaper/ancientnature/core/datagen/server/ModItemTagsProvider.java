@@ -5,6 +5,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.fml.common.Mod;
 import net.reaper.ancientnature.AncientNature;
 import net.reaper.ancientnature.core.init.ModItems;
 import net.reaper.ancientnature.core.init.ModTags;
