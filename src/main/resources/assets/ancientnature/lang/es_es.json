@@ -7,10 +7,13 @@
   "item.ancientnature.lythronax_fossil" : "Fósil de Lythronax",
   "item.ancientnature.anomalocaris_bucket" : "Balde con Anomalocaris",
   "item.ancientnature.rope" : "Cuerda",
+  "item.ancientnature.cretaceous_fossil" : "Fósil del Cretácico",
   "item.ancientnature.lythronax_teeth" : "Diente de Lythronax",
   "item.ancientnature.blood_dagger" : "Daga sangrienta",
   "item.ancientnature.where_your_journey_begins_disc" : "Disco de Música AN",
-  "item.ancientnature.where_your_journey_begins_disc.desc" : "Chips The Cat - Where Your Journey Begins",
+  "item.ancientnature.where_your_journey_begins_disc.desc" : "Chips The Cat - Donde comienza tu viaje",
+  "effect.anicentnature.fear" : "Miedo",
+  "effect.anicentnature.bleeding" : "Sangrado",
 
   "advancements.cleaning_the_past_for_the_future.title": "Digno de museo",
   "advancements.cleaning_the_past_for_the_future.descr": "¡Límpialo para descubrir su interior!",
@@ -29,6 +32,7 @@
   "block.ancientnature.deepslate_carboniferous": "Deepslate Carboniferous",
   "block.ancientnature.deepslate_devonian_fossil": "Deepslate Devonian Fossil",
   "block.ancientnature.deepslate_permian_fossil_ore": "Deepslate Permian Fossil Ore",
+  "block.ancientnature.cretaceous_fossils": "Cretaceous Fossils",
   "block.ancientnature.revival_stand": "Revival Stand",
   "block.ancientnature.stone_permian_fossil_ore": "Stone Permian Fossil Ore",
   "creativetab.ancientnature.ancientnature_tab": "Ancient Nature",
@@ -44,9 +48,14 @@
   "item.ancientnature.fish_roe": "Fish Roe",
   "item.ancientnature.muddy_permian_fossil": "Muddy Permian Fossil",
   "item.ancientnature.stone_permian_fossil": "Stone Permian Fossil",
+  "item.ancientnature.cretaceous_fossil" : "Cretaceous Fossil",
   "menu.ancientnature.revival_stand": "Revival Stand",
   "sound.ancientnature.anomalocaris_death": "[Anomalocaris dying]",
   "sound.ancientnature.anomalocaris_eat": "[Anomalocaris eating]",
-  "sound.ancientnature.anomalocaris_hurt": "[Anomalocaris hurt]"
+  "sound.ancientnature.anomalocaris_hurt": "[Anomalocaris hurt]",
+  "item.ancientnature.where_your_journey_begins_disc" : "AN music disc",
+  "item.ancientnature.where_your_journey_begins_disc.desc" : "Chips The Cat - Where Your Journey Begins",
+  "effect.anicentnature.fear" : "Fear",
+  "effect.anicentnature.bleeding" : "Bleeding"
 }
 

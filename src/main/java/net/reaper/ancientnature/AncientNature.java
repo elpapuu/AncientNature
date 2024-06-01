@@ -49,6 +49,7 @@ public class AncientNature {
 
 
         ModBlockEntities.TES.register(modEventBus);
+        ModEffects.MOB_EFFECTS.register(modEventBus);
         ModRecipes.register(modEventBus);
         ModParticles.PARTICLES.register(modEventBus);
         ModMenus.MENUS.register(modEventBus);

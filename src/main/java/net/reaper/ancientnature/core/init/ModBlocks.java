@@ -31,6 +31,7 @@ public class ModBlocks {
     public static final RegistryObject<DropExperienceBlock> DEEPSLATE_CARBONIFEROUS = makeDeepslateFossilBlock("deepslate_carboniferous");
     public static final RegistryObject<DropExperienceBlock> DEEPSLATE_DEVONIAN_FOSSIL = makeDeepslateFossilBlock("deepslate_devonian_fossil");
     public static final RegistryObject<DropExperienceBlock> DEEPSLATE_PERMIAN_FOSSIL = makeDeepslateFossilBlock("deepslate_permian_fossil_ore");
+    public static final RegistryObject<DropExperienceBlock> CRETACEOUS_FOSSILS = makeDeepslateFossilBlock("cretaceous_fossils");
     public static final RegistryObject<DropExperienceBlock> STONE_PERMIAN_FOSSIL = registryBlock("stone_permian_fossil_ore", () -> new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.STONE).requiresCorrectToolForDrops(), ConstantInt.of(1)));
 
     public static final RegistryObject<BrushableBlock> MUD_WITH_FOSSILS = registryBlock("mud_with_fossils", () -> new MudFossilBlock(Blocks.MUD, BlockBehaviour.Properties.copy(Blocks.MUD), SoundEvents.BRUSH_GRAVEL, SoundEvents.BRUSH_GRAVEL_COMPLETED, ModLootTables.MUD_FOSSIL_BRUSH));

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "ab ",
+    "c  "
+  ],
+  "key": {
+    "a": {
+      "item": "ancientnature:lythronax_teeth"
+    },
+    "b": {
+      "item": "ancientnature:rope"
+    },
+    "c": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "ancientnature:blood_dagger"
+  }
+}

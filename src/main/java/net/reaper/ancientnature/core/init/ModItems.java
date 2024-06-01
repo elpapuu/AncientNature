@@ -25,13 +25,14 @@ public class ModItems {
     public static final RegistryObject<Item> STONE_PERMIAN_FOSSIL = ITEMS.register("stone_permian_fossil", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> CARBONIFEROUS_FOSSIL = ITEMS.register("carboniferous_fossil", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> DEVONIAN_FOSSIL = ITEMS.register("devonian_fossil", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> CRETACEOUS_FOSSIL = ITEMS.register("cretaceous_fossil", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> ARANDASPIS_FOSSIL = ITEMS.register("arandaspis_fossil", () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
     public static final RegistryObject<Item> ANOMALOCARIS_FOSSIL = ITEMS.register("anomalocaris_fossil", () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
     public static final RegistryObject<Item> LYTHRONAX_FOSSIL = ITEMS.register("lythronax_fossil", () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
 
     public static final RegistryObject<Item> ROPE = ITEMS.register("rope", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> LYTHRONAX_TEETH = ITEMS.register("lythronax_teeth", () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
-    public static final RegistryObject<Item> BLOOD_DAGGER = ITEMS.register("blood_dagger", () -> new SwordItem(Tiers.STONE,3, -1.0F, new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> BLOOD_DAGGER = ITEMS.register("blood_dagger", () -> new SwordItem(Tiers.STONE,2, -0.3F, new Item.Properties().rarity(Rarity.UNCOMMON)));
 
     public static final RegistryObject<Item> WHERE_YOUR_JOURNEY_BEGINS_MUSIC_DISC = ITEMS.register("where_your_journey_begins_disc", () -> new RecordItem(6, ModSounds.WHERE_YOUR_JOURNEY_BEGINS_DISC, new Item.Properties().stacksTo(1),3200));
 

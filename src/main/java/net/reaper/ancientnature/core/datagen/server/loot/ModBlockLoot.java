@@ -37,6 +37,7 @@ public class ModBlockLoot extends BlockLootSubProvider {
         makeOreDrop(ModBlocks.DEEPSLATE_CARBONIFEROUS.get(), ModItems.CARBONIFEROUS_FOSSIL.get());
         makeOreDrop(ModBlocks.DEEPSLATE_PERMIAN_FOSSIL.get(), ModItems.DEEPSLATE_PERMIAN_FOSSIL.get());
         makeOreDrop(ModBlocks.STONE_PERMIAN_FOSSIL.get(), ModItems.STONE_PERMIAN_FOSSIL.get());
+        makeOreDrop(ModBlocks.CRETACEOUS_FOSSILS.get(), ModItems.CRETACEOUS_FOSSIL.get());
         revivalStandDrops(ModBlocks.REVIVAL_STAND.get());
     }
 

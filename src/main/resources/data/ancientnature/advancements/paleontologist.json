@@ -22,7 +22,13 @@
         "items": [
           {
             "items": [
-              "ancientnature:cambrian_fossil"
+              "ancientnature:cambrian_fossil",
+              "ancientnature:devonian_fossil",
+              "ancientnature:carboniferous_fossil",
+              "ancientnature:deepslate_permian_fossil",
+              "ancientnature:stone_permian_fossil",
+              "ancientnature:muddy_permian_fossil",
+              "ancientnature:cretaceous_fossil"
             ],
             "count": {
               "min": 1,

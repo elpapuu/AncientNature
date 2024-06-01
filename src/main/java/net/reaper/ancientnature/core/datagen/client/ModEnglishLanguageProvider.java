@@ -27,6 +27,7 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         auto(ModItems.DEEPSLATE_PERMIAN_FOSSIL.get());
         auto(ModItems.MUDDY_PERMIAN_FOSSIL.get());
         auto(ModItems.STONE_PERMIAN_FOSSIL.get());
+        auto(ModItems.CRETACEOUS_FOSSIL.get());
         auto(ModItems.DEVONIAN_FOSSIL.get());
         auto(ModItems.ARANDASPIS_FOSSIL.get());
         auto(ModItems.LYTHRONAX_FOSSIL.get());
@@ -53,6 +54,7 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         auto(ModBlocks.DEEPSLATE_CARBONIFEROUS.get());
         auto(ModBlocks.DEEPSLATE_PERMIAN_FOSSIL.get());
         auto(ModBlocks.STONE_PERMIAN_FOSSIL.get());
+        auto(ModBlocks.CRETACEOUS_FOSSILS.get());
 
         auto(ModEntities.ARANDASPIS.get());
         auto(ModEntities.ANOMALOCARIS.get());

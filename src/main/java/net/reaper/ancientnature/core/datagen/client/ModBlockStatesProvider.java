@@ -30,6 +30,7 @@ public class ModBlockStatesProvider extends BlockStateProvider {
         simpleBlock(ModBlocks.DEEPSLATE_DEVONIAN_FOSSIL.get());
         simpleBlock(ModBlocks.DEEPSLATE_PERMIAN_FOSSIL.get());
         simpleBlock(ModBlocks.STONE_PERMIAN_FOSSIL.get());
+        simpleBlock(ModBlocks.CRETACEOUS_FOSSILS.get());
         makeFossil(ModBlocks.MUD_WITH_FOSSILS.get());
         revivalStand(ModBlocks.REVIVAL_STAND.get());
         roeBlock(ModBlocks.ARANDASPIS_ROE.get(), false);

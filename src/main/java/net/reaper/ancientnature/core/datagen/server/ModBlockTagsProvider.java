@@ -22,8 +22,8 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider pProvider) {
         tag(BlockTags.MINEABLE_WITH_SHOVEL).add(ModBlocks.MUD_WITH_FOSSILS.get());
-        tag(BlockTags.MINEABLE_WITH_PICKAXE).add(ModBlocks.DEEPSLATE_AMBER.get(), ModBlocks.DEEPSLATE_CAMBRIAN_FOSSIL.get(), ModBlocks.DEEPSLATE_DEVONIAN_FOSSIL.get(), ModBlocks.DEEPSLATE_CARBONIFEROUS.get(), ModBlocks.STONE_PERMIAN_FOSSIL.get(), ModBlocks.DEEPSLATE_PERMIAN_FOSSIL.get(), ModBlocks.REVIVAL_STAND.get());
-        tag(BlockTags.NEEDS_IRON_TOOL).add(ModBlocks.DEEPSLATE_AMBER.get(), ModBlocks.DEEPSLATE_CAMBRIAN_FOSSIL.get(), ModBlocks.DEEPSLATE_DEVONIAN_FOSSIL.get(), ModBlocks.DEEPSLATE_CARBONIFEROUS.get(),ModBlocks.DEEPSLATE_PERMIAN_FOSSIL.get(), ModBlocks.STONE_PERMIAN_FOSSIL.get());
+        tag(BlockTags.MINEABLE_WITH_PICKAXE).add(ModBlocks.DEEPSLATE_AMBER.get(), ModBlocks.DEEPSLATE_CAMBRIAN_FOSSIL.get(), ModBlocks.DEEPSLATE_DEVONIAN_FOSSIL.get(), ModBlocks.DEEPSLATE_CARBONIFEROUS.get(), ModBlocks.STONE_PERMIAN_FOSSIL.get(), ModBlocks.DEEPSLATE_PERMIAN_FOSSIL.get(), ModBlocks.REVIVAL_STAND.get(), ModBlocks.CRETACEOUS_FOSSILS.get());
+        tag(BlockTags.NEEDS_IRON_TOOL).add(ModBlocks.DEEPSLATE_AMBER.get(), ModBlocks.DEEPSLATE_CAMBRIAN_FOSSIL.get(), ModBlocks.DEEPSLATE_DEVONIAN_FOSSIL.get(), ModBlocks.DEEPSLATE_CARBONIFEROUS.get(),ModBlocks.DEEPSLATE_PERMIAN_FOSSIL.get(), ModBlocks.STONE_PERMIAN_FOSSIL.get(), ModBlocks.CRETACEOUS_FOSSILS.get());
         tag(BlockTags.NEEDS_STONE_TOOL).add(ModBlocks.REVIVAL_STAND.get());
     }
 }
