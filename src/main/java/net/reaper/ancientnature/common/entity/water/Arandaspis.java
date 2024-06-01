@@ -110,7 +110,7 @@ public class Arandaspis extends AquaticAnimal implements Bucketable {
     public static AttributeSupplier.Builder createAttributes() {
         return WaterAnimal.createLivingAttributes()
                 .add(Attributes.MAX_HEALTH, 4)
-                .add(Attributes.MOVEMENT_SPEED, 1.1D)
+                .add(Attributes.MOVEMENT_SPEED, 0.4D)
                 .add(Attributes.FOLLOW_RANGE, 12.0D);
 
     }

@@ -20,7 +20,7 @@ public class ModSounds {
     public static final RegistryObject<SoundEvent> ANOMALOCARIS_DEATH_1 = registerSoundEvents("anomalocaris_death_1");
     public static final RegistryObject<SoundEvent> ANOMALOCARIS_DEATH_2 = registerSoundEvents("anomalocaris_death_2");
 
-    public static final RegistryObject<SoundEvent> WHERE_YOUR_JOURNEY_BEGINS = registerSoundEvents("where_your_journey_begins");
+    public static final RegistryObject<SoundEvent> WHERE_YOUR_JOURNEY_BEGINS_DISC = registerSoundEvents("where_your_journey_begins");
 
     // ABOVE PLEASE
     private static  RegistryObject<SoundEvent> registerSoundEvents(String name) {

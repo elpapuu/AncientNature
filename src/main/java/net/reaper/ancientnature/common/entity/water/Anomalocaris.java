@@ -200,9 +200,6 @@ public class Anomalocaris extends AquaticAnimal implements Bucketable {
             this.eatingAnimationState.animateWhen(this.isHoldingFood(), this.tickCount);
             this.attackAnimationState.animateWhen(this.isAttacking(), this.tickCount);
         }
-    }
-
-    /*private void setupAnimationStates() {
         // idle anim
         if (this.idleAnimationTimeout <= 0) {
             this.idleAnimationTimeout = this.random.nextInt(40) + 80;
@@ -213,9 +210,13 @@ public class Anomalocaris extends AquaticAnimal implements Bucketable {
 
         // eat anim
         if (this.isHoldingFood()) {
+            this.eatingAnimationState.start(this.tickCount);
             this.eatingAnimationState.startIfStopped(this.tickCount);
         } else {
             this.eatingAnimationState.stop();
+        }
+        if (!this.isHoldingFood()) {
+            attackAnimationState.stop();
         }
 
         // flop anim
@@ -242,7 +243,7 @@ public class Anomalocaris extends AquaticAnimal implements Bucketable {
         if (!this.isAttacking()) {
             attackAnimationState.stop();
         }
-    }*/
+    }
 
     @Override
     protected void updateWalkAnimation(float pPartialTick) {
@@ -602,7 +603,7 @@ public class Anomalocaris extends AquaticAnimal implements Bucketable {
         protected boolean isValidTarget(LevelReader pLevel, BlockPos pPos) {
             BlockState state = pLevel.getBlockState(pPos);
             BlockState below = pLevel.getBlockState(pPos.below());
-            return !pLevel.canSeeSkyFromBelowWater(pPos) && state.is(Blocks.WATER) && below.isSolid() && !below.is(ModBlocks.ARANDASPIS_ROE.get());
+            return !pLevel.canSeeSkyFromBelowWater(pPos) && state.is(Blocks.WATER) && below.isSolid() && !below.is(ModBlocks.ANOMALOCARIS_EGGS.get());
         }
 
         public boolean canContinueToUse() {
@@ -615,7 +616,7 @@ public class Anomalocaris extends AquaticAnimal implements Bucketable {
             if (this.entity.isInWater() && this.isReachedTarget()) {
                 Level level = this.entity.level();
                 level.playSound(null, entitypos, SoundEvents.TURTLE_LAY_EGG, SoundSource.BLOCKS, 0.3F, 0.9F + level.random.nextFloat() * 0.2F);
-                BlockState blockstate = ModBlocks.ARANDASPIS_ROE.get().defaultBlockState();
+                BlockState blockstate = ModBlocks.ANOMALOCARIS_EGGS.get().defaultBlockState();
                 level.setBlock(blockPos, blockstate, 3);
                 level.gameEvent(GameEvent.BLOCK_PLACE, blockPos, GameEvent.Context.of(this.entity, blockstate));
                 this.entity.setHasEggs(false);

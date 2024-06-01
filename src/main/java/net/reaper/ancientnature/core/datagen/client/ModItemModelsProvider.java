@@ -2,14 +2,18 @@ package net.reaper.ancientnature.core.datagen.client;
 
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
+import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 import net.reaper.ancientnature.AncientNature;
 import net.reaper.ancientnature.core.init.ModBlocks;
 import net.reaper.ancientnature.core.init.ModItems;
+import org.jetbrains.annotations.NotNull;
 
 public class ModItemModelsProvider extends ItemModelProvider {
 
@@ -34,10 +38,16 @@ public class ModItemModelsProvider extends ItemModelProvider {
         simple(ModBlocks.ANOMALOCARIS_EGGS.get());
         spawnEgg(ModItems.ARANDASPIS_SPAWN_EGG.get());
         spawnEgg(ModItems.ANOMALOCARIS_SPAWN_EGG.get());
-        simple(ModItems.BLOOD_DAGGER.get());
+        handheldItem(ModItems.BLOOD_DAGGER);
         simple(ModItems.LYTHRONAX_TEETH.get());
         simple(ModItems.ROPE.get());
         simple(ModItems.WHERE_YOUR_JOURNEY_BEGINS_MUSIC_DISC.get());
+    }
+
+   private ItemModelBuilder handheldItem(RegistryObject<Item>item) {
+        return withExistingParent(item.getId().getPath(),
+                new ResourceLocation("item/handheld")).texture("layer0",
+                new ResourceLocation(AncientNature.MOD_ID,"item/" + item.getId().getPath()));
     }
 
     protected void simple(ItemLike... items){

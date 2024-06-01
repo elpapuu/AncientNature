@@ -34,7 +34,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.CARBONIFEROUS_FOSSIL.get());
                         pOutput.accept(ModItems.DEEPSLATE_PERMIAN_FOSSIL.get());
                         pOutput.accept(ModItems.STONE_PERMIAN_FOSSIL.get());
-                        pOutput.accept(ModItems.MUDDY_PERIMAN_FOSSIL.get());
+                        pOutput.accept(ModItems.MUDDY_PERMIAN_FOSSIL.get());
                         pOutput.accept(ModItems.ANOMALOCARIS_FOSSIL.get());
                         pOutput.accept(ModItems.ARANDASPIS_FOSSIL.get());
                         pOutput.accept(ModItems.LYTHRONAX_FOSSIL.get());

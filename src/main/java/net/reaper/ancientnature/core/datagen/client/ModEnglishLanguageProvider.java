@@ -37,7 +37,6 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         auto(ModItems.LYTHRONAX_TEETH.get());
 
         auto(ModItems.FISH_ROE.get());
-        auto(ModItems.ANOMALOCARIS_BUCKET.get());
         auto(ModItems.ARANDASPIS_BUCKET.get());
         auto(ModItems.ANOMALOCARIS_BUCKET.get());
 
