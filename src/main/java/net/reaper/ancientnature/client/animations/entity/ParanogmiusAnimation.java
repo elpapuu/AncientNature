@@ -46,7 +46,7 @@ public class ParanogmiusAnimation {
 		))
 		.build();
 
-	public static final AnimationDefinition SWIM = AnimationDefinition.Builder.withLength(1.0F).looping()
+	public static final AnimationDefinition PARANOGMIUS_SWIM = AnimationDefinition.Builder.withLength(1.0F).looping()
 		.addAnimation("body", new AnimationChannel(AnimationChannel.Targets.ROTATION,
 			new Keyframe(0.0F, KeyframeAnimations.degreeVec(0.246F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
 			new Keyframe(0.25F, KeyframeAnimations.degreeVec(0.2187F, 4.9952F, 2.5095F), AnimationChannel.Interpolations.CATMULLROM),
@@ -106,7 +106,7 @@ public class ParanogmiusAnimation {
 		))
 		.build();
 
-	public static final AnimationDefinition SPRINT = AnimationDefinition.Builder.withLength(0.3333F).looping()
+	public static final AnimationDefinition PARANOGMIUS_SPRINT = AnimationDefinition.Builder.withLength(0.3333F).looping()
 		.addAnimation("body", new AnimationChannel(AnimationChannel.Targets.ROTATION, 
 			new Keyframe(0.0F, KeyframeAnimations.degreeVec(0.246F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
 			new Keyframe(0.0833F, KeyframeAnimations.degreeVec(0.2187F, 4.9952F, 2.5095F), AnimationChannel.Interpolations.CATMULLROM),
@@ -176,7 +176,7 @@ public class ParanogmiusAnimation {
 		))
 		.build();
 
-	public static final AnimationDefinition FLOP = AnimationDefinition.Builder.withLength(0.5F).looping()
+	public static final AnimationDefinition PARANOGMIUS_FLOP = AnimationDefinition.Builder.withLength(0.5F).looping()
 		.addAnimation("body", new AnimationChannel(AnimationChannel.Targets.ROTATION, 
 			new Keyframe(0.0F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 90.0F), AnimationChannel.Interpolations.CATMULLROM),
 			new Keyframe(0.125F, KeyframeAnimations.degreeVec(0.0F, -8.4375F, 90.0F), AnimationChannel.Interpolations.CATMULLROM),
@@ -254,7 +254,7 @@ public class ParanogmiusAnimation {
 		))
 		.build();
 
-	public static final AnimationDefinition ATTACK = AnimationDefinition.Builder.withLength(0.25F)
+	public static final AnimationDefinition PARANOGMIUS_ATTACK = AnimationDefinition.Builder.withLength(0.25F)
 		.addAnimation("head", new AnimationChannel(AnimationChannel.Targets.ROTATION, 
 			new Keyframe(0.0F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.LINEAR),
 			new Keyframe(0.125F, KeyframeAnimations.degreeVec(5.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.LINEAR),

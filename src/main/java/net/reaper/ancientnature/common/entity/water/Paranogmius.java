@@ -31,9 +31,10 @@ import org.jetbrains.annotations.Nullable;
 import javax.annotation.Nonnull;
 
 public class Paranogmius extends AquaticAnimal implements Bucketable {
-    private static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(Arandaspis.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(Paranogmius.class, EntityDataSerializers.BOOLEAN);
     public final AnimationState flopAnimation = new AnimationState();
     public final AnimationState idleAnimation = new AnimationState();
+    public final AnimationState attackAnimation = new AnimationState();
     private int idleAnimationTimeout = 0;
     boolean hasEggs;
 
@@ -111,9 +112,9 @@ public class Paranogmius extends AquaticAnimal implements Bucketable {
     @Nonnull
     public static AttributeSupplier.Builder createAttributes() {
         return WaterAnimal.createLivingAttributes()
-                .add(Attributes.MAX_HEALTH, 4)
-                .add(Attributes.MOVEMENT_SPEED, 0.4D)
-                .add(Attributes.FOLLOW_RANGE, 12.0D);
+                .add(Attributes.MAX_HEALTH, 18)
+                .add(Attributes.MOVEMENT_SPEED, 0.3D)
+                .add(Attributes.FOLLOW_RANGE, 16.0D);
 
     }
 
