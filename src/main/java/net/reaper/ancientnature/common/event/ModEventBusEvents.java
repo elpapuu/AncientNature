@@ -7,6 +7,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.reaper.ancientnature.AncientNature;
 import net.reaper.ancientnature.common.entity.ground.TuataraEntity;
 import net.reaper.ancientnature.common.entity.water.Anomalocaris;
+import net.reaper.ancientnature.common.entity.water.Paranogmius;
 import net.reaper.ancientnature.core.init.ModEntities;
 import net.reaper.ancientnature.common.entity.water.Arandaspis;
 

@@ -8,9 +8,12 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.reaper.ancientnature.AncientNature;
+import net.reaper.ancientnature.client.model.entity.ParanogmiusModel;
+import net.reaper.ancientnature.client.renderer.entity.ParanogmiusRenderer;
 import net.reaper.ancientnature.common.entity.ground.TuataraEntity;
 import net.reaper.ancientnature.common.entity.water.Anomalocaris;
 import net.reaper.ancientnature.common.entity.water.Arandaspis;
+import net.reaper.ancientnature.common.entity.water.Paranogmius;
 
 import java.util.function.Supplier;
 
@@ -28,6 +31,9 @@ public class ModEntities {
 
     public static final RegistryObject<EntityType<Anomalocaris>> ANOMALOCARIS =
             register("anomalocaris", () -> EntityType.Builder.of(Anomalocaris::new, MobCategory.WATER_CREATURE)
+                    .sized(1f, 0.2f));
+    public static final RegistryObject<EntityType<Paranogmius>> PARANOGMIUS =
+            register("paranogmius", () -> EntityType.Builder.of(Paranogmius::new, MobCategory.WATER_CREATURE)
                     .sized(1f, 0.2f));
 
     public static final <T extends Entity> RegistryObject<EntityType<T>> register(String name, Supplier<EntityType.Builder<T>> builder){
