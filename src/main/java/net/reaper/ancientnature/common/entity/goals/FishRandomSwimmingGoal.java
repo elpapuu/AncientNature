@@ -51,18 +51,19 @@ public class FishRandomSwimmingGoal extends Goal {
 
     @Override
     public void tick() {
-        Vec3 forward = new Vec3(10, 0, 0).yRot(-mob.getYRot() * ((float) Math.PI / 180F) - ((float) Math.PI / 2F));
+        Vec3 forward = new Vec3(1, 0, 0).yRot(-mob.getYRot() * ((float) Math.PI / 180F) - ((float) Math.PI / 2F));
         Vec3 movement = forward.add(this.mob.getDeltaMovement().scale(this.weights.existingDirectionWeight()));
         movement = movement.add(getNoise().scale(this.weights.noiseWeight()));
         movement = movement.add(getAwayFromObstacles().scale(this.weights.avoidObstaclesWeight()));
         movement = movement.add(awayFromEntities().scale(this.weights.avoidEntitiesWeight()));
 
         movement = movement.normalize();
-        movement = movement.scale(mob.getAttributeValue(Attributes.MOVEMENT_SPEED) * this.speedModifier);
         float f9 = (float) (Mth.atan2(movement.x, movement.z) * (double) (180F / (float) Math.PI)) - 90.0F;
         this.mob.setYRot(rotlerp(this.mob.getYRot(), f9, 90.0F));
-
-        this.mob.setDeltaMovement(movement);
+        this.mob.setSpeed((float) (mob.getAttributeValue(Attributes.MOVEMENT_SPEED) * this.speedModifier));
+        this.mob.setZza((float) movement.z);
+        this.mob.setXxa((float) movement.x);
+        this.mob.setYya((float) movement.y);
 
     }
 

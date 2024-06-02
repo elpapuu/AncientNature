@@ -46,7 +46,7 @@ public class Anomalocris extends WaterAnimal implements KillerEntity {
 
         //this.goalSelector.addGoal(5, new CooldownNearestAttackableTraget<>(this, AbstractFish.class, true));
 
-        this.goalSelector.addGoal(6, new FishRandomSwimmingGoal(this, .4d, new FishRandomSwimWeights(.1d, .4d, .4d, .01d)));
+        this.goalSelector.addGoal(6, new FishRandomSwimmingGoal(this, 1.0d, new FishRandomSwimWeights(1.1d, 1.4d, 2.4d, 1.1d)));
 
     }
 
