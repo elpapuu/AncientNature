@@ -23,8 +23,10 @@ public class RevivalStandRecipe implements Recipe<RevivalStandBlockEntity> {
 
     public static final Serializer SERIALIZER = new Serializer();
 
-    protected final IngredientCount fossil, amber;
-    protected final int amberInfusionTime, fossilInfusionTime;
+    protected final IngredientCount fossil;
+    protected final IngredientCount amber;
+    protected final int amberInfusionTime;
+    protected final int fossilInfusionTime;
     protected final Ingredient baseRoe;
     protected final ItemStack eggs;
     protected final ResourceLocation id;
@@ -108,8 +110,6 @@ public class RevivalStandRecipe implements Recipe<RevivalStandBlockEntity> {
             int amberInfusionTime = GsonHelper.getAsInt(pSerializedRecipe, "amberInfusionTime", 200);
             int fossilInfusionTime = GsonHelper.getAsInt(pSerializedRecipe, "fossilInfusionTime", 200);
             ItemStack eggs = CraftingHelper.getItemStack(GsonHelper.getAsJsonObject(pSerializedRecipe, "egg"), true);
-            if (eggs.getCount() > 3)
-                throw new JsonException(String.format("the count of the eggs for recipe [%s] has to have a count between [1, 3] and not %s", pRecipeId, eggs.getCount()));
             return new RevivalStandRecipe(fossil, amber, amberInfusionTime, fossilInfusionTime, baseRoe, eggs, pRecipeId);
         }
 

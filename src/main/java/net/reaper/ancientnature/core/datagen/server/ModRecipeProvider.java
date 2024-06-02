@@ -10,7 +10,6 @@ import net.reaper.ancientnature.core.init.ModBlocks;
 import net.reaper.ancientnature.core.init.ModItems;
 import net.reaper.ancientnature.core.init.ModTags;
 
-import java.io.PrintWriter;
 import java.util.function.Consumer;
 
 public class ModRecipeProvider extends RecipeProvider {
@@ -20,8 +19,12 @@ public class ModRecipeProvider extends RecipeProvider {
 
     @Override
     protected void buildRecipes(Consumer<FinishedRecipe> pWriter) {
+
         BrushRecipeBuilder.builder(ModItems.ANOMALOCARIS_FOSSIL.get()).probability(0.95f).input(ModItems.CAMBRIAN_FOSSIL.get()).build(pWriter);
-        WaterWashingBuilder.builder(ModItems.CAMBRIAN_FOSSIL.get()).probability(.16f).input(ModItems.MUDDY_PERIMAN_FOSSIL.get()).build(pWriter);
-        RevivalStandRecipeBuilder.builder(ModBlocks.ARANDASPIS_ROE.get(), 3).fossil(4, ModItems.ARANDASPIS_FOSSIL.get()).amber(ModTags.Items.AMBER).amberInfusionTime(100).fossilInfusionTime(100).baseRoe(ModItems.FISH_ROE.get()).build(pWriter);
+        BrushRecipeBuilder.builder(ModItems.ARANDASPIS_FOSSIL.get()).probability(0.95f).input(ModItems.DEVONIAN_FOSSIL.get()).build(pWriter);
+        BrushRecipeBuilder.builder(ModItems.LYTHRONAX_FOSSIL.get()).probability(0.95f).input(ModItems.CRETACEOUS_FOSSIL.get()).build(pWriter);
+        WaterWashingBuilder.builder(ModItems.STONE_PERMIAN_FOSSIL.get()).probability(.16f).input(ModItems.MUDDY_PERMIAN_FOSSIL.get()).build(pWriter);
+        RevivalStandRecipeBuilder.builder(ModBlocks.ANOMALOCARIS_EGGS.get(), 3).fossil(5, ModItems.ANOMALOCARIS_FOSSIL.get()).amber(ModTags.Items.ANIMAL_AMBERS).amberInfusionTime(230).fossilInfusionTime(350).baseRoe(ModItems.FISH_ROE.get()).build(pWriter);
+        RevivalStandRecipeBuilder.builder(ModBlocks.ARANDASPIS_ROE.get(), 3).fossil(3, ModItems.ARANDASPIS_FOSSIL.get()).amber(ModTags.Items.ANIMAL_AMBERS).amberInfusionTime(100).fossilInfusionTime(100).baseRoe(ModItems.FISH_ROE.get()).build(pWriter);
     }
 }

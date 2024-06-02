@@ -13,11 +13,11 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.reaper.ancientnature.AncientNature;
 import net.reaper.ancientnature.client.animations.entity.ArandaspisAnimation;
-import net.reaper.ancientnature.common.entity.water.ArandaspisEntity;
+import net.reaper.ancientnature.common.entity.water.Arandaspis;
 import org.jetbrains.annotations.NotNull;
 
 @OnlyIn(Dist.CLIENT)
-public class ArandaspisModel extends HierarchicalModel<ArandaspisEntity> {
+public class ArandaspisModel extends HierarchicalModel<Arandaspis> {
 
     public static final ModelLayerLocation ARANDASPIS_LAYER = new ModelLayerLocation(AncientNature.modLoc("arandaspis_layer"), "main");
     private final ModelPart body, root;
@@ -43,19 +43,19 @@ public class ArandaspisModel extends HierarchicalModel<ArandaspisEntity> {
     }
 
     @Override
-    public void setupAnim(ArandaspisEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setupAnim(Arandaspis entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         this.root().getAllParts().forEach(ModelPart::resetPose);
         applyHeadRotation(entity, netHeadYaw, headPitch, ageInTicks);
-        if (entity.isPanicing())
-            this.animateWalk(ArandaspisAnimation.Adult.ARANDASPIS_RUN, limbSwing, limbSwingAmount, 4f, 4.5f);
+        if (entity.isPanicking())
+            this.animateWalk(ArandaspisAnimation.ARANDASPIS_RUN, limbSwing, limbSwingAmount, 4f, 4.5f);
         else
-            this.animateWalk(ArandaspisAnimation.Adult.ARANDASPIS_SWIM, limbSwing, limbSwingAmount, 4f, 4.5f);
-        this.animate(entity.idleAnimation, ArandaspisAnimation.Adult.ARANDASPIS_IDLE, ageInTicks);
-        this.animate(entity.flopAnimation, ArandaspisAnimation.Adult.ARANDASPIS_FLOP, ageInTicks, 1.5f);
+            this.animateWalk(ArandaspisAnimation.ARANDASPIS_SWIM, limbSwing, limbSwingAmount, 4f, 4.5f);
+        this.animate(entity.idleAnimation, ArandaspisAnimation.ARANDASPIS_IDLE, ageInTicks);
+        this.animate(entity.flopAnimation, ArandaspisAnimation.ARANDASPIS_FLOP, ageInTicks, 1.5f);
 
     }
 
-    private void applyHeadRotation(ArandaspisEntity pEntity, float pNetHeadYaw, float pHeadPitch, float pAgeInTicks) {
+    private void applyHeadRotation(Arandaspis pEntity, float pNetHeadYaw, float pHeadPitch, float pAgeInTicks) {
         pNetHeadYaw = Mth.clamp(pNetHeadYaw, -30.0F, 30.0F);
         pHeadPitch = Mth.clamp(pHeadPitch, -25.0F, 45.0F);
 

@@ -1,11 +1,7 @@
 package net.reaper.ancientnature.core.datagen.client;
 
-import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.common.data.LanguageProvider;
@@ -22,39 +18,60 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
     @Override
     protected void addTranslations() {
         auto(ModItems.AMBER.get());
-        auto(ModItems.CAMBRIAN_FOSSIL.get());
-        auto(ModItems.ANOMALOCARIS_FOSSIL.get());
         auto(ModItems.LIZARD_AMBER.get());
         auto(ModItems.MOSQUITO_AMBER.get());
-        auto(ModItems.ARANDASPIS_BUCKET.get());
+
+        auto(ModItems.CAMBRIAN_FOSSIL.get());
+        auto(ModItems.ANOMALOCARIS_FOSSIL.get());
         auto(ModItems.CARBONIFEROUS_FOSSIL.get());
         auto(ModItems.DEEPSLATE_PERMIAN_FOSSIL.get());
-        auto(ModItems.MUDDY_PERIMAN_FOSSIL.get());
+        auto(ModItems.MUDDY_PERMIAN_FOSSIL.get());
         auto(ModItems.STONE_PERMIAN_FOSSIL.get());
-        auto(ModItems.ARANDASPIS_SPAWN_EGG.get());
+        auto(ModItems.CRETACEOUS_FOSSIL.get());
         auto(ModItems.DEVONIAN_FOSSIL.get());
         auto(ModItems.ARANDASPIS_FOSSIL.get());
-        auto(ModBlocks.ARANDASPIS_ROE.get());
-        auto(ModItems.FISH_ROE.get());
+        auto(ModItems.LYTHRONAX_FOSSIL.get());
 
+        auto(ModItems.BLOOD_DAGGER.get());
+
+        auto(ModItems.ROPE.get());
+        auto(ModItems.LYTHRONAX_TEETH.get());
+
+        auto(ModItems.FISH_ROE.get());
+        auto(ModItems.ARANDASPIS_BUCKET.get());
+        auto(ModItems.ANOMALOCARIS_BUCKET.get());
+
+        auto(ModItems.ARANDASPIS_SPAWN_EGG.get());
+        auto(ModItems.ANOMALOCARIS_SPAWN_EGG.get());
+
+        auto(ModBlocks.ARANDASPIS_ROE.get());
+        auto(ModBlocks.ANOMALOCARIS_EGGS.get());
         auto(ModBlocks.REVIVAL_STAND.get());
         auto(ModBlocks.MUD_WITH_FOSSILS.get());
         auto(ModBlocks.DEEPSLATE_AMBER.get());
         auto(ModBlocks.DEEPSLATE_CAMBRIAN_FOSSIL.get());
-        auto(ModBlocks.STONE_PERMIAN_FOSSIL.get());
         auto(ModBlocks.DEEPSLATE_DEVONIAN_FOSSIL.get());
         auto(ModBlocks.DEEPSLATE_CARBONIFEROUS.get());
+        auto(ModBlocks.DEEPSLATE_PERMIAN_FOSSIL.get());
+        auto(ModBlocks.STONE_PERMIAN_FOSSIL.get());
+        auto(ModBlocks.CRETACEOUS_FOSSILS.get());
 
         auto(ModEntities.ARANDASPIS.get());
-        auto(ModEntities.ANOMALOCRIS.get());
+        auto(ModEntities.ANOMALOCARIS.get());
 
-        guiTranslation(ModBlockEntities.REVIVAL_STAND.get());
+        guiTranslation(ModBlockEntities.REVIVAL_STAND_ENTITY.get());
 
         //advancements
         add("advancements.cleaning_the_past_for_the_future.title", "Belongs to a museum");
         add("advancements.cleaning_the_past_for_the_future.descr", "Clean up a fossil for see what have inside!");
         add("advancements.paleontologist.title", "Paleontologist");
-        add("advancements.paleontologist.descr", "Obtain your fist fossil");
+        add("advancements.paleontologist.descr", "Obtain your first fossil");
+
+        //subtitles
+        add("sound.ancientnature.cleaned_fossil", "Fossil cleaning");
+        add("sound.ancientnature.anomalocaris_eat", "Anomalocaris eating");
+        add("sound.ancientnature.anomalocaris_hurt", "Anomalocaris hurt");
+        add("sound.ancientnature.anomalocaris_death", "Anomalocaris dying");
 
         //creative tab
         addTab("ancientnature_tab", "Ancient Nature");
@@ -76,7 +93,7 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
   }
 
     /**
-     * important pass in here the same name that u passed in in {@link net.reaper.ancientnature.core.init.ModCreativeModTabs#createTranslationKey(String)}
+     * important pass in here the same name that u passed in in {@link ModCreativeModTabs#createTranslationKey(String)}
      */
     public void addTab(String tab, String translation){
         this.add(ModCreativeModTabs.createTranslationKey(tab), translation);

@@ -19,28 +19,39 @@ public class ModCreativeModTabs {
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.MOSQUITO_AMBER.get()))
                     .title(Component.translatable(createTranslationKey("ancientnature_tab")))
                     .displayItems((itemDisplayParameters, pOutput) -> {
+                        pOutput.accept(ModBlocks.REVIVAL_STAND.get());
                         pOutput.accept(ModItems.AMBER.get());
                         pOutput.accept(ModItems.MOSQUITO_AMBER.get());
-                        pOutput.accept(ModBlocks.DEEPSLATE_AMBER.get());
-                        pOutput.accept(ModItems.CAMBRIAN_FOSSIL.get());
-                        pOutput.accept(ModBlocks.DEEPSLATE_CAMBRIAN_FOSSIL.get());
-                        pOutput.accept(ModItems.ANOMALOCARIS_FOSSIL.get());
                         pOutput.accept(ModItems.LIZARD_AMBER.get());
-                        pOutput.accept(ModItems.ARANDASPIS_BUCKET.get());
-                        pOutput.accept(ModItems.MUDDY_PERIMAN_FOSSIL.get());
-                        pOutput.accept(ModItems.DEEPSLATE_PERMIAN_FOSSIL.get());
-                        pOutput.accept(ModItems.STONE_PERMIAN_FOSSIL.get());
-                        pOutput.accept(ModItems.CARBONIFEROUS_FOSSIL.get());
-                        pOutput.accept(ModBlocks.MUD_WITH_FOSSILS.get());
-                        pOutput.accept(ModItems.ARANDASPIS_SPAWN_EGG.get());
+                        pOutput.accept(ModBlocks.DEEPSLATE_AMBER.get());
+                        pOutput.accept(ModBlocks.DEEPSLATE_CAMBRIAN_FOSSIL.get());
                         pOutput.accept(ModBlocks.DEEPSLATE_DEVONIAN_FOSSIL.get());
                         pOutput.accept(ModBlocks.DEEPSLATE_CARBONIFEROUS.get());
+                        pOutput.accept(ModBlocks.DEEPSLATE_PERMIAN_FOSSIL.get());
                         pOutput.accept(ModBlocks.STONE_PERMIAN_FOSSIL.get());
+                        pOutput.accept(ModBlocks.MUD_WITH_FOSSILS.get());
+                        pOutput.accept(ModBlocks.CRETACEOUS_FOSSILS.get());
+                        pOutput.accept(ModItems.CAMBRIAN_FOSSIL.get());
                         pOutput.accept(ModItems.DEVONIAN_FOSSIL.get());
-                        pOutput.accept(ModBlocks.REVIVAL_STAND.get());
+                        pOutput.accept(ModItems.CARBONIFEROUS_FOSSIL.get());
+                        pOutput.accept(ModItems.DEEPSLATE_PERMIAN_FOSSIL.get());
+                        pOutput.accept(ModItems.STONE_PERMIAN_FOSSIL.get());
+                        pOutput.accept(ModItems.MUDDY_PERMIAN_FOSSIL.get());
+                        pOutput.accept(ModItems.CRETACEOUS_FOSSIL.get());
+                        pOutput.accept(ModItems.ANOMALOCARIS_FOSSIL.get());
                         pOutput.accept(ModItems.ARANDASPIS_FOSSIL.get());
-                        pOutput.accept(ModBlocks.ARANDASPIS_ROE.get());
+                        pOutput.accept(ModItems.LYTHRONAX_FOSSIL.get());
+                        pOutput.accept(ModItems.ANOMALOCARIS_BUCKET.get());
+                        pOutput.accept(ModItems.ARANDASPIS_BUCKET.get());
+                        pOutput.accept(ModItems.WHERE_YOUR_JOURNEY_BEGINS_MUSIC_DISC.get());
+                        pOutput.accept(ModItems.BLOOD_DAGGER.get());
+                        pOutput.accept(ModItems.ROPE.get());
+                        pOutput.accept(ModItems.LYTHRONAX_TEETH.get());
                         pOutput.accept(ModItems.FISH_ROE.get());
+                        pOutput.accept(ModBlocks.ARANDASPIS_ROE.get());
+                        pOutput.accept(ModBlocks.ANOMALOCARIS_EGGS.get());
+                        pOutput.accept(ModItems.ARANDASPIS_SPAWN_EGG.get());
+                        pOutput.accept(ModItems.ANOMALOCARIS_SPAWN_EGG.get());
                     })
 
                     .build());

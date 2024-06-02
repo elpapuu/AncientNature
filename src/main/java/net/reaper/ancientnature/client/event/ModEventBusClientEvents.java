@@ -3,24 +3,25 @@ package net.reaper.ancientnature.client.event;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
-import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.reaper.ancientnature.AncientNature;
-import net.reaper.ancientnature.client.model.entity.AnomalocrisModel;
-import net.reaper.ancientnature.client.model.entity.ArandaspisBabyModel;
+import net.reaper.ancientnature.client.model.entity.AnomalocarisModel;
+import net.reaper.ancientnature.client.model.entity.ArandaspisModel;
+import net.reaper.ancientnature.client.model.entity.ParanogmiusModel;
+import net.reaper.ancientnature.client.model.entity.TuataraModel;
 import net.reaper.ancientnature.client.renderer.blockentity.RevivalStandRenderer;
-import net.reaper.ancientnature.client.renderer.entity.AnomalocrisRenderer;
+import net.reaper.ancientnature.client.renderer.entity.AnomalocarisRenderer;
+import net.reaper.ancientnature.client.renderer.entity.ArandaspisRenderer;
+import net.reaper.ancientnature.client.renderer.entity.ParanogmiusRenderer;
+import net.reaper.ancientnature.client.renderer.entity.TuataraRenderer;
 import net.reaper.ancientnature.client.screens.RevivalStandScreen;
 import net.reaper.ancientnature.common.particle.RevivalStandParticle;
 import net.reaper.ancientnature.core.init.ModBlockEntities;
 import net.reaper.ancientnature.core.init.ModEntities;
-import net.reaper.ancientnature.client.model.entity.ArandaspisModel;
-import net.reaper.ancientnature.client.renderer.entity.ArandaspisRenderer;
 import net.reaper.ancientnature.core.init.ModMenus;
 import net.reaper.ancientnature.core.init.ModParticles;
 
@@ -30,24 +31,26 @@ public class ModEventBusClientEvents {
     @SubscribeEvent
     public static void registerLayer(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(ArandaspisModel.ARANDASPIS_LAYER, ArandaspisModel::createBodyLayer);
-        event.registerLayerDefinition(AnomalocrisModel.LAYER_LOCATION, AnomalocrisModel::createBodyLayer);
-        event.registerLayerDefinition(ArandaspisBabyModel.ARANDASPIS_BABY_LAYER, ArandaspisBabyModel::createBodyLayer);
+        event.registerLayerDefinition(TuataraModel.TUATARA_LAYER, TuataraModel::createBodyLayer);
+        event.registerLayerDefinition(AnomalocarisModel.ANOMALOCARIS_LAYER, AnomalocarisModel::createBodyLayer);
     }
 
     @SubscribeEvent
-    public static void registerRenderes(EntityRenderersEvent.RegisterRenderers event){
+    public static void registerRenderes(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ModEntities.ARANDASPIS.get(), ArandaspisRenderer::new);
-        event.registerEntityRenderer(ModEntities.ANOMALOCRIS.get(), AnomalocrisRenderer::new);
-        event.registerBlockEntityRenderer(ModBlockEntities.REVIVAL_STAND.get(), RevivalStandRenderer::new);
+        event.registerEntityRenderer(ModEntities.ARANDASPIS.get(), ArandaspisRenderer::new);
+        event.registerEntityRenderer(ModEntities.ANOMALOCARIS.get(), AnomalocarisRenderer::new);
+        event.registerEntityRenderer(ModEntities.TUATARA.get(), TuataraRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.REVIVAL_STAND_ENTITY.get(), RevivalStandRenderer::new);
     }
 
     @SubscribeEvent
-    public static void registerParticleProviders(RegisterParticleProvidersEvent event){
+    public static void registerParticleProviders(RegisterParticleProvidersEvent event) {
         event.registerSpriteSet(ModParticles.REVIVAL_STAND_PARTICLE.get(), RevivalStandParticle.Provider::new);
     }
 
     @SubscribeEvent
-    public static void registerScreens(FMLClientSetupEvent event){
+    public static void registerScreens(FMLClientSetupEvent event) {
         MenuScreens.register(ModMenus.REVIVAL_STAND.get(), RevivalStandScreen::new);
     }
 

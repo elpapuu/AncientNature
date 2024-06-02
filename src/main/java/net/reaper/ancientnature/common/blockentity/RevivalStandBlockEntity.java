@@ -1,6 +1,5 @@
 package net.reaper.ancientnature.common.blockentity;
 
-import com.sun.jna.platform.win32.WinDef;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -15,16 +14,11 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.extensions.IForgeBlockEntity;
-import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.reaper.ancientnature.AncientNature;
 import net.reaper.ancientnature.common.block.RevivalStand;
 import net.reaper.ancientnature.common.config.AncientNatureConfig;
 import net.reaper.ancientnature.common.menu.RevivalStandMenu;
@@ -77,7 +71,7 @@ public class RevivalStandBlockEntity extends BlockEntity implements Container, M
     };
 
     public RevivalStandBlockEntity(BlockPos pPos, BlockState pBlockState) {
-        super(ModBlockEntities.REVIVAL_STAND.get(), pPos, pBlockState);
+        super(ModBlockEntities.REVIVAL_STAND_ENTITY.get(), pPos, pBlockState);
     }
 
     protected ItemStackHandler createInventory() {

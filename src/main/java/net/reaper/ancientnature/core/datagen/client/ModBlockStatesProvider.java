@@ -1,12 +1,10 @@
 package net.reaper.ancientnature.core.datagen.client;
 
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BrushableBlock;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
@@ -19,9 +17,6 @@ import net.reaper.ancientnature.common.block.RevivalStand;
 import net.reaper.ancientnature.common.util.ResourceLocationUtils;
 import net.reaper.ancientnature.core.init.ModBlocks;
 
-import javax.sound.sampled.ReverbType;
-import java.util.function.Function;
-
 public class ModBlockStatesProvider extends BlockStateProvider {
     public ModBlockStatesProvider(PackOutput output, ExistingFileHelper exFileHelper) {
         super(output, AncientNature.MOD_ID, exFileHelper);
@@ -33,10 +28,13 @@ public class ModBlockStatesProvider extends BlockStateProvider {
         simpleBlock(ModBlocks.DEEPSLATE_CAMBRIAN_FOSSIL.get());
         simpleBlock(ModBlocks.DEEPSLATE_CARBONIFEROUS.get());
         simpleBlock(ModBlocks.DEEPSLATE_DEVONIAN_FOSSIL.get());
+        simpleBlock(ModBlocks.DEEPSLATE_PERMIAN_FOSSIL.get());
         simpleBlock(ModBlocks.STONE_PERMIAN_FOSSIL.get());
+        simpleBlock(ModBlocks.CRETACEOUS_FOSSILS.get());
         makeFossil(ModBlocks.MUD_WITH_FOSSILS.get());
         revivalStand(ModBlocks.REVIVAL_STAND.get());
         roeBlock(ModBlocks.ARANDASPIS_ROE.get(), false);
+        roeBlock(ModBlocks.ANOMALOCARIS_EGGS.get(), false);
     }
 
     protected void revivalStand(Block block){

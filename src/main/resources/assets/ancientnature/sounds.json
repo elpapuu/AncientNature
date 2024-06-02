@@ -2,5 +2,49 @@
   "cleaned_fossil": {
     "subtitle": "sound.ancientnature.cleaned_fossil",
     "sounds": [ "minecraft:item.brush.brushing" ]
+  },
+  "anomalocaris_eat_1": {
+    "subtitle": "sound.ancientnature.anomalocaris_eat",
+    "sounds": [
+      "ancientnature:anomalocaris_eat_1"
+    ]
+  },
+  "anomalocaris_eat_2": {
+    "subtitle": "sound.ancientnature.anomalocaris_eat",
+    "sounds": [
+      "ancientnature:anomalocaris_eat_2"
+    ]
+  },
+  "anomalocaris_hurt_1": {
+    "subtitle": "sound.ancientnature.anomalocaris_hurt",
+    "sounds": [
+      "ancientnature:anomalocaris_hurt_1"
+    ]
+  },
+  "anomalocaris_hurt_2": {
+    "subtitle": "sound.ancientnature.anomalocaris_hurt",
+    "sounds": [
+      "ancientnature:anomalocaris_hurt_2"
+    ]
+  },
+  "anomalocaris_death_1": {
+    "subtitle": "sound.ancientnature.anomalocaris_death",
+    "sounds": [
+      "ancientnature:anomalocaris_death_1"
+    ]
+  },
+  "anomalocaris_death_2": {
+    "subtitle": "sound.ancientnature.anomalocaris_death",
+    "sounds": [
+      "ancientnature:anomalocaris_death_2"
+    ]
+  },
+  "where_your_journet_begins": {
+    "sounds": [
+      {
+        "name": "ancientnature:where_your_journey_begins",
+        "stream" : true
+      }
+    ]
   }
 }
