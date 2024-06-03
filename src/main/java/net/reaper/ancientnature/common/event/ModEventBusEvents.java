@@ -17,7 +17,7 @@ public class ModEventBusEvents {
     public static void registerAttributes(EntityAttributeCreationEvent event) {
         event.put(ModEntities.ARANDASPIS.get(), Arandaspis.createAttributes().build());
         event.put(ModEntities.TUATARA.get(), TuataraEntity.createAttributes().build());
-    event.put(ModEntities.PARANOGMIUS.get(), TuataraEntity.createAttributes().build());
+    event.put(ModEntities.PARANOGMIUS.get(), Paranogmius.createAttributes().build());
         event.put(ModEntities.ANOMALOCARIS.get(), Anomalocaris.createAttributes().build());
     }
 }
