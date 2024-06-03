@@ -25,7 +25,7 @@ public class ParanogmiusModel extends HierarchicalModel<Paranogmius> {
 
 	public ParanogmiusModel(ModelPart root) {
         this.paranogmius = root;
-        this.body = root.getChild("body");
+        this.body = root.getChild("paranogmius");
 	}
 	public static LayerDefinition createBodyLayer() {
 		MeshDefinition meshdefinition = new MeshDefinition();

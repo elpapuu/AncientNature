@@ -175,7 +175,7 @@ public class Paranogmius extends AquaticAnimal {
             this.move(MoverType.SELF, this.getDeltaMovement());
             this.setDeltaMovement(this.getDeltaMovement().scale(0.9));
             if (this.getTarget() == null) {
-                this.setDeltaMovement(this.getDeltaMovement().add(0.2, -0.005, 0.2));
+                this.setDeltaMovement(this.getDeltaMovement().add(0.0, -0.001, 0.0));
             }
         } else {
             super.travel(pTravelVector);
