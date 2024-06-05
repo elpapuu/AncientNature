@@ -90,6 +90,12 @@ public class Arandaspis extends AquaticAnimal implements Bucketable {
         if (this.level().isClientSide()) {
             setupAnimationStates();
         } else {
+            if (this.onGround()) {
+                this.setDeltaMovement(this.getDeltaMovement().add((double) ((this.random.nextFloat() * 2.0F - 1.0F) * 0.2F), 0.5, (double) ((this.random.nextFloat() * 2.0F - 1.0F) * 0.2F)));
+                this.setYRot(this.random.nextFloat() * 360.0F);
+                this.setOnGround(false);
+                this.hasImpulse = true;
+            }
 
             //if (isInLove()) setDeltaMovement(this.getDeltaMovement().x / 1.5, this.getDeltaMovement().y, this.getDeltaMovement().z / 1.5);
         }
@@ -124,15 +130,18 @@ public class Arandaspis extends AquaticAnimal implements Bucketable {
         return pSize.height * 0.5F;
     }
 
-    @Override
-    public void travel(@NotNull Vec3 pTravelVector) {
-        super.travel(pTravelVector);
-        if (!this.level().isClientSide) {
-            this.setSharedFlag(8, this.getLastHurtByMob() != null && isInWater());
-            if (getSharedFlag(8)) {
-                this.level().broadcastEntityEvent(this, (byte) 7);
+    public void travel(Vec3 pTravelVector) {
+        if (this.isEffectiveAi() && this.isInWater()) {
+            this.moveRelative(this.getSpeed(), pTravelVector);
+            this.move(MoverType.SELF, this.getDeltaMovement());
+            this.setDeltaMovement(this.getDeltaMovement().scale(0.9));
+            if (this.getTarget() == null) {
+                this.setDeltaMovement(this.getDeltaMovement().add(0.0, -0.005, 0.0));
             }
+        } else {
+            super.travel(pTravelVector);
         }
+
     }
 
     public boolean isPanicking(){

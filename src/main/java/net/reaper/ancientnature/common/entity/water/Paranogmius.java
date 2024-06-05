@@ -1,41 +1,51 @@
 package net.reaper.ancientnature.common.entity.water;
 
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
-import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
-import net.minecraft.world.entity.animal.Bucketable;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.vehicle.Boat;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.fluids.FluidType;
 import net.reaper.ancientnature.common.entity.goals.AvoidEntitySprinting;
+import net.reaper.ancientnature.common.entity.goals.ParanogmiusJumpGoal;
 import net.reaper.ancientnature.common.entity.goals.PanicSprintingGoal;
 import net.reaper.ancientnature.common.entity.goals.WildBreedGoal;
-import org.jetbrains.annotations.NotNull;
+import net.reaper.ancientnature.core.init.ModBlocks;
+import net.reaper.ancientnature.core.init.ModEntities;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
 
-public class Paranogmius extends AquaticAnimal implements Bucketable {
-    private static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(Arandaspis.class, EntityDataSerializers.BOOLEAN);
+public class Paranogmius extends AquaticAnimal {
     public final AnimationState flopAnimation = new AnimationState();
     public final AnimationState idleAnimation = new AnimationState();
+    public final AnimationState attackAnimation = new AnimationState();
     private int idleAnimationTimeout = 0;
+    private int attackAnimationTimeout = 0;
+
     boolean hasEggs;
+    private static final EntityDataAccessor<Boolean> IS_ATTACKING = SynchedEntityData.defineId(Paranogmius.class, EntityDataSerializers.BOOLEAN);
 
     public Paranogmius(EntityType<? extends AquaticAnimal> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -44,14 +54,23 @@ public class Paranogmius extends AquaticAnimal implements Bucketable {
     }
 
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new PanicSprintingGoal(this, 4f));
+        this.goalSelector.addGoal(0, new TryFindWaterGoal(this));
+        this.goalSelector.addGoal(0, new SwimGoal(this, 4f));
+        this.goalSelector.addGoal(0, new PanicSprintingGoal(this, 2.0D));
+        this.goalSelector.addGoal(0, new PanicSprintingGoal(this, 2.0D));
         this.goalSelector.addGoal(1, new AvoidEntitySprinting<>(this, Player.class, 8.0F,1f, 2f, EntitySelector.NO_SPECTATORS::test));
+        this.goalSelector.addGoal(2, new EggBreedGoal(this, 1.0D));
+        this.goalSelector.addGoal(3, new ParanogmiusJumpGoal(this, 10));
+        this.goalSelector.addGoal(3, new LayEggGoal(this, 1.0D, 16, 16));
+        this.goalSelector.addGoal(4, new RandomSwimmingGoal(this, 4, 4));
+        this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(8, new FollowBoatGoal(this));
         this.goalSelector.addGoal(20, new WildBreedGoal(this, Entity::isInWater, 300));
     }
     @Nullable
     @Override
-    public AgeableMob getBreedOffspring(ServerLevel serverLevel, AgeableMob ageableMob) {
-        return null;
+    public AgeableMob getBreedOffspring(ServerLevel pLevel, AgeableMob pOtherParent) {
+        return ModEntities.PARANOGMIUS.get().create(pLevel);
     }
     @Nonnull
     protected SoundEvent getFlopSound() {
@@ -69,19 +88,38 @@ public class Paranogmius extends AquaticAnimal implements Bucketable {
         if (this.level().isClientSide()) {
             setupAnimationStates();
         } else {
+            if (this.onGround()) {
+                this.setDeltaMovement(this.getDeltaMovement().add((double) ((this.random.nextFloat() * 2.0F - 1.0F) * 0.2F), 0.5, (double) ((this.random.nextFloat() * 2.0F - 1.0F) * 0.2F)));
+                this.setYRot(this.random.nextFloat() * 120.0F);
+                this.setOnGround(false);
+                this.hasImpulse = true;
 
+            }
             //if (isInLove()) setDeltaMovement(this.getDeltaMovement().x / 1.5, this.getDeltaMovement().y, this.getDeltaMovement().z / 1.5);
         }
     }
 
     private void setupAnimationStates() {
+        if(this.idleAnimationTimeout <= 0) {
+            this.idleAnimationTimeout = this.random.nextInt(40) + 80;
+            this.idleAnimation.start(this.tickCount);
+        } else {
+            --this.idleAnimationTimeout;
+        }
+        if (!this.isInWater()) {
+            if (this.idleAnimation.isStarted()) this.idleAnimation.stop();
+            if (this.attackAnimation.isStarted()) this.attackAnimation.stop();
+            this.flopAnimation.startIfStopped(this.tickCount);
+        } else {
+            this.flopAnimation.stop();
+        }
+        // idle anim
         if (this.idleAnimationTimeout <= 0) {
             this.idleAnimationTimeout = this.random.nextInt(40) + 80;
             this.idleAnimation.start(this.tickCount);
         } else {
             --this.idleAnimationTimeout;
         }
-        //flopping condition
         if (!this.isInWater()) {
             if (this.idleAnimation.isStarted())
                 this.idleAnimation.stop();
@@ -90,7 +128,6 @@ public class Paranogmius extends AquaticAnimal implements Bucketable {
             this.flopAnimation.stop();
         }
     }
-
     @Override
     protected void updateWalkAnimation(float pPartialTick) {
         if (this.isInWater())
@@ -111,136 +148,130 @@ public class Paranogmius extends AquaticAnimal implements Bucketable {
     @Nonnull
     public static AttributeSupplier.Builder createAttributes() {
         return WaterAnimal.createLivingAttributes()
-                .add(Attributes.MAX_HEALTH, 4)
-                .add(Attributes.MOVEMENT_SPEED, 0.4D)
-                .add(Attributes.FOLLOW_RANGE, 12.0D);
-
+                .add(Attributes.MAX_HEALTH, 28.0D)
+                .add(Attributes.MOVEMENT_SPEED, 0.23D)
+                .add(Attributes.FOLLOW_RANGE, 16.0D)
+                .add(Attributes.KNOCKBACK_RESISTANCE, 2.0D);
     }
 
     protected float getWaterSlowDown() {
         return 1f;
     }
-
-    protected float getStandingEyeHeight(@Nonnull Pose pPose, EntityDimensions pSize) {
-        return pSize.height * 0.5F;
+    public int getMaxHeadXRot() {
+        return 1;
     }
 
+    public int getMaxHeadYRot() {
+        return 1;
+    }
+
+    protected boolean canRide(Entity pEntity) {
+        return true;
+    }
     @Override
-    public void travel(@NotNull Vec3 pTravelVector) {
-        super.travel(pTravelVector);
-        if (!this.level().isClientSide) {
-            this.setSharedFlag(8, this.getLastHurtByMob() != null && isInWater());
-            if (getSharedFlag(8)) {
-                this.level().broadcastEntityEvent(this, (byte) 7);
+    public void travel(Vec3 pTravelVector) {
+        if (this.isEffectiveAi() && this.isInWater()) {
+            this.moveRelative(this.getSpeed(), pTravelVector);
+            this.move(MoverType.SELF, this.getDeltaMovement());
+            this.setDeltaMovement(this.getDeltaMovement().scale(0.9));
+            if (this.getTarget() == null) {
+                this.setDeltaMovement(this.getDeltaMovement().add(0.0, -0.001, 0.0));
+            }
+        } else {
+            super.travel(pTravelVector);
+        }
+
+    }
+
+    public boolean doesHaveEggs() {
+        return hasEggs;
+    }
+
+    public void setHasEggs(boolean hasEggs) {
+        this.hasEggs = hasEggs;
+    }
+
+    static class SwimGoal extends RandomSwimmingGoal {
+        private final Paranogmius entity;
+
+        public SwimGoal(PathfinderMob mob, double speedModifier) {
+            super(mob, speedModifier, 3);
+            this.entity = (Paranogmius) mob;
+        }
+
+        @Override
+        public boolean canUse() {
+            return this.entity.getTarget() == null && super.canUse();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return this.entity.getTarget() == null && super.canContinueToUse();
+        }
+    }
+
+    public static boolean checkWaterSurfaceSpawnRules(EntityType<? extends AquaticAnimal> aquatic, LevelAccessor level, MobSpawnType type, BlockPos pos, RandomSource random) {
+        int i = level.getSeaLevel();
+        int j = i - 13;
+        return pos.getY() >= j && pos.getY() <= i && level.getFluidState(pos.below()).is(FluidTags.WATER) && level.getBlockState(pos.above()).is(Blocks.WATER);
+    }
+    static class EggBreedGoal extends BreedGoal {
+        private final Paranogmius entity;
+
+        public EggBreedGoal(Paranogmius pAnimal, double pSpeedModifier) {
+            super(pAnimal, pSpeedModifier);
+            this.entity = pAnimal;
+        }
+
+        @Override
+        public boolean canUse() {
+            return super.canUse() && !this.entity.doesHaveEggs();
+        }
+
+        @Override
+        protected void breed() {
+            this.entity.setHasEggs(true);
+            this.entity.setAge(6000);
+            this.animal.resetLove();
+            if (this.partner != null) this.partner.setAge(6000);
+            if (this.partner != null) this.partner.resetLove();
+
+            RandomSource randomsource = this.animal.getRandom();
+            if (this.level.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) {
+                this.level.addFreshEntity(new ExperienceOrb(this.level, this.animal.getX(), this.animal.getY(), this.animal.getZ(), randomsource.nextInt(7) + 1));
             }
         }
     }
 
-    static class FishSwimGoal extends RandomSwimmingGoal {
-        private final Paranogmius fish;
+    static class LayEggGoal extends MoveToBlockGoal {
+        private final Paranogmius entity;
 
-        public FishSwimGoal(Paranogmius pFish) {
-            super(pFish, 1.0D, 40);
-            this.fish = pFish;
+        public LayEggGoal(Paranogmius pMob, double pSpeedModifier, int pSearchRange, int pVerticalSearchRange) {
+            super(pMob, pSpeedModifier, pSearchRange, pVerticalSearchRange);
+            this.entity = pMob;
         }
 
-        public boolean canUse() {
-            return super.canUse() && fish.isInWater();
+        @Override
+        protected boolean isValidTarget(LevelReader pLevel, BlockPos pPos) {
+            BlockState state = pLevel.getBlockState(pPos);
+            BlockState below = pLevel.getBlockState(pPos.below());
+            return !pLevel.canSeeSkyFromBelowWater(pPos) && state.is(Blocks.WATER) && below.isSolid() && !below.is(ModBlocks.ARANDASPIS_ROE.get());
         }
-    }
 
-    @Override
-    public boolean fromBucket() {
-        return false;
-    }
+        public boolean canContinueToUse() {
+            return super.canContinueToUse() && this.entity.doesHaveEggs();
+        }
 
-    @Override
-    public void setFromBucket(boolean b) {
-
-    }
-
-    @Override
-    public void saveToBucketTag(ItemStack itemStack) {
-
-    }
-
-    @Override
-    public void loadFromBucketTag(CompoundTag compoundTag) {
-
-    }
-
-    @Override
-    public ItemStack getBucketItemStack() {
-        return null;
-    }
-
-    @Override
-    public SoundEvent getPickupSound() {
-        return null;
-    }
-
-    @Override
-    public LivingEntity self() {
-        return super.self();
-    }
-
-    @Override
-    public boolean shouldRiderSit() {
-        return super.shouldRiderSit();
-    }
-
-    @Override
-    public boolean canRiderInteract() {
-        return super.canRiderInteract();
-    }
-
-    @Override
-    public boolean canBeRiddenUnderFluidType(FluidType type, Entity rider) {
-        return super.canBeRiddenUnderFluidType(type, rider);
-    }
-
-    @Override
-    public boolean isInFluidType(FluidState state) {
-        return super.isInFluidType(state);
-    }
-
-    @Override
-    public boolean canStartSwimming() {
-        return super.canStartSwimming();
-    }
-
-    @Override
-    public boolean isPushedByFluid(FluidType type) {
-        return super.isPushedByFluid(type);
-    }
-
-    @Override
-    public boolean canSwimInFluidType(FluidType type) {
-        return super.canSwimInFluidType(type);
-    }
-
-    @Override
-    public boolean canHydrateInFluidType(FluidType type) {
-        return super.canHydrateInFluidType(type);
-    }
-
-    @Override
-    public boolean hasCustomOutlineRendering(Player player) {
-        return super.hasCustomOutlineRendering(player);
-    }
-
-    @Override
-    public boolean shouldUpdateFluidWhileBoating(FluidState state, Boat boat) {
-        return super.shouldUpdateFluidWhileBoating(state, boat);
-    }
-
-    @Override
-    public void sinkInFluid(FluidType type) {
-        super.sinkInFluid(type);
-    }
-
-    @Override
-    public boolean moveInFluid(FluidState state, Vec3 movementVector, double gravity) {
-        return super.moveInFluid(state, movementVector, gravity);
+        public void tick() {
+            super.tick();
+            BlockPos entitypos = this.entity.blockPosition();
+            if (this.entity.isInWater() && this.isReachedTarget()) {
+                Level level = this.entity.level();
+                BlockState blockstate = ModBlocks.ARANDASPIS_ROE.get().defaultBlockState().setValue(BlockStateProperties.FACING, Direction.DOWN);
+                level.setBlock(blockPos, blockstate, 3);
+                level.gameEvent(GameEvent.BLOCK_PLACE, blockPos, GameEvent.Context.of(this.entity, blockstate));
+                this.entity.setHasEggs(false);
+            }
+        }
     }
 }

@@ -35,7 +35,7 @@ public class ParanogmiusRenderer extends MobRenderer<Paranogmius, ParanogmiusMod
     @Override
     protected void scale(Paranogmius pLivingEntity, PoseStack pMatrixStack, float pPartialTickTime) {
 
-        float F = pLivingEntity.isBaby() ? 0.2F : 0.4F;
+        float F = pLivingEntity.isBaby() ? 0.9F : 1.08F;
         pMatrixStack.scale(F, F, F);
 
         super.scale(pLivingEntity, pMatrixStack, pPartialTickTime);

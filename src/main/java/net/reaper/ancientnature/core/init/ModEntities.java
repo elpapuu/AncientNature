@@ -34,7 +34,7 @@ public class ModEntities {
                     .sized(1f, 0.2f));
     public static final RegistryObject<EntityType<Paranogmius>> PARANOGMIUS =
             register("paranogmius", () -> EntityType.Builder.of(Paranogmius::new, MobCategory.WATER_CREATURE)
-                    .sized(1f, 0.2f));
+                    .sized(1.6f, 1.5f));
 
     public static final <T extends Entity> RegistryObject<EntityType<T>> register(String name, Supplier<EntityType.Builder<T>> builder){
         return ENTITY_TYPES.register(name, () -> builder.get().build(AncientNature.modLoc(name).toString()));
