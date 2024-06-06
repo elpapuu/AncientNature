@@ -30,15 +30,13 @@ public class ModBlocks {
     public static final RegistryObject<DropExperienceBlock> DEEPSLATE_CAMBRIAN_FOSSIL = makeDeepslateFossilBlock("deepslate_cambrian_fossil");
     public static final RegistryObject<DropExperienceBlock> DEEPSLATE_CARBONIFEROUS = makeDeepslateFossilBlock("deepslate_carboniferous");
     public static final RegistryObject<DropExperienceBlock> DEEPSLATE_DEVONIAN_FOSSIL = makeDeepslateFossilBlock("deepslate_devonian_fossil");
-    public static final RegistryObject<DropExperienceBlock> DEEPSLATE_PERMIAN_FOSSIL = makeDeepslateFossilBlock("deepslate_permian_fossil_ore");
-    public static final RegistryObject<DropExperienceBlock> CRETACEOUS_FOSSILS = makeDeepslateFossilBlock("cretaceous_fossils");
+
     public static final RegistryObject<DropExperienceBlock> STONE_PERMIAN_FOSSIL = registryBlock("stone_permian_fossil_ore", () -> new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.STONE).requiresCorrectToolForDrops(), ConstantInt.of(1)));
 
     public static final RegistryObject<BrushableBlock> MUD_WITH_FOSSILS = registryBlock("mud_with_fossils", () -> new MudFossilBlock(Blocks.MUD, BlockBehaviour.Properties.copy(Blocks.MUD), SoundEvents.BRUSH_GRAVEL, SoundEvents.BRUSH_GRAVEL_COMPLETED, ModLootTables.MUD_FOSSIL_BRUSH));
     public static final RegistryObject<RevivalStand> REVIVAL_STAND = register("revival_stand", RevivalStand::new, b -> new RevivalStandItem(b, new Item.Properties()));
 
-    public static final RegistryObject<RoeBlock> ARANDASPIS_ROE = register("arandaspis_roe", () -> new RoeBlock(BlockBehaviour.Properties.copy(Blocks.FROGSPAWN), 3600, 12000, 1, 4, ModEntities.ARANDASPIS::get), () -> new Item.Properties().stacksTo(16));
-    public static final RegistryObject<RoeBlock> ANOMALOCARIS_EGGS = register("anomalocaris_eggs", () -> new RoeBlock(BlockBehaviour.Properties.copy(Blocks.FROGSPAWN), 3600, 12000, 1, 3, ModEntities.ANOMALOCARIS::get), () -> new Item.Properties().stacksTo(16));
+    public static final RegistryObject<RoeBlock> ARANDASPIS_ROE = register("arandaspis_roe", () -> new RoeBlock(BlockBehaviour.Properties.copy(Blocks.FROGSPAWN), 3600, 12000, 1, 3, ModEntities.ARANDASPIS::get), () -> new Item.Properties().stacksTo(16));
 
 
 

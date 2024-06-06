@@ -23,7 +23,7 @@ public class PanicSprintingGoal extends Goal {
     public PanicSprintingGoal(PathfinderMob pMob, double pSpeedModifier) {
         this.mob = pMob;
         this.speedModifier = pSpeedModifier;
-        this.setFlags(EnumSet.of(Flag.MOVE));
+        this.setFlags(EnumSet.of(Goal.Flag.MOVE));
     }
 
     /**

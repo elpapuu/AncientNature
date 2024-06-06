@@ -1,0 +1,5 @@
+// 1.20.1	2024-05-18T22:25:18.6486379	Tags for minecraft:block mod id ancientnature
+83defb3507bb78c49df44632ba17394f3e401bd5 data/minecraft/tags/blocks/mineable/pickaxe.json
+446cae180078c80cb66d78026bc15baea8955053 data/minecraft/tags/blocks/mineable/shovel.json
+3c0e2b1be9dea41621978cfbe4d68953eae4bdb8 data/minecraft/tags/blocks/needs_iron_tool.json
+70da44464d27250c088a1869c8f499e23f2bdada data/minecraft/tags/blocks/needs_stone_tool.json

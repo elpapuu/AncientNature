@@ -9,14 +9,14 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.reaper.ancientnature.AncientNature;
-import net.reaper.ancientnature.client.model.entity.AnomalocarisModel;
+import net.reaper.ancientnature.client.model.entity.AnomalocrisModel;
 import net.reaper.ancientnature.client.model.entity.ArandaspisModel;
-import net.reaper.ancientnature.client.model.entity.ParanogmiusModel;
+import net.reaper.ancientnature.client.model.entity.OviraptorModel;
 import net.reaper.ancientnature.client.model.entity.TuataraModel;
 import net.reaper.ancientnature.client.renderer.blockentity.RevivalStandRenderer;
-import net.reaper.ancientnature.client.renderer.entity.AnomalocarisRenderer;
+import net.reaper.ancientnature.client.renderer.entity.AnomalocrisRenderer;
 import net.reaper.ancientnature.client.renderer.entity.ArandaspisRenderer;
-import net.reaper.ancientnature.client.renderer.entity.ParanogmiusRenderer;
+import net.reaper.ancientnature.client.renderer.entity.OviraptorRenderer;
 import net.reaper.ancientnature.client.renderer.entity.TuataraRenderer;
 import net.reaper.ancientnature.client.screens.RevivalStandScreen;
 import net.reaper.ancientnature.common.particle.RevivalStandParticle;
@@ -32,18 +32,20 @@ public class ModEventBusClientEvents {
     public static void registerLayer(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(ArandaspisModel.ARANDASPIS_LAYER, ArandaspisModel::createBodyLayer);
         event.registerLayerDefinition(TuataraModel.TUATARA_LAYER, TuataraModel::createBodyLayer);
-        event.registerLayerDefinition(AnomalocarisModel.ANOMALOCARIS_LAYER, AnomalocarisModel::createBodyLayer);
-        event.registerLayerDefinition(ParanogmiusModel.PARANOGMIUS_LAYER, ParanogmiusModel::createBodyLayer);
+        event.registerLayerDefinition(AnomalocrisModel.AnomalocarisLayer, AnomalocrisModel::createBodyLayer);
+        event.registerLayerDefinition(OviraptorModel.OviraptorLayer, OviraptorModel::createBodyLayer);
     }
 
     @SubscribeEvent
     public static void registerRenderes(EntityRenderersEvent.RegisterRenderers event) {
+        //entities
         event.registerEntityRenderer(ModEntities.ARANDASPIS.get(), ArandaspisRenderer::new);
         event.registerEntityRenderer(ModEntities.ARANDASPIS.get(), ArandaspisRenderer::new);
-        event.registerEntityRenderer(ModEntities.ANOMALOCARIS.get(), AnomalocarisRenderer::new);
-        event.registerEntityRenderer(ModEntities.PARANOGMIUS.get(), ParanogmiusRenderer::new);
+        event.registerEntityRenderer(ModEntities.ANOMALOCRIS.get(), AnomalocrisRenderer::new);
         event.registerEntityRenderer(ModEntities.TUATARA.get(), TuataraRenderer::new);
-        event.registerBlockEntityRenderer(ModBlockEntities.REVIVAL_STAND_ENTITY.get(), RevivalStandRenderer::new);
+        event.registerEntityRenderer(ModEntities.OVIRAPTOR.get(), OviraptorRenderer::new);
+        //block entities
+        event.registerBlockEntityRenderer(ModBlockEntities.REVIVAL_STAND.get(), RevivalStandRenderer::new);
     }
 
     @SubscribeEvent

@@ -1,6 +1,7 @@
 package net.reaper.ancientnature.common.block;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -12,6 +13,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -29,6 +31,7 @@ import net.minecraftforge.network.NetworkHooks;
 import net.reaper.ancientnature.common.blockentity.RevivalStandBlockEntity;
 import net.reaper.ancientnature.common.util.WorldUtils;
 import net.reaper.ancientnature.core.init.ModBlockEntities;
+import net.reaper.ancientnature.core.init.ModBlocks;
 import net.reaper.ancientnature.core.init.ModParticles;
 import net.reaper.ancientnature.core.init.ModTags;
 import org.jetbrains.annotations.Nullable;
@@ -117,6 +120,6 @@ public class RevivalStand extends BlockEntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-        return pLevel.isClientSide ? null : createTickerHelper(pBlockEntityType, ModBlockEntities.REVIVAL_STAND_ENTITY.get(), RevivalStandBlockEntity::serverTick);
+        return pLevel.isClientSide ? null : createTickerHelper(pBlockEntityType, ModBlockEntities.REVIVAL_STAND.get(), RevivalStandBlockEntity::serverTick);
     }
 }

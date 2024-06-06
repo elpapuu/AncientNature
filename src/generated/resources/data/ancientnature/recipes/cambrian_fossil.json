@@ -1,0 +1,10 @@
+{
+  "type": "ancientnature:water_washing",
+  "input": {
+    "item": "ancientnature:muddy_permian_fossil"
+  },
+  "output": {
+    "item": "ancientnature:cambrian_fossil"
+  },
+  "probability": 0.16
+}

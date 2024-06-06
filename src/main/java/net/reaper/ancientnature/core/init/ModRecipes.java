@@ -8,6 +8,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.reaper.ancientnature.AncientNature;
+import net.reaper.ancientnature.common.block.RevivalStand;
 import net.reaper.ancientnature.common.recipe.BrushingRecipe;
 import net.reaper.ancientnature.common.recipe.RevivalStandRecipe;
 import net.reaper.ancientnature.common.recipe.WaterWashingRecipe;

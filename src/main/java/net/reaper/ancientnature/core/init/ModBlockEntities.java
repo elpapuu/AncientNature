@@ -11,6 +11,7 @@ public class ModBlockEntities {
 
     public static final DeferredRegister<BlockEntityType<?>> TES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, AncientNature.MOD_ID);
 
-    public static final RegistryObject<BlockEntityType<RevivalStandBlockEntity>> REVIVAL_STAND_ENTITY = TES.register("revival_stand", () -> BlockEntityType.Builder.of(RevivalStandBlockEntity::new, ModBlocks.REVIVAL_STAND.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<RevivalStandBlockEntity>> REVIVAL_STAND = TES.register("revival_stand", () -> BlockEntityType.Builder.of(RevivalStandBlockEntity::new, ModBlocks.REVIVAL_STAND.get()).build(null));
 
 }

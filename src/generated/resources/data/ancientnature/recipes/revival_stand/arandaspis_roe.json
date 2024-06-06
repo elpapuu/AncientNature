@@ -1,0 +1,23 @@
+{
+  "type": "ancientnature:revival_stand_recipe",
+  "amber": {
+    "ingredient": {
+      "tag": "ancientnature:amber"
+    }
+  },
+  "amberInfusionTime": 100,
+  "base_roe": {
+    "item": "ancientnature:fish_roe"
+  },
+  "egg": {
+    "count": 3,
+    "item": "ancientnature:arandaspis_roe"
+  },
+  "fossil": {
+    "count": 4,
+    "ingredient": {
+      "item": "ancientnature:arandaspis_fossil"
+    }
+  },
+  "fossilInfusionTime": 100
+}

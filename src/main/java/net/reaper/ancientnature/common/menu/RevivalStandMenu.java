@@ -57,7 +57,7 @@ public class RevivalStandMenu extends BaseTileEntityMenu<RevivalStandBlockEntity
                     if (!this.moveItemStackTo(slotItem, 0, 1, false)) {
                         return ItemStack.EMPTY;
                     }
-                } else if (slotItem.is(ModTags.Items.ANIMAL_AMBERS)) {
+                } else if (slotItem.is(ModTags.Items.AMBER)) {
                     if (!this.moveItemStackTo(slotItem, 1, 2, false)) {
                         return ItemStack.EMPTY;
                     }

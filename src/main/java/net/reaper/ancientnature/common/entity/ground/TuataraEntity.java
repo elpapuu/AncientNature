@@ -17,35 +17,19 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.reaper.ancientnature.common.entity.BaseTameableDinoEntity;
 import net.reaper.ancientnature.core.init.ModEntities;
 import org.jetbrains.annotations.Nullable;
 
-public class TuataraEntity extends Animal {
+public class TuataraEntity extends BaseTameableDinoEntity {
 
-    private static final EntityDataAccessor<Boolean> IS_MALE = SynchedEntityData.defineId(TuataraEntity.class, EntityDataSerializers.BOOLEAN);
     public AnimationState idleAnimation = new AnimationState();
 
-    public TuataraEntity(EntityType<? extends Animal> pEntityType, Level pLevel) {
+    public TuataraEntity(EntityType<? extends BaseTameableDinoEntity> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
 
-    @Override
-    public void addAdditionalSaveData(CompoundTag pCompound) {
-        super.addAdditionalSaveData(pCompound);
-        pCompound.putBoolean("isMale", isMale());
-    }
 
-    @Override
-    public void readAdditionalSaveData(CompoundTag pCompound) {
-        super.readAdditionalSaveData(pCompound);
-        setMale(pCompound.getBoolean("isMale"));
-    }
-
-    @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(IS_MALE, true);
-    }
 
     @Override
     protected void registerGoals() {
@@ -59,20 +43,6 @@ public class TuataraEntity extends Animal {
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 6.0F));
         this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
-    }
-
-    @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
-        setMale(random.nextBoolean());
-        return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
-    }
-
-    public boolean isMale(){
-        return this.entityData.get(IS_MALE);
-    }
-
-    public void setMale(boolean male){
-        this.entityData.set(IS_MALE, male);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
