@@ -1,6 +1,7 @@
 package net.reaper.ancientnature.core.datagen.client;
 
 import net.minecraft.data.PackOutput;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -68,15 +69,23 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         add("advancements.paleontologist.descr", "Obtain your first fossil");
 
         //subtitles
-        add("sound.ancientnature.cleaned_fossil", "Fossil cleaning");
-        add("sound.ancientnature.anomalocaris_eat", "Anomalocaris eating");
-        add("sound.ancientnature.anomalocaris_hurt", "Anomalocaris hurt");
-        add("sound.ancientnature.anomalocaris_death", "Anomalocaris dying");
+        add(ModSounds.CLEANED_FOSSIL.get(), "Fossil cleaning");
+        add(ModSounds.ANOMALOCARIS_EAT_1.get(), "Anomalocaris eating");
+        add(ModSounds.ANOMALOCARIS_EAT_2.get(), "Anomalocaris eating");
+        add(ModSounds.ANOMALOCARIS_HURT_1.get(), "Anomalocaris hurt");
+        add(ModSounds.ANOMALOCARIS_HURT_2.get(), "Anomalocaris hurt");
+        add(ModSounds.ANOMALOCARIS_DEATH_1.get(), "Anomalocaris dying");
+        add(ModSounds.ANOMALOCARIS_DEATH_2.get(), "Anomalocaris dying");
 
         //creative tab
         addTab("ancientnature_tab", "Ancient Nature");
 
 
+    }
+
+
+    public void add(SoundEvent soundEvent, String translation){
+        add(ModSoundProvider.createSubtitle(soundEvent), translation);
     }
 
     public void auto(ItemLike item) {

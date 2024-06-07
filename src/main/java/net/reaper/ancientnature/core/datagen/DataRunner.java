@@ -35,6 +35,7 @@ public class DataRunner {
         gen.addProvider(event.includeClient(), new ModParticleProvider(output, helper));
         gen.addProvider(event.includeServer(), new ModLootModifierProvider(output));
         gen.addProvider(event.includeServer(), new ModEntityTagsProvider(output, holderLookup, helper));
+        gen.addProvider(event.includeClient(), new ModSoundProvider(output, helper));
 
         try {
             gen.run();

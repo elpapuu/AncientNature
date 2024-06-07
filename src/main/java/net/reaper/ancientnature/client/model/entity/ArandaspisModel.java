@@ -47,11 +47,11 @@ public class ArandaspisModel extends HierarchicalModel<Arandaspis> {
         this.root().getAllParts().forEach(ModelPart::resetPose);
         applyHeadRotation(entity, netHeadYaw, headPitch, ageInTicks);
         if (entity.isPanicking())
-            this.animateWalk(ArandaspisAnimation.ARANDASPIS_RUN, limbSwing, limbSwingAmount, 4f, 4.5f);
+            this.animateWalk(ArandaspisAnimation.Adult.ARANDASPIS_RUN, limbSwing, limbSwingAmount, 4f, 4.5f);
         else
-            this.animateWalk(ArandaspisAnimation.ARANDASPIS_SWIM, limbSwing, limbSwingAmount, 4f, 4.5f);
-        this.animate(entity.idleAnimation, ArandaspisAnimation.ARANDASPIS_IDLE, ageInTicks);
-        this.animate(entity.flopAnimation, ArandaspisAnimation.ARANDASPIS_FLOP, ageInTicks, 1.5f);
+            this.animateWalk(ArandaspisAnimation.Adult.ARANDASPIS_SWIM, limbSwing, limbSwingAmount, 4f, 4.5f);
+        this.animate(entity.idleAnimation, ArandaspisAnimation.Adult.ARANDASPIS_IDLE, ageInTicks);
+        this.animate(entity.flopAnimation, ArandaspisAnimation.Adult.ARANDASPIS_FLOP, ageInTicks, 1.5f);
 
     }
 
