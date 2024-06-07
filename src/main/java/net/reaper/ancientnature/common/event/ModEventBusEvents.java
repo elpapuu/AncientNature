@@ -14,11 +14,11 @@ import net.reaper.ancientnature.common.entity.water.Arandaspis;
 
 @Mod.EventBusSubscriber(modid = AncientNature.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ModEventBusEvents {
-@SubscribeEvent
+    @SubscribeEvent
     public static void registerAttributes(EntityAttributeCreationEvent event) {
         event.put(ModEntities.ARANDASPIS.get(), Arandaspis.createAttributes().build());
         event.put(ModEntities.TUATARA.get(), TuataraEntity.createAttributes().build());
-    event.put(ModEntities.PARANOGMIUS.get(), Paranogmius.createAttributes().build());
+        event.put(ModEntities.PARANOGMIUS.get(), Paranogmius.createAttributes().build());
         event.put(ModEntities.ANOMALOCARIS.get(), Anomalocaris.createAttributes().build());
     event.put(ModEntities.OVIRAPTOR.get(), OviraptorEntity.createAttributes().build());
     }
