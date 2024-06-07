@@ -10,6 +10,7 @@ import net.minecraftforge.registries.RegistryObject;
 import net.reaper.ancientnature.AncientNature;
 import net.reaper.ancientnature.client.model.entity.ParanogmiusModel;
 import net.reaper.ancientnature.client.renderer.entity.ParanogmiusRenderer;
+import net.reaper.ancientnature.common.entity.ground.OviraptorEntity;
 import net.reaper.ancientnature.common.entity.ground.TuataraEntity;
 import net.reaper.ancientnature.common.entity.water.Anomalocaris;
 import net.reaper.ancientnature.common.entity.water.Arandaspis;
@@ -35,6 +36,12 @@ public class ModEntities {
     public static final RegistryObject<EntityType<Paranogmius>> PARANOGMIUS =
             register("paranogmius", () -> EntityType.Builder.of(Paranogmius::new, MobCategory.WATER_CREATURE)
                     .sized(1.6f, 1.5f));
+
+    public static final RegistryObject<EntityType<OviraptorEntity>> OVIRAPTOR =
+            ENTITY_TYPES.register("oviraptor", () -> EntityType.Builder.of(OviraptorEntity::new, MobCategory.CREATURE)
+                    .sized(0.6f, 0.7f).build("oviraptor"));
+
+
 
     public static final <T extends Entity> RegistryObject<EntityType<T>> register(String name, Supplier<EntityType.Builder<T>> builder){
         return ENTITY_TYPES.register(name, () -> builder.get().build(AncientNature.modLoc(name).toString()));

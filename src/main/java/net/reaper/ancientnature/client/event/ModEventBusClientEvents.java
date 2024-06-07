@@ -9,15 +9,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.reaper.ancientnature.AncientNature;
-import net.reaper.ancientnature.client.model.entity.AnomalocarisModel;
-import net.reaper.ancientnature.client.model.entity.ArandaspisModel;
-import net.reaper.ancientnature.client.model.entity.ParanogmiusModel;
-import net.reaper.ancientnature.client.model.entity.TuataraModel;
+import net.reaper.ancientnature.client.model.entity.*;
 import net.reaper.ancientnature.client.renderer.blockentity.RevivalStandRenderer;
-import net.reaper.ancientnature.client.renderer.entity.AnomalocarisRenderer;
-import net.reaper.ancientnature.client.renderer.entity.ArandaspisRenderer;
-import net.reaper.ancientnature.client.renderer.entity.ParanogmiusRenderer;
-import net.reaper.ancientnature.client.renderer.entity.TuataraRenderer;
+import net.reaper.ancientnature.client.renderer.entity.*;
 import net.reaper.ancientnature.client.screens.RevivalStandScreen;
 import net.reaper.ancientnature.common.particle.RevivalStandParticle;
 import net.reaper.ancientnature.core.init.ModBlockEntities;
@@ -34,6 +28,7 @@ public class ModEventBusClientEvents {
         event.registerLayerDefinition(TuataraModel.TUATARA_LAYER, TuataraModel::createBodyLayer);
         event.registerLayerDefinition(AnomalocarisModel.ANOMALOCARIS_LAYER, AnomalocarisModel::createBodyLayer);
         event.registerLayerDefinition(ParanogmiusModel.PARANOGMIUS_LAYER, ParanogmiusModel::createBodyLayer);
+        event.registerLayerDefinition(OviraptorModel.OviraptorLayer, OviraptorModel::createBodyLayer);
     }
 
     @SubscribeEvent
@@ -43,6 +38,7 @@ public class ModEventBusClientEvents {
         event.registerEntityRenderer(ModEntities.ANOMALOCARIS.get(), AnomalocarisRenderer::new);
         event.registerEntityRenderer(ModEntities.PARANOGMIUS.get(), ParanogmiusRenderer::new);
         event.registerEntityRenderer(ModEntities.TUATARA.get(), TuataraRenderer::new);
+        event.registerEntityRenderer(ModEntities.OVIRAPTOR.get(), OviraptorRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.REVIVAL_STAND_ENTITY.get(), RevivalStandRenderer::new);
     }
 
