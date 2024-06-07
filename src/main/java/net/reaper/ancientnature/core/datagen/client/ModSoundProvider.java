@@ -21,7 +21,7 @@ public class ModSoundProvider extends SoundDefinitionsProvider {
 
     @Override
     public void registerSounds() {
-        simple(ModSounds.WHERE_YOUR_JOURNEY_BEGINS_DISC.get());
+        add(ModSounds.WHERE_YOUR_JOURNEY_BEGINS_DISC.get(), SoundDefinition.definition().with(SoundDefinition.Sound.sound(ModSounds.WHERE_YOUR_JOURNEY_BEGINS_DISC.get().getLocation(), SoundDefinition.SoundType.SOUND).stream()).subtitle(createSubtitle(ModSounds.WHERE_YOUR_JOURNEY_BEGINS_DISC.get())));
         simple(ModSounds.ANOMALOCARIS_DEATH_1.get());
         simple(ModSounds.ANOMALOCARIS_DEATH_2.get());
         simple(ModSounds.ANOMALOCARIS_EAT_1.get());

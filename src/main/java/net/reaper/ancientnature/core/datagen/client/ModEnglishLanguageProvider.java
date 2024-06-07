@@ -76,6 +76,7 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         add(ModSounds.ANOMALOCARIS_HURT_2.get(), "Anomalocaris hurt");
         add(ModSounds.ANOMALOCARIS_DEATH_1.get(), "Anomalocaris dying");
         add(ModSounds.ANOMALOCARIS_DEATH_2.get(), "Anomalocaris dying");
+        add(ModSounds.WHERE_YOUR_JOURNEY_BEGINS_DISC.get(), "Where Your Journey Begins");
 
         //creative tab
         addTab("ancientnature_tab", "Ancient Nature");
@@ -86,6 +87,7 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
 
     public void add(SoundEvent soundEvent, String translation){
         add(ModSoundProvider.createSubtitle(soundEvent), translation);
+        add("item." + ModSoundProvider.createSubtitle(soundEvent) + ".desc", translation);
     }
 
     public void auto(ItemLike item) {
