@@ -84,6 +84,21 @@ public class Anomalocaris extends AquaticAnimal implements Bucketable {
         this.lookControl = new SmoothSwimmingLookControl(this, 10);
     }
 
+
+    public boolean isMovementBlocked() {
+        return false;
+    }
+
+
+    public boolean isRidable() {
+        return false;
+    }
+
+
+    public boolean canBeSteered() {
+        return false;
+    }
+
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new TryFindWaterGoal(this));

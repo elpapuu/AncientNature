@@ -42,6 +42,7 @@ public class ModItems {
 
     public static final RegistryObject<ForgeSpawnEggItem> ARANDASPIS_SPAWN_EGG = ITEMS.register("arandaspis_spawn_egg", () -> new ForgeSpawnEggItem(ModEntities.ARANDASPIS, 0x5887B8, 0x2E4E77, new Item.Properties()));
     public static final RegistryObject<ForgeSpawnEggItem> ANOMALOCARIS_SPAWN_EGG = ITEMS.register("anomalocaris_spawn_egg", () -> new ForgeSpawnEggItem(ModEntities.ANOMALOCARIS, 0xed9237, 0x303030, new Item.Properties()));
+    public static final RegistryObject<ForgeSpawnEggItem> PARANOGMIUS_SPAWN_EGG = ITEMS.register("paranogmius_spawn_egg", () -> new ForgeSpawnEggItem(ModEntities.PARANOGMIUS, 0xed9237, 0x303030, new Item.Properties()));
 
 
     public static void register(IEventBus eventBus) {

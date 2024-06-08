@@ -8,7 +8,10 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.reaper.ancientnature.AncientNature;
+import net.reaper.ancientnature.client.animations.entity.OviraptorAnimations;
+import net.reaper.ancientnature.client.animations.entity.ParanogmiusAnimations;
 import net.reaper.ancientnature.common.entity.ground.OviraptorEntity;
 
 public class OviraptorModel extends HierarchicalModel<OviraptorEntity> {
@@ -16,11 +19,33 @@ public class OviraptorModel extends HierarchicalModel<OviraptorEntity> {
     public static final ModelLayerLocation OviraptorLayer = new ModelLayerLocation(new ResourceLocation(
             AncientNature.MOD_ID, "oviraptor"), "main");
 
+    private final ModelPart oviraptor;
     private final ModelPart body;
+    public ModelPart neck;
+    public ModelPart head;
+    public ModelPart jaw;
+    public ModelPart finleft;
+    public ModelPart finright;
+    public ModelPart tailfin;
+
+    public ModelPart endtail;
+
+    public ModelPart tail;
+    public ModelPart pelvicright;
+    public ModelPart pelvicleft;
+    private OviraptorEntity entity;
+    private float limbSwing;
+    private float limbSwingAmount;
+    private float ageInTicks;
+    private float netHeadYaw;
+    private float headPitch;
+
 
     public OviraptorModel(ModelPart root) {
-        this.body = root.getChild("oviraptor");
-
+        this.body = root;
+        this.neck = neck;
+        this.head = head;
+        this.oviraptor = root.getChild("oviraptor");
     }
 
     public static LayerDefinition createBodyLayer() {
@@ -89,17 +114,34 @@ public class OviraptorModel extends HierarchicalModel<OviraptorEntity> {
     }
 
     @Override
-    public void setupAnim(OviraptorEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-
-    }
-
-    @Override
     public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
     }
 
     @Override
+    public void setupAnim(OviraptorEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        this.root().getAllParts().forEach(ModelPart::resetPose);
+        applyHeadRotation(entity, netHeadYaw, headPitch, ageInTicks);
+		if (entity.isSprinting())
+			this.animateWalk(OviraptorAnimations.OVIRAPTOR_RUN, limbSwing, limbSwingAmount, 4f, 4.5f);
+		else
+        this.animateWalk(OviraptorAnimations.OVIRAPTOR_WALK, limbSwing, limbSwingAmount, 4f, 4.5f);
+        this.animateWalk(OviraptorAnimations.OVIRAPTOR_COMMUNICATION, limbSwing, limbSwingAmount, 4f, 4.5f);
+        this.animateWalk(OviraptorAnimations.OVIRAPTOR_EAT, limbSwing, limbSwingAmount, 4f, 4.5f);
+        this.animate(entity.idleAnimation, OviraptorAnimations.OVIRAPTOR_IDLE, ageInTicks, 1.0F);
+    }
+
+    private void applyHeadRotation(OviraptorEntity pEntity, float pNetHeadYaw, float pHeadPitch, float pAgeInTicks) {
+        pNetHeadYaw = Mth.clamp(pNetHeadYaw, -30.0F, 30.0F);
+        pHeadPitch = Mth.clamp(pHeadPitch, -25.0F, 45.0F);
+
+        this.oviraptor.getChild("body").yRot = pNetHeadYaw * 0.017453292F;
+        this.oviraptor.getChild("body").xRot = pHeadPitch * 0.017453292F;
+    }
+
+
+    @Override
     public ModelPart root() {
-        return body;
+        return oviraptor;
     }
 }

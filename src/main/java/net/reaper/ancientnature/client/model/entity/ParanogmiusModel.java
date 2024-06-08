@@ -21,7 +21,20 @@ public class ParanogmiusModel extends HierarchicalModel<Paranogmius> {
 	public static final ModelLayerLocation PARANOGMIUS_LAYER = new ModelLayerLocation(new ResourceLocation(
 			AncientNature.MOD_ID, "paranogmius"), "main");
 
-	private final ModelPart body, paranogmius;
+	private final ModelPart paranogmius;
+	public ModelPart body;
+	public ModelPart head;
+	public ModelPart jaw;
+	public ModelPart finleft;
+	public ModelPart finright;
+	public ModelPart tailfin;
+
+	public ModelPart endtail;
+
+	public ModelPart tail;
+	public ModelPart pelvicright;
+	public ModelPart pelvicleft;
+
 
 	public ParanogmiusModel(ModelPart root) {
         this.paranogmius = root;
@@ -104,6 +117,13 @@ public class ParanogmiusModel extends HierarchicalModel<Paranogmius> {
 	public void setupAnim(Paranogmius entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 		applyHeadRotation(entity, netHeadYaw, headPitch, ageInTicks);
+		this.body.xRot = headPitch * (float) (Math.PI / 180F);
+		this.body.yRot = netHeadYaw * (float) (Math.PI / 180F);
+
+		if (entity.isSwimming() && entity.isInWater()) {
+			this.body.zRot = Mth.sin((float) ((entity.tickCount + ageInTicks) * 2 * Math.PI * 0.8125D));
+		}
+
 		if (entity.isSprinting()) {
             this.animateWalk(ParanogmiusAnimations.PARANOGMIUS_SPRINT, limbSwing, limbSwingAmount, 4f, 4.5f);
         } else

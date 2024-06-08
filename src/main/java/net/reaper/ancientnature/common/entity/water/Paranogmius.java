@@ -9,15 +9,20 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -34,29 +39,32 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
 
-public class Paranogmius extends AquaticAnimal {
+public class Paranogmius extends AquaticAnimal implements PlayerRideable {
     public final AnimationState flopAnimation = new AnimationState();
     public final AnimationState idleAnimation = new AnimationState();
     public final AnimationState attackAnimation = new AnimationState();
+    public final AnimationState swimAnimation = new AnimationState();
+    private int swimAnimationTimeout = 0;
     private int idleAnimationTimeout = 0;
     private int attackAnimationTimeout = 0;
 
     boolean hasEggs;
     private static final EntityDataAccessor<Boolean> IS_ATTACKING = SynchedEntityData.defineId(Paranogmius.class, EntityDataSerializers.BOOLEAN);
 
-    public Paranogmius(EntityType<? extends AquaticAnimal> pEntityType, Level pLevel) {
+    public Paranogmius(EntityType<? extends AquaticAnimal> pEntityType, Level pLevel)  {
         super(pEntityType, pLevel);
-        this.moveControl = new SmoothSwimmingMoveControl(this, 130, 35, 0.02F, 0.1F, true);
+        this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.02F, 0.1F, true);
         this.lookControl = new SmoothSwimmingLookControl(this, 10);
     }
 
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new TryFindWaterGoal(this));
         this.goalSelector.addGoal(0, new SwimGoal(this, 4f));
+        this.goalSelector.addGoal(4, new RandomSwimmingGoal(this, 1.0, 10));
         this.goalSelector.addGoal(0, new PanicSprintingGoal(this, 2.0D));
         this.goalSelector.addGoal(1, new AvoidEntitySprinting<>(this, Player.class, 8.0F,1f, 2f, EntitySelector.NO_SPECTATORS::test));
         this.goalSelector.addGoal(2, new EggBreedGoal(this, 1.0D));
-        this.goalSelector.addGoal(3, new ParanogmiusJumpGoal(this, 10));
+        this.goalSelector.addGoal(5, new ParanogmiusJumpGoal(this, 10));
         this.goalSelector.addGoal(3, new LayEggGoal(this, 1.0D, 16, 16));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(8, new FollowBoatGoal(this));
@@ -95,26 +103,13 @@ public class Paranogmius extends AquaticAnimal {
     }
 
     private void setupAnimationStates() {
-        if(this.idleAnimationTimeout <= 0) {
-            this.idleAnimationTimeout = this.random.nextInt(40) + 80;
-            this.idleAnimation.start(this.tickCount);
-        } else {
-            --this.idleAnimationTimeout;
-        }
-        if (!this.isInWater()) {
-            if (this.idleAnimation.isStarted()) this.idleAnimation.stop();
-            if (this.attackAnimation.isStarted()) this.attackAnimation.stop();
-            this.flopAnimation.startIfStopped(this.tickCount);
-        } else {
-            this.flopAnimation.stop();
-        }
-        // idle anim
         if (this.idleAnimationTimeout <= 0) {
             this.idleAnimationTimeout = this.random.nextInt(40) + 80;
             this.idleAnimation.start(this.tickCount);
         } else {
             --this.idleAnimationTimeout;
         }
+        //flopping condition
         if (!this.isInWater()) {
             if (this.idleAnimation.isStarted())
                 this.idleAnimation.stop();
@@ -123,6 +118,7 @@ public class Paranogmius extends AquaticAnimal {
             this.flopAnimation.stop();
         }
     }
+
     @Override
     protected void updateWalkAnimation(float pPartialTick) {
         if (this.isInWater())
@@ -143,7 +139,7 @@ public class Paranogmius extends AquaticAnimal {
     @Nonnull
     public static AttributeSupplier.Builder createAttributes() {
         return WaterAnimal.createLivingAttributes()
-                .add(Attributes.MAX_HEALTH, 28.0D)
+                .add(Attributes.MAX_HEALTH, 25.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.23D)
                 .add(Attributes.FOLLOW_RANGE, 16.0D)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 2.0D);
@@ -159,27 +155,97 @@ public class Paranogmius extends AquaticAnimal {
     public int getMaxHeadYRot() {
         return 1;
     }
+    public boolean rideableUnderWater() {
+        return true;
+    }
 
     protected boolean canRide(Entity pEntity) {
         return true;
     }
+    protected PathNavigation createNavigation(Level p_27480_) {
+        return new WaterBoundPathNavigation(this, p_27480_);
+    }
     @Override
-    public void travel(Vec3 pTravelVector) {
+    public void travel(Vec3 travelVector) {
         if (this.isEffectiveAi() && this.isInWater()) {
-            this.moveRelative(this.getSpeed(), pTravelVector);
+            this.moveRelative(this.getSpeed(), travelVector);
             this.move(MoverType.SELF, this.getDeltaMovement());
-            this.setDeltaMovement(this.getDeltaMovement().scale(0.9));
+            this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
             if (this.getTarget() == null) {
-                this.setDeltaMovement(this.getDeltaMovement().add(0.0, -0.001, 0.0));
+                this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.005D, 0.0D));
             }
         } else {
-            super.travel(pTravelVector);
+            super.travel(travelVector);
         }
 
     }
+    static class MoveHelperController extends MoveControl {
+        private final Paranogmius dolphin;
+
+        public MoveHelperController(Paranogmius dolphinIn) {
+            super(dolphinIn);
+            this.dolphin = dolphinIn;
+        }
+
+        public void tick() {
+            if (this.dolphin.isInWater()) {
+                this.dolphin.setDeltaMovement(this.dolphin.getDeltaMovement().add(0.0D, 0.005D, 0.0D));
+            }
+
+            if (this.operation == MoveControl.Operation.MOVE_TO && !this.dolphin.getNavigation().isDone()) {
+                double d0 = this.wantedX - this.dolphin.getX();
+                double d1 = this.wantedY - this.dolphin.getY();
+                double d2 = this.wantedZ - this.dolphin.getZ();
+                double d3 = d0 * d0 + d1 * d1 + d2 * d2;
+                if (d3 < (double) 2.5000003E-7F) {
+                    this.mob.setZza(0.0F);
+                } else {
+                    float f = (float) (Mth.atan2(d2, d0) * (double) (180F / (float) Math.PI)) - 90.0F;
+                    this.dolphin.setYRot(this.rotlerp(this.dolphin.getYRot(), f, 10.0F));
+                    this.dolphin.yBodyRot = this.dolphin.getYRot();
+                    this.dolphin.yHeadRot = this.dolphin.getYRot();
+                    float f1 = (float) (this.speedModifier * this.dolphin.getAttributeValue(Attributes.MOVEMENT_SPEED));
+                    if (this.dolphin.isInWater()) {
+                        this.dolphin.setSpeed(f1 * 0.02F);
+                        float f2 = -((float) (Mth.atan2(d1, Mth.sqrt((float) (d0 * d0 + d2 * d2))) * (double) (180F / (float) Math.PI)));
+                        f2 = Mth.clamp(Mth.wrapDegrees(f2), -85.0F, 85.0F);
+                        this.dolphin.setXRot(this.rotlerp(this.dolphin.getXRot(), f2, 5.0F));
+                        float f3 = Mth.cos(this.dolphin.getXRot() * ((float) Math.PI / 180F));
+                        float f4 = Mth.sin(this.dolphin.getXRot() * ((float) Math.PI / 180F));
+                        this.dolphin.zza = f3 * f1;
+                        this.dolphin.yya = -f4 * f1;
+                    } else {
+                        this.dolphin.setSpeed(f1 * 0.1F);
+                    }
+
+                }
+            } else {
+                this.dolphin.setSpeed(0.0F);
+                this.dolphin.setXxa(0.0F);
+                this.dolphin.setYya(0.0F);
+                this.dolphin.setZza(0.0F);
+            }
+        }
+    }
+
 
     public boolean doesHaveEggs() {
         return hasEggs;
+    }
+
+
+
+    public boolean isMovementBlocked() {
+        return false;
+    }
+
+
+    public boolean isRidable() {
+        return true;
+    }
+
+    public boolean canBeSteered() {
+        return true;
     }
 
     public void setHasEggs(boolean hasEggs) {

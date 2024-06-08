@@ -44,6 +44,7 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
 
         auto(ModItems.ARANDASPIS_SPAWN_EGG.get());
         auto(ModItems.ANOMALOCARIS_SPAWN_EGG.get());
+        auto(ModItems.PARANOGMIUS_SPAWN_EGG.get());
 
         auto(ModBlocks.ARANDASPIS_ROE.get());
         auto(ModBlocks.ANOMALOCARIS_EGGS.get());

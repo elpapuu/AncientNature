@@ -27,15 +27,21 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
 import net.reaper.ancientnature.common.entity.BaseTameableDinoEntity;
 import net.reaper.ancientnature.common.entity.goals.*;
+import net.reaper.ancientnature.common.entity.water.Anomalocaris;
 import net.reaper.ancientnature.core.init.ModTags;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
 public class OviraptorEntity extends BaseTameableDinoEntity {
-
-     private static final EntityDataAccessor<Integer> ITEM_TIMER = SynchedEntityData.defineId(OviraptorEntity.class, EntityDataSerializers.INT);
+    public AnimationState idleAnimation = new AnimationState();
+    private AnimationState swimAnimation = new AnimationState();
+    private AnimationState walkAnimationState = new AnimationState();
+    private int walkAnimationTimeout = 0;
+    private int idleAnimationTimeout = 0;
+    private static final EntityDataAccessor<Integer> ITEM_TIMER = SynchedEntityData.defineId(OviraptorEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> IS_DISTRACTED = SynchedEntityData.defineId(OviraptorEntity.class, EntityDataSerializers.BOOLEAN);
+    private AnimationState sitAnimation;
 
 
     public OviraptorEntity(EntityType<? extends BaseTameableDinoEntity> pEntityType, Level pLevel) {
@@ -88,6 +94,7 @@ public class OviraptorEntity extends BaseTameableDinoEntity {
         this.goalSelector.addGoal(1, new HerbivorePanic(this, 2.0D, 12)); // might need to be custom
         this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
         this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.25D));
+        this.goalSelector.addGoal(4, new CommunicateGoal(this));
         // drop egg goal
         this.goalSelector.addGoal(6, new DropAtClayEggGoal(Blocks.CLAY, this, 1.4, (int) 25D));
         // find egg item goal
@@ -123,7 +130,7 @@ public class OviraptorEntity extends BaseTameableDinoEntity {
         if (this.level().isClientSide) {
             boolean flag = this.isOwnedBy(pPlayer) || this.isTame() || itemstack.is(Items.BONE) && !this.isTame(); // add !is baby
             return flag ? InteractionResult.CONSUME : InteractionResult.PASS;
-        } else if (itemstack.is(Items.WHEAT_SEEDS)) {
+        } else if (itemstack.is(Items.EGG)){
             if (!pPlayer.getAbilities().instabuild) {
                 itemstack.shrink(1);
             }
@@ -143,16 +150,16 @@ public class OviraptorEntity extends BaseTameableDinoEntity {
 
             if (getOrder() == 1 || getOrder() == 0)  {
                 setOrder(2);
-                pPlayer.displayClientMessage(Component.nullToEmpty("following"), true);
+                pPlayer.displayClientMessage(Component.nullToEmpty("Oviraptor is following you"), true);
                 System.out.println("following:");
 
             } else if (getOrder() == 2) {
-                pPlayer.displayClientMessage(Component.nullToEmpty("wandering"), true);
+                pPlayer.displayClientMessage(Component.nullToEmpty("Oviraptor is wandering"), true);
                 System.out.println("wandering" );
                 setOrder(3);
             }
             else if (getOrder() == 3) {
-                pPlayer.displayClientMessage(Component.nullToEmpty("sitting"), true);
+                pPlayer.displayClientMessage(Component.nullToEmpty("Oviraptor is resting"), true);
                 System.out.println("sitting");
                 setOrder(1);
             }
@@ -167,7 +174,6 @@ public class OviraptorEntity extends BaseTameableDinoEntity {
 
 
     }
-
 
     public boolean isDistracted(){
         return this.entityData.get(IS_DISTRACTED);
@@ -194,6 +200,45 @@ public class OviraptorEntity extends BaseTameableDinoEntity {
     public LivingEntity getOwner() {
         return super.getOwner();
     }
+
+    private void setupAnimationStates() {
+        if (this.idleAnimationTimeout <= 0) {
+            this.idleAnimationTimeout = this.random.nextInt(40) + 80;
+            this.idleAnimation.start(this.tickCount);
+        } else {
+            --this.idleAnimationTimeout;
+        }
+        if (this.walkAnimation()) {
+            this.walkAnimationState.start(this.tickCount);
+            this.walkAnimationState.startIfStopped(this.tickCount);
+        } else {
+            this.walkAnimationState.stop();
+        }
+        //sitting
+        if (!this.isInSittingPose()) {
+            if (this.idleAnimation.isStarted())
+                this.idleAnimation.stop();
+            this.sitAnimation.startIfStopped(this.tickCount);
+        } else {
+            this.swimAnimation.stop();
+        }
+        //swim
+        if (!this.isInWater()) {
+            if (this.idleAnimation.isStarted())
+                this.idleAnimation.stop();
+            this.swimAnimation.startIfStopped(this.tickCount);
+        } else {
+            this.swimAnimation.stop();
+        }
+    }
+
+    private boolean walkAnimation() {
+        return false;
+    }
+    private boolean sitAnimation() {
+        return false;
+    }
+
 
     @Override
     public void deserializeNBT(CompoundTag nbt) {

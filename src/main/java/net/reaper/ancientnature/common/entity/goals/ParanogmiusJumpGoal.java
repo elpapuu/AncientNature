@@ -49,7 +49,7 @@ public class ParanogmiusJumpGoal extends JumpGoal {
     }
 
     private boolean surfaceIsClear(BlockPos pPos, int pDx, int pDz, int pScale) {
-        return this.paranogmius.level().getBlockState(pPos.offset(pDx * pScale, 1, pDz * pScale)).isAir() && this.paranogmius.level().getBlockState(pPos.offset(pDx * pScale, 2, pDz * pScale)).isAir();
+        return this.paranogmius.level().getBlockState(pPos.offset(pDx * pScale, 1, pDz * pScale)).isAir() && this.paranogmius.level().getBlockState(pPos.offset(pDx * pScale, 3, pDz * pScale)).isAir();
     }
 
     public boolean canContinueToUse() {

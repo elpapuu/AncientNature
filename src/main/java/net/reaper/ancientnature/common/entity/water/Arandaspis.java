@@ -58,6 +58,21 @@ public class Arandaspis extends AquaticAnimal implements Bucketable {
         this.lookControl = new SmoothSwimmingLookControl(this, 10);
     }
 
+
+    public boolean isMovementBlocked() {
+        return false;
+    }
+
+
+    public boolean isRidable() {
+        return false;
+    }
+
+
+    public boolean canBeSteered() {
+        return false;
+    }
+
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new PanicSprintingGoal(this, 4f));
         this.goalSelector.addGoal(1, new AvoidEntitySprinting<>(this, Player.class, 8.0F,1f, 2f, EntitySelector.NO_SPECTATORS::test));
