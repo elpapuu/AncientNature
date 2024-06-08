@@ -21,11 +21,9 @@ public class LythronaxModel extends HierarchicalModel<LythronaxEntity> {
 	public static final ModelLayerLocation LYTHRONAX_LAYER = new ModelLayerLocation(new ResourceLocation(AncientNature.MOD_ID, "lythronax"), "main");
 	private final ModelPart Lythronax;
 	private final ModelPart body;
-	private final ModelPart tail;
 
 	public LythronaxModel(ModelPart root) {
 		this.body = root;
-		this.tail = root;
 		this.Lythronax = root.getChild("Lythronax");
 	}
 	public static LayerDefinition createBodyLayer() {
@@ -112,6 +110,12 @@ public class LythronaxModel extends HierarchicalModel<LythronaxEntity> {
 		applyHeadRotation(entity, netHeadYaw, headPitch, ageInTicks);
 		if (entity.isSprinting())
 			this.animateWalk(LythronaxAnimations.LYTHRONAX_SPRINT, limbSwing, limbSwingAmount, 4f, 4.5f);
+		else
+		if (entity.getOrder()==3)
+			this.animate(entity.sitAnimation, LythronaxAnimations.LYTHRONAX_SIT, ageInTicks, 1.0F);
+		else
+			if (entity.isSleeping())
+			this.animate(entity.sleepAnimation, LythronaxAnimations.LYTHRONAX_SLEEP, ageInTicks, 1.0F);
 		else
 			this.animateWalk(LythronaxAnimations.LYTHRONAX_WALK, limbSwing, limbSwingAmount, 4f, 4.5f);
 		this.animateWalk(LythronaxAnimations.LYTHRONAX_COMMUNICATION, limbSwing, limbSwingAmount, 4f, 4.5f);

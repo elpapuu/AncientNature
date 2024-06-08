@@ -27,8 +27,8 @@ import org.jetbrains.annotations.Nullable;
 
 public class OviraptorEntity extends BaseTameableDinoEntity {
     public AnimationState idleAnimation = new AnimationState();
-    public AnimationState eatAnimation = new AnimationState();
     private AnimationState swimAnimation = new AnimationState();
+    public AnimationState sitAnimation = new AnimationState();
     private AnimationState walkAnimationState = new AnimationState();
     private int walkAnimationTimeout = 0;
     private int sitAnimationTimeout = 0;
@@ -36,7 +36,6 @@ public class OviraptorEntity extends BaseTameableDinoEntity {
     private int idleAnimationTimeout = 0;
     private static final EntityDataAccessor<Integer> ITEM_TIMER = SynchedEntityData.defineId(OviraptorEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> IS_DISTRACTED = SynchedEntityData.defineId(OviraptorEntity.class, EntityDataSerializers.BOOLEAN);
-    public AnimationState sitAnimation;
 
 
     public OviraptorEntity(EntityType<? extends BaseTameableDinoEntity> pEntityType, Level pLevel) {
@@ -211,12 +210,12 @@ public class OviraptorEntity extends BaseTameableDinoEntity {
             this.walkAnimationState.stop();
         }
         //sitting
-        if (!this.isSleeping()) {
+        if (this.getOrder() == 3) {
             if (this.idleAnimation.isStarted())
                 this.idleAnimation.stop();
             this.sitAnimation.startIfStopped(this.tickCount);
         } else {
-            this.swimAnimation.stop();
+            this.sitAnimation.stop();
         }
         //swim
         if (this.isInWater()) {
@@ -229,9 +228,6 @@ public class OviraptorEntity extends BaseTameableDinoEntity {
     }
 
     private boolean walkAnimation() {
-        return false;
-    }
-    private boolean sitAnimation() {
         return false;
     }
 

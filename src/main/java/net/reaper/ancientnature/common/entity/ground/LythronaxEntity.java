@@ -2,12 +2,15 @@ package net.reaper.ancientnature.common.entity.ground;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -20,12 +23,17 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidType;
 import net.reaper.ancientnature.common.entity.BaseTameableDinoEntity;
 import net.reaper.ancientnature.common.entity.goals.*;
+import net.reaper.ancientnature.core.init.ModItems;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import static com.ibm.icu.util.ULocale.getVariant;
 
 public class LythronaxEntity extends BaseTameableDinoEntity {
     public static AnimationState idleAnimation = new AnimationState();
     private static AnimationState walkAnimationState = new AnimationState();
+    public AnimationState sitAnimation = new AnimationState();
+    public AnimationState sleepAnimation = new AnimationState();
     private int idleAnimationTimeout = 0;
     private float tailAngle;
     private float tailSpeed = 0.1f; // animation speed
@@ -36,9 +44,11 @@ public class LythronaxEntity extends BaseTameableDinoEntity {
     }
     public static AttributeSupplier.Builder createAttributes() {
         return Animal.createLivingAttributes()
-                .add(Attributes.MAX_HEALTH, 125)
-                .add(Attributes.MOVEMENT_SPEED, 0.2d)
-                .add(Attributes.FOLLOW_RANGE, 64d);
+                .add(Attributes.MAX_HEALTH, 95)
+                .add(Attributes.MOVEMENT_SPEED, 0.16d)
+                .add(Attributes.FOLLOW_RANGE, 64d)
+                .add(Attributes.ATTACK_KNOCKBACK, 1d)
+                .add(Attributes.ATTACK_DAMAGE,3.0);
 
     }
     @Override
@@ -51,10 +61,15 @@ public class LythronaxEntity extends BaseTameableDinoEntity {
         this.goalSelector.addGoal(2, new CommunicateGoal(this));
         this.goalSelector.addGoal(9, new LookAtPlayerGoal(this, Player.class, 6.0F));
         this.goalSelector.addGoal(10, new RandomLookAroundGoal(this));
+        this.targetSelector.addGoal(2, new MeleeAttackGoal(this, 3.0f, true));
+        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, OviraptorEntity.class, true));
         this.goalSelector.addGoal(12, new OrderRandomStrollAvoidWater(this, 1.0D, getOrder()));
         this.targetSelector.addGoal(1, new BTD_ProtectBabyTargetGoal(this, Player.class, true));
 
     }
+
+
+
     @Override
     public InteractionResult mobInteract(Player pPlayer, InteractionHand pHand) {
         ItemStack itemstack = pPlayer.getItemInHand(pHand);
@@ -62,7 +77,7 @@ public class LythronaxEntity extends BaseTameableDinoEntity {
         if (this.level().isClientSide) {
             boolean flag = this.isOwnedBy(pPlayer) || this.isTame() || itemstack.is(Items.BONE) && !this.isTame(); // add !is baby
             return flag ? InteractionResult.CONSUME : InteractionResult.PASS;
-        } else if (itemstack.is(Items.CARROT)){
+        } else if (itemstack.is(Items.BEEF)){
             if (!pPlayer.getAbilities().instabuild) {
                 itemstack.shrink(1);
             }
@@ -100,6 +115,7 @@ public class LythronaxEntity extends BaseTameableDinoEntity {
 
 
             return InteractionResult.SUCCESS;
+
         } else {
             return super.mobInteract(pPlayer, pHand);
         }
@@ -120,10 +136,30 @@ public class LythronaxEntity extends BaseTameableDinoEntity {
         } else {
             this.walkAnimationState.stop();
         }
+        //sitting
+        if (this.getOrder() == 3) {
+            if (this.idleAnimation.isStarted())
+                this.idleAnimation.stop();
+            this.sitAnimation.startIfStopped(this.tickCount);
+        } else {
+            this.sitAnimation.stop();
+        }
     }
 
     private boolean walkAnimation() {
         return false;
+    }
+
+    @Override
+    protected void updateWalkAnimation(float pPartialTick) {
+        float f;
+        if(this.getPose() == Pose.STANDING) {
+            f = Math.min(pPartialTick * 6F, 1f);
+        } else {
+            f = 0f;
+        }
+
+        this.walkAnimation.update(f, 0.2f);
     }
 
     @Override
@@ -148,9 +184,7 @@ public class LythronaxEntity extends BaseTameableDinoEntity {
     public LivingEntity getOwner() {
         return super.getOwner();
     }
-
-
-    @Override
+@Override
     public LivingEntity self() {
         return super.self();
     }

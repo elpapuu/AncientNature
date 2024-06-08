@@ -10,6 +10,7 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.reaper.ancientnature.AncientNature;
+import net.reaper.ancientnature.client.animations.entity.LythronaxAnimations;
 import net.reaper.ancientnature.client.animations.entity.OviraptorAnimations;
 import net.reaper.ancientnature.common.entity.ground.OviraptorEntity;
 
@@ -26,6 +27,7 @@ public class OviraptorModel extends HierarchicalModel<OviraptorEntity> {
 
 
     public OviraptorModel(ModelPart root) {
+
         this.body = root;
         this.oviraptor = root.getChild("oviraptor");
     }
@@ -106,6 +108,9 @@ public class OviraptorModel extends HierarchicalModel<OviraptorEntity> {
 		if (entity.isSprinting())
 			this.animateWalk(OviraptorAnimations.OVIRAPTOR_RUN, limbSwing, limbSwingAmount, 4f, 4.5f);
 		else
+        if (entity.getOrder()==3)
+            this.animate(entity.sitAnimation, OviraptorAnimations.OVIRAPTOR_SITTING, ageInTicks, 1.0F);
+        else
         this.animateWalk(OviraptorAnimations.OVIRAPTOR_WALK, limbSwing, limbSwingAmount, 4f, 4.5f);
         this.animateWalk(OviraptorAnimations.OVIRAPTOR_COMMUNICATION, limbSwing, limbSwingAmount, 4f, 4.5f);
         this.animate(entity.idleAnimation, OviraptorAnimations.OVIRAPTOR_IDLE, ageInTicks, 1.0F);
