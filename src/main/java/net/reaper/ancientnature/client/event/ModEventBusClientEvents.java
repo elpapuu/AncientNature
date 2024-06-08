@@ -13,6 +13,7 @@ import net.reaper.ancientnature.client.model.entity.*;
 import net.reaper.ancientnature.client.renderer.blockentity.RevivalStandRenderer;
 import net.reaper.ancientnature.client.renderer.entity.*;
 import net.reaper.ancientnature.client.screens.RevivalStandScreen;
+import net.reaper.ancientnature.common.entity.ground.LythronaxEntity;
 import net.reaper.ancientnature.common.particle.RevivalStandParticle;
 import net.reaper.ancientnature.core.init.ModBlockEntities;
 import net.reaper.ancientnature.core.init.ModEntities;
@@ -29,6 +30,7 @@ public class ModEventBusClientEvents {
         event.registerLayerDefinition(AnomalocarisModel.ANOMALOCARIS_LAYER, AnomalocarisModel::createBodyLayer);
         event.registerLayerDefinition(ParanogmiusModel.PARANOGMIUS_LAYER, ParanogmiusModel::createBodyLayer);
         event.registerLayerDefinition(OviraptorModel.OviraptorLayer, OviraptorModel::createBodyLayer);
+        event.registerLayerDefinition(LythronaxModel.LYTHRONAX_LAYER, LythronaxModel::createBodyLayer);
     }
 
     @SubscribeEvent
@@ -39,6 +41,7 @@ public class ModEventBusClientEvents {
         event.registerEntityRenderer(ModEntities.PARANOGMIUS.get(), ParanogmiusRenderer::new);
         event.registerEntityRenderer(ModEntities.TUATARA.get(), TuataraRenderer::new);
         event.registerEntityRenderer(ModEntities.OVIRAPTOR.get(), OviraptorRenderer::new);
+        event.registerEntityRenderer(ModEntities.LYTHRONAX.get(), LythronaxRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.REVIVAL_STAND_ENTITY.get(), RevivalStandRenderer::new);
     }
 

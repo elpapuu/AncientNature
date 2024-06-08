@@ -5,6 +5,7 @@ import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.reaper.ancientnature.AncientNature;
+import net.reaper.ancientnature.common.entity.ground.LythronaxEntity;
 import net.reaper.ancientnature.common.entity.ground.OviraptorEntity;
 import net.reaper.ancientnature.common.entity.ground.TuataraEntity;
 import net.reaper.ancientnature.common.entity.water.Anomalocaris;
@@ -20,6 +21,7 @@ public class ModEventBusEvents {
         event.put(ModEntities.TUATARA.get(), TuataraEntity.createAttributes().build());
         event.put(ModEntities.PARANOGMIUS.get(), Paranogmius.createAttributes().build());
         event.put(ModEntities.ANOMALOCARIS.get(), Anomalocaris.createAttributes().build());
-    event.put(ModEntities.OVIRAPTOR.get(), OviraptorEntity.createAttributes().build());
+        event.put(ModEntities.OVIRAPTOR.get(), OviraptorEntity.createAttributes().build());
+        event.put(ModEntities.LYTHRONAX.get(), LythronaxEntity.createAttributes().build());
     }
 }

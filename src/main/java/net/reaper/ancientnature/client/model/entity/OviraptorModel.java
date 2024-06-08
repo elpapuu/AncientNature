@@ -11,7 +11,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.reaper.ancientnature.AncientNature;
 import net.reaper.ancientnature.client.animations.entity.OviraptorAnimations;
-import net.reaper.ancientnature.client.animations.entity.ParanogmiusAnimations;
 import net.reaper.ancientnature.common.entity.ground.OviraptorEntity;
 
 public class OviraptorModel extends HierarchicalModel<OviraptorEntity> {
@@ -21,33 +20,15 @@ public class OviraptorModel extends HierarchicalModel<OviraptorEntity> {
 
     private final ModelPart oviraptor;
     private final ModelPart body;
-    public ModelPart neck;
-    public ModelPart head;
-    public ModelPart jaw;
-    public ModelPart finleft;
-    public ModelPart finright;
-    public ModelPart tailfin;
-
-    public ModelPart endtail;
+    private ModelPart head;
 
     public ModelPart tail;
-    public ModelPart pelvicright;
-    public ModelPart pelvicleft;
-    private OviraptorEntity entity;
-    private float limbSwing;
-    private float limbSwingAmount;
-    private float ageInTicks;
-    private float netHeadYaw;
-    private float headPitch;
 
 
     public OviraptorModel(ModelPart root) {
         this.body = root;
-        this.neck = neck;
-        this.head = head;
         this.oviraptor = root.getChild("oviraptor");
     }
-
     public static LayerDefinition createBodyLayer() {
         MeshDefinition meshdefinition = new MeshDefinition();
         PartDefinition partdefinition = meshdefinition.getRoot();
@@ -127,7 +108,6 @@ public class OviraptorModel extends HierarchicalModel<OviraptorEntity> {
 		else
         this.animateWalk(OviraptorAnimations.OVIRAPTOR_WALK, limbSwing, limbSwingAmount, 4f, 4.5f);
         this.animateWalk(OviraptorAnimations.OVIRAPTOR_COMMUNICATION, limbSwing, limbSwingAmount, 4f, 4.5f);
-        this.animateWalk(OviraptorAnimations.OVIRAPTOR_EAT, limbSwing, limbSwingAmount, 4f, 4.5f);
         this.animate(entity.idleAnimation, OviraptorAnimations.OVIRAPTOR_IDLE, ageInTicks, 1.0F);
     }
 

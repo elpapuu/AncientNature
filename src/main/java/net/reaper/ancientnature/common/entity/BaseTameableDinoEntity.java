@@ -16,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class BaseTameableDinoEntity extends TamableAnimal {
+public abstract class BaseTameableDinoEntity extends TamableAnimal {
     protected BaseTameableDinoEntity(EntityType<? extends TamableAnimal> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
@@ -179,4 +179,6 @@ public class BaseTameableDinoEntity extends TamableAnimal {
 
         }
     }
+
+    protected abstract void setupAnimationStates();
 }

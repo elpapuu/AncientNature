@@ -123,7 +123,6 @@ public class ParanogmiusModel extends HierarchicalModel<Paranogmius> {
 		if (entity.isSwimming() && entity.isInWater()) {
 			this.body.zRot = Mth.sin((float) ((entity.tickCount + ageInTicks) * 2 * Math.PI * 0.8125D));
 		}
-
 		if (entity.isSprinting()) {
             this.animateWalk(ParanogmiusAnimations.PARANOGMIUS_SPRINT, limbSwing, limbSwingAmount, 4f, 4.5f);
         } else

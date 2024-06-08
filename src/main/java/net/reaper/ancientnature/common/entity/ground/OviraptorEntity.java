@@ -1,6 +1,5 @@
 package net.reaper.ancientnature.common.entity.ground;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -8,7 +7,6 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -17,31 +15,28 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.PolarBear;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
 import net.reaper.ancientnature.common.entity.BaseTameableDinoEntity;
 import net.reaper.ancientnature.common.entity.goals.*;
-import net.reaper.ancientnature.common.entity.water.Anomalocaris;
-import net.reaper.ancientnature.core.init.ModTags;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Optional;
 
 public class OviraptorEntity extends BaseTameableDinoEntity {
     public AnimationState idleAnimation = new AnimationState();
+    public AnimationState eatAnimation = new AnimationState();
     private AnimationState swimAnimation = new AnimationState();
     private AnimationState walkAnimationState = new AnimationState();
     private int walkAnimationTimeout = 0;
+    private int sitAnimationTimeout = 0;
+    private int swimAnimationTimeout = 0;
     private int idleAnimationTimeout = 0;
     private static final EntityDataAccessor<Integer> ITEM_TIMER = SynchedEntityData.defineId(OviraptorEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> IS_DISTRACTED = SynchedEntityData.defineId(OviraptorEntity.class, EntityDataSerializers.BOOLEAN);
-    private AnimationState sitAnimation;
+    public AnimationState sitAnimation;
 
 
     public OviraptorEntity(EntityType<? extends BaseTameableDinoEntity> pEntityType, Level pLevel) {
@@ -100,7 +95,7 @@ public class OviraptorEntity extends BaseTameableDinoEntity {
         // find egg item goal
         this.goalSelector.addGoal(7, new SearchForItemsFromTagsGoal(this, true, Tags.Items.SEEDS, 25d));
         // break egg block goal
-        this.goalSelector.addGoal(8, new RemoveBlocksFromTagGoal(BlockTags.CORAL_BLOCKS,this, 1, 25 ));
+        this.goalSelector.addGoal(8, new RemoveBlocksFromTagGoal(BlockTags.CANDLE_CAKES,this, 1, 25 ));
 
         this.goalSelector.addGoal(9, new LookAtPlayerGoal(this, Player.class, 6.0F));
         this.goalSelector.addGoal(10, new RandomLookAroundGoal(this));
@@ -130,7 +125,7 @@ public class OviraptorEntity extends BaseTameableDinoEntity {
         if (this.level().isClientSide) {
             boolean flag = this.isOwnedBy(pPlayer) || this.isTame() || itemstack.is(Items.BONE) && !this.isTame(); // add !is baby
             return flag ? InteractionResult.CONSUME : InteractionResult.PASS;
-        } else if (itemstack.is(Items.EGG)){
+        } else if (itemstack.is(Items.BEETROOT_SEEDS)){
             if (!pPlayer.getAbilities().instabuild) {
                 itemstack.shrink(1);
             }
@@ -201,7 +196,8 @@ public class OviraptorEntity extends BaseTameableDinoEntity {
         return super.getOwner();
     }
 
-    private void setupAnimationStates() {
+    @Override
+    protected void setupAnimationStates() {
         if (this.idleAnimationTimeout <= 0) {
             this.idleAnimationTimeout = this.random.nextInt(40) + 80;
             this.idleAnimation.start(this.tickCount);
@@ -215,7 +211,7 @@ public class OviraptorEntity extends BaseTameableDinoEntity {
             this.walkAnimationState.stop();
         }
         //sitting
-        if (!this.isInSittingPose()) {
+        if (!this.isSleeping()) {
             if (this.idleAnimation.isStarted())
                 this.idleAnimation.stop();
             this.sitAnimation.startIfStopped(this.tickCount);
@@ -223,7 +219,7 @@ public class OviraptorEntity extends BaseTameableDinoEntity {
             this.swimAnimation.stop();
         }
         //swim
-        if (!this.isInWater()) {
+        if (this.isInWater()) {
             if (this.idleAnimation.isStarted())
                 this.idleAnimation.stop();
             this.swimAnimation.startIfStopped(this.tickCount);
