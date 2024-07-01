@@ -2,8 +2,6 @@ package net.reaper.ancientnature.common.entity.ground;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
@@ -18,16 +16,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidType;
 import net.reaper.ancientnature.common.entity.BaseTameableDinoEntity;
 import net.reaper.ancientnature.common.entity.goals.*;
-import net.reaper.ancientnature.core.init.ModItems;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import static com.ibm.icu.util.ULocale.getVariant;
 
 public class LythronaxEntity extends BaseTameableDinoEntity {
     public static AnimationState idleAnimation = new AnimationState();
@@ -112,15 +108,42 @@ public class LythronaxEntity extends BaseTameableDinoEntity {
             }
             System.out.println(getOrder());
 
+             {
+                boolean flag = this.isFood(pPlayer.getItemInHand(pHand));
+                if (!flag && this.isSaddled() && !this.isVehicle() && !pPlayer.isSecondaryUseActive()) {
+                    if (!this.level().isClientSide) {
+                        pPlayer.startRiding(this);
+                    }
 
-
-            return InteractionResult.SUCCESS;
+                    return InteractionResult.sidedSuccess(this.level().isClientSide);
+                } else {
+                    InteractionResult interactionresult = super.mobInteract(pPlayer, pHand);
+                    if (!interactionresult.consumesAction()) {
+                        itemstack = pPlayer.getItemInHand(pHand);
+                        return itemstack.is(Items.SADDLE) ? itemstack.interactLivingEntity(pPlayer, this, pHand) : InteractionResult.PASS;
+                    } else {
+                        return interactionresult;
+                    }
+                }
+            }
 
         } else {
             return super.mobInteract(pPlayer, pHand);
         }
 
 
+    }
+
+    private boolean isSaddled() {
+        return true;
+    }
+    @Override
+    public boolean isRidable() {
+        return true;
+    }
+    @Override
+    public boolean canBeSteered() {
+        return true;
     }
     @Override
     protected void setupAnimationStates() {
@@ -150,29 +173,6 @@ public class LythronaxEntity extends BaseTameableDinoEntity {
         return false;
     }
 
-    @Override
-    protected void updateWalkAnimation(float pPartialTick) {
-        float f;
-        if(this.getPose() == Pose.STANDING) {
-            f = Math.min(pPartialTick * 6F, 1f);
-        } else {
-            f = 0f;
-        }
-
-        this.walkAnimation.update(f, 0.2f);
-    }
-
-    @Override
-    public void tick() {
-        super.tick();
-
-        // Incrementa el temporizador
-        timer += tailSpeed;
-
-        // Calcula el ángulo dinámico para la cola
-        tailAngle = (float) Math.sin(timer) * 30;
-    }
-
     @Nullable
     @Override
     public AgeableMob getBreedOffspring(ServerLevel pLevel, AgeableMob pOtherParent) {
@@ -199,6 +199,22 @@ public class LythronaxEntity extends BaseTameableDinoEntity {
         return super.canRiderInteract();
     }
 
+    @Override
+    public boolean setRiding(Player pPlayer) {
+        pPlayer.setYRot(getYRot());
+        pPlayer.setXRot(getXRot());
+        pPlayer.startRiding(this);
+        return false;
+    }
+    protected void tickRidden(Player pPlayer, Vec3 pTravelVector) {
+        super.tickRidden(pPlayer, pTravelVector);
+        this.setRot(pPlayer.getYRot(), pPlayer.getXRot() * 0.5F);
+        this.yRotO = this.yBodyRot = this.yHeadRot = this.getYRot();
+    }
+
+    protected Vec3 getRiddenInput(Player pPlayer, Vec3 pTravelVector) {
+        return new Vec3(0.0, 0.0, 1.0);
+    }
     @Override
     public boolean canBeRiddenUnderFluidType(FluidType type, Entity rider) {
         return super.canBeRiddenUnderFluidType(type, rider);

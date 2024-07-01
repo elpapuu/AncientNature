@@ -73,6 +73,11 @@ public class Arandaspis extends AquaticAnimal implements Bucketable {
         return false;
     }
 
+    @Override
+    public boolean setRiding(Player pPlayer) {
+        return false;
+    }
+
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new PanicSprintingGoal(this, 4f));
         this.goalSelector.addGoal(1, new AvoidEntitySprinting<>(this, Player.class, 8.0F,1f, 2f, EntitySelector.NO_SPECTATORS::test));
@@ -108,8 +113,6 @@ public class Arandaspis extends AquaticAnimal implements Bucketable {
             if (this.onGround()) {
                 this.setDeltaMovement(this.getDeltaMovement().add((double) ((this.random.nextFloat() * 2.0F - 1.0F) * 0.2F), 0.5, (double) ((this.random.nextFloat() * 2.0F - 1.0F) * 0.2F)));
                 this.setYRot(this.random.nextFloat() * 360.0F);
-                this.setOnGround(false);
-                this.hasImpulse = true;
             }
 
             //if (isInLove()) setDeltaMovement(this.getDeltaMovement().x / 1.5, this.getDeltaMovement().y, this.getDeltaMovement().z / 1.5);

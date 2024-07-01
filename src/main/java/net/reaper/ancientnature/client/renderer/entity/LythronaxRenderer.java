@@ -7,13 +7,11 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.reaper.ancientnature.AncientNature;
 import net.reaper.ancientnature.client.model.entity.LythronaxModel;
-import net.reaper.ancientnature.client.model.entity.OviraptorModel;
 import net.reaper.ancientnature.common.entity.ground.LythronaxEntity;
-import net.reaper.ancientnature.common.entity.ground.OviraptorEntity;
 
 public class LythronaxRenderer extends MobRenderer<LythronaxEntity, LythronaxModel> {
     public LythronaxRenderer(EntityRendererProvider.Context pContext) {
-        super(pContext, new LythronaxModel(pContext.bakeLayer(LythronaxModel.LYTHRONAX_LAYER)), 0.6f);
+        super(pContext, new LythronaxModel(pContext.bakeLayer(LythronaxModel.LYTHRONAX_LAYER)), 1.3f);
     }
 
     @Override

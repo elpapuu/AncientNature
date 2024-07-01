@@ -84,6 +84,11 @@ public class Anomalocaris extends AquaticAnimal implements Bucketable {
         this.lookControl = new SmoothSwimmingLookControl(this, 10);
     }
 
+    @Override
+    public boolean setRiding(Player pPlayer) {
+        return false;
+    }
+
 
     public boolean isMovementBlocked() {
         return false;

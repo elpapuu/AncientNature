@@ -69,6 +69,8 @@ public abstract class AquaticAnimal extends Animal {
         return false;
     }
 
+    public abstract boolean setRiding(Player pPlayer);
+
     public static boolean checkWaterSurfaceSpawnRules(EntityType<? extends AquaticAnimal> aquatic, LevelAccessor level, MobSpawnType type, BlockPos pos, RandomSource random) {
         int i = level.getSeaLevel();
         int j = i - 13;

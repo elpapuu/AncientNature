@@ -16,6 +16,8 @@ import net.reaper.ancientnature.AncientNature;
 import net.reaper.ancientnature.client.animations.entity.LythronaxAnimations;
 import net.reaper.ancientnature.common.entity.ground.LythronaxEntity;
 
+import java.util.prefs.NodeChangeEvent;
+
 public class LythronaxModel extends HierarchicalModel<LythronaxEntity> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LYTHRONAX_LAYER = new ModelLayerLocation(new ResourceLocation(AncientNature.MOD_ID, "lythronax"), "main");
@@ -26,6 +28,7 @@ public class LythronaxModel extends HierarchicalModel<LythronaxEntity> {
 		this.body = root;
 		this.Lythronax = root.getChild("Lythronax");
 	}
+
 	public static LayerDefinition createBodyLayer() {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();

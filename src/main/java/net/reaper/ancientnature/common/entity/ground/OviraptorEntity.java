@@ -16,6 +16,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.monster.Guardian;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
@@ -77,7 +78,15 @@ public class OviraptorEntity extends BaseTameableDinoEntity {
 
     }
 
+    @Override
+    public boolean isRidable() {
+        return false;
+    }
 
+    @Override
+    public boolean canBeSteered() {
+        return false;
+    }
 
 
     @Override
@@ -96,6 +105,7 @@ public class OviraptorEntity extends BaseTameableDinoEntity {
         // break egg block goal
         this.goalSelector.addGoal(8, new RemoveBlocksFromTagGoal(BlockTags.CANDLE_CAKES,this, 1, 25 ));
 
+        this.goalSelector.addGoal(9, new AvoidEntityGoal<>(this, LythronaxEntity.class, 8.0F, 1.0, 1.0));
         this.goalSelector.addGoal(9, new LookAtPlayerGoal(this, Player.class, 6.0F));
         this.goalSelector.addGoal(10, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(12, new OrderRandomStrollAvoidWater(this, 1.0D, getOrder()));
@@ -225,6 +235,12 @@ public class OviraptorEntity extends BaseTameableDinoEntity {
         } else {
             this.swimAnimation.stop();
         }
+
+    }
+
+    @Override
+    public boolean setRiding(Player pPlayer) {
+        return false;
     }
 
     private boolean walkAnimation() {

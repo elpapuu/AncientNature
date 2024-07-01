@@ -17,7 +17,7 @@ public class ParanogmiusRenderer extends MobRenderer<Paranogmius, ParanogmiusMod
     private final ResourceLocation BABY = new ResourceLocation(AncientNature.MOD_ID, "textures/entity/paranogmius_female_a.png");
 
     public ParanogmiusRenderer(EntityRendererProvider.Context pContext) {
-        super(pContext, new ParanogmiusModel(pContext.bakeLayer(ParanogmiusModel.PARANOGMIUS_LAYER)), 0.6f);
+        super(pContext, new ParanogmiusModel(pContext.bakeLayer(ParanogmiusModel.PARANOGMIUS_LAYER)), 1f);
     }
 
     @Override
