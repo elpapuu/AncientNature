@@ -5,6 +5,7 @@
   "item.ancientnature.cambrian_fossil": "Fósil del cámbrico",
   "item.ancientnature.anomalocaris_fossil": "Fósil de Anomalocaris",
   "item.ancientnature.lythronax_fossil" : "Fósil de Lythronax",
+  "item.ancientnature.paranogmius_fossil" : "Fósil de Paranogmius",
   "item.ancientnature.anomalocaris_bucket" : "Balde con Anomalocaris",
   "item.ancientnature.rope" : "Cuerda",
   "item.ancientnature.cretaceous_fossil" : "Fósil del Cretácico",
@@ -13,10 +14,14 @@
   "effect.anicentnature.fear" : "Miedo",
   "effect.anicentnature.bleeding" : "Sangrado",
 
-  "advancements.cleaning_the_past_for_the_future.title": "Digno de museo",
-  "advancements.cleaning_the_past_for_the_future.descr": "¡Límpialo para descubrir su interior!",
+  "advancements.secrets_of_nature.title": "Secretos de la Naturaleza",
+  "advancements.secrets_of_nature.descr": "¡Límpia un fossil para descubrir su interior!",
   "advancements.paleontologist.title": "Paleontólogo",
   "advancements.paleontologist.descr": "Obtén tu primer fósil",
+  "advancements.life_finds_a_way.title": "La vida se abre camino",
+  "advancements.life_finds_a_way.descr": "Obten cualquier tipo de huevo antiguo",
+  "advancements.unusual_potions.title": "Pociones Inusuales",
+  "advancements.unusual_potions.descr": "Creo que esto no funciona para pociones",
 
   "creativetab.ancientnature_tab": "Naturaleza Antigua",
 

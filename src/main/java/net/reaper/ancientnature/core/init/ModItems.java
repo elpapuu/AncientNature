@@ -30,6 +30,8 @@ public class ModItems {
     public static final RegistryObject<Item> ANOMALOCARIS_FOSSIL = ITEMS.register("anomalocaris_fossil", () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
     public static final RegistryObject<Item> LYTHRONAX_FOSSIL = ITEMS.register("lythronax_fossil", () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
 
+    public static final RegistryObject<Item> PARANOGMIUS_FOSSIL = ITEMS.register("paranogmius_fossil", () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
+
     public static final RegistryObject<Item> ROPE = ITEMS.register("rope", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> LYTHRONAX_TEETH = ITEMS.register("lythronax_teeth", () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
     public static final RegistryObject<Item> BLOOD_DAGGER = ITEMS.register("blood_dagger", () -> new SwordItem(Tiers.STONE,2, -0.3F, new Item.Properties().rarity(Rarity.UNCOMMON)));

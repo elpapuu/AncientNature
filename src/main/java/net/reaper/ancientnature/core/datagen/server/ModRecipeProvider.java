@@ -21,6 +21,7 @@ public class ModRecipeProvider extends RecipeProvider {
     protected void buildRecipes(Consumer<FinishedRecipe> pWriter) {
 
         BrushRecipeBuilder.builder(ModItems.ANOMALOCARIS_FOSSIL.get()).probability(0.95f).input(ModItems.CAMBRIAN_FOSSIL.get()).build(pWriter);
+        BrushRecipeBuilder.builder(ModItems.PARANOGMIUS_FOSSIL.get()).probability(0.95f).input(ModItems.CRETACEOUS_FOSSIL.get()).build(pWriter);
         BrushRecipeBuilder.builder(ModItems.ARANDASPIS_FOSSIL.get()).probability(0.95f).input(ModItems.DEVONIAN_FOSSIL.get()).build(pWriter);
         BrushRecipeBuilder.builder(ModItems.LYTHRONAX_FOSSIL.get()).probability(0.95f).input(ModItems.CRETACEOUS_FOSSIL.get()).build(pWriter);
         WaterWashingBuilder.builder(ModItems.STONE_PERMIAN_FOSSIL.get()).probability(.16f).input(ModItems.MUDDY_PERMIAN_FOSSIL.get()).build(pWriter);

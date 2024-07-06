@@ -41,6 +41,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.ANOMALOCARIS_FOSSIL.get());
                         pOutput.accept(ModItems.ARANDASPIS_FOSSIL.get());
                         pOutput.accept(ModItems.LYTHRONAX_FOSSIL.get());
+                        pOutput.accept(ModItems.PARANOGMIUS_FOSSIL.get());
                         pOutput.accept(ModItems.ANOMALOCARIS_BUCKET.get());
                         pOutput.accept(ModItems.ARANDASPIS_BUCKET.get());
                         pOutput.accept(ModItems.WHERE_YOUR_JOURNEY_BEGINS_MUSIC_DISC.get());

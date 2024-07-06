@@ -35,6 +35,7 @@ public class ModItemModelsProvider extends ItemModelProvider {
         simple(ModItems.CRETACEOUS_FOSSIL.get());
         simple(ModItems.FISH_ROE.get());
         simple(ModItems.LYTHRONAX_FOSSIL.get());
+        simple(ModItems.PARANOGMIUS_FOSSIL.get());
         simple(ModBlocks.ARANDASPIS_ROE.get());
         simple(ModBlocks.ANOMALOCARIS_EGGS.get());
         spawnEgg(ModItems.ARANDASPIS_SPAWN_EGG.get());

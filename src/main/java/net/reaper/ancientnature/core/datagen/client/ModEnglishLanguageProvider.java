@@ -32,6 +32,7 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         auto(ModItems.DEVONIAN_FOSSIL.get());
         auto(ModItems.ARANDASPIS_FOSSIL.get());
         auto(ModItems.LYTHRONAX_FOSSIL.get());
+        auto(ModItems.PARANOGMIUS_FOSSIL.get());
 
         auto(ModItems.BLOOD_DAGGER.get());
 
@@ -67,10 +68,14 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         guiTranslation(ModBlockEntities.REVIVAL_STAND_ENTITY.get());
 
         //advancements
-        add("advancements.cleaning_the_past_for_the_future.title", "Belongs to a museum");
-        add("advancements.cleaning_the_past_for_the_future.descr", "Clean up a fossil for see what have inside!");
+        add("advancements.secrets_of_nature.title", "Secrets of Nature");
+        add("advancements.secrets_of_nature.descr", "Clean a fossil and discover what´s inside!");
         add("advancements.paleontologist.title", "Paleontologist");
         add("advancements.paleontologist.descr", "Obtain your first fossil");
+        add("advancements.life_finds_a_way.title", "Life finds a way");
+        add("advancements.life_finds_a_way.descr", "Obtain any kind of ancient egg");
+        add("advancements.unusual_potions.title", "Unusual Potions");
+        add("advancements.unusual_potions.descr", "I think this isnt for potions");
 
         //subtitles
         add(ModSounds.CLEANED_FOSSIL.get(), "Fossil cleaning");
@@ -84,9 +89,6 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
 
         //creative tab
         addTab("ancientnature_tab", "Ancient Nature");
-
-
-
     }
 
 

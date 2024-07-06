@@ -36,6 +36,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 import net.reaper.ancientnature.common.entity.goals.*;
+import net.reaper.ancientnature.common.entity.goals.paranogmius.ParanogmiusJumpGoal;
 import net.reaper.ancientnature.core.init.ModBlocks;
 import net.reaper.ancientnature.core.init.ModEntities;
 import org.jetbrains.annotations.Nullable;
@@ -43,10 +44,10 @@ import org.jetbrains.annotations.Nullable;
 import javax.annotation.Nonnull;
 
 public class Paranogmius extends AquaticAnimal implements PlayerRideable {
-    public final AnimationState flopAnimation = new AnimationState();
-    public final AnimationState idleAnimation = new AnimationState();
-    public final AnimationState attackAnimation = new AnimationState();
-    public final AnimationState swimAnimation = new AnimationState();
+    public final AnimationState flopAnimationState = new AnimationState();
+    public final AnimationState idleAnimationState = new AnimationState();
+    public final AnimationState attackAnimationState = new AnimationState();
+    public final AnimationState swimAnimationState = new AnimationState();
     private int swimAnimationTimeout = 0;
     private int idleAnimationTimeout = 0;
     private int attackAnimationTimeout = 0;
@@ -108,17 +109,17 @@ public class Paranogmius extends AquaticAnimal implements PlayerRideable {
     private void setupAnimationStates() {
         if (this.idleAnimationTimeout <= 0) {
             this.idleAnimationTimeout = this.random.nextInt(40) + 80;
-            this.idleAnimation.start(this.tickCount);
+            this.idleAnimationState.start(this.tickCount);
         } else {
             --this.idleAnimationTimeout;
         }
         //flopping condition
         if (!this.isInWater()) {
-            if (this.idleAnimation.isStarted())
-                this.idleAnimation.stop();
-            this.flopAnimation.startIfStopped(this.tickCount);
+            if (this.idleAnimationState.isStarted())
+                this.idleAnimationState.stop();
+            this.flopAnimationState.startIfStopped(this.tickCount);
         } else {
-            this.flopAnimation.stop();
+            this.flopAnimationState.stop();
         }
     }
 
@@ -279,7 +280,7 @@ public class Paranogmius extends AquaticAnimal implements PlayerRideable {
     private boolean isSaddled() {
         return false;
     }
-    
+
     public void setHasEggs(boolean hasEggs) {
         this.hasEggs = hasEggs;
     }

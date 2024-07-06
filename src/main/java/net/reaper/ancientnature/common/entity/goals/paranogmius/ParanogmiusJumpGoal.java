@@ -1,4 +1,4 @@
-package net.reaper.ancientnature.common.entity.goals;
+package net.reaper.ancientnature.common.entity.goals.paranogmius;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
