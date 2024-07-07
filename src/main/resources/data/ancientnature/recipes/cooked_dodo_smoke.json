@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smoking",
+  "ingredient": {
+    "item": "ancientnature:raw_dodo"
+  },
+  "result": "ancientnature:cooked_dodo",
+  "experience": 0.15,
+  "cookingtime": 100
+}

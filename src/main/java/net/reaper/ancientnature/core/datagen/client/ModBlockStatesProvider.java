@@ -97,7 +97,6 @@ public class ModBlockStatesProvider extends BlockStateProvider {
         if (generateBlockItem)
             simpleBlockItem(block, model);
     }
-
     @Override
     public void simpleBlock(Block block, ModelFile model) {
         super.simpleBlock(block, model);

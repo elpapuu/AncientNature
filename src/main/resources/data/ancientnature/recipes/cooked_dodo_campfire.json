@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:campfire_cooking",
+  "ingredient": {
+    "item": "ancientnature:raw_dodo"
+  },
+  "result": "ancientnature:cooked_dodo",
+  "experience": 0.15,
+  "cookingtime": 600
+}

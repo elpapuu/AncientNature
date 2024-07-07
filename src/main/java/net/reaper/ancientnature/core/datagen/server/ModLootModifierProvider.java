@@ -25,5 +25,6 @@ public class ModLootModifierProvider extends GlobalLootModifierProvider {
                 LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().of(ModTags.Entities.FISHES)).build(),
                 LootItemRandomChanceWithLootingCondition.randomChanceAndLootingBoost(0.023f, 0.02f).build()
         }, ModItems.FISH_ROE.get()));
+
     }
 }

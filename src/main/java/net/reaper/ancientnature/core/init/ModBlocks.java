@@ -38,8 +38,7 @@ public class ModBlocks {
     public static final RegistryObject<RevivalStand> REVIVAL_STAND = register("revival_stand", RevivalStand::new, b -> new RevivalStandItem(b, new Item.Properties()));
 
     public static final RegistryObject<RoeBlock> ARANDASPIS_ROE = register("arandaspis_roe", () -> new RoeBlock(BlockBehaviour.Properties.copy(Blocks.FROGSPAWN), 3600, 12000, 1, 4, ModEntities.ARANDASPIS::get), () -> new Item.Properties().stacksTo(16));
-    public static final RegistryObject<RoeBlock> ANOMALOCARIS_EGGS = register("anomalocaris_eggs", () -> new RoeBlock(BlockBehaviour.Properties.copy(Blocks.FROGSPAWN), 3600, 12000, 1, 3, ModEntities.ANOMALOCARIS::get), () -> new Item.Properties().stacksTo(16));
-
+    public static final RegistryObject<RoeBlock> ANOMALOCARIS_EGGS = register("anomalocaris_eggs", () -> new RoeBlock(BlockBehaviour.Properties.copy(Blocks.FROGSPAWN), 3600, 12000, 1, 4, ModEntities.ANOMALOCARIS::get), () -> new Item.Properties().stacksTo(16));
 
 
     public static RegistryObject<DropExperienceBlock> makeDeepslateFossilBlock(String name){

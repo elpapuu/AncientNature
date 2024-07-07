@@ -8,6 +8,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.reaper.ancientnature.AncientNature;
+import net.reaper.ancientnature.common.entity.ground.DodoEntity;
 import net.reaper.ancientnature.common.entity.ground.LythronaxEntity;
 import net.reaper.ancientnature.common.entity.ground.OviraptorEntity;
 import net.reaper.ancientnature.common.entity.ground.TuataraEntity;
@@ -35,7 +36,9 @@ public class ModEntities {
     public static final RegistryObject<EntityType<Paranogmius>> PARANOGMIUS =
             register("paranogmius", () -> EntityType.Builder.of(Paranogmius::new, MobCategory.WATER_CREATURE)
                     .sized(1.6f, 1.5f));
-
+    public static final RegistryObject<EntityType<DodoEntity>> DODO =
+            ENTITY_TYPES.register("dodo", () -> EntityType.Builder.of(DodoEntity::new, MobCategory.CREATURE)
+                    .sized(0.6f, 0.7f).build("dodo"));
     public static final RegistryObject<EntityType<OviraptorEntity>> OVIRAPTOR =
             ENTITY_TYPES.register("oviraptor", () -> EntityType.Builder.of(OviraptorEntity::new, MobCategory.CREATURE)
                     .sized(0.6f, 0.7f).build("oviraptor"));

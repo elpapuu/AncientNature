@@ -7,6 +7,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.reaper.ancientnature.AncientNature;
+import net.reaper.ancientnature.common.entity.ground.DodoEntity;
 import net.reaper.ancientnature.core.init.ModEntities;
 import net.reaper.ancientnature.core.init.ModTags;
 import org.jetbrains.annotations.Nullable;
@@ -23,6 +24,6 @@ public class ModEntityTagsProvider extends EntityTypeTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider pProvider) {
         tag(ModTags.Entities.FISHES).add(EntityType.SALMON, EntityType.PUFFERFISH);
-        tag(ModTags.Entities.HERBIVORES).add(OVIRAPTOR.get());
+        tag(ModTags.Entities.HERBIVORES).add(OVIRAPTOR.get(), DODO.get());
     }
 }

@@ -36,5 +36,6 @@
   },
   "rewards": {
     "experience": 5
-  }
+  },
+  "parent": "ancientnature:secrets_of_nature"
 }

@@ -37,6 +37,14 @@ public class ModItemTagsProvider extends ItemTagsProvider {
                 ModItems.LIZARD_AMBER.get(),
                 ModItems.MOSQUITO_AMBER.get());
 
+        tag(ModTags.Items.RAW_MEAT).add(
+                ModItems.RAW_DODO.get()
+        );
+
+        tag(ModTags.Items.COOKED_MEAT).add(
+                ModItems.COOKED_DODO.get()
+        );
+
         tag(ItemTags.MUSIC_DISCS).add(
                 ModItems.WHERE_YOUR_JOURNEY_BEGINS_MUSIC_DISC.get());
     }

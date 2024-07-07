@@ -97,7 +97,6 @@ public class OviraptorEntity extends BaseTameableDinoEntity {
         this.goalSelector.addGoal(1, new HerbivorePanic(this, 2.0D, 12)); // might need to be custom
         this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
         this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.25D));
-        this.goalSelector.addGoal(4, new CommunicateGoal(this));
         // drop egg goal
         this.goalSelector.addGoal(6, new DropAtClayEggGoal(Blocks.CLAY, this, 1.4, (int) 25D));
         // find egg item goal

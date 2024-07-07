@@ -1,5 +1,6 @@
 package net.reaper.ancientnature.core.datagen.client;
 
+import net.minecraft.world.item.Item;
 import net.reaper.ancientnature.AncientNature;
 import net.reaper.ancientnature.core.init.ModItems;
 import net.minecraft.core.HolderLookup;
@@ -20,7 +21,6 @@ public class ModItemTagGenerator extends ItemTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider pProvider) {
-
         this.tag(ItemTags.MUSIC_DISCS)
                 .add(ModItems.WHERE_YOUR_JOURNEY_BEGINS_MUSIC_DISC.get());
     }

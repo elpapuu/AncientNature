@@ -11,6 +11,9 @@
   "item.ancientnature.cretaceous_fossil" : "Fósil del Cretácico",
   "item.ancientnature.lythronax_teeth" : "Diente de Lythronax",
   "item.ancientnature.blood_dagger" : "Daga sangrienta",
+
+  "item.ancientnature.raw_dodo" : "Dodo Crudo",
+
   "effect.anicentnature.fear" : "Miedo",
   "effect.anicentnature.bleeding" : "Sangrado",
 
@@ -38,13 +41,17 @@
   "block.ancientnature.cretaceous_fossils": "Cretaceous Fossils",
   "block.ancientnature.revival_stand": "Revival Stand",
   "block.ancientnature.stone_permian_fossil_ore": "Stone Permian Fossil Ore",
+
   "creativetab.ancientnature.ancientnature_tab": "Ancient Nature",
+
   "entity.ancientnature.anomalocaris": "Anomalocaris",
   "entity.ancientnature.arandaspis": "Arandaspis",
   "entity.ancientnature.oviraptor": "Oviraptor",
   "entity.ancientnature.paranogmius": "Paranogmius",
   "entity.ancientnature.lythronax": "Lythronax",
+
   "item.ancientnature.anomalocaris_spawn_egg": "Anomalocaris Spawn Egg",
+  "item.ancientnature.dodo_spawn_egg": "Dodo Spawn Egg",
   "item.ancientnature.paranogmius_spawn_egg": "Paranogmius Spawn Egg",
   "item.ancientnature.arandaspis_bucket": "Arandaspis Bucket",
   "item.ancientnature.arandaspis_fossil": "Arandaspis Fossil",

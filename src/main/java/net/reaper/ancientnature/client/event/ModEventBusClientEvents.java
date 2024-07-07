@@ -31,6 +31,7 @@ public class ModEventBusClientEvents {
         event.registerLayerDefinition(ParanogmiusModel.PARANOGMIUS_LAYER, ParanogmiusModel::createBodyLayer);
         event.registerLayerDefinition(OviraptorModel.OviraptorLayer, OviraptorModel::createBodyLayer);
         event.registerLayerDefinition(LythronaxModel.LYTHRONAX_LAYER, LythronaxModel::createBodyLayer);
+        event.registerLayerDefinition(DodoModel.DODO_LAYER, DodoModel::createBodyLayer);
     }
 
     @SubscribeEvent
@@ -42,6 +43,7 @@ public class ModEventBusClientEvents {
         event.registerEntityRenderer(ModEntities.TUATARA.get(), TuataraRenderer::new);
         event.registerEntityRenderer(ModEntities.OVIRAPTOR.get(), OviraptorRenderer::new);
         event.registerEntityRenderer(ModEntities.LYTHRONAX.get(), LythronaxRenderer::new);
+        event.registerEntityRenderer(ModEntities.DODO.get(), DodoRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.REVIVAL_STAND_ENTITY.get(), RevivalStandRenderer::new);
     }
 

@@ -40,10 +40,13 @@ public class ModItemModelsProvider extends ItemModelProvider {
         simple(ModBlocks.ANOMALOCARIS_EGGS.get());
         spawnEgg(ModItems.ARANDASPIS_SPAWN_EGG.get());
         spawnEgg(ModItems.ANOMALOCARIS_SPAWN_EGG.get());
+        spawnEgg(ModItems.DODO_SPAWN_EGG.get());
         spawnEgg(ModItems.PARANOGMIUS_SPAWN_EGG.get());
         handheldItem(ModItems.BLOOD_DAGGER);
         simple(ModItems.LYTHRONAX_TEETH.get());
         simple(ModItems.ROPE.get());
+        simple(ModItems.RAW_DODO.get());
+        simple(ModItems.COOKED_DODO.get());
         simple(ModItems.WHERE_YOUR_JOURNEY_BEGINS_MUSIC_DISC.get());
     }
 
