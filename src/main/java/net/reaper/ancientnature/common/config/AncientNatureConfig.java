@@ -9,7 +9,7 @@ import net.reaper.ancientnature.AncientNature;
 @Mod.EventBusSubscriber(modid = AncientNature.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AncientNatureConfig {
     public static final ForgeConfigSpec SPEC;
-
+    public static ForgeConfigSpec.ConfigValue<Boolean> PREHISTORIC_OVERWORLD_SPAWNING;
     public static final ForgeConfigSpec.IntValue BLAZE_POWDER_BURN_TIME, MAX_FUEL, MAX_HEATING;
 
     static {
@@ -22,6 +22,8 @@ public class AncientNatureConfig {
         builder.comment("this defines how much fuel the blaze powder will produce in the revival stand");
         BLAZE_POWDER_BURN_TIME = builder.defineInRange("balze poweder burn time", 500, 10, 1000000);
         builder.pop();
+
+        PREHISTORIC_OVERWORLD_SPAWNING = builder.comment("Turn prehistoric overworld spawning ON or OFF").define("prehistoric_overworld_spawn", false);
 
         SPEC = builder.build();
     }

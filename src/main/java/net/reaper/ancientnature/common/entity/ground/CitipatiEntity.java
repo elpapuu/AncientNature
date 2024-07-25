@@ -16,7 +16,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.monster.Guardian;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
@@ -26,7 +25,7 @@ import net.reaper.ancientnature.common.entity.BaseTameableDinoEntity;
 import net.reaper.ancientnature.common.entity.goals.*;
 import org.jetbrains.annotations.Nullable;
 
-public class OviraptorEntity extends BaseTameableDinoEntity {
+public class CitipatiEntity extends BaseTameableDinoEntity {
     public AnimationState idleAnimation = new AnimationState();
     private AnimationState swimAnimation = new AnimationState();
     public AnimationState sitAnimation = new AnimationState();
@@ -35,11 +34,11 @@ public class OviraptorEntity extends BaseTameableDinoEntity {
     private int sitAnimationTimeout = 0;
     private int swimAnimationTimeout = 0;
     private int idleAnimationTimeout = 0;
-    private static final EntityDataAccessor<Integer> ITEM_TIMER = SynchedEntityData.defineId(OviraptorEntity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Boolean> IS_DISTRACTED = SynchedEntityData.defineId(OviraptorEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> ITEM_TIMER = SynchedEntityData.defineId(CitipatiEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> IS_DISTRACTED = SynchedEntityData.defineId(CitipatiEntity.class, EntityDataSerializers.BOOLEAN);
 
 
-    public OviraptorEntity(EntityType<? extends BaseTameableDinoEntity> pEntityType, Level pLevel) {
+    public CitipatiEntity(EntityType<? extends BaseTameableDinoEntity> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
 

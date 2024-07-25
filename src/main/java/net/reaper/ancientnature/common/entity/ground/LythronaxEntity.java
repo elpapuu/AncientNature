@@ -57,7 +57,7 @@ public class LythronaxEntity extends BaseTameableDinoEntity {
         this.goalSelector.addGoal(9, new LookAtPlayerGoal(this, Player.class, 6.0F));
         this.goalSelector.addGoal(10, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(2, new MeleeAttackGoal(this, 3.0f, true));
-        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, OviraptorEntity.class, true));
+        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, CitipatiEntity.class, true));
         this.goalSelector.addGoal(12, new OrderRandomStrollAvoidWater(this, 1.0D, getOrder()));
         this.targetSelector.addGoal(1, new BTD_ProtectBabyTargetGoal(this, Player.class, true));
 

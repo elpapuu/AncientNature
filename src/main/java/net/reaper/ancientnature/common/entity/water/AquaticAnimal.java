@@ -18,6 +18,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.fluids.FluidType;
+import net.reaper.ancientnature.common.config.AncientNatureConfig;
 
 import javax.annotation.Nonnull;
 
@@ -83,4 +84,9 @@ public abstract class AquaticAnimal extends Animal {
 
     public abstract boolean canBeSteered();
 
+    public static boolean checkSurfaceWaterAnimalSpawnRules(EntityType<? extends AquaticAnimal> pAquaticAnimal, LevelAccessor pLevel, MobSpawnType pSpawnType, BlockPos pPos, RandomSource pRandom) {
+        int i = pLevel.getSeaLevel();
+        int j = i - 13;
+        return pPos.getY() >= j && pPos.getY() <= i && pLevel.getFluidState(pPos.below()).is(FluidTags.WATER) && pLevel.getBlockState(pPos.above()).is(Blocks.WATER) && AncientNatureConfig.PREHISTORIC_OVERWORLD_SPAWNING.get();
+    }
 }

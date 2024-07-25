@@ -5,7 +5,6 @@ package net.reaper.ancientnature.client.model.entity;// Made with Blockbench 4.1
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
@@ -13,8 +12,7 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.reaper.ancientnature.AncientNature;
-import net.reaper.ancientnature.client.animations.entity.DodoAnimations;
+import net.reaper.ancientnature.AncientNature;import net.reaper.ancientnature.client.animations.entity.DodoAnimations;
 import net.reaper.ancientnature.common.entity.ground.DodoEntity;
 
 public class DodoModel extends HierarchicalModel<DodoEntity> {
@@ -87,25 +85,26 @@ public class DodoModel extends HierarchicalModel<DodoEntity> {
 	public void setupAnim(DodoEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.dodo.getAllParts().forEach(ModelPart::resetPose);
 		applyHeadRotation(entity, netHeadYaw, headPitch, ageInTicks);
+
+		//SPRINTING ANIMATION
 		if (entity.isSprinting())
 			this.animateWalk(DodoAnimations.RUN, limbSwing, limbSwingAmount, 3f, 4.5f);
-		if (entity.getOrder()==3)
-			this.animate(entity.sitAnimation, DodoAnimations.DOWN, ageInTicks, 1.0F);
-		if (entity.isSleeping())
-			this.animate(entity.sleepAnimation, DodoAnimations.SLEEP, ageInTicks, 1.0F);
-		if (entity.isInWater())
-			this.animate(entity.swimAnimationState, DodoAnimations.SWIM, ageInTicks, 1.0F);
-		this.animateWalk(DodoAnimations.WALK, limbSwing, limbSwingAmount, 4f, 4.5f);
-		this.animate(entity.idleAnimation, DodoAnimations.IDLE, ageInTicks, 1.0F);
+
+		//IDLE ANIMATION
+		if (!entity.isInWaterOrBubble() || !entity.walkAnimation.isMoving())
+			animate(entity.idleAnimation,DodoAnimations.IDLE, ageInTicks);
+
+		//WALK ANIMATION
+		if (entity.walkAnimation.isMoving() && !entity.isSprinting() && !entity.isInWaterOrBubble())
+			this.animateWalk(DodoAnimations.WALK, limbSwing, limbSwingAmount, 4f, 4.5f);
 	}
 
 	private void applyHeadRotation(DodoEntity pEntity, float pNetHeadYaw, float pHeadPitch, float ageInTicks) {
-		pNetHeadYaw = Mth.clamp(pNetHeadYaw, -30.0F, 30.0F);
+		pNetHeadYaw = Mth.clamp(pNetHeadYaw, -10.0F, 10.0F);
 		pHeadPitch = Mth.clamp(pHeadPitch, -25.0F, 45.0F);
 
 		this.body.getChild("neck").yRot = pNetHeadYaw * 0.017453292F;
-		this.body.getChild("neck").xRot = pNetHeadYaw * 0.017453292F;
-		this.neck.getChild("head").yRot = pHeadPitch * 0.017453292F;
+		this.body.getChild("neck").xRot = pHeadPitch * 0.017453292F;
 		this.neck.getChild("head").xRot = pHeadPitch * 0.017453292F;
 	}
 	@Override

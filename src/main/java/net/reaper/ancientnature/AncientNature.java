@@ -13,9 +13,11 @@ import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.RegistryObject;
 import net.reaper.ancientnature.common.config.AncientNatureConfig;
+import net.reaper.ancientnature.common.util.EntityPlacementUtil;
 import net.reaper.ancientnature.core.datagen.client.ModBlockStatesProvider;
 import net.reaper.ancientnature.core.init.*;
 import org.slf4j.Logger;
@@ -38,6 +40,8 @@ public class AncientNature {
 
         ModCreativeModTabs.register(modEventBus);
 
+        modEventBus.addListener(this::commonSetup);
+
         ModItems.register(modEventBus);
 
         ModBlocks.register(modEventBus);
@@ -55,6 +59,12 @@ public class AncientNature {
         ModMenus.MENUS.register(modEventBus);
         ModLootModifiers.LOOT_MODIFIERS.register(modEventBus);
         modEventBus.addListener(this::addCreative);
+    }
+    private void commonSetup(final FMLCommonSetupEvent event) {
+
+        event.enqueueWork(() -> {
+            EntityPlacementUtil.entityPlacement();
+        });
     }
 
     public static ResourceLocation modLoc(String name){

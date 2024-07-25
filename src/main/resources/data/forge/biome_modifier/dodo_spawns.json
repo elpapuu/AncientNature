@@ -1,0 +1,12 @@
+{
+  "type": "forge:add_spawns",
+  "biomes": [
+    "minecraft:jungle"
+  ],
+  "spawners": {
+    "type": "ancientnature:dodo",
+    "weight": 100,
+    "minCount": 1,
+    "maxCount": 4
+  }
+}

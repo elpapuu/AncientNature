@@ -10,7 +10,7 @@ import net.reaper.ancientnature.client.model.entity.DodoModel;
 import net.reaper.ancientnature.common.entity.ground.DodoEntity;
 
 public class DodoRenderer extends MobRenderer<DodoEntity, DodoModel> {
-    ResourceLocation MALE = new ResourceLocation(AncientNature.MOD_ID, "textures/entity/dodo/dodo_male.png");
+    ResourceLocation IS_MALE = new ResourceLocation(AncientNature.MOD_ID, "textures/entity/dodo/dodo_male.png");
     ResourceLocation FEMALE = new ResourceLocation(AncientNature.MOD_ID, "textures/entity/dodo/dodo_male.png");
     ResourceLocation PIZZA = new ResourceLocation(AncientNature.MOD_ID, "textures/entity/dodo/dodo_pizza.png");
 
@@ -20,7 +20,7 @@ public class DodoRenderer extends MobRenderer<DodoEntity, DodoModel> {
 
     @Override
     public ResourceLocation getTextureLocation(DodoEntity pEntity) {
-        return (pEntity.hasCustomName() && pEntity.getName().getString().equals("Pizza")) ? PIZZA : MALE;
+        return (pEntity.hasCustomName() && pEntity.getName().getString().equals("Pizza")) ? PIZZA : IS_MALE;
     }
 
     @Override

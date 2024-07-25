@@ -19,12 +19,14 @@ import net.reaper.ancientnature.common.entity.ground.TuataraEntity;
 public class TuataraModel extends HierarchicalModel<TuataraEntity> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation TUATARA_LAYER = new ModelLayerLocation(new ResourceLocation(AncientNature.MOD_ID, "tuatara"), "main");
-	private final ModelPart root;
 	private final ModelPart Tuatara;
+	public ModelPart body;
+	public ModelPart head;
 
 	public TuataraModel(ModelPart root) {
-		this.root = root;
 		this.Tuatara = root.getChild("Tuatara");
+		this.body = Tuatara.getChild("body");
+		this.head = body.getChild("head");
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -72,11 +74,12 @@ public class TuataraModel extends HierarchicalModel<TuataraEntity> {
 	public void setupAnim(TuataraEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 		applyHeadRotation(entity, netHeadYaw, headPitch, ageInTicks);
-//		if (entity.isPanicing())
-//			this.animateWalk(ArandaspisAnimation.ARANDASPIS_RUN, limbSwing, limbSwingAmount, 4f, 4.5f);
-//		else
-			this.animateWalk(TuataraAnimation.TUATARA_WALK, limbSwing, limbSwingAmount, 4f, 4.5f);
-		this.animate(entity.idleAnimation, TuataraAnimation.TUATARA_IDLE, ageInTicks);
+		if (entity.isSprinting())
+			this.animateWalk(TuataraAnimation.SPRINT, limbSwing, limbSwingAmount, 4f, 4.5f);
+
+
+		this.animateWalk(TuataraAnimation.WALK, limbSwing, limbSwingAmount, 8f, 4.5f);
+		this.animate(entity.idleAnimation, TuataraAnimation.IDLE, ageInTicks);
 	}
 
 	private void applyHeadRotation(TuataraEntity pEntity, float pNetHeadYaw, float pHeadPitch, float pAgeInTicks) {
@@ -94,6 +97,6 @@ public class TuataraModel extends HierarchicalModel<TuataraEntity> {
 
 	@Override
 	public ModelPart root() {
-		return root;
+		return Tuatara;
 	}
 }

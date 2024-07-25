@@ -12,6 +12,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
@@ -37,6 +38,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.TurtleEggBlock;
@@ -45,6 +47,7 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
+import net.reaper.ancientnature.common.config.AncientNatureConfig;
 import net.reaper.ancientnature.common.entity.goals.SmallerEntityTargetGoal;
 import net.reaper.ancientnature.common.entity.goals.WildBreedGoal;
 import net.reaper.ancientnature.core.init.ModBlocks;
@@ -561,6 +564,11 @@ public class Anomalocaris extends AquaticAnimal implements Bucketable {
             this.mob.setAttacking(true);
             super.checkAndPerformAttack(pEnemy, pDistToEnemySqr);
         }
+    }
+    public static boolean checkSurfaceWaterDinoSpawnRules(EntityType<? extends Anomalocaris> pAquaticAnimal, LevelAccessor pLevel, MobSpawnType pSpawnType, BlockPos pPos, RandomSource pRandom) {
+        int i = pLevel.getSeaLevel();
+        int j = i - 13;
+        return pPos.getY() >= j && pPos.getY() <= i && pLevel.getFluidState(pPos.below()).is(FluidTags.WATER) && pLevel.getBlockState(pPos.above()).is(Blocks.WATER) && AncientNatureConfig.PREHISTORIC_OVERWORLD_SPAWNING.get();
     }
 
     static class SwimGoal extends RandomSwimmingGoal {

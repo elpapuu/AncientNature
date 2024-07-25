@@ -11,7 +11,7 @@ import net.minecraft.client.animation.KeyframeAnimations;
  * @author Author
  */
 public class TuataraAnimation {
-	public static final AnimationDefinition TUATARA_IDLE = AnimationDefinition.Builder.withLength(3.0F).looping()
+	public static final AnimationDefinition IDLE = AnimationDefinition.Builder.withLength(3.0F).looping()
 		.addAnimation("body", new AnimationChannel(AnimationChannel.Targets.POSITION, 
 			new Keyframe(0.0F, KeyframeAnimations.posVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
 			new Keyframe(0.75F, KeyframeAnimations.posVec(0.0F, -0.03F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
@@ -42,7 +42,7 @@ public class TuataraAnimation {
 		))
 		.build();
 
-	public static final AnimationDefinition TUATARA_WALK = AnimationDefinition.Builder.withLength(1.5F).looping()
+	public static final AnimationDefinition WALK = AnimationDefinition.Builder.withLength(1.5F).looping()
 		.addAnimation("body", new AnimationChannel(AnimationChannel.Targets.ROTATION, 
 			new Keyframe(0.0F, KeyframeAnimations.degreeVec(0.0F, 0.38F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
 			new Keyframe(0.375F, KeyframeAnimations.degreeVec(0.0F, -2.5F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
@@ -133,7 +133,7 @@ public class TuataraAnimation {
 		))
 		.build();
 
-	public static final AnimationDefinition animation_tuatara_run = AnimationDefinition.Builder.withLength(0.5833F).looping()
+	public static final AnimationDefinition SPRINT = AnimationDefinition.Builder.withLength(0.5833F).looping()
 		.addAnimation("body", new AnimationChannel(AnimationChannel.Targets.ROTATION, 
 			new Keyframe(0.0F, KeyframeAnimations.degreeVec(-2.5F, 0.38F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
 			new Keyframe(0.1667F, KeyframeAnimations.degreeVec(-2.5F, -2.5F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
@@ -238,7 +238,7 @@ public class TuataraAnimation {
 		))
 		.build();
 
-	public static final AnimationDefinition animation_tuatara_swim = AnimationDefinition.Builder.withLength(1.0F).looping()
+	public static final AnimationDefinition SWIM = AnimationDefinition.Builder.withLength(1.0F).looping()
 		.addAnimation("Tuatara", new AnimationChannel(AnimationChannel.Targets.ROTATION, 
 			new Keyframe(0.0F, KeyframeAnimations.degreeVec(-7.5F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
 			new Keyframe(0.25F, KeyframeAnimations.degreeVec(-7.5283F, -4.9571F, 0.6543F), AnimationChannel.Interpolations.CATMULLROM),
@@ -283,7 +283,7 @@ public class TuataraAnimation {
 		))
 		.build();
 
-	public static final AnimationDefinition animation_tuatara_layegg = AnimationDefinition.Builder.withLength(1.0F).looping()
+	public static final AnimationDefinition LAY_EGG = AnimationDefinition.Builder.withLength(1.0F).looping()
 		.addAnimation("body", new AnimationChannel(AnimationChannel.Targets.ROTATION, 
 			new Keyframe(0.0F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
 			new Keyframe(0.25F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 5.0F), AnimationChannel.Interpolations.CATMULLROM),
@@ -333,7 +333,7 @@ public class TuataraAnimation {
 		))
 		.build();
 
-	public static final AnimationDefinition animation_tuatara_sleep = AnimationDefinition.Builder.withLength(0.0417F).looping()
+	public static final AnimationDefinition SLEEP = AnimationDefinition.Builder.withLength(0.0417F).looping()
 		.addAnimation("body", new AnimationChannel(AnimationChannel.Targets.POSITION, 
 			new Keyframe(0.0F, KeyframeAnimations.posVec(0.0F, -1.0F, 0.0F), AnimationChannel.Interpolations.LINEAR)
 		))
@@ -348,7 +348,7 @@ public class TuataraAnimation {
 		))
 		.build();
 
-	public static final AnimationDefinition animation_tuatara_eat = AnimationDefinition.Builder.withLength(1.0F)
+	public static final AnimationDefinition EAT= AnimationDefinition.Builder.withLength(1.0F)
 		.addAnimation("head", new AnimationChannel(AnimationChannel.Targets.ROTATION, 
 			new Keyframe(0.0F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
 			new Keyframe(0.25F, KeyframeAnimations.degreeVec(67.5F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),

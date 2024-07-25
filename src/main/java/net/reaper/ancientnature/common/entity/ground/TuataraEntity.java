@@ -17,6 +17,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.reaper.ancientnature.common.entity.goals.PanicSprintingGoal;
 import net.reaper.ancientnature.core.init.ModEntities;
 import org.jetbrains.annotations.Nullable;
 
@@ -52,7 +53,7 @@ public class TuataraEntity extends Animal {
         super.registerGoals();
 
         this.goalSelector.addGoal(0, new FloatGoal(this));
-        this.goalSelector.addGoal(1, new PanicGoal(this, 2.0D));
+        this.goalSelector.addGoal(1, new PanicSprintingGoal(this, 2.0D));
         this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
         this.goalSelector.addGoal(3, new TemptGoal(this, 1.25D, Ingredient.of(Items.SPIDER_EYE), false));
         this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.25D));
@@ -78,7 +79,7 @@ public class TuataraEntity extends Animal {
     public static AttributeSupplier.Builder createAttributes() {
         return WaterAnimal.createLivingAttributes()
                 .add(Attributes.MAX_HEALTH, 4)
-                .add(Attributes.MOVEMENT_SPEED, 0.2d)
+                .add(Attributes.MOVEMENT_SPEED, 0.1d)
                 .add(Attributes.FOLLOW_RANGE, 25d);
 
     }

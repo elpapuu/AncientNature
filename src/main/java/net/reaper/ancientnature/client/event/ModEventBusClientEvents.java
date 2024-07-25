@@ -1,10 +1,14 @@
 package net.reaper.ancientnature.client.event;
 
-import net.minecraft.client.gui.screens.MenuScreens;
+import  net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
+import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -13,7 +17,6 @@ import net.reaper.ancientnature.client.model.entity.*;
 import net.reaper.ancientnature.client.renderer.blockentity.RevivalStandRenderer;
 import net.reaper.ancientnature.client.renderer.entity.*;
 import net.reaper.ancientnature.client.screens.RevivalStandScreen;
-import net.reaper.ancientnature.common.entity.ground.LythronaxEntity;
 import net.reaper.ancientnature.common.particle.RevivalStandParticle;
 import net.reaper.ancientnature.core.init.ModBlockEntities;
 import net.reaper.ancientnature.core.init.ModEntities;
@@ -27,9 +30,10 @@ public class ModEventBusClientEvents {
     public static void registerLayer(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(ArandaspisModel.ARANDASPIS_LAYER, ArandaspisModel::createBodyLayer);
         event.registerLayerDefinition(TuataraModel.TUATARA_LAYER, TuataraModel::createBodyLayer);
+        event.registerLayerDefinition(DunkleosteusModel.DUNKLEOSTEUS_LAYER, DunkleosteusModel::createBodyLayer);
         event.registerLayerDefinition(AnomalocarisModel.ANOMALOCARIS_LAYER, AnomalocarisModel::createBodyLayer);
         event.registerLayerDefinition(ParanogmiusModel.PARANOGMIUS_LAYER, ParanogmiusModel::createBodyLayer);
-        event.registerLayerDefinition(OviraptorModel.OviraptorLayer, OviraptorModel::createBodyLayer);
+        event.registerLayerDefinition(CitipatiModel.CitipatiLayer, CitipatiModel::createBodyLayer);
         event.registerLayerDefinition(LythronaxModel.LYTHRONAX_LAYER, LythronaxModel::createBodyLayer);
         event.registerLayerDefinition(DodoModel.DODO_LAYER, DodoModel::createBodyLayer);
     }
@@ -41,12 +45,17 @@ public class ModEventBusClientEvents {
         event.registerEntityRenderer(ModEntities.ANOMALOCARIS.get(), AnomalocarisRenderer::new);
         event.registerEntityRenderer(ModEntities.PARANOGMIUS.get(), ParanogmiusRenderer::new);
         event.registerEntityRenderer(ModEntities.TUATARA.get(), TuataraRenderer::new);
-        event.registerEntityRenderer(ModEntities.OVIRAPTOR.get(), OviraptorRenderer::new);
+        event.registerEntityRenderer(ModEntities.DUNKLEOSTEUS.get(), DunkleosteusRenderer::new);
+        event.registerEntityRenderer(ModEntities.CITIPATI.get(), CitipatiRenderer::new);
         event.registerEntityRenderer(ModEntities.LYTHRONAX.get(), LythronaxRenderer::new);
         event.registerEntityRenderer(ModEntities.DODO.get(), DodoRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.REVIVAL_STAND_ENTITY.get(), RevivalStandRenderer::new);
     }
-
+    @SubscribeEvent
+    public static void entitySpawnRestriction(SpawnPlacementRegisterEvent event) {
+        event.register(ModEntities.DODO.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                Animal::checkAnimalSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
+    }
     @SubscribeEvent
     public static void registerParticleProviders(RegisterParticleProvidersEvent event) {
         event.registerSpriteSet(ModParticles.REVIVAL_STAND_PARTICLE.get(), RevivalStandParticle.Provider::new);

@@ -24,6 +24,6 @@ public class ModEntityTagsProvider extends EntityTypeTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider pProvider) {
         tag(ModTags.Entities.FISHES).add(EntityType.SALMON, EntityType.PUFFERFISH);
-        tag(ModTags.Entities.HERBIVORES).add(OVIRAPTOR.get(), DODO.get());
+        tag(ModTags.Entities.HERBIVORES).add(CITIPATI.get(), DODO.get());
     }
 }

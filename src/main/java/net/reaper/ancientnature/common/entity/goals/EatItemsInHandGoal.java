@@ -2,7 +2,6 @@ package net.reaper.ancientnature.common.entity.goals;
 
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.animal.TropicalFish;
 import net.minecraft.world.item.ItemStack;
 import net.reaper.ancientnature.common.entity.BaseTameableDinoEntity;
 

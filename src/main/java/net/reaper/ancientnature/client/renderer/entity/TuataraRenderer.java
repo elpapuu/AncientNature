@@ -15,7 +15,7 @@ import net.reaper.ancientnature.common.entity.ground.TuataraEntity;
 @OnlyIn(Dist.CLIENT)
 public class TuataraRenderer extends MobRenderer<TuataraEntity, TuataraModel> {
     public TuataraRenderer(EntityRendererProvider.Context pContext) {
-        super(pContext, new TuataraModel(pContext.bakeLayer(TuataraModel.TUATARA_LAYER)), 0.6f);
+        super(pContext, new TuataraModel(pContext.bakeLayer(TuataraModel.TUATARA_LAYER)), 0.2f);
     }
 
     @Override

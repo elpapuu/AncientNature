@@ -1,11 +1,9 @@
 package net.reaper.ancientnature.common.entity.goals;
 
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.animal.PolarBear;
 import net.reaper.ancientnature.common.entity.BaseTameableDinoEntity;
-import net.reaper.ancientnature.common.entity.ground.OviraptorEntity;
+import net.reaper.ancientnature.common.entity.ground.CitipatiEntity;
 
 public class BTD_ProtectBabyTargetGoal extends NearestAttackableTargetGoal {
 
@@ -23,7 +21,7 @@ public class BTD_ProtectBabyTargetGoal extends NearestAttackableTargetGoal {
         if (mob instanceof BaseTameableDinoEntity) {
            Baby = mob.isBaby();
         }
-        if (mob instanceof OviraptorEntity && ((OviraptorEntity) mob).isDistracted()) {
+        if (mob instanceof CitipatiEntity && ((CitipatiEntity) mob).isDistracted()) {
             return false;
         }
         if (Baby) {
