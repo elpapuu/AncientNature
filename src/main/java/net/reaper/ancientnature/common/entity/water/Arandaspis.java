@@ -283,7 +283,7 @@ public class Arandaspis extends AquaticAnimal implements Bucketable {
 
         @Override
         public boolean canUse() {
-            return super.canUse() && !this.entity.doesHaveEggs();
+            return super.canUse() && !this.entity.doesHaveEggs() && entity.canLayEggs();
         }
 
         @Override
@@ -291,9 +291,11 @@ public class Arandaspis extends AquaticAnimal implements Bucketable {
             this.entity.setHasEggs(true);
             this.entity.setAge(6000);
             this.animal.resetLove();
+            this.entity.eggLayingCooldown = EGG_LAYING_COOLDOWN;
             if (this.partner != null) this.partner.setAge(6000);
             if (this.partner != null) this.partner.resetLove();
-
+            if(partner instanceof Arandaspis arandaspis)
+                arandaspis.eggLayingCooldown = EGG_LAYING_COOLDOWN;
             RandomSource randomsource = this.animal.getRandom();
             if (this.level.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) {
                 this.level.addFreshEntity(new ExperienceOrb(this.level, this.animal.getX(), this.animal.getY(), this.animal.getZ(), randomsource.nextInt(7) + 1));

@@ -46,6 +46,9 @@ public class ModItems {
     public static final RegistryObject<ForgeSpawnEggItem> ANOMALOCARIS_SPAWN_EGG = ITEMS.register("anomalocaris_spawn_egg", () -> new ForgeSpawnEggItem(ModEntities.ANOMALOCARIS, 0xc7663e, 0xa43723, new Item.Properties()));
     public static final RegistryObject<ForgeSpawnEggItem> PARANOGMIUS_SPAWN_EGG = ITEMS.register("paranogmius_spawn_egg", () -> new ForgeSpawnEggItem(ModEntities.PARANOGMIUS, 0x205471, 0xd0b72f, new Item.Properties()));
     public static final RegistryObject<ForgeSpawnEggItem> DODO_SPAWN_EGG = ITEMS.register("dodo_spawn_egg", () -> new ForgeSpawnEggItem(ModEntities.DODO, 0x3b404d, 0xc98b66, new Item.Properties()));
+    public static final RegistryObject<ForgeSpawnEggItem> LYTHRONAX_SPAWN_EGG = ITEMS.register("lythronax_spawn_egg", () -> new ForgeSpawnEggItem(ModEntities.LYTHRONAX, 0x3b404d, 0xc98b66, new Item.Properties()));
+
+
     public static final RegistryObject<Item> RAW_DODO = ITEMS.register("raw_dodo", () -> new Item(new Item.Properties().food(ModFoods.RAW_DODO)));
     public static final RegistryObject<Item> COOKED_DODO = ITEMS.register("cooked_dodo", () -> new Item(new Item.Properties().food(ModFoods.COOKED_DODO)));
 

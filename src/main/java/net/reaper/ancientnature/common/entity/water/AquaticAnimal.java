@@ -23,6 +23,9 @@ import net.reaper.ancientnature.common.config.AncientNatureConfig;
 import javax.annotation.Nonnull;
 
 public abstract class AquaticAnimal extends Animal {
+    public static final int EGG_LAYING_COOLDOWN = 600;
+
+    int eggLayingCooldown=0;
 
     protected AquaticAnimal(EntityType<? extends AquaticAnimal> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -56,10 +59,22 @@ public abstract class AquaticAnimal extends Animal {
 
     }
 
+    @Override
+    public void tick() {
+        super.tick();
+        if (this.eggLayingCooldown > 0) {
+            this.eggLayingCooldown--;
+        }
+    }
+
     public void baseTick() {
         int i = this.getAirSupply();
         super.baseTick();
         this.handleAirSupply(i);
+    }
+
+    public boolean canLayEggs() {
+        return this.eggLayingCooldown <= 0;
     }
 
     public boolean isPushedByFluid() {

@@ -321,7 +321,7 @@ public class Paranogmius extends AquaticAnimal implements PlayerRideable {
 
         @Override
         public boolean canUse() {
-            return super.canUse() && !this.entity.doesHaveEggs();
+            return super.canUse() && !this.entity.doesHaveEggs()&& entity.canLayEggs();
         }
 
         @Override
@@ -329,9 +329,11 @@ public class Paranogmius extends AquaticAnimal implements PlayerRideable {
             this.entity.setHasEggs(true);
             this.entity.setAge(6000);
             this.animal.resetLove();
+            this.entity.eggLayingCooldown = Paranogmius.EGG_LAYING_COOLDOWN;
             if (this.partner != null) this.partner.setAge(6000);
             if (this.partner != null) this.partner.resetLove();
-
+            if(this.partner instanceof Paranogmius paranogmiusPartner)
+                paranogmiusPartner.eggLayingCooldown = Paranogmius.EGG_LAYING_COOLDOWN;
             RandomSource randomsource = this.animal.getRandom();
             if (this.level.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) {
                 this.level.addFreshEntity(new ExperienceOrb(this.level, this.animal.getX(), this.animal.getY(), this.animal.getZ(), randomsource.nextInt(7) + 1));

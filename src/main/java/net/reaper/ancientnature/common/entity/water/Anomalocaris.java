@@ -1,6 +1,7 @@
 package net.reaper.ancientnature.common.entity.water;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -43,6 +44,7 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.TurtleEggBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
@@ -601,7 +603,7 @@ public class Anomalocaris extends AquaticAnimal implements Bucketable {
 
         @Override
         public boolean canUse() {
-            return super.canUse() && !this.entity.doesHaveEggs();
+            return super.canUse() && !this.entity.doesHaveEggs()&&this.entity.canLayEggs();
         }
 
         @Override
@@ -609,9 +611,12 @@ public class Anomalocaris extends AquaticAnimal implements Bucketable {
             this.entity.setHasEggs(true);
             this.entity.setAge(6000);
             this.animal.resetLove();
+            this.entity.eggLayingCooldown=EGG_LAYING_COOLDOWN;
             if (this.partner != null) this.partner.setAge(6000);
             if (this.partner != null) this.partner.resetLove();
-
+            if(partner instanceof Anomalocaris anomalocaris){
+                anomalocaris.eggLayingCooldown=EGG_LAYING_COOLDOWN;
+            }
             RandomSource randomsource = this.animal.getRandom();
             if (this.level.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) {
                 this.level.addFreshEntity(new ExperienceOrb(this.level, this.animal.getX(), this.animal.getY(), this.animal.getZ(), randomsource.nextInt(7) + 1));
@@ -644,7 +649,7 @@ public class Anomalocaris extends AquaticAnimal implements Bucketable {
             if (this.entity.isInWater() && this.isReachedTarget()) {
                 Level level = this.entity.level();
                 level.playSound(null, entitypos, SoundEvents.TURTLE_LAY_EGG, SoundSource.BLOCKS, 0.3F, 0.9F + level.random.nextFloat() * 0.2F);
-                BlockState blockstate = ModBlocks.ANOMALOCARIS_EGGS.get().defaultBlockState();
+                BlockState blockstate = ModBlocks.ANOMALOCARIS_EGGS.get().defaultBlockState().setValue(BlockStateProperties.FACING, Direction.DOWN);
                 level.setBlock(blockPos, blockstate, 3);
                 level.gameEvent(GameEvent.BLOCK_PLACE, blockPos, GameEvent.Context.of(this.entity, blockstate));
                 this.entity.setHasEggs(false);

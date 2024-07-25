@@ -45,7 +45,7 @@ public class ModEntities {
                     .sized(0.6f, 0.7f).build("citipati"));
     public static final RegistryObject<EntityType<LythronaxEntity>> LYTHRONAX =
             ENTITY_TYPES.register("lythronax", () -> EntityType.Builder.of(LythronaxEntity::new, MobCategory.CREATURE)
-                    .sized(0.6f, 0.7f).build("lythronax"));
+                    .sized(2, 2).build("lythronax"));
 
 
     public static final <T extends Entity> RegistryObject<EntityType<T>> register(String name, Supplier<EntityType.Builder<T>> builder){
