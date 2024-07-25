@@ -82,7 +82,13 @@ public class RevivalStandRecipe implements Recipe<RevivalStandBlockEntity> {
     public ItemStack getResultItem(RegistryAccess pRegistryAccess) {
         return this.eggs;
     }
+    public IngredientCount getAmber() {
+        return amber;
+    }
 
+    public IngredientCount getFossil() {
+        return fossil;
+    }
     @Override
     public ResourceLocation getId() {
         return this.id;

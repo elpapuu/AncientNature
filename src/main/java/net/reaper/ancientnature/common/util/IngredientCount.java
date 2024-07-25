@@ -7,6 +7,8 @@ import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
+import java.util.Arrays;
+
 public class IngredientCount {
 
     public static IngredientCount fromBuffer(FriendlyByteBuf buf) {
@@ -73,5 +75,11 @@ public class IngredientCount {
 
     public int getCount() {
         return count;
+    }
+
+
+    public Ingredient toIngredientWithCounts(){
+       return Ingredient.of(Arrays.stream(getIngredient().getItems()).peek(item -> item.setCount(getCount())).toArray(ItemStack[]::new));
+
     }
 }

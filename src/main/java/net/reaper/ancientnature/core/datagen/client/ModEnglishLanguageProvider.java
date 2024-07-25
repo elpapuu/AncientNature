@@ -93,6 +93,9 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
 
         //creative tab
         addTab("ancientnature_tab", "Ancient Nature");
+
+        //JEI
+        add("jei.category.revival_stand_recipe", "Revival Stand");
     }
 
 
