@@ -48,8 +48,9 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
 
         auto(ModItems.ARANDASPIS_SPAWN_EGG.get());
         auto(ModItems.ANOMALOCARIS_SPAWN_EGG.get());
-        auto(ModItems.PARANOGMIUS_SPAWN_EGG.get());
         auto(ModItems.DODO_SPAWN_EGG.get());
+        auto(ModItems.HORSESHOE_CRAB_SPAWN_EGG.get());
+        auto(ModItems.PARANOGMIUS_SPAWN_EGG.get());
 
         auto(ModBlocks.ARANDASPIS_ROE.get());
         auto(ModBlocks.ANOMALOCARIS_EGGS.get());
@@ -65,6 +66,10 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
 
         auto(ModEntities.ARANDASPIS.get());
         auto(ModEntities.ANOMALOCARIS.get());
+        auto(ModEntities.HORSESHOE_CRAB.get());
+        auto(ModEntities.DODO.get());
+        auto(ModEntities.TUATARA.get());
+        auto(ModEntities.DUNKLEOSTEUS.get());
         auto(ModEntities.PARANOGMIUS.get());
         auto(ModEntities.CITIPATI.get());
         auto(ModEntities.LYTHRONAX.get());
