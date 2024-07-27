@@ -47,10 +47,11 @@ public class ModEventBusClientEvents {
         event.registerEntityRenderer(ModEntities.TUATARA.get(), TuataraRenderer::new);
         event.registerEntityRenderer(ModEntities.DUNKLEOSTEUS.get(), DunkleosteusRenderer::new);
         event.registerEntityRenderer(ModEntities.CITIPATI.get(), CitipatiRenderer::new);
-        event.registerEntityRenderer(ModEntities.LYTHRONAX.get(), LythronaxRenderer::new);
-        event.registerEntityRenderer(ModEntities.DODO.get(), DodoRenderer::new);
+        event.registerEntityRenderer(ModEntities.LYTHRONAX.get(), pContext -> new SmartAnimalRenderer<>(pContext, new LythronaxModel(pContext.bakeLayer(LythronaxModel.LYTHRONAX_LAYER))));
+        event.registerEntityRenderer(ModEntities.DODO.get(), pContext -> new SmartAnimalRenderer<>(pContext, new DodoModel(pContext.bakeLayer(DodoModel.DODO_LAYER))));
         event.registerBlockEntityRenderer(ModBlockEntities.REVIVAL_STAND_ENTITY.get(), RevivalStandRenderer::new);
     }
+
     @SubscribeEvent
     public static void entitySpawnRestriction(SpawnPlacementRegisterEvent event) {
         event.register(ModEntities.DODO.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,

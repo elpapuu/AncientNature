@@ -5,6 +5,7 @@ package net.reaper.ancientnature.client.model.entity;// Made with Blockbench 4.1
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
@@ -15,10 +16,13 @@ import net.minecraft.util.Mth;
 import net.reaper.ancientnature.AncientNature;import net.reaper.ancientnature.client.animations.entity.DodoAnimations;
 import net.reaper.ancientnature.common.entity.ground.DodoEntity;
 
-public class DodoModel extends HierarchicalModel<DodoEntity> {
+public class DodoModel extends SmartAnimalModel<DodoEntity> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation DODO_LAYER = new ModelLayerLocation(new ResourceLocation(
 			AncientNature.MOD_ID, "dodo"), "main");
+
+	ResourceLocation PIZZA = new ResourceLocation(AncientNature.MOD_ID, "textures/entity/dodo/dodo_pizza.png");
+
 	private final ModelPart dodo;
 	public ModelPart body;
 	public ModelPart neck;
@@ -29,6 +33,13 @@ public class DodoModel extends HierarchicalModel<DodoEntity> {
 		this.body = this.dodo.getChild("body");
 		this.neck = this.body.getChild("neck");
 		this.head = this.neck.getChild("head");
+	}
+
+	@Override
+	public ResourceLocation getTexture(DodoEntity pEntity) {
+		if((pEntity.hasCustomName() && pEntity.getName().getString().equals("Pizza")))
+			return PIZZA;
+		return super.getTexture(pEntity);
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -77,29 +88,68 @@ public class DodoModel extends HierarchicalModel<DodoEntity> {
 
 		return LayerDefinition.create(meshdefinition, 64, 64);
 	}
+
 	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		dodo.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-	}
-	@Override
-	public void setupAnim(DodoEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		this.dodo.getAllParts().forEach(ModelPart::resetPose);
-		applyHeadRotation(entity, netHeadYaw, headPitch, ageInTicks);
-
-		//SPRINTING ANIMATION
-		if (entity.isSprinting())
-			this.animateWalk(DodoAnimations.RUN, limbSwing, limbSwingAmount, 3f, 4.5f);
-
-		//IDLE ANIMATION
-		if (!entity.isInWaterOrBubble() || !entity.walkAnimation.isMoving())
-			animate(entity.idleAnimation,DodoAnimations.IDLE, ageInTicks);
-
-		//WALK ANIMATION
-		if (entity.walkAnimation.isMoving() && !entity.isSprinting() && !entity.isInWaterOrBubble())
-			this.animateWalk(DodoAnimations.WALK, limbSwing, limbSwingAmount, 4f, 4.5f);
+	public float shadowRadius() {
+		return .5f;
 	}
 
-	private void applyHeadRotation(DodoEntity pEntity, float pNetHeadYaw, float pHeadPitch, float ageInTicks) {
+	@Override
+	public AnimationDefinition getWalkAnim() {
+		return DodoAnimations.WALK;
+	}
+
+	@Override
+	public AnimationDefinition getIdleAnim() {
+		return DodoAnimations.IDLE;
+	}
+
+	@Override
+	public AnimationDefinition getSitAnim() {
+		return DodoAnimations.REST;
+	}
+
+	@Override
+	public AnimationDefinition getSleepAnim() {
+		return DodoAnimations.SLEEP;
+	}
+
+	@Override
+	public AnimationDefinition getRunAnim() {
+		return DodoAnimations.RUN;
+	}
+
+	@Override
+	public AnimationDefinition getEatAnim() {
+		return DodoAnimations.EAT;
+	}
+
+	@Override
+	public AnimationDefinition getAttackAnim() {
+		return null;
+	}
+
+	@Override
+	public AnimationDefinition getDownAnim() {
+		return DodoAnimations.DOWN;
+	}
+
+	@Override
+	public AnimationDefinition getFallAsleepAnim() {
+		return DodoAnimations.FALL_ASLEEP;
+	}
+
+	@Override
+	public AnimationDefinition getWakeUpAnim() {
+		return DodoAnimations.WAKE_UP;
+	}
+
+	@Override
+	public AnimationDefinition getUpAnim() {
+		return DodoAnimations.UP;
+	}
+
+	protected void applyHeadRotation(DodoEntity pEntity, float pNetHeadYaw, float pHeadPitch, float ageInTicks) {
 		pNetHeadYaw = Mth.clamp(pNetHeadYaw, -10.0F, 10.0F);
 		pHeadPitch = Mth.clamp(pHeadPitch, -25.0F, 45.0F);
 

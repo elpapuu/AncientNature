@@ -162,7 +162,7 @@ public abstract class BaseTameableDinoEntity extends TamableAnimal {
         super.tick();
         if (!this.level().isClientSide) {
             if(this.getSleepTimer() > 0) {this.setSleepTimer(getSleepTimer()-1); System.out.println("sleepTimer: " + getSleepTimer());}
-            if(isSleeping()) {this.getNavigation().stop(); System.out.println("is sleeping");}
+            if(isSleeping()) {this.getNavigation().stop(); }
 
             if (timeForSleepConditions() && getSleepTimer() >= 0 &&
                     this.getLastHurtByMob() == null && getOrder() != 2 && additionalSleepConditions()) {
