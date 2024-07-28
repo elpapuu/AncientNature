@@ -28,14 +28,16 @@ public class LythronaxModel extends SmartAnimalModel<LythronaxEntity> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LYTHRONAX_LAYER = new ModelLayerLocation(new ResourceLocation(AncientNature.MOD_ID, "lythronax"), "main");
 	private final ModelPart root;
-	private final ModelPart body;
-	private final ModelPart head;
+	public ModelPart body;
+	public ModelPart neck;
+	public ModelPart head;
 	private final ModelPart saddle;
 
 	public LythronaxModel(ModelPart root) {
 		this.root = root;
 		this.body = root.getChild("Lythronax").getChild("body");
-		this.head = this.body.getChild("neck");
+		this.neck = this.body.getChild("neck");
+		this.head = this.neck.getChild("head");
 		this.saddle = this.body.getChild("belly").getChild("saddle");
 	}
 
@@ -180,8 +182,10 @@ public class LythronaxModel extends SmartAnimalModel<LythronaxEntity> {
 		pNetHeadYaw = Mth.clamp(pNetHeadYaw, -30.0F, 30.0F);
 		pHeadPitch = Mth.clamp(pHeadPitch, -25.0F, 45.0F);
 
-		this.body.yRot = pNetHeadYaw * 0.017453292F;
-		this.body.xRot = pHeadPitch * 0.017453292F;
+		this.body.getChild("neck").yRot = pNetHeadYaw * 0.017453292F;
+		this.body.getChild("neck").xRot = pHeadPitch * 0.017453292F;
+		this.neck.getChild("head").yRot = pNetHeadYaw * 0.017453292F;
+		this.neck.getChild("head").xRot = pHeadPitch * 0.03F;
 	}
 	@Override
 	public ModelPart root() {

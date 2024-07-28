@@ -11,7 +11,7 @@ import net.reaper.ancientnature.common.entity.water.HorseshoeCrabEntity;
 
 public class HorseshoeCrabRenderer extends MobRenderer<HorseshoeCrabEntity, HorseshoeCrabModel> {
     public HorseshoeCrabRenderer(EntityRendererProvider.Context pContext) {
-        super(pContext, new HorseshoeCrabModel(pContext.bakeLayer(HorseshoeCrabModel.HORSESHOE_LAYER)), 0.8f);
+        super(pContext, new HorseshoeCrabModel(pContext.bakeLayer(HorseshoeCrabModel.HORSESHOE_LAYER)), 0.4f);
     }
 
     @Override
