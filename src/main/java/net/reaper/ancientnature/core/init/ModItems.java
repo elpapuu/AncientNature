@@ -44,6 +44,7 @@ public class ModItems {
 
     public static final RegistryObject<ForgeSpawnEggItem> ARANDASPIS_SPAWN_EGG = ITEMS.register("arandaspis_spawn_egg", () -> new ForgeSpawnEggItem(ModEntities.ARANDASPIS, 0x5887B8, 0x2E4E77, new Item.Properties()));
     public static final RegistryObject<ForgeSpawnEggItem> ANOMALOCARIS_SPAWN_EGG = ITEMS.register("anomalocaris_spawn_egg", () -> new ForgeSpawnEggItem(ModEntities.ANOMALOCARIS, 0xc7663e, 0xa43723, new Item.Properties()));
+    public static final RegistryObject<ForgeSpawnEggItem> HORSESHOE_CRAB_SPAWN_EGG = ITEMS.register("horseshoe_crab_spawn_egg", () -> new ForgeSpawnEggItem(ModEntities.HORSESHOE_CRAB, 0x5b4f22, 0x453317, new Item.Properties()));
     public static final RegistryObject<ForgeSpawnEggItem> PARANOGMIUS_SPAWN_EGG = ITEMS.register("paranogmius_spawn_egg", () -> new ForgeSpawnEggItem(ModEntities.PARANOGMIUS, 0x205471, 0xd0b72f, new Item.Properties()));
     public static final RegistryObject<ForgeSpawnEggItem> DODO_SPAWN_EGG = ITEMS.register("dodo_spawn_egg", () -> new ForgeSpawnEggItem(ModEntities.DODO, 0x3b404d, 0xc98b66, new Item.Properties()));
     public static final RegistryObject<ForgeSpawnEggItem> LYTHRONAX_SPAWN_EGG = ITEMS.register("lythronax_spawn_egg", () -> new ForgeSpawnEggItem(ModEntities.LYTHRONAX, 0x3b404d, 0xc98b66, new Item.Properties()));

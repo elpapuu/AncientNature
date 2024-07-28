@@ -31,6 +31,7 @@ public class ModEventBusClientEvents {
         event.registerLayerDefinition(ArandaspisModel.ARANDASPIS_LAYER, ArandaspisModel::createBodyLayer);
         event.registerLayerDefinition(TuataraModel.TUATARA_LAYER, TuataraModel::createBodyLayer);
         event.registerLayerDefinition(DunkleosteusModel.DUNKLEOSTEUS_LAYER, DunkleosteusModel::createBodyLayer);
+        event.registerLayerDefinition(HorseshoeCrabModel.HORSESHOE_LAYER, HorseshoeCrabModel::createBodyLayer);
         event.registerLayerDefinition(AnomalocarisModel.ANOMALOCARIS_LAYER, AnomalocarisModel::createBodyLayer);
         event.registerLayerDefinition(ParanogmiusModel.PARANOGMIUS_LAYER, ParanogmiusModel::createBodyLayer);
         event.registerLayerDefinition(CitipatiModel.CitipatiLayer, CitipatiModel::createBodyLayer);
@@ -43,6 +44,7 @@ public class ModEventBusClientEvents {
         event.registerEntityRenderer(ModEntities.ARANDASPIS.get(), ArandaspisRenderer::new);
         event.registerEntityRenderer(ModEntities.ARANDASPIS.get(), ArandaspisRenderer::new);
         event.registerEntityRenderer(ModEntities.ANOMALOCARIS.get(), AnomalocarisRenderer::new);
+        event.registerEntityRenderer(ModEntities.HORSESHOE_CRAB.get(), HorseshoeCrabRenderer::new);
         event.registerEntityRenderer(ModEntities.PARANOGMIUS.get(), ParanogmiusRenderer::new);
         event.registerEntityRenderer(ModEntities.TUATARA.get(), TuataraRenderer::new);
         event.registerEntityRenderer(ModEntities.DUNKLEOSTEUS.get(), DunkleosteusRenderer::new);

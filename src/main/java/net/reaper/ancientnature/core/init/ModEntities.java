@@ -3,16 +3,14 @@ package net.reaper.ancientnature.core.init;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.animal.horse.Horse;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.reaper.ancientnature.AncientNature;
 import net.reaper.ancientnature.common.entity.ground.*;
-import net.reaper.ancientnature.common.entity.water.Anomalocaris;
-import net.reaper.ancientnature.common.entity.water.Arandaspis;
-import net.reaper.ancientnature.common.entity.water.DunkleosteusEntity;
-import net.reaper.ancientnature.common.entity.water.Paranogmius;
+import net.reaper.ancientnature.common.entity.water.*;
 
 import java.util.function.Supplier;
 
@@ -43,6 +41,10 @@ public class ModEntities {
     public static final RegistryObject<EntityType<CitipatiEntity>> CITIPATI =
             ENTITY_TYPES.register("citipati", () -> EntityType.Builder.of(CitipatiEntity::new, MobCategory.CREATURE)
                     .sized(0.6f, 0.7f).build("citipati"));
+    public static final RegistryObject<EntityType<HorseshoeCrabEntity>> HORSESHOE_CRAB =
+            ENTITY_TYPES.register("horseshoecrab", () -> EntityType.Builder.of(HorseshoeCrabEntity::new, MobCategory.CREATURE)
+                    .sized(0.8f, 0.3f).build("horseshoecrab"));
+
     public static final RegistryObject<EntityType<LythronaxEntity>> LYTHRONAX =
             ENTITY_TYPES.register("lythronax", () -> EntityType.Builder.of(LythronaxEntity::new, MobCategory.CREATURE)
                     .sized(2, 2).build("lythronax"));
