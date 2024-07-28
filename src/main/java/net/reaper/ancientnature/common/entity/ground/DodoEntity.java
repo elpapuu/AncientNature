@@ -86,6 +86,11 @@ public class DodoEntity extends SmartAnimatedAnimal {
     }
 
     @Override
+    public int getEatAnimationConsumeDelay() {
+        return 40;
+    }
+
+    @Override
     public boolean canAttack() {
         return false;
     }

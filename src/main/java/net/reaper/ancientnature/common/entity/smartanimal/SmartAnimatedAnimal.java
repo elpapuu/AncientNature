@@ -30,6 +30,8 @@ public abstract class SmartAnimatedAnimal extends TamableAnimal {
 
     private static final EntityDataAccessor<Boolean> IS_MALE = SynchedEntityData.defineId(SmartAnimatedAnimal.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> IS_ATTACKING = SynchedEntityData.defineId(SmartAnimatedAnimal.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> IS_EATING = SynchedEntityData.defineId(SmartAnimatedAnimal.class, EntityDataSerializers.BOOLEAN);
+
     private static final EntityDataAccessor<Boolean> IS_BABY = SynchedEntityData.defineId(SmartAnimatedAnimal.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> ORDER = SynchedEntityData.defineId(SmartAnimatedAnimal.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> AGE = SynchedEntityData.defineId(SmartAnimatedAnimal.class, EntityDataSerializers.INT);
@@ -50,6 +52,8 @@ public abstract class SmartAnimatedAnimal extends TamableAnimal {
 
 
     public int attackAnimationTimeout;
+    public int eatAnimationTimeout;
+
     public int poseTicks;
     public SmartAnimalPose currentPose=SmartAnimalPose.IDLE;
     AnimalDiet diet;
@@ -111,6 +115,7 @@ public abstract class SmartAnimatedAnimal extends TamableAnimal {
             this.goalSelector.addGoal(1, new AttackGoal(this, 1.0D, true,getAttackAnimationDamageDelay(),getAnimationLengthInTicks(SmartAnimalPose.ATTACK)));
         }
 
+        this.goalSelector.addGoal(2, new ConsumeItemFromGroundGoal(this, 1.2D,true,getEatAnimationConsumeDelay(),getAnimationLengthInTicks(SmartAnimalPose.EAT)));
         this.goalSelector.addGoal(2, new SmartAnimalTemptGoal(this, 1.2D,false));
 
         this.goalSelector.addGoal(3, new FollowParentGoal(this, 1.1D));
@@ -132,6 +137,7 @@ public abstract class SmartAnimatedAnimal extends TamableAnimal {
         pCompound.putBoolean("isAttacking", isAttacking());
         pCompound.putInt("bedtimeVariance", getBedtimeVariance());
         pCompound.putInt("poseTicks", getPoseTicks());
+
     }
 
     @Override
@@ -162,6 +168,7 @@ public abstract class SmartAnimatedAnimal extends TamableAnimal {
         this.entityData.define(SMART_ANIMAL_POSE, SmartAnimalPose.IDLE.ordinal());
         this.entityData.define(DAY_TIME, level().getDayTime());
         this.entityData.define(POSE_TICK, 0);
+        this.entityData.define(IS_EATING, false);
     }
 
     public int getPoseTicks() {
@@ -232,6 +239,14 @@ public abstract class SmartAnimatedAnimal extends TamableAnimal {
         return diet;
     }
 
+    public boolean isEating() {
+        return this.entityData.get(IS_EATING);
+    }
+
+    public void setEating(boolean pIsEating) {
+        this.entityData.set(IS_EATING, pIsEating);
+    }
+
     public boolean isRidable(){
         return false;
     }
@@ -253,16 +268,8 @@ public abstract class SmartAnimatedAnimal extends TamableAnimal {
     }
 
     protected void setupAnimationStates() {
-        if (this.isAttacking() && attackAnimationTimeout <= 0) {
-            attackAnimationTimeout = getAnimationLengthInTicks(SmartAnimalPose.ATTACK);
-            attackAnimation.start(this.tickCount);
-        } else {
-            --this.attackAnimationTimeout;
-        }
-
-        if (!this.isAttacking()) {
-            attackAnimation.stop();
-        }
+        attackAnimationSetup();
+        eatingAnimationSetup();
 
         if (getOrder() == TameableOrders.SIT && getSmartPose() != SmartAnimalPose.SIT&&!walkAnimation.isMoving()) {
             if (getSmartPose() == SmartAnimalPose.IDLE) {
@@ -341,6 +348,32 @@ public abstract class SmartAnimatedAnimal extends TamableAnimal {
             setPoseTicks(getAnimationLengthInTicks(SmartAnimalPose.SLEEP));
             setSmartPose(SmartAnimalPose.SLEEP);
             sleepAnimation.start(this.tickCount);
+        }
+    }
+
+    private void attackAnimationSetup() {
+        if (this.isAttacking() && attackAnimationTimeout <= 0) {
+            attackAnimationTimeout = getAnimationLengthInTicks(SmartAnimalPose.ATTACK);
+            attackAnimation.start(this.tickCount);
+        } else {
+            --this.attackAnimationTimeout;
+        }
+
+        if (!this.isAttacking()) {
+            attackAnimation.stop();
+        }
+    }
+    private void eatingAnimationSetup() {
+        if (this.isEating() && eatAnimationTimeout <= 0) {
+            eatAnimationTimeout = getAnimationLengthInTicks(SmartAnimalPose.EAT);
+            eatAnimation.start(this.tickCount);
+        } else {
+            --this.eatAnimationTimeout;
+        }
+
+        if (!this.isEating()||eatAnimationTimeout==1) {
+            setEating(false);
+            eatAnimation.stop();
         }
     }
 

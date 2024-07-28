@@ -7,6 +7,7 @@ import net.minecraft.world.entity.ai.goal.TemptGoal;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.reaper.ancientnature.common.entity.smartanimal.SmartAnimalPose;
 import net.reaper.ancientnature.common.entity.smartanimal.SmartAnimatedAnimal;
 
 import javax.annotation.Nullable;
@@ -41,6 +42,8 @@ public class SmartAnimalTemptGoal extends Goal {
      * method as well.
      */
     public boolean canUse() {
+        if(mob.getSmartPose()== SmartAnimalPose.SIT||mob.getSmartPose()== SmartAnimalPose.SLEEP)
+            return false;
         if (this.calmDown > 0) {
             --this.calmDown;
             return false;
