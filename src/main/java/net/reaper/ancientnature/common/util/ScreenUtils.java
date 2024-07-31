@@ -1,11 +1,12 @@
 package net.reaper.ancientnature.common.util;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.client.event.RenderGuiOverlayEvent;
+import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 
 public class ScreenUtils {
-
-
     /**
      * this should give a scaled progress, so the progress goes from 0 to max and the result of that method will go from 0 to scale
      */
@@ -23,6 +24,16 @@ public class ScreenUtils {
         if (progress > 0) {
             int scale = getScaledInt(progress, maxProgress, height);
             graphics.blit(texture, left, top + height - scale, u, v + height - scale, width, scale);
+        }
+    }
+
+    public static void renderBar(RenderGuiOverlayEvent.Pre pEvent, ResourceLocation pBar, int pX1, int pY1, int pX2, int pY2, int pProgress, float pVOffset, int pWidth, int pHeight) {
+        PoseStack matrixStack = pEvent.getGuiGraphics().pose();
+        if (!pEvent.getOverlay().id().equals(VanillaGuiOverlay.CROSSHAIR.id())) {
+            matrixStack.pushPose();
+            pEvent.getGuiGraphics().blit(pBar, pX1,  pY1, 0.0F, 0.0F, pWidth, pHeight, 210, 235);
+            pEvent.getGuiGraphics().blit(pBar,  pX2, pY2, 6.0F, pVOffset, pProgress, pHeight, 210, 235);
+            matrixStack.popPose();
         }
     }
 }

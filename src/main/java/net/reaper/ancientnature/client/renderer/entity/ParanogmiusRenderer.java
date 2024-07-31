@@ -13,11 +13,11 @@ import net.reaper.ancientnature.common.entity.water.Paranogmius;
 
 @OnlyIn(Dist.CLIENT)
 public class ParanogmiusRenderer extends MobRenderer<Paranogmius, ParanogmiusModel> {
-    private final ResourceLocation ADULT = new ResourceLocation(AncientNature.MOD_ID, "textures/entity/paranogmius/paranogmius_male_a.png");
-    private final ResourceLocation BABY = new ResourceLocation(AncientNature.MOD_ID, "textures/entity/paranogmius/paranogmius_female_a.png");
+    private final ResourceLocation ADULT = new ResourceLocation(AncientNature.MOD_ID, "textures/entity/paranogmius_male_a.png");
+    private final ResourceLocation BABY = new ResourceLocation(AncientNature.MOD_ID, "textures/entity/paranogmius_female_a.png");
 
     public ParanogmiusRenderer(EntityRendererProvider.Context pContext) {
-        super(pContext, new ParanogmiusModel(pContext.bakeLayer(ParanogmiusModel.PARANOGMIUS_LAYER)), 1f);
+        super(pContext, new ParanogmiusModel(pContext.bakeLayer(ParanogmiusModel.PARANOGMIUS_LAYER)), 0.6f);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class ParanogmiusRenderer extends MobRenderer<Paranogmius, ParanogmiusMod
     @Override
     protected void scale(Paranogmius pLivingEntity, PoseStack pMatrixStack, float pPartialTickTime) {
 
-        float F = pLivingEntity.isBaby() ? 1F : 1F;
+        float F = pLivingEntity.isBaby() ? 0.9F : 1.08F;
         pMatrixStack.scale(F, F, F);
 
         super.scale(pLivingEntity, pMatrixStack, pPartialTickTime);

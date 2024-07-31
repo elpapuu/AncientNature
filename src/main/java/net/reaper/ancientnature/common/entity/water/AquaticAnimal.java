@@ -1,6 +1,9 @@
 package net.reaper.ancientnature.common.entity.water;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
@@ -16,6 +19,7 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.fluids.FluidType;
 import net.reaper.ancientnature.common.config.AncientNatureConfig;
@@ -71,6 +75,25 @@ public abstract class AquaticAnimal extends Animal {
         int i = this.getAirSupply();
         super.baseTick();
         this.handleAirSupply(i);
+        if (this.isInWater() && this.isVehicle()) {
+            this.setDeltaMovement(this.getDeltaMovement().add(0.0, 0.001, 0.0));
+        }
+    }
+
+    public void bubbleTrail(int pBubbleCount, float pXSize, float pYSize, float pZSize) {
+        if (this.level().isClientSide) {
+            for (int i = 0; i < pBubbleCount; i++) {
+                Vec3 randomVec  = new Vec3(this.getRandom().nextFloat() * pXSize - 0.7F, this.getRandom().nextFloat() * pYSize - 2.0F, 0.5F + this.getRandom().nextFloat() * pZSize  - 1.0F);
+                randomVec  = randomVec .yRot((float) (-this.yBodyRot *  Math.PI / 180F)).add(this.getX(), this.getEyeY() + 1.0F, this.getZ());
+                this.level().addParticle(ParticleTypes.BUBBLE, randomVec .x, randomVec .y, randomVec .z, 0.0F, 0.0F, 0.0F);
+            }
+        }
+    }
+
+    public void flip(float pPower) {
+        this.setDeltaMovement(this.getDeltaMovement().add((this.random.nextFloat() * 2.0F - 1.0F) * 0.2F, pPower, (this.random.nextFloat() * 2.0F - 1.0F) * 0.2F));
+        this.playSound(SoundEvents.SALMON_FLOP);
+        this.hasImpulse = true;
     }
 
     public boolean canLayEggs() {

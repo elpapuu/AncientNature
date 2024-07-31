@@ -11,8 +11,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -24,8 +22,7 @@ import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -36,7 +33,6 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 import net.reaper.ancientnature.common.entity.goals.*;
-import net.reaper.ancientnature.common.entity.goals.paranogmius.ParanogmiusJumpGoal;
 import net.reaper.ancientnature.core.init.ModBlocks;
 import net.reaper.ancientnature.core.init.ModEntities;
 import org.jetbrains.annotations.Nullable;
@@ -44,10 +40,10 @@ import org.jetbrains.annotations.Nullable;
 import javax.annotation.Nonnull;
 
 public class Paranogmius extends AquaticAnimal implements PlayerRideable {
-    public final AnimationState flopAnimationState = new AnimationState();
-    public final AnimationState idleAnimationState = new AnimationState();
-    public final AnimationState attackAnimationState = new AnimationState();
-    public final AnimationState swimAnimationState = new AnimationState();
+    public final AnimationState flopAnimation = new AnimationState();
+    public final AnimationState idleAnimation = new AnimationState();
+    public final AnimationState attackAnimation = new AnimationState();
+    public final AnimationState swimAnimation = new AnimationState();
     private int swimAnimationTimeout = 0;
     private int idleAnimationTimeout = 0;
     private int attackAnimationTimeout = 0;
@@ -109,17 +105,17 @@ public class Paranogmius extends AquaticAnimal implements PlayerRideable {
     private void setupAnimationStates() {
         if (this.idleAnimationTimeout <= 0) {
             this.idleAnimationTimeout = this.random.nextInt(40) + 80;
-            this.idleAnimationState.start(this.tickCount);
+            this.idleAnimation.start(this.tickCount);
         } else {
             --this.idleAnimationTimeout;
         }
         //flopping condition
         if (!this.isInWater()) {
-            if (this.idleAnimationState.isStarted())
-                this.idleAnimationState.stop();
-            this.flopAnimationState.startIfStopped(this.tickCount);
+            if (this.idleAnimation.isStarted())
+                this.idleAnimation.stop();
+            this.flopAnimation.startIfStopped(this.tickCount);
         } else {
-            this.flopAnimationState.stop();
+            this.flopAnimation.stop();
         }
     }
 
@@ -128,14 +124,12 @@ public class Paranogmius extends AquaticAnimal implements PlayerRideable {
         if (this.isInWater())
             super.updateWalkAnimation(pPartialTick);
     }
-    private boolean walkAnimation() {
-        return false;
-    }
+
     public void aiStep() {
         if (!this.isInWater() && this.onGround() && this.verticalCollision) {
             this.setDeltaMovement(this.getDeltaMovement().add((double)((this.random.nextFloat() * 2.0F - 1.0F) * 0.05F), (double)0.4F, (double)((this.random.nextFloat() * 2.0F - 1.0F) * 0.05F)));
             this.setOnGround(false);
-            this.hasImpulse = false;
+            this.hasImpulse = true;
             this.playSound(this.getFlopSound(), this.getSoundVolume(), this.getVoicePitch());
         }
 
@@ -253,35 +247,6 @@ public class Paranogmius extends AquaticAnimal implements PlayerRideable {
     public boolean canBeSteered() {
         return true;
     }
-    @Override
-    public boolean setRiding(Player pPlayer) {
-        pPlayer.setYRot(getYRot());
-        pPlayer.setXRot(getXRot());
-        pPlayer.startRiding(this);
-        return false;
-    }
-    public InteractionResult mobInteract(Player pPlayer, InteractionHand pHand){
-        boolean flag = this.isFood(pPlayer.getItemInHand(pHand));
-        if (!flag && this.isSaddled() && !this.isVehicle() && !pPlayer.isSecondaryUseActive()) {
-            if (!this.level().isClientSide) {
-                pPlayer.startRiding(this);
-            }
-
-            return InteractionResult.sidedSuccess(this.level().isClientSide);
-        } else {
-            InteractionResult interactionresult = super.mobInteract(pPlayer, pHand);
-            if (!interactionresult.consumesAction()) {
-                ItemStack itemstack = pPlayer.getItemInHand(pHand);
-                return itemstack.is(Items.SADDLE) ? itemstack.interactLivingEntity(pPlayer, this, pHand) : InteractionResult.PASS;
-            } else {
-                return interactionresult;
-            }
-        }
-    }
-
-    private boolean isSaddled() {
-        return false;
-    }
 
     public void setHasEggs(boolean hasEggs) {
         this.hasEggs = hasEggs;
@@ -321,7 +286,7 @@ public class Paranogmius extends AquaticAnimal implements PlayerRideable {
 
         @Override
         public boolean canUse() {
-            return super.canUse() && !this.entity.doesHaveEggs()&& entity.canLayEggs();
+            return super.canUse() && !this.entity.doesHaveEggs();
         }
 
         @Override
@@ -329,11 +294,9 @@ public class Paranogmius extends AquaticAnimal implements PlayerRideable {
             this.entity.setHasEggs(true);
             this.entity.setAge(6000);
             this.animal.resetLove();
-            this.entity.eggLayingCooldown = Paranogmius.EGG_LAYING_COOLDOWN;
             if (this.partner != null) this.partner.setAge(6000);
             if (this.partner != null) this.partner.resetLove();
-            if(this.partner instanceof Paranogmius paranogmiusPartner)
-                paranogmiusPartner.eggLayingCooldown = Paranogmius.EGG_LAYING_COOLDOWN;
+
             RandomSource randomsource = this.animal.getRandom();
             if (this.level.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) {
                 this.level.addFreshEntity(new ExperienceOrb(this.level, this.animal.getX(), this.animal.getY(), this.animal.getZ(), randomsource.nextInt(7) + 1));
