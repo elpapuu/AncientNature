@@ -8,10 +8,13 @@ public enum SmartAnimalPose {
     COMMUNICATE,
     EAT,
     ATTACK,
+    ATTACK2,
+    ATTACK3,
     DOWN,
     SIT,
     FALL_ASLEEP,
     SLEEP,
     WAKE_UP,
+    ROAR,
     UP;
 }

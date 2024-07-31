@@ -75,6 +75,9 @@ public class DodoEntity extends SmartAnimatedAnimal {
             case COMMUNICATE -> (int)(0.5417F*20.0);
             case EAT -> (int)(2.12F*20.0);
             case ATTACK -> (int)(.72*20.0);
+            case ATTACK2 -> 0;
+            case ATTACK3 -> 0;
+            case ROAR -> 0;
             case DOWN -> (int)(0.96F*20.0);
             case FALL_ASLEEP -> (int)(0.68F*20.0);
             case WAKE_UP -> (int)(0.72F*20.0);

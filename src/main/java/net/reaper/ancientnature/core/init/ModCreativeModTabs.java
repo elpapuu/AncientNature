@@ -56,6 +56,8 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.ARANDASPIS_SPAWN_EGG.get());
                         pOutput.accept(ModItems.ANOMALOCARIS_SPAWN_EGG.get());
                         pOutput.accept(ModItems.DODO_SPAWN_EGG.get());
+                        pOutput.accept(ModItems.LYTHRONAX_SPAWN_EGG.get());
+                        pOutput.accept(ModItems.TREX_SPAWN_EGG.get());
                         pOutput.accept(ModItems.HORSESHOE_CRAB_SPAWN_EGG.get());
                         pOutput.accept(ModItems.PARANOGMIUS_SPAWN_EGG.get());
                     })

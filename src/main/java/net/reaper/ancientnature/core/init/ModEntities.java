@@ -10,6 +10,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.reaper.ancientnature.AncientNature;
 import net.reaper.ancientnature.common.entity.ground.*;
+import net.reaper.ancientnature.common.entity.multipart.EntitySlowPart;
+import net.reaper.ancientnature.common.entity.multipart.TRexPart;
 import net.reaper.ancientnature.common.entity.water.*;
 
 import java.util.function.Supplier;
@@ -48,6 +50,15 @@ public class ModEntities {
     public static final RegistryObject<EntityType<LythronaxEntity>> LYTHRONAX =
             ENTITY_TYPES.register("lythronax", () -> EntityType.Builder.of(LythronaxEntity::new, MobCategory.CREATURE)
                     .sized(2, 2).build("lythronax"));
+
+    public static final RegistryObject<EntityType<TRexEntity>> TREX =
+            ENTITY_TYPES.register("trex", () -> EntityType.Builder.of(TRexEntity::new, MobCategory.CREATURE)
+                    .sized(3.65456434F,4.23423F).build("trex"));
+
+    public static final RegistryObject<EntityType<EntitySlowPart>> SLOW_MULTIPART = register( "multipart",()->
+            EntityType.Builder.<EntitySlowPart>of(EntitySlowPart::new, MobCategory.MISC)
+                    .sized(0.5F, 0.5F).fireImmune().setCustomClientFactory(EntitySlowPart::new));
+    public static final RegistryObject<EntityType<TRexPart>> TREX_MULTIPART = register("trex_multipart",()->EntityType.Builder.<TRexPart>of(TRexPart::new, MobCategory.MISC).sized(0.5F, 0.5F).fireImmune().setCustomClientFactory(TRexPart::new));
 
 
     public static final <T extends Entity> RegistryObject<EntityType<T>> register(String name, Supplier<EntityType.Builder<T>> builder){

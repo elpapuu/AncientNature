@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.reaper.ancientnature.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "ancientnature.refmap.json",
+  "mixins": [
+  ],
+  "client": [
+    "DinoGuiOverlayMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

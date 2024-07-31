@@ -53,6 +53,9 @@ public class LythronaxEntity extends SmartAnimatedAnimal {
                     case RUN -> (int)(.84*20.0);
                     case EAT -> (int)(2.84*20.0);
                     case ATTACK -> (int)(.72*20.0);
+                    case ATTACK2 -> 0;
+                    case ATTACK3 -> 0;
+                    case ROAR -> 0;
                     case DOWN -> (int)(.96*20.0);
                     case FALL_ASLEEP -> (int)(.88*20.0);
                     case WAKE_UP -> (int)(1.04*20.0);

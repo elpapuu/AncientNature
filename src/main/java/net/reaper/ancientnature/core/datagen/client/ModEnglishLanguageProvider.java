@@ -73,6 +73,7 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         auto(ModEntities.PARANOGMIUS.get());
         auto(ModEntities.CITIPATI.get());
         auto(ModEntities.LYTHRONAX.get());
+        auto(ModEntities.TREX.get());
 
         guiTranslation(ModBlockEntities.REVIVAL_STAND_ENTITY.get());
 
