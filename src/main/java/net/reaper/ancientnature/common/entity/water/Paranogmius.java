@@ -33,6 +33,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 import net.reaper.ancientnature.common.entity.goals.*;
+import net.reaper.ancientnature.common.entity.goals.paranogmius.ParanogmiusJumpGoal;
 import net.reaper.ancientnature.core.init.ModBlocks;
 import net.reaper.ancientnature.core.init.ModEntities;
 import org.jetbrains.annotations.Nullable;
@@ -100,6 +101,11 @@ public class Paranogmius extends AquaticAnimal implements PlayerRideable {
             }
             //if (isInLove()) setDeltaMovement(this.getDeltaMovement().x / 1.5, this.getDeltaMovement().y, this.getDeltaMovement().z / 1.5);
         }
+    }
+
+    @Override
+    public boolean setRiding(Player pPlayer) {
+        return false;
     }
 
     private void setupAnimationStates() {

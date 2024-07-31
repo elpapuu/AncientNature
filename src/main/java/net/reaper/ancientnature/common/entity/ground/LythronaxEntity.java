@@ -58,11 +58,11 @@ public class LythronaxEntity extends BaseTameableDinoEntity {
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
         this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.25D));
-        this.goalSelector.addGoal(2, new CommunicateGoal(this));
+       // this.goalSelector.addGoal(2, new CommunicateGoal(this));
         this.goalSelector.addGoal(9, new LookAtPlayerGoal(this, Player.class, 6.0F));
         this.goalSelector.addGoal(10, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(2, new MeleeAttackGoal(this, 3.0f, true));
-        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, OviraptorEntity.class, true));
+      //  this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, OviraptorEntity.class, true));
         this.goalSelector.addGoal(12, new OrderRandomStrollAvoidWater(this, 1.0D, getOrder()));
         this.targetSelector.addGoal(1, new BTD_ProtectBabyTargetGoal(this, Player.class, true));
 
@@ -146,6 +146,11 @@ public class LythronaxEntity extends BaseTameableDinoEntity {
         }
     }
 
+    @Override
+    public boolean setRiding(Player pPlayer) {
+        return false;
+    }
+
     private boolean walkAnimation() {
         return false;
     }
@@ -171,6 +176,16 @@ public class LythronaxEntity extends BaseTameableDinoEntity {
 
         // Calcula el ángulo dinámico para la cola
         tailAngle = (float) Math.sin(timer) * 30;
+    }
+
+    @Override
+    public boolean isRidable() {
+        return false;
+    }
+
+    @Override
+    public boolean canBeSteered() {
+        return false;
     }
 
     @Nullable
