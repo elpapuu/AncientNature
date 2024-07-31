@@ -1,7 +1,10 @@
 package net.reaper.ancientnature.common.entity.util;
 
+@FunctionalInterface
 public interface IMouseInput {
-    void onRightClick();
+    void onMouseClick(int pButton);
 
-    void onLeftClick();
+    default boolean isActionDenied(int pActionId) {
+        return false;
+    }
 }

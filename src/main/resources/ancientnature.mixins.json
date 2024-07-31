@@ -2,12 +2,13 @@
   "required": true,
   "minVersion": "0.8",
   "package": "net.reaper.ancientnature.mixin",
-  "compatibilityLevel": "JAVA_8",
-  "refmap": "ancientnature.refmap.json",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "mixins.ancientnature.refmap.json",
   "mixins": [
   ],
   "client": [
-    "DinoGuiOverlayMixin"
+    "client.HumanoidModelMixin",
+    "client.LivingEntityRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
