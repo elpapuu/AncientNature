@@ -5,6 +5,7 @@ package net.reaper.ancientnature.client.model.entity;// Made with Blockbench 4.1
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
@@ -15,6 +16,7 @@ import net.minecraft.util.Mth;
 import net.reaper.ancientnature.AncientNature;
 import net.reaper.ancientnature.client.animations.entity.ParanogmiusAnimations;
 import net.reaper.ancientnature.common.entity.water.Paranogmius;
+import org.jetbrains.annotations.NotNull;
 
 public class ParanogmiusModel extends HierarchicalModel<Paranogmius> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
@@ -35,11 +37,13 @@ public class ParanogmiusModel extends HierarchicalModel<Paranogmius> {
 	public ModelPart pelvicright;
 	public ModelPart pelvicleft;
 
-
 	public ParanogmiusModel(ModelPart root) {
-        this.paranogmius = root;
-        this.body = root.getChild("paranogmius");
+        this.paranogmius = root.getChild("paranogmius");
+        this.body = this.paranogmius.getChild("body");
+		this.tail = this.body.getChild("tail");
+		this.endtail = this.tail.getChild("tailend");
 	}
+
 	public static LayerDefinition createBodyLayer() {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
@@ -116,21 +120,29 @@ public class ParanogmiusModel extends HierarchicalModel<Paranogmius> {
 
 	public void setupAnim(Paranogmius entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
-		applyHeadRotation(entity, netHeadYaw, headPitch, ageInTicks);
+		this.applyHeadRotation(entity, netHeadYaw, headPitch, ageInTicks);
+		this.dynamicTail(entity);
+
+
 		this.body.xRot = headPitch * (float) (Math.PI / 180F);
 		this.body.yRot = netHeadYaw * (float) (Math.PI / 180F);
-
+		/*
 		if (entity.isSwimming() && entity.isInWater()) {
 			this.body.zRot = Mth.sin((float) ((entity.tickCount + ageInTicks) * 2 * Math.PI * 0.8125D));
 		}
-		if (entity.isSprinting()) {
-            this.animateWalk(ParanogmiusAnimations.PARANOGMIUS_SPRINT, limbSwing, limbSwingAmount, 4f, 4.5f);
-        } else
+
+		 */
+		if (entity.isInWater()) {
+			if (entity.isSprinting()) {
+				this.animateWalk(ParanogmiusAnimations.PARANOGMIUS_SPRINT, limbSwing, limbSwingAmount, 1.0F, 1.0F);
+			} else {
+				this.animateWalk(ParanogmiusAnimations.PARANOGMIUS_SWIM, limbSwing, limbSwingAmount, 2.0F, 2.0F);
+			}
+		}
 		this.animateWalk(ParanogmiusAnimations.PARANOGMIUS_SWIM, limbSwing, limbSwingAmount, 4.0F, 4.0F);
 		this.animate(entity.idleAnimation, ParanogmiusAnimations.PARANOGMIUS_IDLE, ageInTicks, 1.0F);
-		this.animate(entity.attackAnimation, ParanogmiusAnimations.PARANOGMIUS_ATTACK, ageInTicks, 1.0F);
-		this.animate(entity.flopAnimation, ParanogmiusAnimations.PARANOGMIUS_FLOP, ageInTicks, 1.0F);
-
+		this.animate(entity.attackAnimationState, ParanogmiusAnimations.PARANOGMIUS_ATTACK, ageInTicks, 1.0F);
+	//	this.animate(entity.flopAnimation, ParanogmiusAnimations.PARANOGMIUS_FLOP, ageInTicks, 1.0F);
 	}
 
 	private void applyHeadRotation(Paranogmius pEntity, float pNetHeadYaw, float pHeadPitch, float pAgeInTicks) {
@@ -141,8 +153,20 @@ public class ParanogmiusModel extends HierarchicalModel<Paranogmius> {
 		this.body.xRot = pHeadPitch * 0.017453292F;
 	}
 
+	private void dynamicTail(@NotNull Paranogmius pEntity) {
+		float targetYaw = pEntity.prevTailRot + (pEntity.tailRot - pEntity.prevTailRot) * Minecraft.getInstance().getPartialTick();
+		this.tail.yRot = Mth.lerp(0.1F, this.tail.yRot, targetYaw);
+		this.endtail.yRot = Mth.lerp(0.05F, this.endtail.yRot, targetYaw);
+	}
+
+	public void setCustomPose(@NotNull PoseStack pMatrixStack) {
+		this.paranogmius.translateAndRotate(pMatrixStack);
+		this.body.translateAndRotate(pMatrixStack);
+		this.tail.translateAndRotate(pMatrixStack);
+	}
+
 	@Override
-	public ModelPart root() {
-		return paranogmius;
+	public @NotNull ModelPart root() {
+		return this.paranogmius;
 	}
 }

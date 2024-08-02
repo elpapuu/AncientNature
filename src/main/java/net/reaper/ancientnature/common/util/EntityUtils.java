@@ -2,6 +2,7 @@ package net.reaper.ancientnature.common.util;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
@@ -80,6 +81,21 @@ public class EntityUtils {
         pVehicle.yBodyRot = interpolatedRotation ;
         pVehicle.yHeadRot = interpolatedRotation ;
         pVehicle.setYRot(Mth.rotLerp(pRotationSpeed, pVehicle.getYRot(), pRider.getYRot()));
+    }
+
+    public static void removeRider(@NotNull LivingEntity pVehicle, @Nullable Player pRider) {
+        if (pRider == null) {
+            return;
+        }
+        Vec3 vec3;
+        if (pRider.isRemoved()) {
+            vec3 = pRider.position();
+        } else if (!pVehicle.isRemoved() && !pVehicle.level().getBlockState(pVehicle.blockPosition()).is(BlockTags.PORTALS)) {
+            vec3 = pVehicle.getDismountLocationForPassenger(pVehicle);
+        } else {
+            vec3 = new Vec3(pRider.getX(), Math.max(pRider.getY(), pVehicle.getY()), pRider.getZ());
+        }
+        pRider.dismountTo(vec3.x, vec3.y, vec3.z);
     }
 
     public static boolean canSprintByPlayer(@NotNull LivingEntity pEntity) {
