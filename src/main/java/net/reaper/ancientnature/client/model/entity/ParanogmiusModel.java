@@ -111,9 +111,9 @@ public class ParanogmiusModel extends HierarchicalModel<Paranogmius> {
 
 	private void dynamicTail(@NotNull Paranogmius pEntity) {
 		float targetYaw = pEntity.prevTailRot + (pEntity.tailRot - pEntity.prevTailRot) * Minecraft.getInstance().getPartialTick();
-		this.tail1.yRot = Mth.lerp(0.1F, this.tail1.yRot, targetYaw);
-		this.tail2.yRot = Mth.lerp(0.05F, this.tail2.yRot, targetYaw);
-		this.fin.yRot = Mth.lerp(0.025F, this.fin.yRot, targetYaw);
+		this.tail1.yRot = Mth.lerp(0.7F, this.tail1.yRot, targetYaw);
+		this.tail2.yRot = Mth.lerp(0.03F, this.tail2.yRot, targetYaw);
+		this.fin.yRot = Mth.lerp(0.02F, this.fin.yRot, targetYaw);
 	}
 
 	public void setCustomPose(@NotNull PoseStack pMatrixStack) {

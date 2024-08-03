@@ -20,4 +20,8 @@ public interface ICustomPlayerRidePos  {
     default <T extends Entity> void applyRiderMatrixStack(@NotNull T pEntity, @NotNull PoseStack pMatrixStack) {
 
     }
+
+    default float rad(float f) {
+        return (float) Math.toRadians(f);
+    }
 }

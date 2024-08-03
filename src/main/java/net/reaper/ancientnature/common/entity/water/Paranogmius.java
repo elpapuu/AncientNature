@@ -72,6 +72,8 @@ public class Paranogmius extends AquaticAnimal implements IMouseInput {
     public float prevTailRot;
     private int exitWaterTicks;
     private int postOutWaterTicks;
+    private float jumpStrength = 0.0F;
+    private float a = 0.0F;
     boolean hasEggs;
     public int speedBoost;
 
@@ -92,7 +94,12 @@ public class Paranogmius extends AquaticAnimal implements IMouseInput {
         this.goalSelector.addGoal(5, new ParanogmiusJumpGoal(this, 10));
         this.goalSelector.addGoal(1, new ParanogmiusAvoidPlayerGoal(this));
         this.goalSelector.addGoal(3, new LayEggGoal(this, 1.0D, 16, 16));
-        this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(4, new RandomLookAroundGoal(this) {
+            @Override
+            public boolean canUse() {
+                return super.canUse() && !Paranogmius.this.isVehicle();
+            }
+        });
         this.goalSelector.addGoal(8, new FollowBoatGoal(this));
         this.goalSelector.addGoal(20, new WildBreedGoal(this, Entity::isInWater, 300));
     }
@@ -166,12 +173,12 @@ public class Paranogmius extends AquaticAnimal implements IMouseInput {
             } else {
                 --this.idleAnimationTimeout;
             }
-            if (this.attackAnimationTimeout == 5) {
+            if (this.attackAnimationTimeout == 10) {
                 this.attackAnimationState.start(this.tickCount);
-            } else {
-                --this.attackAnimationTimeout;
             }
-            if (this.attackAnimationTimeout <= 0) {
+            if (this.attackAnimationTimeout > 0) {
+                --this.attackAnimationTimeout;
+            } else {
                 this.attackAnimationState.stop();
             }
             /*
@@ -189,10 +196,12 @@ public class Paranogmius extends AquaticAnimal implements IMouseInput {
 
     @Override
     public void aiStep() {
-        if (this.onGround() || this.verticalCollision) {
-            this.setDeltaMovement(this.getDeltaMovement().add((this.random.nextFloat() * 2.0F - 1.0F) * 0.05F, 0.2F, (this.random.nextFloat() * 2.0F - 1.0F) * 0.05F));
-            this.hasImpulse = true;
-            this.playSound(this.getFlopSound(), this.getSoundVolume(), this.getVoicePitch());
+        if (!this.isInWater()) {
+            if (this.onGround() || this.verticalCollision) {
+                this.setDeltaMovement(this.getDeltaMovement().add((this.random.nextFloat() * 2.0F - 1.0F) * 0.05F, 0.2F, (this.random.nextFloat() * 2.0F - 1.0F) * 0.05F));
+                this.hasImpulse = true;
+                this.playSound(this.getFlopSound(), this.getSoundVolume(), this.getVoicePitch());
+            }
         }
         super.aiStep();
     }
@@ -212,22 +221,21 @@ public class Paranogmius extends AquaticAnimal implements IMouseInput {
         } else {
             this.setSprinting(false);
         }
-         /*
-           if (this.isInLove()) {
-               this.setDeltaMovement(this.getDeltaMovement().x / 1.5, this.getDeltaMovement().y, this.getDeltaMovement().z / 1.5);
-           }
-         */
+        if (this.isInWater()) {
+            this.a = this.isSprinting() ? 0.73F : 0.33F;
+            this.jumpStrength = this.isSprinting() ? 0.43F : 0.2F;
+        }
         if (this.getFirstPassenger() != null) {
             this.setRemainingRideTicks(Math.max(this.getRemainingRideTicks() - 1, 0));
         }
         if (EntityUtils.canAttackByPlayer(this) && this.attackAnimationTimeout <= 0) {
             NetworkHandler.sendMSGToServer(new EntityAttackKeyPacket(this.getId()));
-            this.attackAnimationTimeout = 5;
+            this.attackAnimationTimeout = 10;
         }
         this.setupAnimationStates();
         this.speedBoost = Math.max(--this.speedBoost, 0);
         this.prevTailRot = this.tailRot;
-        this.tailRot += (-(this.yBodyRot - this.yBodyRotO) - this.tailRot) * 0.15f;
+        this.tailRot += (-(this.yBodyRot - this.yBodyRotO) - this.tailRot) * 0.15F;
     }
 
     @Override
@@ -242,16 +250,18 @@ public class Paranogmius extends AquaticAnimal implements IMouseInput {
     @Override
     public @NotNull InteractionResult interactAt(@NotNull Player pPlayer, @NotNull Vec3 pVec, @NotNull InteractionHand pHand) {
         ItemStack itemInHand = pPlayer.getItemInHand(pHand);
-        if (!super.mobInteract(pPlayer, pHand).consumesAction() && itemInHand.is(Items.SALMON) && this.getTrustedEntity() == null) {
-            if (!this.level().isClientSide) {
-                this.usePlayerItem(pPlayer, pHand, itemInHand);
-                this.setTrustedEntity(pPlayer.getUUID());
-                this.setRemainingRideTicks(12000);
+        if (!this.isBaby()) {
+            if (!super.mobInteract(pPlayer, pHand).consumesAction() && itemInHand.is(Items.SALMON) && this.getTrustedEntity() == null) {
+                if (!this.level().isClientSide) {
+                    this.usePlayerItem(pPlayer, pHand, itemInHand);
+                    this.setTrustedEntity(pPlayer.getUUID());
+                    this.setRemainingRideTicks(12000);
+                }
+                return InteractionResult.SUCCESS;
+            } else if (!super.mobInteract(pPlayer, pHand).consumesAction() && this.canAddPassenger(this) && this.getTrustedEntity() != null && this.getTrustedEntity() == pPlayer) {
+                pPlayer.startRiding(this);
+                this.setTrustedEntity(null);
             }
-            return InteractionResult.SUCCESS;
-        } else if (!super.mobInteract(pPlayer, pHand).consumesAction() && this.getTrustedEntity() != null && this.getTrustedEntity() == pPlayer) {
-            pPlayer.startRiding(this);
-            this.setTrustedEntity(null);
         }
         return super.interactAt(pPlayer, pVec, pHand);
     }
@@ -288,23 +298,65 @@ public class Paranogmius extends AquaticAnimal implements IMouseInput {
     @Override
     protected void tickRidden(@NotNull Player pRider, @NotNull Vec3 pVec3) {
         super.tickRidden(pRider, pVec3);
+        /*
         Vec3 delta = this.getDeltaMovement();
-        float riderXRot = pRider.getXRot(), selfXRot = this.getXRot();
+        float riderXRot = pRider.getXRot();
+        float selfXRot = pRider.getXRot();
         float targetPitch = Mth.rotLerp(0.250F, selfXRot, riderXRot);
-        double yDirection = Vec3.directionFromRotation(targetPitch / 2.0F, selfXRot).y;
         boolean isMovingByRider = pRider.xxa != 0.0F || pRider.zza != 0.0F;
         if (isMovingByRider) {
             EntityUtils.smoothVehicleYawToRider(pRider, this, 0.17F, 0.13F);
         }
         this.setXRot(this.exitWaterTicks < 25 ? Mth.rotLerp(0.07F, selfXRot, 90.0F) : selfXRot);
-        if (isMovingByRider) {
+        if (this.isInWater()) {
             this.postOutWaterTicks = Math.max(--this.postOutWaterTicks, 0);
             this.exitWaterTicks = 25;
             if (this.postOutWaterTicks > 0) {
                 this.setDeltaMovement(delta.add(0.0F, -0.1F, 0.0F).scale(0.8F));
             }
             if (Mth.clamp(this.postOutWaterTicks, 1, 8) == this.postOutWaterTicks) {
-                this.setXRot(Mth.rotLerp(0.13F, selfXRot, riderXRot));
+                this.setXRot(Mth.rotLerp(0.16F, selfXRot, riderXRot));
+            }
+            if (isMovingByRider) {
+                this.setXRot(targetPitch);
+                if (this.postOutWaterTicks <= 0) {
+                    this.setDeltaMovement(delta.x, Vec3.directionFromRotation(targetPitch / 1.7F, selfXRot).y, delta.z);
+                }
+            }
+        } else {
+            this.postOutWaterTicks = 10;
+            if (this.exitWaterTicks > 15) {
+                --this.exitWaterTicks;
+                Vec3 viewVector = this.getViewVector(0.0F).scale(0.63F);
+                this.setDeltaMovement(viewVector.x, 0.43F, viewVector.z);
+            }
+            if (this.onGround() || this.verticalCollision) {
+                EntityUtils.removeRider(this, pRider);
+            }
+        }
+
+         */
+        float a;
+        if (this.isInWater()) {
+            a = this.isSprinting() ? 0.73F : 0.33F;
+        }
+        boolean isMovingByRider = pRider.xxa != 0.0F || pRider.zza != 0.0F;
+        Vec3 delta = this.getDeltaMovement();
+        float riderXRot = pRider.getXRot(), selfXRot = this.getXRot();
+        float targetPitch = Mth.rotLerp(0.25F, selfXRot, riderXRot);
+        double yDirection = Vec3.directionFromRotation(targetPitch / 1.7F, selfXRot).y;
+        if (isMovingByRider) {
+            EntityUtils.smoothVehicleYawToRider(pRider, this, 0.17F, 0.13F);
+        }
+        this.setXRot(this.exitWaterTicks < 25 ? Mth.rotLerp(0.06F, selfXRot, 90.0F) : selfXRot);
+        if (this.isInWater()) {
+            this.postOutWaterTicks = Math.max(--this.postOutWaterTicks, 0);
+            this.exitWaterTicks = 25;
+            if (!isMovingByRider) {
+                this.setDeltaMovement(delta.add(0.0F, 0.01F, 0.0F));
+            }
+            if (Mth.clamp(this.postOutWaterTicks, 1, 8) == this.postOutWaterTicks) {
+                this.setXRot(Mth.rotLerp(0.16F, selfXRot, riderXRot));
             }
             if (isMovingByRider) {
                 this.setXRot(targetPitch);
@@ -314,20 +366,20 @@ public class Paranogmius extends AquaticAnimal implements IMouseInput {
             }
         } else {
             this.postOutWaterTicks = 10;
-            if (this.exitWaterTicks > 10) {
+            if (this.exitWaterTicks > 15) {
                 --this.exitWaterTicks;
-                Vec3 viewVector = this.getViewVector(0.0F).scale(0.33F);
-                this.setDeltaMovement(viewVector.x, 0.33F, viewVector.z);
+                Vec3 viewVector = this.getViewVector(0.0F).scale(this.a);
+                this.setDeltaMovement(viewVector.x, this.jumpStrength, viewVector.z);
             }
             if (this.onGround() || this.verticalCollision) {
-                EntityUtils.removeRider(this, pRider);
+                pRider.stopRiding();
             }
         }
     }
 
     @Override
     protected float getRiddenSpeed(@NotNull Player pRider) {
-        return 0.05F + (this.isSprinting() ? 0.5F : 0.0F) + (this.speedBoost > 0 ? 0.25F : 0.0F);
+        return 0.05F + (this.isSprinting() ? 0.05F : 0.0F) + (this.speedBoost > 0 ? 0.25F : 0.0F);
     }
 
     @Override
@@ -345,9 +397,14 @@ public class Paranogmius extends AquaticAnimal implements IMouseInput {
 
     @Override
     public void onMouseClick(int pButton) {
-        if (pButton == 1) {
-            EntityUtils.attackByRider(this, 1.5F, 3.0F);
+        if (pButton == 0) {
+            EntityUtils.attackByRider(this, 1.5F, 15.0F);
         }
+    }
+
+    @Override
+    public boolean isActionDenied(int pActionId) {
+        return pActionId == 0 || pActionId == 1;
     }
 
     static class MoveHelperController extends MoveControl {
