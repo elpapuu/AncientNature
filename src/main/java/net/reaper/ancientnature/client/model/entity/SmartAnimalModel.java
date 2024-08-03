@@ -8,6 +8,7 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.reaper.ancientnature.AncientNature;
+import net.reaper.ancientnature.common.entity.ground.DodoEntity;
 import net.reaper.ancientnature.common.entity.smartanimal.SmartAnimatedAnimal;
 
 public abstract class SmartAnimalModel<T extends SmartAnimatedAnimal> extends HierarchicalModel<T> {
@@ -22,6 +23,7 @@ public abstract class SmartAnimalModel<T extends SmartAnimatedAnimal> extends Hi
     public void setupAnim(T pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
         this.root().getAllParts().forEach(ModelPart::resetPose);
         applyHeadRotation(pEntity, pNetHeadYaw, pLimbSwingAmount, pAgeInTicks);
+
         if(pEntity.walkAnimation.isMoving()&&(!pEntity.isSprinting()||getRunAnim()==null)&&getWalkAnim()!=null)
             this.animateWalk(getWalkAnim(), pLimbSwing, pLimbSwingAmount,2f,4f);
         if (pEntity.isSprinting()&&getRunAnim()!=null)
@@ -78,4 +80,5 @@ public abstract class SmartAnimalModel<T extends SmartAnimatedAnimal> extends Hi
         return 1f;
     }
 
+    protected abstract void dynamicTail(DodoEntity pEntity);
 }

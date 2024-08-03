@@ -11,6 +11,7 @@ import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.reaper.ancientnature.common.entity.water.Paranogmius;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -88,5 +89,11 @@ public class EntityUtils {
 
     public static boolean canAttackByPlayer(@NotNull LivingEntity pEntity) {
         return Minecraft.getInstance().options.keyAttack.isDown() && isPlayerPassengerOf(pEntity);
+    }
+
+    public static void removeRider(Paranogmius paranogmius, Player pRider) {
+        if (pRider.getVehicle() == paranogmius) {
+            paranogmius.stopRiding();
+        }
     }
 }

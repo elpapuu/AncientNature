@@ -1,7 +1,9 @@
 package net.reaper.ancientnature.common.entity.water;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -11,6 +13,8 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -18,11 +22,13 @@ import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.goal.*;
-import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
+import net.minecraft.world.entity.animal.FlyingAnimal;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.entity.projectile.ProjectileUtil;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -32,75 +38,196 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
+import net.reaper.ancientnature.AncientNature;
 import net.reaper.ancientnature.common.entity.goals.*;
 import net.reaper.ancientnature.common.entity.goals.paranogmius.ParanogmiusJumpGoal;
+import net.reaper.ancientnature.common.entity.util.IMouseInput;
+import net.reaper.ancientnature.common.messages.NetworkHandler;
+import net.reaper.ancientnature.common.messages.packets.MessageHandler;
+import net.reaper.ancientnature.common.network.packet.EntityAttackKeyPacket;
+import net.reaper.ancientnature.common.util.EntityUtils;
 import net.reaper.ancientnature.core.init.ModBlocks;
 import net.reaper.ancientnature.core.init.ModEntities;
+import net.reaper.ancientnature.core.init.ModTags;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jline.utils.Log;
 
 import javax.annotation.Nonnull;
+import java.util.Iterator;
+import java.util.Optional;
+import java.util.UUID;
 
-public class Paranogmius extends AquaticAnimal implements PlayerRideable {
-    public final AnimationState flopAnimation = new AnimationState();
+public class Paranogmius extends AquaticAnimal implements IMouseInput {
+    private static final EntityDataAccessor<Integer> DATA_RIDEABLE_FOR;
+    private static final EntityDataAccessor<Boolean> DATA_JUMP;
+    private static final EntityDataAccessor<Optional<UUID>> DATA_TRUSTED_ENTITY_UUID;
     public final AnimationState idleAnimation = new AnimationState();
-    public final AnimationState attackAnimation = new AnimationState();
-    public final AnimationState swimAnimation = new AnimationState();
-    private int swimAnimationTimeout = 0;
     private int idleAnimationTimeout = 0;
+    public final AnimationState attackAnimationState = new AnimationState();
     private int attackAnimationTimeout = 0;
-
+    public final AnimationState flipAnimationState = new AnimationState();
+    public int flipAnimationTimeout = 0;
+    public float tailRot;
+    public float prevTailRot;
+    private int exitWaterTicks;
+    private int postOutWaterTicks;
     boolean hasEggs;
-    private static final EntityDataAccessor<Boolean> IS_ATTACKING = SynchedEntityData.defineId(Paranogmius.class, EntityDataSerializers.BOOLEAN);
+    public int speedBoost;
 
-    public Paranogmius(EntityType<? extends AquaticAnimal> pEntityType, Level pLevel)  {
+
+    public Paranogmius(EntityType<? extends AquaticAnimal> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
-        this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.02F, 0.1F, true);
+        this.moveControl = new SmoothSwimmingMoveControl(this, 90, 10, 0.02F, 0.1F, true);
         this.lookControl = new SmoothSwimmingLookControl(this, 10);
+        this.navigation = new WaterBoundPathNavigation(this, pLevel);
     }
 
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new TryFindWaterGoal(this));
-        this.goalSelector.addGoal(0, new SwimGoal(this, 4f));
-        this.goalSelector.addGoal(4, new RandomSwimmingGoal(this, 1.0, 10));
+        this.goalSelector.addGoal(4, new TryFindWaterGoal(this));
+        this.goalSelector.addGoal(3, new SwimGoal(this, 4f));
         this.goalSelector.addGoal(0, new PanicSprintingGoal(this, 2.0D));
-        this.goalSelector.addGoal(1, new AvoidEntitySprinting<>(this, Player.class, 8.0F,1f, 2f, EntitySelector.NO_SPECTATORS::test));
+        this.goalSelector.addGoal(1, new AvoidEntitySprinting<>(this, Player.class, 8.0F, 1f, 2f, EntitySelector.NO_SPECTATORS::test));
         this.goalSelector.addGoal(2, new EggBreedGoal(this, 1.0D));
         this.goalSelector.addGoal(5, new ParanogmiusJumpGoal(this, 10));
+        this.goalSelector.addGoal(1, new ParanogmiusAvoidPlayerGoal(this));
         this.goalSelector.addGoal(3, new LayEggGoal(this, 1.0D, 16, 16));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(8, new FollowBoatGoal(this));
         this.goalSelector.addGoal(20, new WildBreedGoal(this, Entity::isInWater, 300));
     }
-    @Nullable
+
     @Override
-    public AgeableMob getBreedOffspring(ServerLevel pLevel, AgeableMob pOtherParent) {
-        return ModEntities.PARANOGMIUS.get().create(pLevel);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.getEntityData().define(DATA_RIDEABLE_FOR, 0);
+        this.getEntityData().define(DATA_JUMP, false);
+        this.getEntityData().define(DATA_TRUSTED_ENTITY_UUID, Optional.empty());
     }
-    @Nonnull
-    protected SoundEvent getFlopSound() {
-        return SoundEvents.SALMON_FLOP;
+
+    public int getRemainingRideTicks() {
+        return this.getEntityData().get(DATA_RIDEABLE_FOR);
+    }
+
+    public void setRemainingRideTicks(int pTicks) {
+        this.getEntityData().set(DATA_RIDEABLE_FOR, pTicks);
+    }
+
+    public boolean isJump() {
+        return this.getEntityData().get(DATA_JUMP);
+    }
+
+    public void setJump(boolean pJump) {
+        this.getEntityData().set(DATA_JUMP, pJump);
+    }
+
+    @Nullable
+    public Entity getTrustedEntity() {
+        UUID uuid = this.getEntityData().get(DATA_TRUSTED_ENTITY_UUID).orElse(null);
+        if (this.level() instanceof ServerLevel serverLevel) {
+            return uuid == null ? null : serverLevel.getEntity(uuid);
+        }
+        return null;
+    }
+
+    public void setTrustedEntity(@Nullable UUID pEntityUUID) {
+        this.getEntityData().set(DATA_TRUSTED_ENTITY_UUID, Optional.ofNullable(pEntityUUID));
     }
 
     @Override
-    public boolean canFallInLove() {
-        return super.canFallInLove() && !this.isPassenger();
+    public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
+        pCompound.putInt("RideableFor", this.getRemainingRideTicks());
+        if (pCompound.hasUUID("TrustedEntity") && this.getTrustedEntity() != null) {
+            pCompound.putUUID("TrustedEntity", this.getTrustedEntity().getUUID());
+        }
+        super.addAdditionalSaveData(pCompound);
+    }
+
+    @Override
+    public void readAdditionalSaveData(@NotNull CompoundTag pCompound) {
+        this.setRemainingRideTicks(pCompound.getInt("RideableFor"));
+        if (pCompound.hasUUID("TrustedEntity")) {
+            this.setTrustedEntity(pCompound.getUUID("TrustedEntity"));
+        }
+        super.readAdditionalSaveData(pCompound);
+    }
+
+    @Override
+    protected void updateWalkAnimation(float pPartialTick) {
+        float f = this.getPose() == Pose.STANDING ? Math.min(pPartialTick * 6.0F, 1.0F) : 0.0F;
+        this.walkAnimation.update(f, 0.5F);
+    }
+
+    protected void setupAnimationStates() {
+        if (this.level().isClientSide) {
+            if (this.idleAnimationTimeout <= 0) {
+                this.idleAnimationTimeout = this.random.nextInt(40) + 80;
+                this.idleAnimation.start(this.tickCount);
+            } else {
+                --this.idleAnimationTimeout;
+            }
+            if (this.attackAnimationTimeout == 5) {
+                this.attackAnimationState.start(this.tickCount);
+            } else {
+                --this.attackAnimationTimeout;
+            }
+            if (this.attackAnimationTimeout <= 0) {
+                this.attackAnimationState.stop();
+            }
+            /*
+            if (this.flipAnimationTimeout <= 0) {
+                this.flipAnimationTimeout = 10;
+                this.flipAnimationState.start(this.tickCount);
+            } else {
+                --this.flipAnimationTimeout;
+            }
+
+             */
+        }
+    }
+
+
+    @Override
+    public void aiStep() {
+        if (this.onGround() || this.verticalCollision) {
+            this.setDeltaMovement(this.getDeltaMovement().add((this.random.nextFloat() * 2.0F - 1.0F) * 0.05F, 0.2F, (this.random.nextFloat() * 2.0F - 1.0F) * 0.05F));
+            this.hasImpulse = true;
+            this.playSound(this.getFlopSound(), this.getSoundVolume(), this.getVoicePitch());
+        }
+        super.aiStep();
     }
 
     @Override
     public void tick() {
         super.tick();
-        if (this.level().isClientSide()) {
-            setupAnimationStates();
-        } else {
-            if (this.onGround()) {
-                this.setDeltaMovement(this.getDeltaMovement().add((double) ((this.random.nextFloat() * 2.0F - 1.0F) * 0.2F), 0.5, (double) ((this.random.nextFloat() * 2.0F - 1.0F) * 0.2F)));
-                this.setYRot(this.random.nextFloat() * 120.0F);
-                this.setOnGround(false);
-                this.hasImpulse = true;
-
+        if (EntityUtils.isEntityMoving(this, 0.1F)) {
+            if (this.isInWater()) {
+                if (this.isSprinting()) {
+                    this.bubbleTrail(2, 1.2F, 1.2F, 1.2F);
+                }
+                if (this.isVehicle()) {
+                    this.setSprinting(EntityUtils.canSprintByPlayer(this));
+                }
             }
-            //if (isInLove()) setDeltaMovement(this.getDeltaMovement().x / 1.5, this.getDeltaMovement().y, this.getDeltaMovement().z / 1.5);
+        } else {
+            this.setSprinting(false);
         }
+         /*
+           if (this.isInLove()) {
+               this.setDeltaMovement(this.getDeltaMovement().x / 1.5, this.getDeltaMovement().y, this.getDeltaMovement().z / 1.5);
+           }
+         */
+        if (this.getFirstPassenger() != null) {
+            this.setRemainingRideTicks(Math.max(this.getRemainingRideTicks() - 1, 0));
+        }
+        if (EntityUtils.canAttackByPlayer(this) && this.attackAnimationTimeout <= 0) {
+            NetworkHandler.sendMSGToServer(new EntityAttackKeyPacket(this.getId()));
+            this.attackAnimationTimeout = 5;
+        }
+        this.setupAnimationStates();
+        this.speedBoost = Math.max(--this.speedBoost, 0);
+        this.prevTailRot = this.tailRot;
+        this.tailRot += (-(this.yBodyRot - this.yBodyRotO) - this.tailRot) * 0.15f;
     }
 
     @Override
@@ -108,83 +235,121 @@ public class Paranogmius extends AquaticAnimal implements PlayerRideable {
         return false;
     }
 
-    private void setupAnimationStates() {
-        if (this.idleAnimationTimeout <= 0) {
-            this.idleAnimationTimeout = this.random.nextInt(40) + 80;
-            this.idleAnimation.start(this.tickCount);
-        } else {
-            --this.idleAnimationTimeout;
-        }
-        //flopping condition
-        if (!this.isInWater()) {
-            if (this.idleAnimation.isStarted())
-                this.idleAnimation.stop();
-            this.flopAnimation.startIfStopped(this.tickCount);
-        } else {
-            this.flopAnimation.stop();
-        }
+    public void positionRider(Entity passenger, MoveFunction moveFunction) {
+        super.positionRider(passenger, moveFunction);
     }
 
     @Override
-    protected void updateWalkAnimation(float pPartialTick) {
-        if (this.isInWater())
-            super.updateWalkAnimation(pPartialTick);
-    }
-
-    public void aiStep() {
-        if (!this.isInWater() && this.onGround() && this.verticalCollision) {
-            this.setDeltaMovement(this.getDeltaMovement().add((double)((this.random.nextFloat() * 2.0F - 1.0F) * 0.05F), (double)0.4F, (double)((this.random.nextFloat() * 2.0F - 1.0F) * 0.05F)));
-            this.setOnGround(false);
-            this.hasImpulse = true;
-            this.playSound(this.getFlopSound(), this.getSoundVolume(), this.getVoicePitch());
+    public @NotNull InteractionResult interactAt(@NotNull Player pPlayer, @NotNull Vec3 pVec, @NotNull InteractionHand pHand) {
+        ItemStack itemInHand = pPlayer.getItemInHand(pHand);
+        if (!super.mobInteract(pPlayer, pHand).consumesAction() && itemInHand.is(Items.SALMON) && this.getTrustedEntity() == null) {
+            if (!this.level().isClientSide) {
+                this.usePlayerItem(pPlayer, pHand, itemInHand);
+                this.setTrustedEntity(pPlayer.getUUID());
+                this.setRemainingRideTicks(12000);
+            }
+            return InteractionResult.SUCCESS;
+        } else if (!super.mobInteract(pPlayer, pHand).consumesAction() && this.getTrustedEntity() != null && this.getTrustedEntity() == pPlayer) {
+            pPlayer.startRiding(this);
+            this.setTrustedEntity(null);
         }
-
-        super.aiStep();
+        return super.interactAt(pPlayer, pVec, pHand);
     }
 
     @Nonnull
     public static AttributeSupplier.Builder createAttributes() {
-        return WaterAnimal.createLivingAttributes()
-                .add(Attributes.MAX_HEALTH, 25.0D)
-                .add(Attributes.MOVEMENT_SPEED, 0.23D)
-                .add(Attributes.FOLLOW_RANGE, 16.0D)
-                .add(Attributes.KNOCKBACK_RESISTANCE, 2.0D);
+        return WaterAnimal.createLivingAttributes().add(Attributes.MAX_HEALTH, 25.0D).add(Attributes.MOVEMENT_SPEED, 0.23D).add(Attributes.FOLLOW_RANGE, 16.0D).add(Attributes.KNOCKBACK_RESISTANCE, 2.0D);
     }
 
-    protected float getWaterSlowDown() {
-        return 1f;
-    }
-    public int getMaxHeadXRot() {
-        return 1;
-    }
-
-    public int getMaxHeadYRot() {
-        return 1;
-    }
-    public boolean rideableUnderWater() {
-        return true;
-    }
-
-    protected boolean canRide(Entity pEntity) {
-        return true;
-    }
-    protected PathNavigation createNavigation(Level p_27480_) {
-        return new WaterBoundPathNavigation(this, p_27480_);
-    }
+    @Nullable
     @Override
-    public void travel(Vec3 travelVector) {
-        if (this.isEffectiveAi() && this.isInWater()) {
-            this.moveRelative(this.getSpeed(), travelVector);
+    public LivingEntity getControllingPassenger() {
+        return this.getFirstPassenger() instanceof Player player ? player : null;
+    }
+
+    @Override
+    protected @NotNull Vec3 getRiddenInput(@NotNull Player pRider, @NotNull Vec3 pTravelVector) {
+        float forwardMovementFactor = pRider.zza < 0.0F ? 0.0F : 1.0F;
+        return this.isInWater() ? new Vec3(pRider.xxa * 0.35F, 0.0, pRider.zza * 0.8F * forwardMovementFactor) : Vec3.ZERO;
+    }
+
+    @Override
+    public void travel(@NotNull Vec3 pTravelVector) {
+        if (this.isInWater() && this.isVehicle()) {
+            this.moveRelative(this.getSpeed(), pTravelVector);
+            this.setDeltaMovement(this.getDeltaMovement().scale(0.9F));
+            this.calculateEntityAnimation(false);
             this.move(MoverType.SELF, this.getDeltaMovement());
-            this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
-            if (this.getTarget() == null) {
-                this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.005D, 0.0D));
+        } else {
+            super.travel(pTravelVector);
+        }
+    }
+
+    @Override
+    protected void tickRidden(@NotNull Player pRider, @NotNull Vec3 pVec3) {
+        super.tickRidden(pRider, pVec3);
+        Vec3 delta = this.getDeltaMovement();
+        float riderXRot = pRider.getXRot(), selfXRot = this.getXRot();
+        float targetPitch = Mth.rotLerp(0.250F, selfXRot, riderXRot);
+        double yDirection = Vec3.directionFromRotation(targetPitch / 2.0F, selfXRot).y;
+        boolean isMovingByRider = pRider.xxa != 0.0F || pRider.zza != 0.0F;
+        if (isMovingByRider) {
+            EntityUtils.smoothVehicleYawToRider(pRider, this, 0.17F, 0.13F);
+        }
+        this.setXRot(this.exitWaterTicks < 25 ? Mth.rotLerp(0.07F, selfXRot, 90.0F) : selfXRot);
+        if (isMovingByRider) {
+            this.postOutWaterTicks = Math.max(--this.postOutWaterTicks, 0);
+            this.exitWaterTicks = 25;
+            if (this.postOutWaterTicks > 0) {
+                this.setDeltaMovement(delta.add(0.0F, -0.1F, 0.0F).scale(0.8F));
+            }
+            if (Mth.clamp(this.postOutWaterTicks, 1, 8) == this.postOutWaterTicks) {
+                this.setXRot(Mth.rotLerp(0.13F, selfXRot, riderXRot));
+            }
+            if (isMovingByRider) {
+                this.setXRot(targetPitch);
+                if (this.postOutWaterTicks <= 0) {
+                    this.setDeltaMovement(delta.x, yDirection, delta.z);
+                }
             }
         } else {
-            super.travel(travelVector);
+            this.postOutWaterTicks = 10;
+            if (this.exitWaterTicks > 10) {
+                --this.exitWaterTicks;
+                Vec3 viewVector = this.getViewVector(0.0F).scale(0.33F);
+                this.setDeltaMovement(viewVector.x, 0.33F, viewVector.z);
+            }
+            if (this.onGround() || this.verticalCollision) {
+                EntityUtils.removeRider(this, pRider);
+            }
         }
-
     }
+
+    @Override
+    protected float getRiddenSpeed(@NotNull Player pRider) {
+        return 0.05F + (this.isSprinting() ? 0.5F : 0.0F) + (this.speedBoost > 0 ? 0.25F : 0.0F);
+    }
+
+    @Override
+    protected void doWaterSplashEffect() {
+        if (this.isJump()) {
+            this.speedBoost = 100;
+            this.setJump(false);
+        }
+        super.doWaterSplashEffect();
+    }
+
+    protected boolean canRide(@NotNull Entity pEntity) {
+        return this.getRemainingRideTicks() > 0 && this.getTrustedEntity() != null;
+    }
+
+    @Override
+    public void onMouseClick(int pButton) {
+        if (pButton == 1) {
+            EntityUtils.attackByRider(this, 1.5F, 3.0F);
+        }
+    }
+
     static class MoveHelperController extends MoveControl {
         private final Paranogmius dolphin;
 
@@ -239,23 +404,44 @@ public class Paranogmius extends AquaticAnimal implements PlayerRideable {
         return hasEggs;
     }
 
-
-
-    public boolean isMovementBlocked() {
-        return false;
-    }
-
-
-    public boolean isRidable() {
-        return true;
-    }
-
     public boolean canBeSteered() {
         return true;
     }
 
     public void setHasEggs(boolean hasEggs) {
         this.hasEggs = hasEggs;
+    }
+
+    @Override
+    public boolean isMovementBlocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isRidable() {
+        return true;
+    }
+
+    @Nullable
+    @Override
+    public AgeableMob getBreedOffspring(ServerLevel pLevel, AgeableMob pOtherParent) {
+        return ModEntities.PARANOGMIUS.get().create(pLevel);
+    }
+
+    @Nonnull
+    protected SoundEvent getFlopSound() {
+        return SoundEvents.SALMON_FLOP;
+    }
+
+    public static boolean checkWaterSurfaceSpawnRules(EntityType<? extends AquaticAnimal> aquatic, LevelAccessor level, MobSpawnType type, BlockPos pos, RandomSource random) {
+        int i = level.getSeaLevel();
+        int j = i - 13;
+        return pos.getY() >= j && pos.getY() <= i && level.getFluidState(pos.below()).is(FluidTags.WATER) && level.getBlockState(pos.above()).is(Blocks.WATER);
+    }
+
+    @Override
+    public boolean canFallInLove() {
+        return super.canFallInLove() && !this.isPassenger();
     }
 
     static class SwimGoal extends RandomSwimmingGoal {
@@ -277,11 +463,6 @@ public class Paranogmius extends AquaticAnimal implements PlayerRideable {
         }
     }
 
-    public static boolean checkWaterSurfaceSpawnRules(EntityType<? extends AquaticAnimal> aquatic, LevelAccessor level, MobSpawnType type, BlockPos pos, RandomSource random) {
-        int i = level.getSeaLevel();
-        int j = i - 13;
-        return pos.getY() >= j && pos.getY() <= i && level.getFluidState(pos.below()).is(FluidTags.WATER) && level.getBlockState(pos.above()).is(Blocks.WATER);
-    }
     static class EggBreedGoal extends BreedGoal {
         private final Paranogmius entity;
 
@@ -298,7 +479,7 @@ public class Paranogmius extends AquaticAnimal implements PlayerRideable {
         @Override
         protected void breed() {
             this.entity.setHasEggs(true);
-            this.entity.setAge(6000);
+            //  this.entity.setAge(6000);
             this.animal.resetLove();
             if (this.partner != null) this.partner.setAge(6000);
             if (this.partner != null) this.partner.resetLove();
@@ -340,5 +521,11 @@ public class Paranogmius extends AquaticAnimal implements PlayerRideable {
                 this.entity.setHasEggs(false);
             }
         }
+    }
+
+    static {
+        DATA_RIDEABLE_FOR = SynchedEntityData.defineId(Paranogmius.class, EntityDataSerializers.INT);
+        DATA_TRUSTED_ENTITY_UUID = SynchedEntityData.defineId(Paranogmius.class, EntityDataSerializers.OPTIONAL_UUID);
+        DATA_JUMP = SynchedEntityData.defineId(Paranogmius.class, EntityDataSerializers.BOOLEAN);
     }
 }

@@ -5,130 +5,253 @@ package net.reaper.ancientnature.client.model.entity;// Made with Blockbench 4.1
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.animation.AnimationDefinition;
+import net.minecraft.client.gui.screens.Overlay;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Pose;
 import net.reaper.ancientnature.AncientNature;
 import net.reaper.ancientnature.client.animations.entity.LythronaxAnimations;
+import net.reaper.ancientnature.common.entity.ground.DodoEntity;
 import net.reaper.ancientnature.common.entity.ground.LythronaxEntity;
 
-public class LythronaxModel extends HierarchicalModel<LythronaxEntity> {
+public class LythronaxModel extends SmartAnimalModel<LythronaxEntity> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LYTHRONAX_LAYER = new ModelLayerLocation(new ResourceLocation(AncientNature.MOD_ID, "lythronax"), "main");
-	private final ModelPart Lythronax;
-	private final ModelPart body;
+	private final ModelPart root;
+	public ModelPart body;
+	public ModelPart neck;
+	public ModelPart head;
+	private final ModelPart saddle;
 
 	public LythronaxModel(ModelPart root) {
-		this.body = root;
-		this.Lythronax = root.getChild("Lythronax");
+		this.root = root;
+		this.body = root.getChild("Lythronax").getChild("body");
+		this.neck = this.body.getChild("neck");
+		this.head = this.neck.getChild("head");
+		this.saddle = this.body.getChild("belly").getChild("saddle");
 	}
+
+
+
+	private ResourceLocation getSaddleTexture(LythronaxEntity pEntity) {
+		return AncientNature.modLoc("textures/entity/lythronax/saddle_0.png");
+	}
+
+
 	public static LayerDefinition createBodyLayer() {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
 		PartDefinition Lythronax = partdefinition.addOrReplaceChild("Lythronax", CubeListBuilder.create(), PartPose.offset(0.0F, -3.0F, 0.0F));
 
-		PartDefinition body = Lythronax.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 0).addBox(-7.0F, -9.0F, -22.0F, 14.0F, 18.0F, 29.0F, new CubeDeformation(0.0F))
-		.texOffs(57, 0).addBox(-4.0F, -10.0F, -21.0F, 8.0F, 1.0F, 18.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 2.0F, 1.0F));
+		PartDefinition leg1 = Lythronax.addOrReplaceChild("leg1", CubeListBuilder.create().texOffs(0, 87).addBox(-3.0F, -4.0F, -8.5F, 7.0F, 16.0F, 15.0F, new CubeDeformation(0.0F))
+				.texOffs(150, 205).addBox(-3.0F, -4.0F, -8.5F, 7.0F, 16.0F, 15.0F, new CubeDeformation(0.25F)), PartPose.offset(6.0F, 2.0F, 0.5F));
 
-		PartDefinition neck = body.addOrReplaceChild("neck", CubeListBuilder.create().texOffs(66, 47).addBox(-4.0F, -16.0F, -7.5F, 8.0F, 21.0F, 11.0F, new CubeDeformation(-0.6F)), PartPose.offsetAndRotation(0.0F, -3.0F, -19.5F, 0.3927F, 0.0F, 0.0F));
+		PartDefinition kee1 = leg1.addOrReplaceChild("kee1", CubeListBuilder.create().texOffs(2, 0).addBox(-0.7835F, -0.75F, -2.125F, 5.0F, 13.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offset(-1.2165F, 10.75F, 4.625F));
 
-		PartDefinition head = neck.addOrReplaceChild("head", CubeListBuilder.create().texOffs(57, 19).addBox(-3.5F, -3.5F, -8.5F, 1.0F, 2.0F, 3.0F, new CubeDeformation(0.01F))
-		.texOffs(20, 0).addBox(2.5F, -3.5F, -8.5F, 1.0F, 2.0F, 3.0F, new CubeDeformation(0.01F))
-		.texOffs(86, 33).addBox(-3.5F, -2.5F, -6.5F, 7.0F, 5.0F, 9.0F, new CubeDeformation(0.0F))
-		.texOffs(34, 85).addBox(-2.5F, -1.5F, -17.5F, 5.0F, 4.0F, 11.0F, new CubeDeformation(0.0F))
-		.texOffs(57, 19).addBox(-1.5F, -2.5F, -14.5F, 3.0F, 1.0F, 8.0F, new CubeDeformation(0.0F))
-		.texOffs(49, 37).addBox(0.0F, -3.5F, -16.5F, 0.0F, 2.0F, 10.0F, new CubeDeformation(0.0F))
-		.texOffs(102, 93).addBox(-2.5F, 2.5F, -17.5F, 5.0F, 2.0F, 11.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -12.5F, -4.0F, -0.3927F, 0.0F, 0.0F));
+		PartDefinition kee1_r1 = kee1.addOrReplaceChild("kee1_r1", CubeListBuilder.create().texOffs(26, 17).addBox(-3.0F, -2.0F, 0.0F, 3.0F, 4.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.7835F, 9.25F, 3.875F, 0.0F, 0.9599F, 0.0F));
 
-		PartDefinition eyes = head.addOrReplaceChild("eyes", CubeListBuilder.create().texOffs(53, 49).addBox(-3.5F, -0.5F, -1.0F, 7.0F, 1.0F, 2.0F, new CubeDeformation(0.01F)), PartPose.offset(0.0F, -1.0F, -5.5F));
+		PartDefinition foo1 = kee1.addOrReplaceChild("foo1", CubeListBuilder.create().texOffs(1, 119).addBox(-3.0F, 0.0F, -5.75F, 7.0F, 4.0F, 7.0F, new CubeDeformation(0.0F))
+				.texOffs(15, 20).addBox(0.0F, 0.0F, -8.75F, 1.0F, 3.0F, 3.0F, new CubeDeformation(0.0F))
+				.texOffs(15, 20).addBox(3.0F, 0.0F, -8.75F, 1.0F, 3.0F, 3.0F, new CubeDeformation(0.0F))
+				.texOffs(66, 8).addBox(-3.0F, 0.0F, -9.75F, 1.0F, 4.0F, 1.0F, new CubeDeformation(0.0F))
+				.texOffs(74, 8).addBox(0.0F, 0.0F, -9.75F, 1.0F, 4.0F, 1.0F, new CubeDeformation(0.0F))
+				.texOffs(66, 8).addBox(3.0F, 0.0F, -9.75F, 1.0F, 4.0F, 1.0F, new CubeDeformation(0.0F))
+				.texOffs(15, 20).addBox(-3.0F, 0.0F, -8.75F, 1.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(1.2165F, 10.25F, 1.625F));
 
-		PartDefinition upperlips = head.addOrReplaceChild("upperlips", CubeListBuilder.create().texOffs(0, 104).addBox(-2.5F, 0.0F, -5.5F, 5.0F, 2.0F, 11.0F, new CubeDeformation(0.01F)), PartPose.offset(0.0F, 2.5F, -12.0F));
+		PartDefinition leg2 = Lythronax.addOrReplaceChild("leg2", CubeListBuilder.create().texOffs(0, 87).addBox(-4.0F, -4.0F, -9.5F, 7.0F, 16.0F, 15.0F, new CubeDeformation(0.0F))
+				.texOffs(150, 205).addBox(-4.0F, -4.0F, -9.5F, 7.0F, 16.0F, 15.0F, new CubeDeformation(0.25F)), PartPose.offset(-6.0F, 2.0F, 0.5F));
 
-		PartDefinition jaw = head.addOrReplaceChild("jaw", CubeListBuilder.create().texOffs(104, 47).addBox(-2.5F, 2.0F, -18.0F, 5.0F, 2.0F, 11.0F, new CubeDeformation(0.0F))
-		.texOffs(102, 68).addBox(-2.5F, 0.0F, -18.0F, 5.0F, 2.0F, 11.0F, new CubeDeformation(-0.01F))
-		.texOffs(86, 19).addBox(-3.5F, 0.0F, -7.0F, 7.0F, 5.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 2.5F, 0.5F));
+		PartDefinition kee2 = leg2.addOrReplaceChild("kee2", CubeListBuilder.create().texOffs(2, 0).addBox(-4.2165F, -0.75F, -1.625F, 5.0F, 13.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offset(1.2165F, 10.75F, 4.125F));
 
-		PartDefinition pharnyx = jaw.addOrReplaceChild("pharnyx", CubeListBuilder.create().texOffs(91, 0).addBox(-3.5F, -2.0F, -7.0F, 7.0F, 4.0F, 9.0F, new CubeDeformation(-0.01F))
-		.texOffs(25, 100).addBox(-3.5F, -2.0F, -7.0F, 7.0F, 4.0F, 9.0F, new CubeDeformation(-0.02F))
-		.texOffs(0, 0).addBox(-3.5F, -2.0F, -4.0F, 7.0F, 4.0F, 6.0F, new CubeDeformation(-0.03F)), PartPose.offset(0.0F, -1.0F, 0.0F));
+		PartDefinition kee2_r1 = kee2.addOrReplaceChild("kee2_r1", CubeListBuilder.create().texOffs(0, 0).addBox(0.0F, -2.0F, 0.0F, 3.0F, 4.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.7835F, 9.25F, 4.375F, 0.0F, -0.9599F, 0.0F));
 
-		PartDefinition lowerlips = jaw.addOrReplaceChild("lowerlips", CubeListBuilder.create().texOffs(55, 93).addBox(-2.5F, -2.0F, -5.5F, 5.0F, 2.0F, 11.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 2.0F, -12.5F));
+		PartDefinition foot2 = kee2.addOrReplaceChild("foot2", CubeListBuilder.create().texOffs(1, 119).addBox(-4.0F, 0.0F, -5.75F, 7.0F, 4.0F, 7.0F, new CubeDeformation(0.0F))
+				.texOffs(0, 24).addBox(2.0F, 0.0F, -8.75F, 1.0F, 3.0F, 3.0F, new CubeDeformation(0.0F))
+				.texOffs(0, 24).addBox(-1.0F, 0.0F, -8.75F, 1.0F, 3.0F, 3.0F, new CubeDeformation(0.0F))
+				.texOffs(0, 24).addBox(-4.0F, 0.0F, -8.75F, 1.0F, 3.0F, 3.0F, new CubeDeformation(0.0F))
+				.texOffs(74, 8).addBox(-1.0F, 0.0F, -9.75F, 1.0F, 4.0F, 1.0F, new CubeDeformation(0.0F))
+				.texOffs(66, 8).addBox(-4.0F, 0.0F, -9.75F, 1.0F, 4.0F, 1.0F, new CubeDeformation(0.0F))
+				.texOffs(66, 8).addBox(2.0F, 0.0F, -9.75F, 1.0F, 4.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(-1.2165F, 10.25F, 2.125F));
 
-		PartDefinition bulb = neck.addOrReplaceChild("bulb", CubeListBuilder.create().texOffs(93, 47).addBox(-3.0F, -3.5F, -2.0F, 6.0F, 7.0F, 4.0F, new CubeDeformation(-0.6F)), PartPose.offset(0.0F, -4.5F, -7.5F));
+		PartDefinition body = Lythronax.addOrReplaceChild("body", CubeListBuilder.create(), PartPose.offset(0.0F, 2.0F, 1.0F));
 
-		PartDefinition armleft = body.addOrReplaceChild("armleft", CubeListBuilder.create().texOffs(57, 0).addBox(-1.0F, -1.0F, -1.5F, 2.0F, 6.0F, 3.0F, new CubeDeformation(0.0F))
-		.texOffs(17, 10).addBox(-1.0F, 5.0F, -1.5F, 2.0F, 2.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(7.0F, 8.0F, -18.5F));
+		PartDefinition belly = body.addOrReplaceChild("belly", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
-		PartDefinition armright = body.addOrReplaceChild("armright", CubeListBuilder.create().texOffs(57, 9).addBox(-1.0F, -1.0F, -1.5F, 2.0F, 6.0F, 3.0F, new CubeDeformation(0.0F))
-		.texOffs(17, 19).addBox(-1.0F, 5.0F, -1.5F, 2.0F, 2.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(-7.0F, 8.0F, -18.5F));
+		PartDefinition belly_r1 = belly.addOrReplaceChild("belly_r1", CubeListBuilder.create().texOffs(0, 0).addBox(-7.0F, -10.0F, -23.0F, 14.0F, 20.0F, 35.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -1.0F, 0.0436F, 0.0F, 0.0F));
 
-		PartDefinition tail = body.addOrReplaceChild("tail", CubeListBuilder.create().texOffs(32, 106).addBox(-4.0F, -2.5F, -0.5F, 8.0F, 11.0F, 25.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -5.5F, 7.5F));
+		PartDefinition saddle = belly.addOrReplaceChild("saddle", CubeListBuilder.create().texOffs(209, 124).addBox(-9.0F, -4.9128F, 11.9981F, 18.0F, 5.0F, 5.0F, new CubeDeformation(0.25F))
+				.texOffs(144, 123).addBox(-7.0F, 0.0F, -15.0F, 14.0F, 21.0F, 36.0F, new CubeDeformation(0.25F)), PartPose.offsetAndRotation(0.0F, -10.0F, -10.0F, 0.0436F, 0.0F, 0.0F));
 
-		PartDefinition tailend = tail.addOrReplaceChild("tailend", CubeListBuilder.create().texOffs(34, 55).addBox(-2.0F, -2.0F, 0.0F, 4.0F, 6.0F, 24.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -0.5F, 24.5F));
+		PartDefinition grass1 = saddle.addOrReplaceChild("grass1", CubeListBuilder.create(), PartPose.offset(9.0F, -0.1F, 18.5F));
 
-		PartDefinition saddle = body.addOrReplaceChild("saddle", CubeListBuilder.create().texOffs(128, -1).addBox(-5.0F, -4.0F, 6.0F, 10.0F, 4.0F, 5.0F, new CubeDeformation(0.0F))
-		.texOffs(130, 12).addBox(-3.0F, -3.0F, -6.0F, 6.0F, 3.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -9.0F, -10.0F));
+		PartDefinition saddle_r1 = grass1.addOrReplaceChild("saddle_r1", CubeListBuilder.create().texOffs(201, 148).addBox(-6.5371F, 0.4987F, -3.6391F, 12.0F, 0.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.2245F, 0.2968F, 0.6007F));
 
-		PartDefinition legleft = Lythronax.addOrReplaceChild("legleft", CubeListBuilder.create().texOffs(0, 79).addBox(-3.0F, -3.0F, -5.5F, 6.0F, 14.0F, 11.0F, new CubeDeformation(0.0F)), PartPose.offset(7.0F, 2.0F, 0.5F));
+		PartDefinition grass2 = saddle.addOrReplaceChild("grass2", CubeListBuilder.create(), PartPose.offset(9.0F, -0.1F, 18.5F));
 
-		PartDefinition kneeleft = legleft.addOrReplaceChild("kneeleft", CubeListBuilder.create().texOffs(0, 47).addBox(-0.7835F, 0.25F, -3.125F, 4.0F, 13.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(-1.2165F, 10.75F, 4.625F));
+		PartDefinition saddle_r2 = grass2.addOrReplaceChild("saddle_r2", CubeListBuilder.create().texOffs(157, 183).addBox(-7.5F, -5.2856F, 1.5321F, 14.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-8.5F, -2.0F, -1.5F, -0.7418F, 0.0F, 0.0F));
 
-		PartDefinition cube_r1 = kneeleft.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(0, 0).addBox(-1.0F, -2.0F, 0.0F, 1.0F, 4.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.7835F, 9.25F, 0.875F, 0.0F, 0.5236F, 0.0F));
+		PartDefinition grass3 = saddle.addOrReplaceChild("grass3", CubeListBuilder.create(), PartPose.offset(9.0F, -0.1F, 18.5F));
 
-		PartDefinition footleft = kneeleft.addOrReplaceChild("footleft", CubeListBuilder.create().texOffs(0, 10).addBox(-2.5F, -1.0F, -5.75F, 5.0F, 2.0F, 7.0F, new CubeDeformation(0.0F))
-		.texOffs(64, 6).addBox(-2.5F, -1.0F, -8.75F, 1.0F, 2.0F, 3.0F, new CubeDeformation(0.0F))
-		.texOffs(50, 61).addBox(-0.5F, -1.0F, -8.75F, 1.0F, 2.0F, 3.0F, new CubeDeformation(0.0F))
-		.texOffs(13, 61).addBox(1.5F, -1.0F, -8.75F, 1.0F, 2.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(1.2165F, 13.25F, -1.375F));
+		PartDefinition saddle_r3 = grass3.addOrReplaceChild("saddle_r3", CubeListBuilder.create().texOffs(201, 148).addBox(-5.4629F, 0.4987F, -3.6391F, 12.0F, 0.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-17.0F, 0.1F, 0.0F, 0.2245F, -0.2968F, -0.6007F));
 
-		PartDefinition legright = Lythronax.addOrReplaceChild("legright", CubeListBuilder.create().texOffs(79, 79).addBox(-3.0F, -3.0F, -5.5F, 6.0F, 14.0F, 11.0F, new CubeDeformation(0.0F)), PartPose.offset(-7.0F, 2.0F, 0.5F));
+		PartDefinition carpet1 = saddle.addOrReplaceChild("carpet1", CubeListBuilder.create(), PartPose.offset(-7.5014F, 8.0074F, 7.0F));
 
-		PartDefinition kneeright = legright.addOrReplaceChild("kneeright", CubeListBuilder.create().texOffs(37, 47).addBox(-3.2165F, 0.25F, -2.625F, 4.0F, 13.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(1.2165F, 10.75F, 4.125F));
+		PartDefinition carpet1_r1 = carpet1.addOrReplaceChild("carpet1_r1", CubeListBuilder.create().texOffs(220, 164).addBox(0.0F, -2.0F, -6.0F, 0.0F, 8.0F, 18.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.3986F, 1.8926F, -3.0F, 0.0F, 0.0F, 0.3054F));
 
-		PartDefinition cube_r2 = kneeright.addOrReplaceChild("cube_r2", CubeListBuilder.create().texOffs(2, 0).addBox(0.0F, -2.0F, 0.0F, 1.0F, 4.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.7835F, 9.25F, 0.375F, 0.0F, -0.5236F, 0.0F));
+		PartDefinition carpet2 = saddle.addOrReplaceChild("carpet2", CubeListBuilder.create(), PartPose.offset(0.0F, -0.1401F, -1.962F));
 
-		PartDefinition footright = kneeright.addOrReplaceChild("footright", CubeListBuilder.create().texOffs(0, 19).addBox(-2.5F, -1.0F, -5.75F, 5.0F, 2.0F, 7.0F, new CubeDeformation(0.0F))
-		.texOffs(66, 52).addBox(1.5F, -1.0F, -8.75F, 1.0F, 2.0F, 3.0F, new CubeDeformation(0.0F))
-		.texOffs(67, 11).addBox(-0.5F, -1.0F, -8.75F, 1.0F, 2.0F, 3.0F, new CubeDeformation(0.0F))
-		.texOffs(67, 0).addBox(-2.5F, -1.0F, -8.75F, 1.0F, 2.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(-1.2165F, 13.25F, -0.875F));
+		PartDefinition carpet2_r1 = carpet2.addOrReplaceChild("carpet2_r1", CubeListBuilder.create().texOffs(157, 194).addBox(-7.0F, -4.8F, 0.0F, 14.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -0.0599F, -0.038F, 0.48F, 0.0F, 0.0F));
+
+		PartDefinition carpet3 = saddle.addOrReplaceChild("carpet3", CubeListBuilder.create(), PartPose.offset(7.4014F, 7.9074F, 7.0F));
+
+		PartDefinition saddle_r4 = carpet3.addOrReplaceChild("saddle_r4", CubeListBuilder.create().texOffs(220, 164).addBox(0.0F, -2.0F, -6.0F, 0.0F, 8.0F, 18.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.4986F, 1.9926F, -3.0F, 0.0F, 0.0F, -0.3054F));
+
+		PartDefinition flag = saddle.addOrReplaceChild("flag", CubeListBuilder.create(), PartPose.offsetAndRotation(-6.3F, 0.0F, 15.8F, -0.1084F, -0.5877F, -0.0772F));
+
+		PartDefinition fag1 = flag.addOrReplaceChild("fag1", CubeListBuilder.create().texOffs(152, 110).addBox(0.0F, 0.0F, -6.5F, 0.0F, 13.0F, 13.0F, new CubeDeformation(0.0F)), PartPose.offset(1.1022F, -27.0938F, 9.1662F));
+
+		PartDefinition flag2 = fag1.addOrReplaceChild("flag2", CubeListBuilder.create().texOffs(152, 123).addBox(0.0F, 0.0F, -6.5F, 0.0F, 12.0F, 13.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 13.0F, 0.0F));
+
+		PartDefinition stick = flag.addOrReplaceChild("stick", CubeListBuilder.create().texOffs(167, 180).addBox(0.1022F, -29.0938F, -3.3338F, 2.0F, 2.0F, 21.0F, new CubeDeformation(0.01F))
+				.texOffs(248, 137).addBox(0.1022F, -31.0938F, 0.6662F, 2.0F, 31.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+
+		PartDefinition tail1 = body.addOrReplaceChild("tail1", CubeListBuilder.create().texOffs(34, 56).addBox(-4.0F, -2.5F, 3.0F, 8.0F, 13.0F, 19.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -6.5F, 7.5F, -0.0873F, 0.0F, 0.0F));
+
+		PartDefinition tail2 = tail1.addOrReplaceChild("tail2", CubeListBuilder.create().texOffs(64, 0).addBox(-2.6822F, -2.7221F, -2.7457F, 4.0F, 8.0F, 26.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 1.5F, 24.5F));
+
+		PartDefinition arm1 = body.addOrReplaceChild("arm1", CubeListBuilder.create().texOffs(100, 0).addBox(-0.6387F, -1.7574F, -1.5511F, 2.0F, 6.0F, 3.0F, new CubeDeformation(0.0F))
+				.texOffs(99, 15).addBox(-0.6387F, 4.2426F, -1.5511F, 2.0F, 2.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(6.6944F, 9.5382F, -20.4129F, 0.0F, 0.0F, 0.1745F));
+
+		PartDefinition arm2 = body.addOrReplaceChild("arm2", CubeListBuilder.create().texOffs(105, 35).addBox(-1.6946F, -1.0608F, -1.5F, 2.0F, 6.0F, 3.0F, new CubeDeformation(0.0F))
+				.texOffs(99, 21).addBox(-1.6946F, 4.9392F, -1.5F, 2.0F, 2.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-6.4791F, 9.9544F, -20.5F, 0.0F, 0.0F, -0.1745F));
+
+		PartDefinition neck = body.addOrReplaceChild("neck", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, -3.0F, -19.5F, 0.3927F, 0.0F, 0.0F));
+
+		PartDefinition throat = neck.addOrReplaceChild("throat", CubeListBuilder.create().texOffs(45, 88).addBox(-3.5F, -16.1481F, -4.7716F, 7.0F, 21.0F, 13.0F, new CubeDeformation(-0.6F)), PartPose.offsetAndRotation(0.0F, -1.0F, -5.5F, 0.1396F, 0.0F, 0.0F));
+
+		PartDefinition bulb = throat.addOrReplaceChild("bulb", CubeListBuilder.create().texOffs(100, 44).addBox(-3.0F, -8.0F, -7.5F, 6.0F, 7.0F, 4.0F, new CubeDeformation(-0.6F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+
+		PartDefinition head = neck.addOrReplaceChild("head", CubeListBuilder.create().texOffs(80, 81).addBox(-0.8652F, -1.7062F, -6.1452F, 7.0F, 5.0F, 9.0F, new CubeDeformation(0.0F))
+				.texOffs(21, 61).addBox(0.1348F, 4.2938F, -17.1452F, 5.0F, 2.0F, 11.0F, new CubeDeformation(-0.02F))
+				.texOffs(0, 56).addBox(0.1348F, 4.2938F, -17.1452F, 5.0F, 2.0F, 11.0F, new CubeDeformation(0.01F))
+				.texOffs(156, 237).addBox(-0.8652F, -1.8062F, -6.1452F, 7.0F, 5.0F, 9.0F, new CubeDeformation(0.05F)), PartPose.offsetAndRotation(-2.6348F, -12.8836F, -8.1405F, -0.3927F, 0.0F, 0.0F));
+
+		PartDefinition brow_ridges = head.addOrReplaceChild("brow_ridges", CubeListBuilder.create().texOffs(26, 1).addBox(2.5F, -3.4F, -12.5F, 1.0F, 3.0F, 3.0F, new CubeDeformation(0.01F))
+				.texOffs(65, 15).addBox(-1.5F, -1.4F, -18.5F, 3.0F, 1.0F, 8.0F, new CubeDeformation(0.0F))
+				.texOffs(106, 75).addBox(0.0F, -2.4F, -20.5F, 0.0F, 2.0F, 10.0F, new CubeDeformation(0.0F))
+				.texOffs(26, 9).addBox(-3.5F, -3.4F, -12.5F, 1.0F, 3.0F, 3.0F, new CubeDeformation(0.01F)), PartPose.offset(2.6348F, -0.3062F, 4.3548F));
+
+		PartDefinition nose = head.addOrReplaceChild("nose", CubeListBuilder.create().texOffs(87, 96).addBox(-2.5F, -0.4F, -21.5F, 5.0F, 5.0F, 11.0F, new CubeDeformation(0.01F)), PartPose.offset(2.6348F, -0.3062F, 4.3548F));
+
+		PartDefinition eyes = head.addOrReplaceChild("eyes", CubeListBuilder.create().texOffs(0, 20).addBox(-3.5F, -0.6F, -1.0F, 7.0F, 1.0F, 2.0F, new CubeDeformation(0.01F)), PartPose.offset(2.6348F, -0.1062F, -5.1452F));
+
+		PartDefinition pharnyx = head.addOrReplaceChild("pharnyx", CubeListBuilder.create().texOffs(71, 60).addBox(-3.5F, -0.9F, -10.0F, 7.0F, 6.0F, 8.0F, new CubeDeformation(-0.05F))
+				.texOffs(102, 60).addBox(-3.5F, -0.9F, -10.0F, 7.0F, 6.0F, 8.0F, new CubeDeformation(-0.06F)), PartPose.offset(2.6348F, 3.1938F, 4.8548F));
+
+		PartDefinition pharnyx_r1 = pharnyx.addOrReplaceChild("pharnyx_r1", CubeListBuilder.create().texOffs(65, 1).addBox(-3.5F, -4.2817F, -0.5977F, 7.0F, 6.0F, 0.0F, new CubeDeformation(-0.05F)), PartPose.offsetAndRotation(0.0F, 3.0F, -4.6F, 0.6981F, 0.0F, 0.0F));
+
+		PartDefinition jaw = head.addOrReplaceChild("jaw", CubeListBuilder.create().texOffs(0, 70).addBox(-2.5F, 3.1F, -20.0F, 5.0F, 3.0F, 11.0F, new CubeDeformation(0.0F))
+				.texOffs(110, 90).addBox(-3.5F, 1.1F, -9.0F, 7.0F, 5.0F, 9.0F, new CubeDeformation(0.0F))
+				.texOffs(100, 0).addBox(-2.5F, 1.1F, -20.0F, 5.0F, 2.0F, 11.0F, new CubeDeformation(-0.01F)), PartPose.offset(2.6348F, 2.1938F, 2.8548F));
+
+		PartDefinition harness = head.addOrReplaceChild("harness", CubeListBuilder.create().texOffs(194, 181).addBox(-2.5F, -4.6F, -39.5F, 5.0F, 6.0F, 11.0F, new CubeDeformation(0.05F))
+				.texOffs(234, 144).addBox(-3.5F, -1.0F, -32.0F, 1.0F, 3.0F, 3.0F, new CubeDeformation(0.0F))
+				.texOffs(234, 136).addBox(2.5F, -1.0F, -32.0F, 1.0F, 3.0F, 3.0F, new CubeDeformation(0.0F))
+				.texOffs(220, 192).addBox(-1.5F, -5.5F, -36.5F, 3.0F, 1.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(2.6348F, 3.7938F, 22.3548F));
+
+		PartDefinition rains1 = harness.addOrReplaceChild("rains1", CubeListBuilder.create().texOffs(196, 175).addBox(7.6736F, -6.0F, -28.9848F, 0.0F, 24.0F, 30.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.1745F, -0.5236F));
+
+		PartDefinition rains2 = harness.addOrReplaceChild("rains2", CubeListBuilder.create().texOffs(196, 200).addBox(-7.6736F, -6.0F, -29.9848F, 0.0F, 24.0F, 30.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, -0.1745F, 0.5236F));
 
 		return LayerDefinition.create(meshdefinition, 256, 256);
 	}
 
-	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		Lythronax.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-	}
 
-	@Override
-	public void setupAnim(LythronaxEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		this.Lythronax.getAllParts().forEach(ModelPart::resetPose);
-		applyHeadRotation(entity, netHeadYaw, headPitch, ageInTicks);
-		if (entity.isSprinting())
-			this.animateWalk(LythronaxAnimations.LYTHRONAX_SPRINT, limbSwing, limbSwingAmount, 4f, 4.5f);
-		else
-		if (entity.getOrder()==3)
-			this.animate(entity.sitAnimation, LythronaxAnimations.LYTHRONAX_SIT, ageInTicks, 1.0F);
-		else
-			if (entity.isSleeping())
-			this.animate(entity.sleepAnimation, LythronaxAnimations.LYTHRONAX_SLEEP, ageInTicks, 1.0F);
-		else
-			this.animateWalk(LythronaxAnimations.LYTHRONAX_WALK, limbSwing, limbSwingAmount, 4f, 4.5f);
-		this.animateWalk(LythronaxAnimations.LYTHRONAX_COMMUNICATION, limbSwing, limbSwingAmount, 4f, 4.5f);
-		this.animate(entity.idleAnimation, LythronaxAnimations.LYTHRONAX_IDLE, ageInTicks, 1.0F);
-	}
-
-	private void applyHeadRotation(LythronaxEntity pEntity, float pNetHeadYaw, float pHeadPitch, float pAgeInTicks) {
+	protected void applyHeadRotation(LythronaxEntity pEntity, float pNetHeadYaw, float pHeadPitch, float pAgeInTicks) {
 		pNetHeadYaw = Mth.clamp(pNetHeadYaw, -30.0F, 30.0F);
 		pHeadPitch = Mth.clamp(pHeadPitch, -25.0F, 45.0F);
 
-		this.Lythronax.getChild("body").yRot = pNetHeadYaw * 0.017453292F;
-		this.Lythronax.getChild("body").xRot = pHeadPitch * 0.017453292F;
+		this.body.getChild("neck").yRot = pNetHeadYaw * 0.017453292F;
+		this.body.getChild("neck").xRot = pHeadPitch * 0.017453292F;
+		this.neck.getChild("head").yRot = pNetHeadYaw * 0.017453292F;
+		this.neck.getChild("head").xRot = pHeadPitch * 0.03F;
 	}
+
 	@Override
-	public ModelPart root() {return Lythronax; }
+	protected void dynamicTail(DodoEntity pEntity) {
+
+	}
+
+	@Override
+	public ModelPart root() {
+		return root;
+	}
+
+
+	@Override
+	public AnimationDefinition getWalkAnim() {
+		return LythronaxAnimations.WALK;
+	}
+
+	@Override
+	public AnimationDefinition getIdleAnim() {
+		return LythronaxAnimations.IDLE;
+	}
+
+	@Override
+	public AnimationDefinition getSitAnim() {
+		return LythronaxAnimations.REST;
+	}
+
+	@Override
+	public AnimationDefinition getSleepAnim() {
+		return LythronaxAnimations.SLEEP;
+	}
+
+	@Override
+	public AnimationDefinition getRunAnim() {
+		return LythronaxAnimations.RUN;
+	}
+
+	@Override
+	public AnimationDefinition getEatAnim() {
+		return LythronaxAnimations.EAT;
+	}
+
+	@Override
+	public AnimationDefinition getAttackAnim() {
+		return LythronaxAnimations.ATTACK;
+	}
+
+	@Override
+	public AnimationDefinition getDownAnim() {
+		return LythronaxAnimations.DOWN;
+	}
+
+	@Override
+	public AnimationDefinition getFallAsleepAnim() {
+		return LythronaxAnimations.FALL_ASLEEP;
+	}
+
+	@Override
+	public AnimationDefinition getWakeUpAnim() {
+		return LythronaxAnimations.WAKE_UP;
+	}
+
+	@Override
+	public AnimationDefinition getUpAnim() {
+		return LythronaxAnimations.UP;
+	}
 }

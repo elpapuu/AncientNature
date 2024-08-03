@@ -3,10 +3,7 @@ package net.reaper.ancientnature.client.model.entity;// Made with Blockbench 4.1
 // Paste this class into your mod and generate all required imports
 
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.animation.AnimationDefinition;
-import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -157,6 +154,11 @@ public class DodoModel extends SmartAnimalModel<DodoEntity> {
 		this.body.getChild("neck").xRot = pHeadPitch * 0.017453292F;
 		this.neck.getChild("head").xRot = pHeadPitch * 0.017453292F;
 	}
+
+	@Override
+	protected void dynamicTail(DodoEntity pEntity) {
+	}
+
 	@Override
 	public ModelPart root() {
 		return dodo;

@@ -14,12 +14,10 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.reaper.ancientnature.AncientNature;
 import net.reaper.ancientnature.client.model.entity.*;
-import net.reaper.ancientnature.client.model.layer.ModModelLayers;
 import net.reaper.ancientnature.client.renderer.blockentity.RevivalStandRenderer;
 import net.reaper.ancientnature.client.renderer.entity.*;
 import net.reaper.ancientnature.client.screens.RevivalStandScreen;
 import net.reaper.ancientnature.common.particle.RevivalStandParticle;
-import net.reaper.ancientnature.common.util.RenderNothing;
 import net.reaper.ancientnature.core.init.ModBlockEntities;
 import net.reaper.ancientnature.core.init.ModEntities;
 import net.reaper.ancientnature.core.init.ModMenus;
@@ -33,13 +31,11 @@ public class ModEventBusClientEvents {
         event.registerLayerDefinition(ArandaspisModel.ARANDASPIS_LAYER, ArandaspisModel::createBodyLayer);
         event.registerLayerDefinition(TuataraModel.TUATARA_LAYER, TuataraModel::createBodyLayer);
         event.registerLayerDefinition(DunkleosteusModel.DUNKLEOSTEUS_LAYER, DunkleosteusModel::createBodyLayer);
-        event.registerLayerDefinition(HorseshoeCrabModel.HORSESHOE_LAYER, HorseshoeCrabModel::createBodyLayer);
         event.registerLayerDefinition(AnomalocarisModel.ANOMALOCARIS_LAYER, AnomalocarisModel::createBodyLayer);
         event.registerLayerDefinition(ParanogmiusModel.PARANOGMIUS_LAYER, ParanogmiusModel::createBodyLayer);
         event.registerLayerDefinition(CitipatiModel.CitipatiLayer, CitipatiModel::createBodyLayer);
         event.registerLayerDefinition(LythronaxModel.LYTHRONAX_LAYER, LythronaxModel::createBodyLayer);
         event.registerLayerDefinition(DodoModel.DODO_LAYER, DodoModel::createBodyLayer);
-        event.registerLayerDefinition(ModModelLayers.TREX_LAYER, TRexModel::createBodyLayer);
     }
 
     @SubscribeEvent
@@ -47,16 +43,12 @@ public class ModEventBusClientEvents {
         event.registerEntityRenderer(ModEntities.ARANDASPIS.get(), ArandaspisRenderer::new);
         event.registerEntityRenderer(ModEntities.ARANDASPIS.get(), ArandaspisRenderer::new);
         event.registerEntityRenderer(ModEntities.ANOMALOCARIS.get(), AnomalocarisRenderer::new);
-        event.registerEntityRenderer(ModEntities.HORSESHOE_CRAB.get(), HorseshoeCrabRenderer::new);
         event.registerEntityRenderer(ModEntities.PARANOGMIUS.get(), ParanogmiusRenderer::new);
         event.registerEntityRenderer(ModEntities.TUATARA.get(), TuataraRenderer::new);
         event.registerEntityRenderer(ModEntities.DUNKLEOSTEUS.get(), DunkleosteusRenderer::new);
         event.registerEntityRenderer(ModEntities.CITIPATI.get(), CitipatiRenderer::new);
         event.registerEntityRenderer(ModEntities.LYTHRONAX.get(), pContext -> new SmartAnimalRenderer<>(pContext, new LythronaxModel(pContext.bakeLayer(LythronaxModel.LYTHRONAX_LAYER))));
         event.registerEntityRenderer(ModEntities.DODO.get(), pContext -> new SmartAnimalRenderer<>(pContext, new DodoModel(pContext.bakeLayer(DodoModel.DODO_LAYER))));
-        event.registerEntityRenderer(ModEntities.TREX.get(), TRexRenderer::new);
-        event.registerEntityRenderer(ModEntities.SLOW_MULTIPART.get(), RenderNothing::new);
-        event.registerEntityRenderer(ModEntities.TREX_MULTIPART.get(), RenderNothing::new);
         event.registerBlockEntityRenderer(ModBlockEntities.REVIVAL_STAND_ENTITY.get(), RevivalStandRenderer::new);
     }
 
