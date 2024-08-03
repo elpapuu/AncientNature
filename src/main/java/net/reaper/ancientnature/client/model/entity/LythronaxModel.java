@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 public class LythronaxModel extends SmartAnimalModel<LythronaxEntity> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LYTHRONAX_LAYER = new ModelLayerLocation(new ResourceLocation(AncientNature.MOD_ID, "lythronax"), "main");
-	private final ModelPart root;
+	private final ModelPart lythronax;
 	public ModelPart body;
 	public ModelPart neck;
 	public ModelPart head;
@@ -28,12 +28,12 @@ public class LythronaxModel extends SmartAnimalModel<LythronaxEntity> {
 	private final ModelPart saddle;
 
 	public LythronaxModel(ModelPart root) {
-		this.root = root;
-		this.body = root.getChild("Lythronax").getChild("body");
+		this.lythronax = root.getChild("Lythronax");
+		this.body = this.lythronax.getChild("body");
 		this.neck = this.body.getChild("neck");
 		this.head = this.neck.getChild("head");
 		this.tail1 = this.body.getChild("tail1");
-		this.tail2 = this.body.getChild("tail2");
+		this.tail2 = this.tail1.getChild("tail2");
 		this.saddle = this.body.getChild("belly").getChild("saddle");
 	}
 
@@ -194,7 +194,7 @@ public class LythronaxModel extends SmartAnimalModel<LythronaxEntity> {
 
 	@Override
 	public ModelPart root() {
-		return root;
+		return lythronax;
 	}
 
 
