@@ -86,6 +86,22 @@ minecraft {
 
         client {
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
+            properties 'mixin.env.remapRefMap': 'true'
+            property 'mixin.env.refMapRemappingFile', "${project.projectDir}/build/createSrgToMcp/output.srg"
+            workingDirectory project.file('run')
+            arg "-mixin.config=ancientnature.mixins.json"
+
+            property 'forge.logging.markers', 'REGISTRIES'
+
+            property 'forge.logging.console.level', 'debug'
+
+            property 'forge.enabledGameTestNamespaces', 'ancientnature'
+            mods {
+                ancientnature {
+                    source sourceSets.main
+                }
+            }
+
             property 'forge.enabledGameTestNamespaces', mod_id
         }
 
@@ -204,6 +220,12 @@ publishing {
     repositories {
         maven {
             url "file://${project.projectDir}/mcmodsrepo"
+        }
+    }
+
+    buildscript {
+        repositories {
+            maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
         }
     }
 }

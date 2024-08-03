@@ -23,18 +23,16 @@ public class PassengerLayer<T extends LivingEntity, M extends EntityModel<T>> ex
         if (!pEntity.isVehicle() || pEntity.getPassengers().isEmpty()) {
             return;
         }
-        synchronized (RenderUtil.hiddenEntities) {
-            pEntity.getPassengers().stream().filter(passenger -> !RenderUtil.shouldSkipRendering(true, passenger)).forEach(passenger -> {
-                UUID uuid = passenger.getUUID();
-                RenderUtil.hiddenEntities.remove(uuid);
-                pMatrixStack.pushPose();
-                if (RenderUtil.getEntityRenderer(pEntity) instanceof ICustomPlayerRidePos customRidePos) {
-                    customRidePos.applyRiderMatrixStack(pEntity, pMatrixStack);
-                }
-                RenderUtil.renderEntity(passenger, pPartialTicks, pMatrixStack, pBuffer, pPackedLightIn);
-                pMatrixStack.popPose();
-                RenderUtil.hiddenEntities.add(uuid);
-            });
-        }
+        pEntity.getPassengers().stream().filter(passenger -> !RenderUtil.shouldSkipRendering(true, passenger)).forEach(passenger -> {
+            UUID uuid = passenger.getUUID();
+            RenderUtil.hiddenEntities.remove(uuid);
+            pMatrixStack.pushPose();
+            if (RenderUtil.getEntityRenderer(pEntity) instanceof ICustomPlayerRidePos customRidePos) {
+                customRidePos.applyRiderMatrixStack(pEntity, pMatrixStack);
+            }
+            RenderUtil.renderEntity(passenger, pPartialTicks, pMatrixStack, pBuffer, pPackedLightIn);
+            pMatrixStack.popPose();
+            RenderUtil.hiddenEntities.add(uuid);
+        });
     }
 }
