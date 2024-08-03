@@ -62,7 +62,7 @@ public class ModClientEvents {
     public static void onRenderGuiOverlay(RenderGuiOverlayEvent.Pre pEvent) {
         int screenWidth = pEvent.getWindow().getGuiScaledWidth();
         int screenHeight = pEvent.getWindow().getGuiScaledHeight();
-        int guiOffsetY = (Minecraft.getInstance().gui instanceof ForgeGui forgeGui) ? Math.max(forgeGui.leftHeight, forgeGui.rightHeight) : 0;
+        int guiOffsetY  = (Minecraft.getInstance().gui instanceof ForgeGui forgeGui) ? Math.max(forgeGui.leftHeight, forgeGui.rightHeight) : 0;
         int d0 = screenWidth / 2;
         int d1 = screenHeight - guiOffsetY;
         LocalPlayer player = Minecraft.getInstance().player;
@@ -117,9 +117,8 @@ public class ModClientEvents {
     public static <T extends LivingEntity> void onPlayerPose(PlayerPoseEvent<T> pEvent) {
         T entity = pEvent.getEntity();
         if (entity instanceof Player) {
-            T vehicle = (T) entity.getVehicle();
-            if (RenderUtil.getEntityRenderer(vehicle) instanceof ICustomPlayerRidePos customRidePos) {
-                customRidePos.applyRiderPose(vehicle, pEvent.getHumanoidModel(), entity);
+            if (RenderUtil.getEntityRenderer(entity.getVehicle()) instanceof ICustomPlayerRidePos customRidePos) {
+                customRidePos.applyRiderPose(pEvent.getHumanoidModel(), entity);
             }
         }
     }
@@ -136,9 +135,11 @@ public class ModClientEvents {
     public static <T extends LivingEntity, M extends EntityModel<T>> void onRenderLivingPre(RenderLivingEvent.Pre<T, M> pEvent) {
         LivingEntity entity = pEvent.getEntity();
         RenderLivingEvent.Post<T, M> event = new RenderLivingEvent.Post<>(entity, pEvent.getRenderer(), pEvent.getPartialTick(), pEvent.getPoseStack(), pEvent.getMultiBufferSource(), pEvent.getPackedLight());
-        if (RenderUtil.hiddenEntities.remove(entity.getUUID()) && RenderUtil.shouldSkipRendering(false, Minecraft.getInstance().getCameraEntity())) {
-            MinecraftForge.EVENT_BUS.post(event);
-            pEvent.setCanceled(true);
+        synchronized (RenderUtil.hiddenEntities) {
+            if (RenderUtil.hiddenEntities.remove(entity.getUUID()) && RenderUtil.shouldSkipRendering(false, Minecraft.getInstance().getCameraEntity())) {
+                MinecraftForge.EVENT_BUS.post(event);
+                pEvent.setCanceled(true);
+            }
         }
     }
 }

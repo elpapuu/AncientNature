@@ -12,11 +12,11 @@ import net.minecraft.world.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
+
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class RenderUtil  {
-    public static final Set<UUID> hiddenEntities = ConcurrentHashMap.newKeySet();
+    public static final Set<UUID> hiddenEntities  = Collections.synchronizedSet(new HashSet<>());
 
     public static <T extends Entity> void renderEntity(T pEntity, float pPartialTicks, PoseStack pMatrixStack, MultiBufferSource pBuffer, int pPackedLight) {
         EntityRenderDispatcher entityRenderDispatcher = Minecraft.getInstance().getEntityRenderDispatcher();

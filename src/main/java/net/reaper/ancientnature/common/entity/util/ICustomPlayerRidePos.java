@@ -13,11 +13,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public interface ICustomPlayerRidePos  {
-    default <T extends LivingEntity> void applyRiderPose(T pVehicle, HumanoidModel<T> pHumanoidModel, @NotNull T pRider) {
+    default <T extends LivingEntity> void applyRiderPose(HumanoidModel<T> pHumanoidModel, @NotNull T pRider) {
 
     }
 
-    default <T extends Entity> void applyRiderMatrixStack(@NotNull T pVehicle, @NotNull PoseStack pMatrixStack) {
+    default <T extends Entity> void applyRiderMatrixStack(@NotNull T pEntity, @NotNull PoseStack pMatrixStack) {
 
     }
 

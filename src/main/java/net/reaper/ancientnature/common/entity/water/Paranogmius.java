@@ -298,6 +298,48 @@ public class Paranogmius extends AquaticAnimal implements IMouseInput {
     @Override
     protected void tickRidden(@NotNull Player pRider, @NotNull Vec3 pVec3) {
         super.tickRidden(pRider, pVec3);
+        /*
+        Vec3 delta = this.getDeltaMovement();
+        float riderXRot = pRider.getXRot();
+        float selfXRot = pRider.getXRot();
+        float targetPitch = Mth.rotLerp(0.250F, selfXRot, riderXRot);
+        boolean isMovingByRider = pRider.xxa != 0.0F || pRider.zza != 0.0F;
+        if (isMovingByRider) {
+            EntityUtils.smoothVehicleYawToRider(pRider, this, 0.17F, 0.13F);
+        }
+        this.setXRot(this.exitWaterTicks < 25 ? Mth.rotLerp(0.07F, selfXRot, 90.0F) : selfXRot);
+        if (this.isInWater()) {
+            this.postOutWaterTicks = Math.max(--this.postOutWaterTicks, 0);
+            this.exitWaterTicks = 25;
+            if (this.postOutWaterTicks > 0) {
+                this.setDeltaMovement(delta.add(0.0F, -0.1F, 0.0F).scale(0.8F));
+            }
+            if (Mth.clamp(this.postOutWaterTicks, 1, 8) == this.postOutWaterTicks) {
+                this.setXRot(Mth.rotLerp(0.16F, selfXRot, riderXRot));
+            }
+            if (isMovingByRider) {
+                this.setXRot(targetPitch);
+                if (this.postOutWaterTicks <= 0) {
+                    this.setDeltaMovement(delta.x, Vec3.directionFromRotation(targetPitch / 1.7F, selfXRot).y, delta.z);
+                }
+            }
+        } else {
+            this.postOutWaterTicks = 10;
+            if (this.exitWaterTicks > 15) {
+                --this.exitWaterTicks;
+                Vec3 viewVector = this.getViewVector(0.0F).scale(0.63F);
+                this.setDeltaMovement(viewVector.x, 0.43F, viewVector.z);
+            }
+            if (this.onGround() || this.verticalCollision) {
+                EntityUtils.removeRider(this, pRider);
+            }
+        }
+
+         */
+        float a;
+        if (this.isInWater()) {
+            a = this.isSprinting() ? 0.73F : 0.33F;
+        }
         boolean isMovingByRider = pRider.xxa != 0.0F || pRider.zza != 0.0F;
         Vec3 delta = this.getDeltaMovement();
         float riderXRot = pRider.getXRot(), selfXRot = this.getXRot();

@@ -41,7 +41,7 @@ public class ParanogmiusRenderer extends MobRenderer<Paranogmius, ParanogmiusMod
     }
 
     @Override
-    public <T extends LivingEntity> void applyRiderPose(T pVehicle, HumanoidModel<T> pHumanoidModel, @NotNull T pRider) {
+    public <T extends LivingEntity> void applyRiderPose(HumanoidModel<T> pHumanoidModel, @NotNull T pRider) {
         pHumanoidModel.rightArm.xRot = this.rad(-155.0F);
         pHumanoidModel.leftArm.xRot = this.rad(-155.0F);
         pHumanoidModel.rightLeg.xRot = this.rad(5.0F);
