@@ -9,7 +9,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.reaper.ancientnature.AncientNature;
 import net.reaper.ancientnature.common.entity.ground.DodoEntity;
+import net.reaper.ancientnature.common.entity.ground.LythronaxEntity;
 import net.reaper.ancientnature.common.entity.smartanimal.SmartAnimatedAnimal;
+import org.jetbrains.annotations.NotNull;
+
+import javax.swing.text.html.parser.Entity;
 
 public abstract class SmartAnimalModel<T extends SmartAnimatedAnimal> extends HierarchicalModel<T> {
 
@@ -49,6 +53,8 @@ public abstract class SmartAnimalModel<T extends SmartAnimatedAnimal> extends Hi
     }
 
 
+    protected abstract void dynamicTail(T pEntity);
+
     public abstract AnimationDefinition getWalkAnim();
     public abstract AnimationDefinition getIdleAnim();
     public abstract AnimationDefinition getSitAnim();
@@ -79,6 +85,4 @@ public abstract class SmartAnimalModel<T extends SmartAnimatedAnimal> extends Hi
     public float shadowRadius() {
         return 1f;
     }
-
-    protected abstract void dynamicTail(DodoEntity pEntity);
 }
