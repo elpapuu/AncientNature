@@ -3,27 +3,18 @@ package net.reaper.ancientnature.client.model.entity;// Made with Blockbench 4.1
 // Paste this class into your mod and generate all required imports
 
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.animation.AnimationDefinition;
-import net.minecraft.client.gui.screens.Overlay;
-import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Pose;
 import net.reaper.ancientnature.AncientNature;
 import net.reaper.ancientnature.client.animations.entity.LythronaxAnimations;
-import net.reaper.ancientnature.common.entity.ground.DodoEntity;
 import net.reaper.ancientnature.common.entity.ground.LythronaxEntity;
+import org.jetbrains.annotations.NotNull;
 
 public class LythronaxModel extends SmartAnimalModel<LythronaxEntity> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
@@ -32,6 +23,8 @@ public class LythronaxModel extends SmartAnimalModel<LythronaxEntity> {
 	public ModelPart body;
 	public ModelPart neck;
 	public ModelPart head;
+	public ModelPart tail1;
+	public ModelPart tail2;
 	private final ModelPart saddle;
 
 	public LythronaxModel(ModelPart root) {
@@ -39,6 +32,8 @@ public class LythronaxModel extends SmartAnimalModel<LythronaxEntity> {
 		this.body = root.getChild("Lythronax").getChild("body");
 		this.neck = this.body.getChild("neck");
 		this.head = this.neck.getChild("head");
+		this.tail1 = this.body.getChild("tail1");
+		this.tail2 = this.body.getChild("tail2");
 		this.saddle = this.body.getChild("belly").getChild("saddle");
 	}
 
@@ -189,9 +184,12 @@ public class LythronaxModel extends SmartAnimalModel<LythronaxEntity> {
 		this.neck.getChild("head").xRot = pHeadPitch * 0.03F;
 	}
 
-	@Override
-	protected void dynamicTail(DodoEntity pEntity) {
 
+	@Override
+	protected void dynamicTail(@NotNull LythronaxEntity pEntity) {
+		float targetYaw = pEntity.prevTailRot + (pEntity.tailRot - pEntity.prevTailRot) * Minecraft.getInstance().getPartialTick();
+		this.tail1.yRot = Mth.lerp(0.05F, this.tail1.yRot, targetYaw);
+		this.tail2.yRot = Mth.lerp(0.07F, this.tail2.yRot, targetYaw);
 	}
 
 	@Override

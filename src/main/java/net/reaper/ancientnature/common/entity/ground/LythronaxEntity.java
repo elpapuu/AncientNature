@@ -9,12 +9,17 @@ import net.minecraft.world.level.Level;
 import net.reaper.ancientnature.common.entity.smartanimal.SmartAnimalPose;
 import net.reaper.ancientnature.common.entity.smartanimal.SmartAnimatedAnimal;
 import net.reaper.ancientnature.common.entity.util.AnimalDiet;
+import net.reaper.ancientnature.common.messages.NetworkHandler;
+import net.reaper.ancientnature.common.network.packet.EntityAttackKeyPacket;
+import net.reaper.ancientnature.common.util.EntityUtils;
 
 public class LythronaxEntity extends SmartAnimatedAnimal {
 
     public LythronaxEntity(EntityType<? extends TamableAnimal> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
+    public float tailRot;
+    public float prevTailRot;
 
     public static AttributeSupplier.Builder createAttributes() {
         return Animal.createLivingAttributes()
@@ -24,6 +29,13 @@ public class LythronaxEntity extends SmartAnimatedAnimal {
                 .add(Attributes.ATTACK_KNOCKBACK, 1d)
                 .add(Attributes.ATTACK_DAMAGE,3.0);
 
+    }
+    @Override
+    public void tick() {
+        super.tick();
+
+        this.prevTailRot = this.tailRot;
+        this.tailRot += (-(this.yBodyRot - this.yBodyRotO) - this.tailRot) * 0.15f;
     }
 
 
