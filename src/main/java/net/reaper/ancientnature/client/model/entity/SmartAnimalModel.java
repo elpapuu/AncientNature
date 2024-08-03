@@ -27,6 +27,7 @@ public abstract class SmartAnimalModel<T extends SmartAnimatedAnimal> extends Hi
     public void setupAnim(T pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
         this.root().getAllParts().forEach(ModelPart::resetPose);
         applyHeadRotation(pEntity, pNetHeadYaw, pLimbSwingAmount, pAgeInTicks);
+        dynamicTail(pEntity);
 
         if(pEntity.walkAnimation.isMoving()&&(!pEntity.isSprinting()||getRunAnim()==null)&&getWalkAnim()!=null)
             this.animateWalk(getWalkAnim(), pLimbSwing, pLimbSwingAmount,2f,4f);
