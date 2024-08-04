@@ -49,10 +49,12 @@ public abstract class SmartAnimatedAnimal extends TamableAnimal {
     public AnimationState fallAlseepAnimation = new AnimationState();
     public AnimationState wakeUpAnimation = new AnimationState();
     public AnimationState attackAnimation = new AnimationState();
+    public AnimationState roarAnimation = new AnimationState();
 
 
     public int attackAnimationTimeout;
     public int eatAnimationTimeout;
+    public int roarAnimationTimeout;
 
     public int poseTicks;
     public SmartAnimalPose currentPose=SmartAnimalPose.IDLE;
@@ -122,7 +124,12 @@ public abstract class SmartAnimatedAnimal extends TamableAnimal {
 
         this.goalSelector.addGoal(4, new RandomWanderStrollGoal(this, 1.1D));
         this.goalSelector.addGoal(5, new LookAtPlayerGoal(this,3f));
-        this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(6, new RandomLookAroundGoal(this) {
+            @Override
+            public boolean canUse() {
+                return super.canUse() && !SmartAnimatedAnimal.this.isVehicle();
+            }
+        });
 
 
     }
@@ -363,6 +370,7 @@ public abstract class SmartAnimatedAnimal extends TamableAnimal {
             attackAnimation.stop();
         }
     }
+
     private void eatingAnimationSetup() {
         if (this.isEating() && eatAnimationTimeout <= 0) {
             eatAnimationTimeout = getAnimationLengthInTicks(SmartAnimalPose.EAT);
@@ -377,6 +385,19 @@ public abstract class SmartAnimatedAnimal extends TamableAnimal {
         }
     }
 
+    public void roarAnimationSetup(boolean isRoar) {
+        if (isRoar && this.roarAnimationTimeout <= 0) {
+            this.roarAnimationTimeout = 81;
+            this.roarAnimation.start(this.tickCount);
+        } else {
+            --this.roarAnimationTimeout;
+        }
+        if (!isRoar) {
+            this.roarAnimation.stop();
+        }
+    }
+
+
     public boolean isSaddled() {
         return false;
     }
@@ -385,7 +406,7 @@ public abstract class SmartAnimatedAnimal extends TamableAnimal {
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
         Random random = new Random();
         setMale(random.nextBoolean());
-        setBedtimeVariance(random.nextInt(200));
+      //  setBedtimeVariance(random.nextInt(200));
         setSmartPose(SmartAnimalPose.IDLE);
         return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
     }

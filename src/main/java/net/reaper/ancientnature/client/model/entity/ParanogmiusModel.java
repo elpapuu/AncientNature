@@ -116,7 +116,7 @@ public class ParanogmiusModel extends HierarchicalModel<Paranogmius> {
 		this.fin.yRot = Mth.lerp(0.02F, this.fin.yRot, targetYaw);
 	}
 
-	public void setCustomPose(@NotNull PoseStack pMatrixStack) {
+	public void setMatrixStack(@NotNull PoseStack pMatrixStack) {
 		this.Concavotectum.translateAndRotate(pMatrixStack);
 		this.body.translateAndRotate(pMatrixStack);
 		this.tail1.translateAndRotate(pMatrixStack);

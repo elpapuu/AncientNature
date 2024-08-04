@@ -146,6 +146,11 @@ public class DodoModel extends SmartAnimalModel<DodoEntity> {
 		return DodoAnimations.UP;
 	}
 
+	@Override
+	public AnimationDefinition getRoarAnim() {
+		return null;
+	}
+
 	protected void applyHeadRotation(DodoEntity pEntity, float pNetHeadYaw, float pHeadPitch, float ageInTicks) {
 		pNetHeadYaw = Mth.clamp(pNetHeadYaw, -10.0F, 10.0F);
 		pHeadPitch = Mth.clamp(pHeadPitch, -25.0F, 45.0F);

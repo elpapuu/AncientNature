@@ -1,8 +1,7 @@
 package net.reaper.ancientnature;
 
+import com.google.common.reflect.Reflection;
 import com.mojang.logging.LogUtils;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -14,15 +13,15 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.RegistryObject;
 import net.reaper.ancientnature.client.event.DinoHealthBarRenderer;
 import net.reaper.ancientnature.common.config.AncientNatureConfig;
 import net.reaper.ancientnature.common.messages.NetworkHandler;
+import net.reaper.ancientnature.common.messages.util.EventHandlerRegistry;
+import net.reaper.ancientnature.common.messages.util.LevelEvents;
 import net.reaper.ancientnature.common.util.EntityPlacementUtil;
-import net.reaper.ancientnature.core.datagen.client.ModBlockStatesProvider;
 import net.reaper.ancientnature.core.init.*;
 import net.reaper.ancientnature.core.proxy.ClientProxy;
 import net.reaper.ancientnature.core.proxy.CommonProxy;
@@ -42,24 +41,13 @@ public class AncientNature {
 
     public AncientNature() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, AncientNatureConfig.SPEC);
-
         ModCreativeModTabs.register(modEventBus);
-
         modEventBus.addListener(this::commonSetup);
-
         ModItems.register(modEventBus);
-
         ModBlocks.register(modEventBus);
-
         ModSounds.register(modEventBus);
-
         ModEntities.register(modEventBus);
-
-
-
-
         ModBlockEntities.TES.register(modEventBus);
         ModEffects.MOB_EFFECTS.register(modEventBus);
         ModRecipes.register(modEventBus);
@@ -68,12 +56,12 @@ public class AncientNature {
         ModLootModifiers.LOOT_MODIFIERS.register(modEventBus);
         MinecraftForge.EVENT_BUS.register(new DinoHealthBarRenderer(Component.translatable("gui.Dino")));
         modEventBus.addListener(this::addCreative);
+        EventHandlerRegistry.LevelEventHandler.registerCommonHandler(new ResourceLocation(MOD_ID, "common_process"), new LevelEvents());
     }
     private void commonSetup(final FMLCommonSetupEvent event) {
-
+        Reflection.initialize(LevelEvents.class);
         event.enqueueWork(() -> {
             EntityPlacementUtil.entityPlacement();
-
         });
         NetworkHandler.register();
     }

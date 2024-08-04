@@ -2,13 +2,14 @@ package net.reaper.ancientnature.common.messages;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
 import net.minecraftforge.server.ServerLifecycleHooks;
 import net.reaper.ancientnature.common.messages.packets.*;
 import net.reaper.ancientnature.common.network.packet.EntityAttackKeyPacket;
+import net.reaper.ancientnature.common.network.packet.EntityRoarKeyPacket;
+import net.reaper.ancientnature.common.messages.packets.MessageServerEntityEvent;
 
 public class NetworkHandler
 {
@@ -26,7 +27,9 @@ public class NetworkHandler
         CHANNEL.registerMessage(id++, MessageMultipartInteract.class, MessageMultipartInteract::write, MessageMultipartInteract::read, MessageHandler.handle(MessageMultipartInteract.Handler::handle));
         CHANNEL.registerMessage(id++, MessageSyncPath.class, MessageSyncPath::write, MessageSyncPath::read, MessageSyncPath::handle);
         CHANNEL.registerMessage(id++, MessageSyncPathReached.class, MessageSyncPathReached::write, MessageSyncPathReached::read, MessageSyncPathReached::handle);
+        CHANNEL.registerMessage(id++, EntityRoarKeyPacket.class, EntityRoarKeyPacket::write, EntityRoarKeyPacket::read, EntityRoarKeyPacket::handle);
         CHANNEL.registerMessage(id++, EntityAttackKeyPacket.class, EntityAttackKeyPacket::write, EntityAttackKeyPacket::read, EntityAttackKeyPacket::handle);
+        CHANNEL.registerMessage(id++, MessageServerEntityEvent.class, MessageServerEntityEvent::write, MessageServerEntityEvent::read, MessageServerEntityEvent::handle);
     }
 
     public static <MSG> void sendMSGToPlayer(MSG message, ServerPlayer player) {

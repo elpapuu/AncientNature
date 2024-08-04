@@ -107,6 +107,10 @@ public class EntityUtils {
         return Minecraft.getInstance().options.keyAttack.isDown() && isPlayerPassengerOf(pEntity);
     }
 
+    public static boolean canRoarByPlayer(@NotNull LivingEntity pEntity) {
+        return Minecraft.getInstance().options.keyUse.isDown() && isPlayerPassengerOf(pEntity);
+    }
+
     public static void removeRider(Paranogmius paranogmius, Player pRider) {
         if (pRider.getVehicle() == paranogmius) {
             paranogmius.stopRiding();

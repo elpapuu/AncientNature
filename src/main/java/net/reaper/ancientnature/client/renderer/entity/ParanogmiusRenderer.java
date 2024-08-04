@@ -2,7 +2,6 @@ package net.reaper.ancientnature.client.renderer.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -11,14 +10,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.reaper.ancientnature.AncientNature;
 import net.reaper.ancientnature.client.model.entity.ParanogmiusModel;
-import net.reaper.ancientnature.client.renderer.entity.layer.PassengerLayer;
+import net.reaper.ancientnature.client.renderer.entity.layer.ModPassengerLayer;
 import net.reaper.ancientnature.common.entity.util.ICustomPlayerRidePos;
 import net.reaper.ancientnature.common.entity.water.Paranogmius;
-import net.reaper.ancientnature.common.util.RenderUtil;
 import org.jetbrains.annotations.NotNull;
 
 public class ParanogmiusRenderer extends MobRenderer<Paranogmius, ParanogmiusModel> implements ICustomPlayerRidePos {
@@ -27,7 +23,7 @@ public class ParanogmiusRenderer extends MobRenderer<Paranogmius, ParanogmiusMod
 
     public ParanogmiusRenderer(EntityRendererProvider.Context pContext) {
         super(pContext, new ParanogmiusModel(pContext.bakeLayer(ParanogmiusModel.PARANOGMIUS_LAYER)), 0.6f);
-        this.addLayer(new PassengerLayer<>(this));
+        this.addLayer(new ModPassengerLayer<>(this));
     }
 
     @Override
@@ -54,7 +50,7 @@ public class ParanogmiusRenderer extends MobRenderer<Paranogmius, ParanogmiusMod
 
     @Override
     public <T extends Entity> void applyRiderMatrixStack(@NotNull T pVehicle, @NotNull PoseStack pMatrixStack) {
-        this.getModel().setCustomPose(pMatrixStack);
+        this.getModel().setMatrixStack(pMatrixStack);
         pMatrixStack.translate(0.0F, 0.05F - pVehicle.getBbHeight(), 1.7F);
         pMatrixStack.mulPose(Axis.YN.rotationDegrees(180.0F));
         pMatrixStack.mulPose(Axis.XN.rotationDegrees(295.0F));
@@ -62,10 +58,8 @@ public class ParanogmiusRenderer extends MobRenderer<Paranogmius, ParanogmiusMod
 
     @Override
     protected void scale(Paranogmius pLivingEntity, PoseStack pMatrixStack, float pPartialTickTime) {
-
         float F = pLivingEntity.isBaby() ? 0.9F : 1.08F;
         pMatrixStack.scale(F, F, F);
-
         super.scale(pLivingEntity, pMatrixStack, pPartialTickTime);
     }
 }

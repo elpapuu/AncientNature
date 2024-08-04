@@ -32,7 +32,7 @@ public class ScreenUtils {
         if (!pEvent.getOverlay().id().equals(VanillaGuiOverlay.CROSSHAIR.id())) {
             matrixStack.pushPose();
             pEvent.getGuiGraphics().blit(pBar, pX1,  pY1, 0.0F, 0.0F, pWidth, pHeight, 210, 235);
-            pEvent.getGuiGraphics().blit(pBar,  pX2, pY2, 6.0F, pVOffset, pProgress, pHeight, 210, 235);
+            pEvent.getGuiGraphics().blit(pBar,  pX2, pY2, 3.0F, pVOffset, pProgress, pHeight, 210, 235);
             matrixStack.popPose();
         }
     }

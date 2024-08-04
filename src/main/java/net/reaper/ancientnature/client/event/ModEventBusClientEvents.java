@@ -14,6 +14,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.reaper.ancientnature.AncientNature;
 import net.reaper.ancientnature.client.model.entity.*;
+import net.reaper.ancientnature.client.model.layer.ModModelLayers;
 import net.reaper.ancientnature.client.renderer.blockentity.RevivalStandRenderer;
 import net.reaper.ancientnature.client.renderer.entity.*;
 import net.reaper.ancientnature.client.screens.RevivalStandScreen;
@@ -36,6 +37,7 @@ public class ModEventBusClientEvents {
         event.registerLayerDefinition(CitipatiModel.CitipatiLayer, CitipatiModel::createBodyLayer);
         event.registerLayerDefinition(LythronaxModel.LYTHRONAX_LAYER, LythronaxModel::createBodyLayer);
         event.registerLayerDefinition(DodoModel.DODO_LAYER, DodoModel::createBodyLayer);
+        event.registerLayerDefinition(ModModelLayers.TREX_LAYER, TRexModel::createBodyLayer);
     }
 
     @SubscribeEvent
@@ -47,7 +49,8 @@ public class ModEventBusClientEvents {
         event.registerEntityRenderer(ModEntities.TUATARA.get(), TuataraRenderer::new);
         event.registerEntityRenderer(ModEntities.DUNKLEOSTEUS.get(), DunkleosteusRenderer::new);
         event.registerEntityRenderer(ModEntities.CITIPATI.get(), CitipatiRenderer::new);
-        event.registerEntityRenderer(ModEntities.LYTHRONAX.get(), pContext -> new SmartAnimalRenderer<>(pContext, new LythronaxModel(pContext.bakeLayer(LythronaxModel.LYTHRONAX_LAYER))));
+        event.registerEntityRenderer(ModEntities.LYTHRONAX.get(), LythronaxRenderer::new);
+        event.registerEntityRenderer(ModEntities.TREX.get(), TRexRenderer::new);
         event.registerEntityRenderer(ModEntities.DODO.get(), pContext -> new SmartAnimalRenderer<>(pContext, new DodoModel(pContext.bakeLayer(DodoModel.DODO_LAYER))));
         event.registerBlockEntityRenderer(ModBlockEntities.REVIVAL_STAND_ENTITY.get(), RevivalStandRenderer::new);
     }

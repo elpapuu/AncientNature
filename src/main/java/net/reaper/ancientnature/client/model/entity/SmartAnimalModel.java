@@ -26,7 +26,8 @@ public abstract class SmartAnimalModel<T extends SmartAnimatedAnimal> extends Hi
     @Override
     public void setupAnim(T pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
         this.root().getAllParts().forEach(ModelPart::resetPose);
-        applyHeadRotation(pEntity, pNetHeadYaw, pLimbSwingAmount, pAgeInTicks);
+        this.applyHeadRotation(pEntity, pNetHeadYaw, pLimbSwingAmount, pAgeInTicks);
+        this.dynamicTail(pEntity);
 
         if(pEntity.walkAnimation.isMoving()&&(!pEntity.isSprinting()||getRunAnim()==null)&&getWalkAnim()!=null)
             this.animateWalk(getWalkAnim(), pLimbSwing, pLimbSwingAmount,2f,4f);
@@ -50,6 +51,8 @@ public abstract class SmartAnimalModel<T extends SmartAnimatedAnimal> extends Hi
             this.animate(pEntity.wakeUpAnimation, getWakeUpAnim(), pAgeInTicks, 1);
         if(getUpAnim()!=null)
             this.animate(pEntity.upAnimation, getUpAnim(), pAgeInTicks, 1);
+        if(getRoarAnim()!=null)
+            this.animate(pEntity.roarAnimation, getRoarAnim(), pAgeInTicks, 1);
     }
 
 
@@ -66,6 +69,7 @@ public abstract class SmartAnimalModel<T extends SmartAnimatedAnimal> extends Hi
     public abstract AnimationDefinition getFallAsleepAnim();
     public abstract AnimationDefinition getWakeUpAnim();
     public abstract AnimationDefinition getUpAnim();
+    public abstract AnimationDefinition getRoarAnim();
 
 
     protected abstract void applyHeadRotation(T pEntity, float pNetHeadYaw, float pHeadPitch, float pAgeInTicks);
