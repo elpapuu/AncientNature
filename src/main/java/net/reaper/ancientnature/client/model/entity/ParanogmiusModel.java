@@ -4,6 +4,7 @@ package net.reaper.ancientnature.client.model.entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.controls.KeyBindsList;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
@@ -86,14 +87,9 @@ public class ParanogmiusModel extends HierarchicalModel<Paranogmius> {
 		if (entity.isSwimming() && entity.isInWater()) {
 			this.body.zRot = Mth.sin((float) ((entity.tickCount + ageInTicks) * 2 * Math.PI * 0.8125D));
 		}
-
 		 */
-		if (entity.isInWater()) {
-			if (entity.isSprinting()) {
-				this.animateWalk(ParanogmiusAnimations.PARANOGMIUS_SPRINT, limbSwing, limbSwingAmount, 1.0F, 1.0F);
-			} else {
-				this.animateWalk(ParanogmiusAnimations.PARANOGMIUS_SWIM, limbSwing, limbSwingAmount, 2.0F, 2.0F);
-			}
+		if (entity.isSprinting() && entity.canSpawnSprintParticle()) {
+			animateWalk(ParanogmiusAnimations.PARANOGMIUS_SPRINT, limbSwing, limbSwingAmount, 4.0F, 4.0F);
 		}
 		this.animateWalk(ParanogmiusAnimations.PARANOGMIUS_SWIM, limbSwing, limbSwingAmount, 4.0F, 4.0F);
 		this.animate(entity.idleAnimation, ParanogmiusAnimations.PARANOGMIUS_IDLE, ageInTicks, 1.0F);
@@ -111,9 +107,9 @@ public class ParanogmiusModel extends HierarchicalModel<Paranogmius> {
 
 	private void dynamicTail(@NotNull Paranogmius pEntity) {
 		float targetYaw = pEntity.prevTailRot + (pEntity.tailRot - pEntity.prevTailRot) * Minecraft.getInstance().getPartialTick();
-		this.tail1.yRot = Mth.lerp(0.7F, this.tail1.yRot, targetYaw);
-		this.tail2.yRot = Mth.lerp(0.03F, this.tail2.yRot, targetYaw);
-		this.fin.yRot = Mth.lerp(0.02F, this.fin.yRot, targetYaw);
+		this.tail1.yRot = Mth.lerp(0.05F, this.tail1.yRot, targetYaw);
+		this.tail2.yRot = Mth.lerp(0.04F, this.tail2.yRot, targetYaw);
+		this.fin.yRot = Mth.lerp(0.03F, this.fin.yRot, targetYaw);
 	}
 
 	public void setMatrixStack(@NotNull PoseStack pMatrixStack) {
