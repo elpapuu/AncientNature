@@ -7,6 +7,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
@@ -46,8 +48,26 @@ public class EventHandlerRegistry {
         }
     }
 
-    @FunctionalInterface
-    public interface EventProcessor {
-        void handle(BlockPos pBlockPos, Level pLevel, EventData[] pEventData);
+    public boolean isValidEventHandlerMethod(Method pMethod) {
+        return pMethod.getParameterCount() == 3 &&
+                pMethod.getParameterTypes()[0] == BlockPos.class &&
+                pMethod.getParameterTypes()[1] == Level.class &&
+                pMethod.getParameterTypes()[2] == EventData[].class;
+    }
+
+    public void registerAnnotatedHandlers(Object pHandlerObject) {
+        Method[] methods = pHandlerObject.getClass().getDeclaredMethods();
+        for (Method method : methods) {
+            if (method.isAnnotationPresent(EventHandler.class)) {
+                EventHandler eventHandler = method.getAnnotation(EventHandler.class);
+                if (this.isValidEventHandlerMethod(method)) {
+                    EventProcessor processor = (pos, level, eventData) -> {
+                        method.setAccessible(true);
+                        method.invoke(pHandlerObject, pos, level, eventData);
+                    };
+                    this.register(eventHandler.eventId(), processor);
+                }
+            }
+        }
     }
 }

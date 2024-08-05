@@ -14,6 +14,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.reaper.ancientnature.AncientNature;
 import net.reaper.ancientnature.client.model.entity.*;
+import net.reaper.ancientnature.client.model.entity.lythronax.LythronaxBabyModel;
+import net.reaper.ancientnature.client.model.entity.lythronax.LythronaxModel;
 import net.reaper.ancientnature.client.model.layer.ModModelLayers;
 import net.reaper.ancientnature.client.renderer.blockentity.RevivalStandRenderer;
 import net.reaper.ancientnature.client.renderer.entity.*;
@@ -38,6 +40,7 @@ public class ModEventBusClientEvents {
         event.registerLayerDefinition(LythronaxModel.LYTHRONAX_LAYER, LythronaxModel::createBodyLayer);
         event.registerLayerDefinition(DodoModel.DODO_LAYER, DodoModel::createBodyLayer);
         event.registerLayerDefinition(ModModelLayers.TREX_LAYER, TRexModel::createBodyLayer);
+        event.registerLayerDefinition(ModModelLayers.BABY_LYTHRONAX_LAYER, LythronaxBabyModel::createBodyLayer);
     }
 
     @SubscribeEvent

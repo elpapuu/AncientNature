@@ -9,24 +9,39 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Pose;
 import net.reaper.ancientnature.client.model.entity.SmartAnimalModel;
+import net.reaper.ancientnature.client.model.entity.lythronax.LythronaxBabyModel;
+import net.reaper.ancientnature.client.model.layer.ModModelLayers;
 import net.reaper.ancientnature.common.entity.ground.DodoEntity;
+import net.reaper.ancientnature.common.entity.ground.LythronaxEntity;
 import net.reaper.ancientnature.common.entity.smartanimal.SmartAnimatedAnimal;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class SmartAnimalRenderer<T extends SmartAnimatedAnimal> extends MobRenderer<T,SmartAnimalModel<T>> {
-    SmartAnimalModel<T> model;
-    public SmartAnimalRenderer(EntityRendererProvider.Context pContext, SmartAnimalModel<T> model) {
-        super(pContext,model, model.shadowRadius());
-        this.model = model;
+    public SmartAnimalModel<T> smartModel;
+    public SmartAnimalModel<T> babyModel;
+
+    public SmartAnimalRenderer(EntityRendererProvider.Context pContext, SmartAnimalModel<T> pSmartModel) {
+        super(pContext, pSmartModel, pSmartModel.shadowRadius());
+        this.smartModel = pSmartModel;
+        this.babyModel = this.getBabyModel(pContext);
     }
 
     @Override
-    public ResourceLocation getTextureLocation(T pEntity) {
-        return model.getTexture(pEntity);
+    public @NotNull ResourceLocation getTextureLocation(@NotNull T pEntity) {
+        return this.smartModel.getTexture(pEntity);
     }
 
-    protected void scale(T pLivingEntity, PoseStack pMatrixStack, float pPartialTickTime) {
-        float F = pLivingEntity.isBaby() ? 0.5F : 1.0F;
-        pMatrixStack.scale(F, F, F);
-        super.scale(pLivingEntity, pMatrixStack, pPartialTickTime);
+    @Override
+    public void render(@NotNull T pEntity, float pEntityYaw, float pPartialTicks, @NotNull PoseStack pMatrixStack, @NotNull MultiBufferSource pBuffer, int pPackedLight) {
+        if (this.babyModel != null) {
+            this.model = pEntity.isBaby() ? this.babyModel : this.smartModel;
+        }
+        super.render(pEntity, pEntityYaw, pPartialTicks, pMatrixStack, pBuffer, pPackedLight);
+    }
+
+    @Nullable
+    public SmartAnimalModel<T> getBabyModel(EntityRendererProvider.Context pContext) {
+        return null;
     }
 }

@@ -29,19 +29,14 @@ public interface IShakeScreenOnStep {
         LocalPlayer localPlayer = Minecraft.getInstance().player;
         if (localPlayer != null) {
             List<LivingEntity> entityList = EntityUtils.getEntitiesAroundSelf(LivingEntity.class, localPlayer, 8.0F, 8.0F, false);
-            if (entityList == null || entityList.isEmpty()) {
-                return;
+            if (entityList != null && !entityList.isEmpty())
+            for (LivingEntity entity : entityList) {
+                if (canEntityShake(entity) && EntityUtils.isEntityStepping(entity, getShakeFrequency(), calculateShakeIntensity(entity.walkAnimation.speed())) && entity != localPlayer){
+                    float distanceFactor = getShakeDistance() / entity.distanceTo(localPlayer) / 8.0F;
+                    float shakePower = Math.min(distanceFactor * getShakePower(), getMaxScreenShake());
+                    ScreenShakeUtils.shakeScreen(10, shakePower);
+                }
             }
-            entityList.stream()
-                    .filter(entity
-                            -> canEntityShake(entity) &&
-                            EntityUtils.isEntityStepping(entity, getShakeFrequency(), calculateShakeIntensity(entity.walkAnimation.speed())) &&
-                            entity != localPlayer
-                    ).forEach(entity -> {
-                        float distanceFactor = getShakeDistance() / entity.distanceTo(localPlayer) / 8.0F;
-                        float shakePower = Math.min(distanceFactor * getShakePower(), getMaxScreenShake());
-                        ScreenShakeUtils.shakeScreen(11, shakePower);
-                    });
         }
     }
 

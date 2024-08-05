@@ -22,13 +22,15 @@ public class ModSaddleLayer<T extends SmartAnimatedAnimal, M extends SmartAnimal
     }
 
     public void render(@NotNull PoseStack pMatrixStack, @NotNull MultiBufferSource pBuffer, int pPackedLight, @NotNull T pLivingEntity, float pLimbSwing, float pLimbSwingAmount, float pPartialTicks, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
-        if (pLivingEntity instanceof Saddleable saddleable) {
-            if (saddleable.isSaddled()) {
-                this.getParentModel().copyPropertiesTo(this.getParentModel());
-                this.getParentModel().prepareMobModel(pLivingEntity, pLimbSwing, pLimbSwingAmount, pPartialTicks);
-                this.getParentModel().setupAnim(pLivingEntity, pLimbSwing, pLimbSwingAmount, pAgeInTicks, pNetHeadYaw, pHeadPitch);
-                VertexConsumer vertexConsumer = pBuffer.getBuffer(RenderType.entityCutoutNoCull(this.saddleLocation));
-                this.getParentModel().renderToBuffer(pMatrixStack, vertexConsumer, pPackedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+        if (!pLivingEntity.isBaby()) {
+            if (pLivingEntity instanceof Saddleable saddleable) {
+                if (saddleable.isSaddled()) {
+                    this.getParentModel().copyPropertiesTo(this.getParentModel());
+                    this.getParentModel().prepareMobModel(pLivingEntity, pLimbSwing, pLimbSwingAmount, pPartialTicks);
+                    this.getParentModel().setupAnim(pLivingEntity, pLimbSwing, pLimbSwingAmount, pAgeInTicks, pNetHeadYaw, pHeadPitch);
+                    VertexConsumer vertexConsumer = pBuffer.getBuffer(RenderType.entityCutoutNoCull(this.saddleLocation));
+                    this.getParentModel().renderToBuffer(pMatrixStack, vertexConsumer, pPackedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+                }
             }
         }
     }

@@ -37,6 +37,8 @@ public class ModClientEvents {
     public static final ResourceLocation SWIMMING_INSTINCT_BAR = new ResourceLocation(AncientNature.MOD_ID, "textures/gui/swimming_instinct_bar.png");
     public static final ResourceLocation TIME_BAR = new ResourceLocation(AncientNature.MOD_ID, "textures/gui/time_bar.png");
     public static final ResourceLocation PRIMORDIAL_INSTINCT_BAR = new ResourceLocation(AncientNature.MOD_ID, "textures/gui/primordial_instinct_bar.png");
+    public static final ResourceLocation HUNGER_BAR = new ResourceLocation(AncientNature.MOD_ID, "textures/gui/hunger_bar.png");
+    public static final ResourceLocation STAMINA_BAR = new ResourceLocation(AncientNature.MOD_ID, "textures/gui/stamina_bar.png");
 
     @SubscribeEvent
     public static void onComputeCameraAngle(ViewportEvent.ComputeCameraAngles pEvent) {
@@ -73,16 +75,20 @@ public class ModClientEvents {
             Entity vehicle = player.getVehicle();
             if (vehicle instanceof SmartAnimatedAnimal smartAnimal) {
                 int lifeProgress = ScreenUtils.getScaledInt((int) smartAnimal.getHealth(), (int) smartAnimal.getMaxHealth(), 167);
-                ScreenUtils.renderBar(pEvent, PRIMORDIAL_INSTINCT_BAR, d0 + 120, d1 + 13, d0 + 123, d1 + 14, lifeProgress, 30.4F, 180, 33);
+                int hungerProgress = ScreenUtils.getScaledInt((int) smartAnimal.getHunger(), 100, 167);
+                int staminaProgress = ScreenUtils.getScaledInt((int) smartAnimal.getStamina(), 100, 167);
+                ScreenUtils.renderBar(pEvent, PRIMORDIAL_INSTINCT_BAR, d0 + 280, d1 - 40, d0 + 283, d1 - 39, lifeProgress, 30.5F, 180, 24, 27);
+                ScreenUtils.renderBar(pEvent, HUNGER_BAR, d0 + 280, d1 - 15, d0 + 283, d1 - 15, hungerProgress, 25.7F, 180, 24, 27);
+                ScreenUtils.renderBar(pEvent, STAMINA_BAR, d0 + 280, d1 + 7, d0 + 283, d1 + 9, staminaProgress, 25.7F, 180, 24, 27);
                 if (pEvent.getOverlay().id().equals(VanillaGuiOverlay.MOUNT_HEALTH.id())) {
                     pEvent.setCanceled(true);
                 }
             }
             if (vehicle instanceof Paranogmius paranogmius) {
-                int lifeeProgress = ScreenUtils.getScaledInt((int) paranogmius.getHealth(), (int) paranogmius.getMaxHealth(), 164);
+                int lifeProgress = ScreenUtils.getScaledInt((int) paranogmius.getHealth(), (int) paranogmius.getMaxHealth(), 164);
                 int timerProgress = ScreenUtils.getScaledInt(paranogmius.getRemainingRideTicks(), 12000, 164);
-                ScreenUtils.renderBar(pEvent, SWIMMING_INSTINCT_BAR, d0 + 120, d1 + 15, d0 + 126, d1 + 15, lifeeProgress, 30.5F, 180, 22);
-                ScreenUtils.renderBar(pEvent, TIME_BAR, d0 - 297, d1 + 15, d0 - 291, d1 + 18, timerProgress, 30.5F, 180, 22);
+                ScreenUtils.renderBar(pEvent, SWIMMING_INSTINCT_BAR, d0 + 120, d1 + 15, d0 + 126, d1 + 15, lifeProgress, 30.5F, 180, 24, 27);
+                ScreenUtils.renderBar(pEvent, TIME_BAR, d0 - 297, d1 + 15, d0 - 291, d1 + 18, timerProgress, 30.5F, 180, 24, 27);
                 if (pEvent.getOverlay().id().equals(VanillaGuiOverlay.MOUNT_HEALTH.id())) {
                     pEvent.setCanceled(true);
                 }

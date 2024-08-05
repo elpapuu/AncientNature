@@ -1,26 +1,28 @@
 package net.reaper.ancientnature.common.messages.util;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
 import net.reaper.ancientnature.common.entity.ground.LythronaxEntity;
+import net.reaper.ancientnature.common.util.EntityUtils;
 
-public class LevelEvents implements CommonEventProcessor {
-    private static final EventHandlerRegistry EVENT_REGISTRY;
-    public static LevelEvent ATTACK = new LevelEvent();
-    public static LevelEvent ROAR = new LevelEvent();
-
-    static {
-        EVENT_REGISTRY = new EventHandlerRegistry().register(ROAR.eventId, ((pBlockPos, pLevel, pEventData) -> {
-            Entity entity = pLevel.getEntity(pEventData[0].asInteger());
-            if (entity instanceof LythronaxEntity lythronax) {
-                lythronax.setRoarTicks(60);
-            }
-        }));
+public class LevelEvents {
+    @EventHandler(eventId = 0)
+    public void onAttackEvent(BlockPos pBlockPos, Level pLevel, EventData[] pEventData) {
+        Entity entity = pLevel.getEntity(pEventData[0].asInteger());
+        float distance = pEventData[1].asFloat();
+        float damage = pEventData[2].asFloat();
+        if (entity instanceof LivingEntity living) {
+            EntityUtils.attackByRider(living, distance, damage);
+        }
     }
 
-    @Override
-    public void onProcessEvent(ServerLevel pServerLevel, BlockPos pBlockPos, int pEventId, EventData[] pEventData) {
-        EVENT_REGISTRY.handleEvent(pServerLevel, pBlockPos, pEventId, pEventData);
+    @EventHandler(eventId = 1)
+    public void onRoarEvent(BlockPos pBlockPos, Level pLevel, EventData[] pEventData) {
+        Entity entity = pLevel.getEntity(pEventData[0].asInteger());
+        if (entity instanceof LythronaxEntity lythronax) {
+            lythronax.setRoarTicks(60);
+        }
     }
 }

@@ -38,6 +38,8 @@ public class ModItems {
 
     public static final RegistryObject<Item> WHERE_YOUR_JOURNEY_BEGINS_MUSIC_DISC = ITEMS.register("where_your_journey_begins_disc", () -> new RecordItem(6, ModSounds.WHERE_YOUR_JOURNEY_BEGINS_DISC, new Item.Properties().stacksTo(1),80*20));
 
+    public static final RegistryObject<Item> LYTHRONAX_SADDLE = ITEMS.register("lythronax_saddle", () -> new SaddleItem(new Item.Properties().stacksTo(1)));
+
     public static final RegistryObject<Item> FISH_ROE =  ITEMS.register("fish_roe", () -> new Item(new Item.Properties()));
     public static final RegistryObject<MobBucketItem> ARANDASPIS_BUCKET = ITEMS.register("arandaspis_bucket", () -> new MobBucketItem(ModEntities.ARANDASPIS, () -> Fluids.WATER, () -> SoundEvents.BUCKET_FILL_FISH, new Item.Properties().stacksTo(1)));
     public static final RegistryObject<MobBucketItem> ANOMALOCARIS_BUCKET = ITEMS.register("anomalocaris_bucket", () -> new MobBucketItem(ModEntities.ANOMALOCARIS, () -> Fluids.WATER, () -> SoundEvents.BUCKET_FILL_FISH, new Item.Properties().stacksTo(1)));

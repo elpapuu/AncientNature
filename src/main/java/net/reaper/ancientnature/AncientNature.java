@@ -20,6 +20,7 @@ import net.reaper.ancientnature.client.event.DinoHealthBarRenderer;
 import net.reaper.ancientnature.common.config.AncientNatureConfig;
 import net.reaper.ancientnature.common.messages.NetworkHandler;
 import net.reaper.ancientnature.common.messages.util.EventHandlerRegistry;
+import net.reaper.ancientnature.common.messages.util.LevelEventManager;
 import net.reaper.ancientnature.common.messages.util.LevelEvents;
 import net.reaper.ancientnature.common.util.EntityPlacementUtil;
 import net.reaper.ancientnature.core.init.*;
@@ -56,7 +57,7 @@ public class AncientNature {
         ModLootModifiers.LOOT_MODIFIERS.register(modEventBus);
         MinecraftForge.EVENT_BUS.register(new DinoHealthBarRenderer(Component.translatable("gui.Dino")));
         modEventBus.addListener(this::addCreative);
-        EventHandlerRegistry.LevelEventHandler.registerCommonHandler(new ResourceLocation(MOD_ID, "common_process"), new LevelEvents());
+        EventHandlerRegistry.LevelEventHandler.registerCommonHandler(new ResourceLocation(MOD_ID, "common_process"), new LevelEventManager());
     }
     private void commonSetup(final FMLCommonSetupEvent event) {
         Reflection.initialize(LevelEvents.class);

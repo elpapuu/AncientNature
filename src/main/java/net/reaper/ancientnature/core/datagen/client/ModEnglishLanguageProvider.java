@@ -39,6 +39,8 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         auto(ModItems.ROPE.get());
         auto(ModItems.LYTHRONAX_TEETH.get());
 
+        auto(ModItems.LYTHRONAX_SADDLE.get());
+
         auto(ModItems.RAW_DODO.get());
         auto(ModItems.COOKED_DODO.get());
 

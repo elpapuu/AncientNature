@@ -141,22 +141,9 @@ minecraft {
         data {
             // example of overriding the workingDirectory set in configureEach above
             workingDirectory project.file('run-data')
+
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
             args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
-
-            properties 'mixin.env.remapRefMap': 'true'
-            property 'mixin.env.refMapRemappingFile', "${project.projectDir}/build/createSrgToMcp/output.srg"
-            workingDirectory project.file('run')
-            arg "-mixin.config=" + "${mod_id}.mixins.json"
-
-
-            property 'forge.logging.console.level', 'debug'
-
-            mods {
-                mod_id {
-                    source sourceSets.main
-                }
-            }
         }
     }
 }

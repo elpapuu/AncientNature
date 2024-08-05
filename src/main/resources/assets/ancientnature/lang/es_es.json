@@ -71,6 +71,22 @@
   "item.ancientnature.where_your_journey_begins_disc" : "AN music disc",
   "item.ancientnature.where_your_journey_begins_disc.desc" : "Chips The Cat - Where Your Journey Begins",
   "effect.anicentnature.fear" : "Fear",
-  "effect.anicentnature.bleeding" : "Bleeding"
+  "effect.anicentnature.bleeding" : "Bleeding",
+  "advancements.cleaning_the_past_for_the_future.descr": "Clean up a fossil for see what have inside!",
+  "advancements.cleaning_the_past_for_the_future.title": "Belongs to a museum",
+  "item.sound.ancientnature.anomalocaris_death_1.desc": "Anomalocaris dying",
+  "item.sound.ancientnature.anomalocaris_death_2.desc": "Anomalocaris dying",
+  "item.sound.ancientnature.anomalocaris_eat_1.desc": "Anomalocaris eating",
+  "item.sound.ancientnature.anomalocaris_eat_2.desc": "Anomalocaris eating",
+  "item.sound.ancientnature.anomalocaris_hurt_1.desc": "Anomalocaris hurt",
+  "item.sound.ancientnature.anomalocaris_hurt_2.desc": "Anomalocaris hurt",
+  "item.sound.ancientnature.cleaned_fossil.desc": "Fossil cleaning",
+  "item.sound.ancientnature.where_your_journey_begins_disc.desc": "Where Your Journey Begins",
+  "sound.ancientnature.anomalocaris_death_1": "Anomalocaris dying",
+  "sound.ancientnature.anomalocaris_death_2": "Anomalocaris dying",
+  "sound.ancientnature.anomalocaris_eat_1": "Anomalocaris eating",
+  "sound.ancientnature.anomalocaris_eat_2": "Anomalocaris eating",
+  "sound.ancientnature.anomalocaris_hurt_1": "Anomalocaris hurt",
+  "sound.ancientnature.anomalocaris_hurt_2": "Anomalocaris hurt"
 }
 

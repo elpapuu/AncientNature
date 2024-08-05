@@ -3,6 +3,7 @@ package net.reaper.ancientnature.core.datagen.client;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.SaddleItem;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
@@ -14,6 +15,8 @@ import net.reaper.ancientnature.AncientNature;
 import net.reaper.ancientnature.core.init.ModBlocks;
 import net.reaper.ancientnature.core.init.ModItems;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class ModItemModelsProvider extends ItemModelProvider {
 
@@ -50,6 +53,7 @@ public class ModItemModelsProvider extends ItemModelProvider {
         simple(ModItems.RAW_DODO.get());
         simple(ModItems.COOKED_DODO.get());
         simple(ModItems.WHERE_YOUR_JOURNEY_BEGINS_MUSIC_DISC.get());
+        simple(ModItems.LYTHRONAX_SADDLE.get());
     }
 
    private ItemModelBuilder handheldItem(RegistryObject<Item>item) {

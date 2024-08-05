@@ -63,8 +63,10 @@ public class EntityUtils {
                 EntityHitResult hitResult = ProjectileUtil.getEntityHitResult(passenger.level(), passenger, startPos, endPos, aabb, entity -> entity instanceof LivingEntity living && pEntity.canAttack(living), 1.0F);
                 if (hitResult != null) {
                     Entity target = hitResult.getEntity();
-                    pEntity.setLastHurtMob(target);
-                    target.hurt(pEntity.damageSources().mobAttack(pEntity), pAttackDamage);
+                    if (target != pEntity) {
+                        pEntity.setLastHurtMob(target);
+                        target.hurt(pEntity.damageSources().mobAttack(pEntity), pAttackDamage);
+                    }
                 }
             }
         }

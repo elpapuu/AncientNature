@@ -22,6 +22,7 @@ import net.reaper.ancientnature.common.entity.smartanimal.ai.goal.*;
 import net.reaper.ancientnature.common.entity.smartanimal.ai.goal.LookAtPlayerGoal;
 import net.reaper.ancientnature.common.entity.smartanimal.ai.goal.RandomLookAroundGoal;
 import net.reaper.ancientnature.common.entity.util.AnimalDiet;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
@@ -39,6 +40,8 @@ public abstract class SmartAnimatedAnimal extends TamableAnimal {
     private static final EntityDataAccessor<Integer> SMART_ANIMAL_POSE = SynchedEntityData.defineId(SmartAnimatedAnimal.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Long> DAY_TIME = SynchedEntityData.defineId(SmartAnimatedAnimal.class, EntityDataSerializers.LONG);
     private static final EntityDataAccessor<Integer> POSE_TICK = SynchedEntityData.defineId(SmartAnimatedAnimal.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Float> HUNGER = SynchedEntityData.defineId(SmartAnimatedAnimal.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Float> STAMINA = SynchedEntityData.defineId(SmartAnimatedAnimal.class, EntityDataSerializers.FLOAT);
 
     public AnimationState idleAnimation = new AnimationState();
     public AnimationState sitAnimation = new AnimationState();
@@ -135,28 +138,31 @@ public abstract class SmartAnimatedAnimal extends TamableAnimal {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag pCompound) {
+    public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
-        pCompound.putBoolean("isMale", isMale());
-        pCompound.putInt("order", getOrder().ordinal());
-        pCompound.putBoolean("isBaby", isBaby());
-        pCompound.putInt("age", getAge());
-        pCompound.putBoolean("isAttacking", isAttacking());
-        pCompound.putInt("bedtimeVariance", getBedtimeVariance());
-        pCompound.putInt("poseTicks", getPoseTicks());
-
+        pCompound.putBoolean("isMale", this.isMale());
+        pCompound.putInt("order", this.getOrder().ordinal());
+        pCompound.putBoolean("isBaby", this.isBaby());
+        pCompound.putInt("age", this.getAge());
+        pCompound.putBoolean("isAttacking", this.isAttacking());
+        pCompound.putInt("bedtimeVariance", this.getBedtimeVariance());
+        pCompound.putInt("poseTicks", this.getPoseTicks());
+        pCompound.putFloat("hunger", this.getHunger());
+        pCompound.putFloat("stamina", this.getStamina());
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag pCompound) {
+    public void readAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
-        setMale(pCompound.getBoolean("isMale"));
-        setOrder(TameableOrders.values()[pCompound.getInt("order")]);
-        setBaby(pCompound.getBoolean("isBaby"));
-        setAge(pCompound.getInt("age"));
-        setAttacking(pCompound.getBoolean("isAttacking"));
-        setBedtimeVariance(pCompound.getInt("bedtimeVariance"));
-        setPoseTicks(pCompound.getInt("poseTicks"));
+        this.setMale(pCompound.getBoolean("isMale"));
+        this.setOrder(TameableOrders.values()[pCompound.getInt("order")]);
+        this.setBaby(pCompound.getBoolean("isBaby"));
+        this.setAge(pCompound.getInt("age"));
+        this.setAttacking(pCompound.getBoolean("isAttacking"));
+        this.setBedtimeVariance(pCompound.getInt("bedtimeVariance"));
+        this.setPoseTicks(pCompound.getInt("poseTicks"));
+        this.setHunger(pCompound.getInt("hunger"));
+        this.setStamina(pCompound.getInt("stamina"));
     }
 
     private void setBedtimeVariance(int bedtimeVariance) {
@@ -176,6 +182,8 @@ public abstract class SmartAnimatedAnimal extends TamableAnimal {
         this.entityData.define(DAY_TIME, level().getDayTime());
         this.entityData.define(POSE_TICK, 0);
         this.entityData.define(IS_EATING, false);
+        this.entityData.define(HUNGER, 0.0F);
+        this.entityData.define(STAMINA, 0.0F);
     }
 
     public int getPoseTicks() {
@@ -254,12 +262,32 @@ public abstract class SmartAnimatedAnimal extends TamableAnimal {
         this.entityData.set(IS_EATING, pIsEating);
     }
 
+    public float getHunger() {
+        return this.entityData.get(HUNGER);
+    }
+
+    public void setHunger(float pHunger) {
+        this.entityData.set(HUNGER, Math.max(pHunger, 0));
+    }
+
+    public float getStamina() {
+        return this.entityData.get(STAMINA);
+    }
+
+    public void setStamina(float pStamina) {
+        this.entityData.set(STAMINA, Math.max(pStamina, 0));
+    }
+
     public boolean isRidable(){
         return false;
     }
 
     public boolean canBeSteered(){
         return isRidable();
+    }
+
+    public boolean canBeBaby() {
+        return true;
     }
 
     @Override
@@ -405,9 +433,16 @@ public abstract class SmartAnimatedAnimal extends TamableAnimal {
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
         Random random = new Random();
-        setMale(random.nextBoolean());
-      //  setBedtimeVariance(random.nextInt(200));
-        setSmartPose(SmartAnimalPose.IDLE);
+        this.setMale(random.nextBoolean());
+        this.setStamina(100);
+        this.setHunger(100);
+        //this.setBedtimeVariance(random.nextInt(200));
+        if (this.canBeBaby()) {
+            if (random.nextInt(5) == 1) {
+                this.setBaby(true);
+            }
+        }
+        this.setSmartPose(SmartAnimalPose.IDLE);
         return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
     }
 

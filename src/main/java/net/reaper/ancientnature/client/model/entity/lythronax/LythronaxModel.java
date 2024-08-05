@@ -1,4 +1,4 @@
-package net.reaper.ancientnature.client.model.entity;// Made with Blockbench 4.10.1
+package net.reaper.ancientnature.client.model.entity.lythronax;// Made with Blockbench 4.10.1
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports
 
@@ -6,7 +6,6 @@ package net.reaper.ancientnature.client.model.entity;// Made with Blockbench 4.1
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.animation.AnimationDefinition;
-import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -14,27 +13,30 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.reaper.ancientnature.AncientNature;
-import net.reaper.ancientnature.client.animations.entity.LythronaxAnimations;
+import net.reaper.ancientnature.client.animations.entity.lythronax.LythronaxAnimations;
+import net.reaper.ancientnature.client.model.entity.SmartAnimalModel;
 import net.reaper.ancientnature.common.entity.ground.LythronaxEntity;
 import org.jetbrains.annotations.NotNull;
 
 public class LythronaxModel extends SmartAnimalModel<LythronaxEntity> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LYTHRONAX_LAYER = new ModelLayerLocation(new ResourceLocation(AncientNature.MOD_ID, "lythronax"), "main");
-	private final ModelPart root;
+	public ModelPart root;
+	public ModelPart lythronax;
 	public ModelPart body;
 	public ModelPart neck;
 	public ModelPart head;
 	public ModelPart tail1;
 	public ModelPart tail2;
-	private final ModelPart saddle;
+	public ModelPart saddle;
 	public ModelPart harness;
 	public ModelPart rains1;
 	public ModelPart rains2;
 
 	public LythronaxModel(ModelPart root) {
-		this.root = root.getChild("Lythronax");
-		this.body = this.root.getChild("body");
+		this.root = root.getChild("root");
+		this.lythronax = this.root.getChild("lythronax");
+		this.body = this.lythronax.getChild("body");
 		this.neck = this.body.getChild("neck");
 		this.head = this.neck.getChild("head");
 		this.tail1 = this.body.getChild("tail1");
@@ -56,9 +58,11 @@ public class LythronaxModel extends SmartAnimalModel<LythronaxEntity> {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		PartDefinition Lythronax = partdefinition.addOrReplaceChild("Lythronax", CubeListBuilder.create(), PartPose.offset(0.0F, -3.0F, 0.0F));
+		PartDefinition root = partdefinition.addOrReplaceChild("root", CubeListBuilder.create(), PartPose.offset(0.0F, 24.0F, 0.0F));
 
-		PartDefinition leg1 = Lythronax.addOrReplaceChild("leg1", CubeListBuilder.create().texOffs(0, 87).addBox(-3.0F, -4.0F, -8.5F, 7.0F, 16.0F, 15.0F, new CubeDeformation(0.0F))
+		PartDefinition lythronax = root.addOrReplaceChild("lythronax", CubeListBuilder.create(), PartPose.offset(0.0F, -27.0F, 0.0F));
+
+		PartDefinition leg1 = lythronax.addOrReplaceChild("leg1", CubeListBuilder.create().texOffs(0, 87).addBox(-3.0F, -4.0F, -8.5F, 7.0F, 16.0F, 15.0F, new CubeDeformation(0.0F))
 				.texOffs(150, 205).addBox(-3.0F, -4.0F, -8.5F, 7.0F, 16.0F, 15.0F, new CubeDeformation(0.25F)), PartPose.offset(6.0F, 2.0F, 0.5F));
 
 		PartDefinition kee1 = leg1.addOrReplaceChild("kee1", CubeListBuilder.create().texOffs(2, 0).addBox(-0.7835F, -0.75F, -2.125F, 5.0F, 13.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offset(-1.2165F, 10.75F, 4.625F));
@@ -73,7 +77,7 @@ public class LythronaxModel extends SmartAnimalModel<LythronaxEntity> {
 				.texOffs(66, 8).addBox(3.0F, 0.0F, -9.75F, 1.0F, 4.0F, 1.0F, new CubeDeformation(0.0F))
 				.texOffs(15, 20).addBox(-3.0F, 0.0F, -8.75F, 1.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(1.2165F, 10.25F, 1.625F));
 
-		PartDefinition leg2 = Lythronax.addOrReplaceChild("leg2", CubeListBuilder.create().texOffs(0, 87).addBox(-4.0F, -4.0F, -9.5F, 7.0F, 16.0F, 15.0F, new CubeDeformation(0.0F))
+		PartDefinition leg2 = lythronax.addOrReplaceChild("leg2", CubeListBuilder.create().texOffs(0, 87).addBox(-4.0F, -4.0F, -9.5F, 7.0F, 16.0F, 15.0F, new CubeDeformation(0.0F))
 				.texOffs(150, 205).addBox(-4.0F, -4.0F, -9.5F, 7.0F, 16.0F, 15.0F, new CubeDeformation(0.25F)), PartPose.offset(-6.0F, 2.0F, 0.5F));
 
 		PartDefinition kee2 = leg2.addOrReplaceChild("kee2", CubeListBuilder.create().texOffs(2, 0).addBox(-4.2165F, -0.75F, -1.625F, 5.0F, 13.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offset(1.2165F, 10.75F, 4.125F));
@@ -88,7 +92,7 @@ public class LythronaxModel extends SmartAnimalModel<LythronaxEntity> {
 				.texOffs(66, 8).addBox(-4.0F, 0.0F, -9.75F, 1.0F, 4.0F, 1.0F, new CubeDeformation(0.0F))
 				.texOffs(66, 8).addBox(2.0F, 0.0F, -9.75F, 1.0F, 4.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(-1.2165F, 10.25F, 2.125F));
 
-		PartDefinition body = Lythronax.addOrReplaceChild("body", CubeListBuilder.create(), PartPose.offset(0.0F, 2.0F, 1.0F));
+		PartDefinition body = lythronax.addOrReplaceChild("body", CubeListBuilder.create(), PartPose.offset(0.0F, 2.0F, 1.0F));
 
 		PartDefinition belly = body.addOrReplaceChild("belly", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
@@ -190,10 +194,8 @@ public class LythronaxModel extends SmartAnimalModel<LythronaxEntity> {
 		pNetHeadYaw = Mth.clamp(pNetHeadYaw, -30.0F, 30.0F);
 		pHeadPitch = Mth.clamp(pHeadPitch, -25.0F, 45.0F);
 
-		this.body.getChild("neck").yRot = pNetHeadYaw * 0.017453292F;
-		this.body.getChild("neck").xRot = pHeadPitch * 0.017453292F;
-		this.neck.getChild("head").yRot = pNetHeadYaw * 0.017453292F;
-		this.neck.getChild("head").xRot = pHeadPitch * 0.03F;
+		//this.body.getChild("neck").yRot = pNetHeadYaw * 0.017453292F;
+	//	this.body.getChild("neck").xRot = pHeadPitch * 0.017453292F;
 	}
 
 	@Override
@@ -205,12 +207,13 @@ public class LythronaxModel extends SmartAnimalModel<LythronaxEntity> {
 
 	public void setMatrixStack(@NotNull PoseStack pMatrixStack) {
 		this.root.translateAndRotate(pMatrixStack);
+		this.lythronax.translateAndRotate(pMatrixStack);
 		this.body.translateAndRotate(pMatrixStack);
 	}
 
 	@Override
-	public ModelPart root() {
-		return root;
+	public @NotNull ModelPart root() {
+		return this.root;
 	}
 
 
@@ -266,7 +269,7 @@ public class LythronaxModel extends SmartAnimalModel<LythronaxEntity> {
 
 	@Override
 	public AnimationDefinition getUpAnim() {
-		return LythronaxAnimations.UP;
+		return LythronaxAnimations.MODEL_UP;
 	}
 
 	@Override
