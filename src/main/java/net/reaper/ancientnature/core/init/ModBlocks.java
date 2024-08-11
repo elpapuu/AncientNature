@@ -12,6 +12,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import net.reaper.ancientnature.common.block.FourEggBlock;
 import net.reaper.ancientnature.common.block.MudFossilBlock;
 import net.reaper.ancientnature.common.block.RevivalStand;
 import net.reaper.ancientnature.common.block.RoeBlock;
@@ -43,6 +44,10 @@ public class ModBlocks {
 
     public static final RegistryObject<RoeBlock> ARANDASPIS_ROE = register("arandaspis_roe", () -> new RoeBlock(BlockBehaviour.Properties.copy(Blocks.FROGSPAWN), 3600, 12000, 1, 4, ModEntities.ARANDASPIS::get), () -> new Item.Properties().stacksTo(16));
     public static final RegistryObject<RoeBlock> ANOMALOCARIS_EGGS = register("anomalocaris_eggs", () -> new RoeBlock(BlockBehaviour.Properties.copy(Blocks.FROGSPAWN), 3600, 12000, 1, 4, ModEntities.ANOMALOCARIS::get), () -> new Item.Properties().stacksTo(16));
+
+    public static final RegistryObject<FourEggBlock> DODO_EGG = register("dodo_egg",
+            () -> new FourEggBlock(BlockBehaviour.Properties.copy(Blocks.TURTLE_EGG),
+                    ModEntities.DODO), () -> new Item.Properties().stacksTo(16));
 
 
     public static RegistryObject<DropExperienceBlock> makeDeepslateFossilBlock(String name){

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/template_two_turtle_eggs",
+  "textures": {
+    "all": "ancientnature:block/dodo_egg_very_cracked"
+  }
+}

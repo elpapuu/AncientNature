@@ -8,8 +8,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
-import net.reaper.ancientnature.core.init.ModBlocks;
-import net.reaper.ancientnature.core.init.ModItems;
 
 public class ModCreativeModTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
@@ -66,6 +64,8 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.TREX_SPAWN_EGG.get());
                         pOutput.accept(ModItems.HORSESHOE_CRAB_SPAWN_EGG.get());
                         pOutput.accept(ModItems.PARANOGMIUS_SPAWN_EGG.get());
+
+                        pOutput.accept(ModBlocks.DODO_EGG.get());
                     })
 
                     .build());

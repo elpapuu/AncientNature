@@ -41,6 +41,9 @@ public class ModBlockLoot extends BlockLootSubProvider {
         makeOreDrop(ModBlocks.CRETACEOUS_FOSSILS.get(), ModItems.CRETACEOUS_FOSSIL.get());
         makeOreDrop(ModBlocks.QUATERNARY_FOSSILS.get(), ModItems.QUATERNARY_FOSSIL.get());
         revivalStandDrops(ModBlocks.REVIVAL_STAND.get());
+
+        this.add(ModBlocks.DODO_EGG.get(),
+                createSilkTouchOnlyTable(ModBlocks.DODO_EGG.get()));
     }
 
     protected void makeOreDrop(Block block, ItemLike item) {

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/turtle_egg",
+  "textures": {
+    "all": "ancientnature:block/dodo_egg"
+  }
+}
