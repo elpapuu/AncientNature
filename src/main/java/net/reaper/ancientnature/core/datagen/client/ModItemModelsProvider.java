@@ -35,6 +35,7 @@ public class ModItemModelsProvider extends ItemModelProvider {
         simple(ModItems.CARBONIFEROUS_FOSSIL.get(), ModItems.DEEPSLATE_PERMIAN_FOSSIL.get());
         simple(ModItems.MUDDY_PERMIAN_FOSSIL.get(), ModItems.STONE_PERMIAN_FOSSIL.get(),ModItems.CRETACEOUS_FOSSIL.get());
         simple(ModItems.DEVONIAN_FOSSIL.get(), ModItems.ARANDASPIS_FOSSIL.get());
+        simple(ModItems.QUATERNARY_FOSSIL.get(), ModItems.DODO_FOSSIL.get());
         simple(ModItems.FISH_ROE.get());
         simple(ModItems.LYTHRONAX_FOSSIL.get());
         simple(ModItems.PARANOGMIUS_FOSSIL.get());

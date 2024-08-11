@@ -6,6 +6,7 @@ import net.reaper.ancientnature.AncientNature;
 
 public class ModModelLayers {
     public static final ModelLayerLocation TREX_LAYER = new ModelLayerLocation(new ResourceLocation(AncientNature.MOD_ID, "trex"), "main");
+    public static final ModelLayerLocation LYTHRONAX_LAYER = new ModelLayerLocation(new ResourceLocation(AncientNature.MOD_ID, "lythronax"), "main");
     public static final ModelLayerLocation BABY_LYTHRONAX_LAYER = newLayer("baby_lythronax");
 
     public static ModelLayerLocation newLayer(String pName) {

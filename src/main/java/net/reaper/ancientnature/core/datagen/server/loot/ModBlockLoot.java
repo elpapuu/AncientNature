@@ -31,13 +31,15 @@ public class ModBlockLoot extends BlockLootSubProvider {
     @Override
     protected void generate() {
         dropOther(ModBlocks.MUD_WITH_FOSSILS.get(), Blocks.MUD);
-        makeAmberdrops(ModBlocks.DEEPSLATE_AMBER.get(), new int[]{20, 1, 1}, ModItems.AMBER.get(), ModItems.MOSQUITO_AMBER.get(), ModItems.LIZARD_AMBER.get());
+        makeAmberdrops(ModBlocks.DEEPSLATE_AMBER.get(), new int[]{10, 20, 20}, ModItems.AMBER.get(), ModItems.MOSQUITO_AMBER.get(), ModItems.LIZARD_AMBER.get());
+        makeAmberdrops(ModBlocks.STONE_AMBER.get(), new int[]{20, 10, 10}, ModItems.AMBER.get(), ModItems.MOSQUITO_AMBER.get(), ModItems.LIZARD_AMBER.get());
         this.makeOreDrop(ModBlocks.DEEPSLATE_CAMBRIAN_FOSSIL.get(), ModItems.CAMBRIAN_FOSSIL.get());
         makeOreDrop(ModBlocks.DEEPSLATE_DEVONIAN_FOSSIL.get(), ModItems.DEVONIAN_FOSSIL.get());
         makeOreDrop(ModBlocks.DEEPSLATE_CARBONIFEROUS.get(), ModItems.CARBONIFEROUS_FOSSIL.get());
         makeOreDrop(ModBlocks.DEEPSLATE_PERMIAN_FOSSIL.get(), ModItems.DEEPSLATE_PERMIAN_FOSSIL.get());
         makeOreDrop(ModBlocks.STONE_PERMIAN_FOSSIL.get(), ModItems.STONE_PERMIAN_FOSSIL.get());
         makeOreDrop(ModBlocks.CRETACEOUS_FOSSILS.get(), ModItems.CRETACEOUS_FOSSIL.get());
+        makeOreDrop(ModBlocks.QUATERNARY_FOSSILS.get(), ModItems.QUATERNARY_FOSSIL.get());
         revivalStandDrops(ModBlocks.REVIVAL_STAND.get());
     }
 

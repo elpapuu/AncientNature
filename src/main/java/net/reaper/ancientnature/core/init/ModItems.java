@@ -26,9 +26,12 @@ public class ModItems {
     public static final RegistryObject<Item> CARBONIFEROUS_FOSSIL = ITEMS.register("carboniferous_fossil", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> DEVONIAN_FOSSIL = ITEMS.register("devonian_fossil", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> CRETACEOUS_FOSSIL = ITEMS.register("cretaceous_fossil", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> QUATERNARY_FOSSIL = ITEMS.register("quaternary_fossil", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> ARANDASPIS_FOSSIL = ITEMS.register("arandaspis_fossil", () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
     public static final RegistryObject<Item> ANOMALOCARIS_FOSSIL = ITEMS.register("anomalocaris_fossil", () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
+    public static final RegistryObject<Item> DODO_FOSSIL = ITEMS.register("dodo_fossil", () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
     public static final RegistryObject<Item> LYTHRONAX_FOSSIL = ITEMS.register("lythronax_fossil", () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
+
 
     public static final RegistryObject<Item> PARANOGMIUS_FOSSIL = ITEMS.register("paranogmius_fossil", () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
 

@@ -25,15 +25,19 @@ public class ModBlocks {
             DeferredRegister.create(ForgeRegistries.BLOCKS, AncientNature.MOD_ID);
 
     public static final RegistryObject<Block> DEEPSLATE_AMBER = registryBlock("deepslate_amber",
-            () -> new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_IRON_ORE)
+            () -> new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_DIAMOND_ORE)
+                    .strength(5f).requiresCorrectToolForDrops(), UniformInt.of(3, 6)));
+    public static final RegistryObject<Block> STONE_AMBER = registryBlock("stone_amber",
+            () -> new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.DIAMOND_ORE)
                     .strength(5f).requiresCorrectToolForDrops(), UniformInt.of(3, 6)));
     public static final RegistryObject<DropExperienceBlock> DEEPSLATE_CAMBRIAN_FOSSIL = makeDeepslateFossilBlock("deepslate_cambrian_fossil");
     public static final RegistryObject<DropExperienceBlock> DEEPSLATE_CARBONIFEROUS = makeDeepslateFossilBlock("deepslate_carboniferous");
     public static final RegistryObject<DropExperienceBlock> DEEPSLATE_DEVONIAN_FOSSIL = makeDeepslateFossilBlock("deepslate_devonian_fossil");
     public static final RegistryObject<DropExperienceBlock> DEEPSLATE_PERMIAN_FOSSIL = makeDeepslateFossilBlock("deepslate_permian_fossil_ore");
-    public static final RegistryObject<DropExperienceBlock> CRETACEOUS_FOSSILS = makeDeepslateFossilBlock("cretaceous_fossils");
-    public static final RegistryObject<DropExperienceBlock> STONE_PERMIAN_FOSSIL = registryBlock("stone_permian_fossil_ore", () -> new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.STONE).requiresCorrectToolForDrops(), ConstantInt.of(1)));
+    public static final RegistryObject<DropExperienceBlock> CRETACEOUS_FOSSILS = registryBlock("cretaceous_fossils", () -> new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.DIAMOND_ORE).requiresCorrectToolForDrops(), ConstantInt.of(1)));
+    public static final RegistryObject<DropExperienceBlock> QUATERNARY_FOSSILS = registryBlock("quaternary_fossils_ore", () -> new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.IRON_ORE).requiresCorrectToolForDrops(), ConstantInt.of(1)));
 
+    public static final RegistryObject<DropExperienceBlock> STONE_PERMIAN_FOSSIL = registryBlock("stone_permian_fossil_ore", () -> new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.DIAMOND_ORE).requiresCorrectToolForDrops(), ConstantInt.of(1)));
     public static final RegistryObject<BrushableBlock> MUD_WITH_FOSSILS = registryBlock("mud_with_fossils", () -> new MudFossilBlock(Blocks.MUD, BlockBehaviour.Properties.copy(Blocks.MUD), SoundEvents.BRUSH_GRAVEL, SoundEvents.BRUSH_GRAVEL_COMPLETED, ModLootTables.MUD_FOSSIL_BRUSH));
     public static final RegistryObject<RevivalStand> REVIVAL_STAND = register("revival_stand", RevivalStand::new, b -> new RevivalStandItem(b, new Item.Properties()));
 
