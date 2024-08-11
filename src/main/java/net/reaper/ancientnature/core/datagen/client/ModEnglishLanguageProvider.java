@@ -45,6 +45,8 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
 
         auto(ModItems.RAW_DODO.get());
         auto(ModItems.COOKED_DODO.get());
+        auto(ModItems.RAW_PARANOGMIUS.get());
+        auto(ModItems.COOKED_PARANOGMIUS.get());
 
         auto(ModItems.FISH_ROE.get());
         auto(ModItems.ARANDASPIS_BUCKET.get());

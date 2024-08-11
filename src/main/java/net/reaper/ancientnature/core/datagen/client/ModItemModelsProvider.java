@@ -53,6 +53,8 @@ public class ModItemModelsProvider extends ItemModelProvider {
         simple(ModItems.ROPE.get());
         simple(ModItems.RAW_DODO.get());
         simple(ModItems.COOKED_DODO.get());
+        simple(ModItems.RAW_PARANOGMIUS.get());
+        simple(ModItems.COOKED_PARANOGMIUS.get());
         simple(ModItems.WHERE_YOUR_JOURNEY_BEGINS_MUSIC_DISC.get());
         simple(ModItems.LYTHRONAX_SADDLE.get());
     }

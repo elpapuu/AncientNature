@@ -40,12 +40,12 @@ public class ModItemTagsProvider extends ItemTagsProvider {
                 ModItems.MOSQUITO_AMBER.get());
 
         tag(ModTags.Items.RAW_MEAT).add(
-                ModItems.RAW_DODO.get()
-        );
+                ModItems.RAW_DODO.get(),
+                ModItems.RAW_PARANOGMIUS.get());
 
         tag(ModTags.Items.COOKED_MEAT).add(
-                ModItems.COOKED_DODO.get()
-        );
+                ModItems.COOKED_DODO.get(),
+                ModItems.COOKED_PARANOGMIUS.get());
 
         tag(ItemTags.MUSIC_DISCS).add(
                 ModItems.WHERE_YOUR_JOURNEY_BEGINS_MUSIC_DISC.get());

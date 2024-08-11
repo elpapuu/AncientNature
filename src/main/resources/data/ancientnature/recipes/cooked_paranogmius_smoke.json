@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smoking",
+  "ingredient": {
+    "item": "ancientnature:raw_paranogmius"
+  },
+  "result": "ancientnature:cooked_paranogmius",
+  "experience": 0.30,
+  "cookingtime": 150
+}

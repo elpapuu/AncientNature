@@ -13,6 +13,9 @@
   "item.ancientnature.blood_dagger" : "Daga sangrienta",
 
   "item.ancientnature.raw_dodo" : "Dodo Crudo",
+  "item.ancientnature.cooked_dodo" : "Dodo Cocido",
+  "item.ancientnature.raw_paranogmius" : "Paranogmius Crudo",
+  "item.ancientnature.cooked_paranogmius" : "Paranogmius Cocido",
 
   "effect.anicentnature.fear" : "Miedo",
   "effect.anicentnature.bleeding" : "Sangrado",

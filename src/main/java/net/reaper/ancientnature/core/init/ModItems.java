@@ -58,6 +58,8 @@ public class ModItems {
 
     public static final RegistryObject<Item> RAW_DODO = ITEMS.register("raw_dodo", () -> new Item(new Item.Properties().food(ModFoods.RAW_DODO)));
     public static final RegistryObject<Item> COOKED_DODO = ITEMS.register("cooked_dodo", () -> new Item(new Item.Properties().food(ModFoods.COOKED_DODO)));
+    public static final RegistryObject<Item> RAW_PARANOGMIUS = ITEMS.register("raw_paranogmius", () -> new Item(new Item.Properties().food(ModFoods.RAW_PARANOGMIUS)));
+    public static final RegistryObject<Item> COOKED_PARANOGMIUS = ITEMS.register("cooked_paranogmius", () -> new Item(new Item.Properties().food(ModFoods.COOKED_PARANOGMIUS)));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

@@ -53,7 +53,9 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.ROPE.get());
                         pOutput.accept(ModItems.LYTHRONAX_TEETH.get());
                         pOutput.accept(ModItems.RAW_DODO.get());
+                        pOutput.accept(ModItems.RAW_PARANOGMIUS.get());
                         pOutput.accept(ModItems.COOKED_DODO.get());
+                        pOutput.accept(ModItems.COOKED_PARANOGMIUS.get());
                         pOutput.accept(ModItems.FISH_ROE.get());
                         pOutput.accept(ModBlocks.ARANDASPIS_ROE.get());
                         pOutput.accept(ModBlocks.ANOMALOCARIS_EGGS.get());
