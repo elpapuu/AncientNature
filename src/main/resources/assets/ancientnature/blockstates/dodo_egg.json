@@ -1,0 +1,208 @@
+{
+  "variants": {
+    "eggs=1,hatch=0": [
+      {
+        "model": "ancientnature:block/eggtest/dodo_egg"
+      },
+      {
+        "model": "ancientnature:block/eggtest/dodo_egg",
+        "y": 90
+      },
+      {
+        "model": "ancientnature:block/eggtest/dodo_egg",
+        "y": 180
+      },
+      {
+        "model": "ancientnature:block/eggtest/dodo_egg",
+        "y": 270
+      }
+    ],
+    "eggs=1,hatch=1": [
+      {
+        "model": "ancientnature:block/eggtest/slightly_cracked_dodo_egg"
+      },
+      {
+        "model": "ancientnature:block/eggtest/slightly_cracked_dodo_egg",
+        "y": 90
+      },
+      {
+        "model": "ancientnature:block/eggtest/slightly_cracked_dodo_egg",
+        "y": 180
+      },
+      {
+        "model": "ancientnature:block/eggtest/slightly_cracked_dodo_egg",
+        "y": 270
+      }
+    ],
+    "eggs=1,hatch=2": [
+      {
+        "model": "ancientnature:block/eggtest/very_cracked_dodo_egg"
+      },
+      {
+        "model": "ancientnature:block/eggtest/very_cracked_dodo_egg",
+        "y": 90
+      },
+      {
+        "model": "ancientnature:block/eggtest/very_cracked_dodo_egg",
+        "y": 180
+      },
+      {
+        "model": "ancientnature:block/eggtest/very_cracked_dodo_egg",
+        "y": 270
+      }
+    ],
+    "eggs=2,hatch=0": [
+      {
+        "model": "ancientnature:block/eggtest/two_dodo_eggs"
+      },
+      {
+        "model": "ancientnature:block/eggtest/two_dodo_eggs",
+        "y": 90
+      },
+      {
+        "model": "ancientnature:block/eggtest/two_dodo_eggs",
+        "y": 180
+      },
+      {
+        "model": "ancientnature:block/eggtest/two_dodo_eggs",
+        "y": 270
+      }
+    ],
+    "eggs=2,hatch=1": [
+      {
+        "model": "ancientnature:block/eggtest/two_slightly_cracked_dodo_eggs"
+      },
+      {
+        "model": "ancientnature:block/eggtest/two_slightly_cracked_dodo_eggs",
+        "y": 90
+      },
+      {
+        "model": "ancientnature:block/eggtest/two_slightly_cracked_dodo_eggs",
+        "y": 180
+      },
+      {
+        "model": "ancientnature:block/eggtest/two_slightly_cracked_dodo_eggs",
+        "y": 270
+      }
+    ],
+    "eggs=2,hatch=2": [
+      {
+        "model": "ancientnature:block/eggtest/two_very_cracked_dodo_eggs"
+      },
+      {
+        "model": "ancientnature:block/eggtest/two_very_cracked_dodo_eggs",
+        "y": 90
+      },
+      {
+        "model": "ancientnature:block/eggtest/two_very_cracked_dodo_eggs",
+        "y": 180
+      },
+      {
+        "model": "ancientnature:block/eggtest/two_very_cracked_dodo_eggs",
+        "y": 270
+      }
+    ],
+    "eggs=3,hatch=0": [
+      {
+        "model": "ancientnature:block/eggtest/three_dodo_eggs"
+      },
+      {
+        "model": "ancientnature:block/eggtest/three_dodo_eggs",
+        "y": 90
+      },
+      {
+        "model": "ancientnature:block/eggtest/three_dodo_eggs",
+        "y": 180
+      },
+      {
+        "model": "ancientnature:block/eggtest/three_dodo_eggs",
+        "y": 270
+      }
+    ],
+    "eggs=3,hatch=1": [
+      {
+        "model": "ancientnature:block/eggtest/three_slightly_cracked_dodo_eggs"
+      },
+      {
+        "model": "ancientnature:block/eggtest/three_slightly_cracked_dodo_eggs",
+        "y": 90
+      },
+      {
+        "model": "ancientnature:block/eggtest/three_slightly_cracked_dodo_eggs",
+        "y": 180
+      },
+      {
+        "model": "ancientnature:block/eggtest/three_slightly_cracked_dodo_eggs",
+        "y": 270
+      }
+    ],
+    "eggs=3,hatch=2": [
+      {
+        "model": "ancientnature:block/eggtest/three_very_cracked_dodo_eggs"
+      },
+      {
+        "model": "ancientnature:block/eggtest/three_very_cracked_dodo_eggs",
+        "y": 90
+      },
+      {
+        "model": "ancientnature:block/eggtest/three_very_cracked_dodo_eggs",
+        "y": 180
+      },
+      {
+        "model": "ancientnature:block/eggtest/three_very_cracked_dodo_eggs",
+        "y": 270
+      }
+    ],
+    "eggs=4,hatch=0": [
+      {
+        "model": "ancientnature:block/eggtest/four_dodo_eggs"
+      },
+      {
+        "model": "ancientnature:block/eggtest/four_dodo_eggs",
+        "y": 90
+      },
+      {
+        "model": "ancientnature:block/eggtest/four_dodo_eggs",
+        "y": 180
+      },
+      {
+        "model": "ancientnature:block/eggtest/four_dodo_eggs",
+        "y": 270
+      }
+    ],
+    "eggs=4,hatch=1": [
+      {
+        "model": "ancientnature:block/eggtest/four_slightly_cracked_dodo_eggs"
+      },
+      {
+        "model": "ancientnature:block/eggtest/four_slightly_cracked_dodo_eggs",
+        "y": 90
+      },
+      {
+        "model": "ancientnature:block/eggtest/four_slightly_cracked_dodo_eggs",
+        "y": 180
+      },
+      {
+        "model": "ancientnature:block/eggtest/four_slightly_cracked_dodo_eggs",
+        "y": 270
+      }
+    ],
+    "eggs=4,hatch=2": [
+      {
+        "model": "ancientnature:block/eggtest/four_very_cracked_dodo_eggs"
+      },
+      {
+        "model": "ancientnature:block/eggtest/four_very_cracked_dodo_eggs",
+        "y": 90
+      },
+      {
+        "model": "ancientnature:block/eggtest/four_very_cracked_dodo_eggs",
+        "y": 180
+      },
+      {
+        "model": "ancientnature:block/eggtest/four_very_cracked_dodo_eggs",
+        "y": 270
+      }
+    ]
+  }
+}
