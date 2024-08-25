@@ -2,6 +2,7 @@ package net.reaper.ancientnature.common.entity.smartanimal.ai.goal;
 
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.pathfinder.Path;
 import net.reaper.ancientnature.common.entity.smartanimal.SmartAnimatedAnimal;
 
@@ -148,6 +149,10 @@ public class ConsumeItemFromGroundGoal extends Goal {
             }
             this.ticksUntilNextAttack = Math.max(this.ticksUntilNextAttack - 1, 0);
             this.checkAndPerformAttack(item, distance);
+
+            if (!this.mob.isTame() && item.getOwner() instanceof Player player) {
+                this.mob.tame(player);
+            }
         }
     }
 
