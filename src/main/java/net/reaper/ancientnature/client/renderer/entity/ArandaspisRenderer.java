@@ -12,8 +12,8 @@ import net.reaper.ancientnature.client.model.entity.ArandaspisModel;
 import net.reaper.ancientnature.common.entity.water.Arandaspis;
 @OnlyIn(Dist.CLIENT)
 public class ArandaspisRenderer extends MobRenderer<Arandaspis, ArandaspisModel> {
-    private final ResourceLocation ADULT = new ResourceLocation(AncientNature.MOD_ID, "textures/entity/arandaspis_texture.png");
-    private final ResourceLocation BABY = new ResourceLocation(AncientNature.MOD_ID, "textures/entity/arandababy_texture.png");
+    private final ResourceLocation ADULT = new ResourceLocation(AncientNature.MOD_ID, "textures/entity/arandaspis/arandaspis_texture.png");
+    private final ResourceLocation BABY = new ResourceLocation(AncientNature.MOD_ID, "textures/entity/arandaspis/arandababy_texture.png");
 
     public ArandaspisRenderer(EntityRendererProvider.Context pContext) {
         super(pContext, new ArandaspisModel(pContext.bakeLayer(ArandaspisModel.ARANDASPIS_LAYER)), 0.2f);

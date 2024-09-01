@@ -22,7 +22,7 @@ public class ModEntities {
 
     public static final RegistryObject<EntityType<Arandaspis>> ARANDASPIS =
             ENTITY_TYPES.register("arandaspis", () -> EntityType.Builder.of(Arandaspis::new, MobCategory.WATER_CREATURE)
-                    .sized(0.5f, 0.5f).build("arandaspis"));
+                    .sized(0.6f, 0.5f).build("arandaspis"));
 
     public static final RegistryObject<EntityType<TuataraEntity>> TUATARA =
             ENTITY_TYPES.register("tuatara", () -> EntityType.Builder.of(TuataraEntity::new, MobCategory.CREATURE)

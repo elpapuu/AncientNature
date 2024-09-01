@@ -22,7 +22,6 @@ import net.reaper.ancientnature.common.messages.NetworkHandler;
 import net.reaper.ancientnature.common.messages.util.EventHandlerRegistry;
 import net.reaper.ancientnature.common.messages.util.LevelEventManager;
 import net.reaper.ancientnature.common.messages.util.LevelEvents;
-import net.reaper.ancientnature.common.util.EntityPlacementUtil;
 import net.reaper.ancientnature.core.init.*;
 import net.reaper.ancientnature.core.proxy.ClientProxy;
 import net.reaper.ancientnature.core.proxy.CommonProxy;
@@ -62,7 +61,6 @@ public class AncientNature {
     private void commonSetup(final FMLCommonSetupEvent event) {
         Reflection.initialize(LevelEvents.class);
         event.enqueueWork(() -> {
-            EntityPlacementUtil.entityPlacement();
         });
         NetworkHandler.register();
     }

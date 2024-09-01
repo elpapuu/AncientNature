@@ -45,10 +45,7 @@ public class ModBlocks {
     public static final RegistryObject<RoeBlock> ARANDASPIS_ROE = register("arandaspis_roe", () -> new RoeBlock(BlockBehaviour.Properties.copy(Blocks.FROGSPAWN), 3600, 12000, 1, 4, ModEntities.ARANDASPIS::get), () -> new Item.Properties().stacksTo(16));
     public static final RegistryObject<RoeBlock> ANOMALOCARIS_EGGS = register("anomalocaris_eggs", () -> new RoeBlock(BlockBehaviour.Properties.copy(Blocks.FROGSPAWN), 3600, 12000, 1, 4, ModEntities.ANOMALOCARIS::get), () -> new Item.Properties().stacksTo(16));
 
-    public static final RegistryObject<FourEggBlock> DODO_EGG = register("dodo_egg",
-            () -> new FourEggBlock(BlockBehaviour.Properties.copy(Blocks.TURTLE_EGG),
-                    ModEntities.DODO), () -> new Item.Properties().stacksTo(16));
-
+    public static final RegistryObject<FourEggBlock> DODO_EGG = register("dodo_egg", () -> new FourEggBlock(BlockBehaviour.Properties.copy(Blocks.TURTLE_EGG), ModEntities.DODO), () -> new Item.Properties().stacksTo(16));
 
     public static RegistryObject<DropExperienceBlock> makeDeepslateFossilBlock(String name){
         return registryBlock(name, () -> new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_IRON_ORE).strength(5f).requiresCorrectToolForDrops(), ConstantInt.of(1)));

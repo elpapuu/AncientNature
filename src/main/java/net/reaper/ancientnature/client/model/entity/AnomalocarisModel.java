@@ -1,4 +1,4 @@
-package net.reaper.ancientnature.client.model.entity;// Made with Blockbench 4.9.4
+package net.reaper.ancientnature.client.model.entity;// Made with Blockbench 4.10.4
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports
 
@@ -23,6 +23,7 @@ public class AnomalocarisModel extends HierarchicalModel<Anomalocaris> {
 	public static final ModelLayerLocation ANOMALOCARIS_LAYER = new ModelLayerLocation(new ResourceLocation(
 			AncientNature.MOD_ID, "anomalocaris"), "main");
 
+	ResourceLocation EMO = new ResourceLocation(AncientNature.MOD_ID, "textures/entity/anomalocaris/emolocaris_texture.png");
 	private final ModelPart body;
 
 	public AnomalocarisModel(ModelPart root) {
@@ -34,45 +35,45 @@ public class AnomalocarisModel extends HierarchicalModel<Anomalocaris> {
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
 		PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 0).addBox(-2.8889F, -1.6111F, -10.3333F, 6.0F, 3.0F, 18.0F, new CubeDeformation(0.0F))
-		.texOffs(0, 12).addBox(-1.8889F, -0.6111F, 7.6667F, 4.0F, 1.0F, 4.0F, new CubeDeformation(0.0F))
-		.texOffs(30, 6).addBox(-5.8889F, -2.6111F, -10.3333F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F))
-		.texOffs(30, 0).addBox(3.1111F, -2.6111F, -10.3333F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(-0.1111F, 23.6111F, 0.3333F));
+				.texOffs(30, 9).addBox(-5.8889F, -1.6111F, -10.3333F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F))
+				.texOffs(0, 28).addBox(3.1111F, -1.6111F, -10.3333F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(-0.1111F, 21.6111F, 0.3333F));
 
-		PartDefinition mouth = body.addOrReplaceChild("mouth", CubeListBuilder.create().texOffs(0, 0).addBox(-1.0F, -1.0F, -6.0F, 2.0F, 6.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offset(2.1111F, -0.6111F, -10.3333F));
+		PartDefinition mouth = body.addOrReplaceChild("mouth", CubeListBuilder.create().texOffs(0, 9).addBox(-1.0F, 0.0F, -5.0F, 2.0F, 4.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offset(2.1111F, -0.6111F, -10.3333F));
 
-		PartDefinition mouth2 = body.addOrReplaceChild("mouth2", CubeListBuilder.create().texOffs(0, 28).addBox(-1.0F, -1.0F, -6.0F, 2.0F, 6.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offset(-1.8889F, -0.6111F, -10.3333F));
+		PartDefinition mouth2 = body.addOrReplaceChild("mouth2", CubeListBuilder.create().texOffs(0, 0).addBox(-1.0F, 0.0F, -5.0F, 2.0F, 4.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offset(-1.8889F, -0.6111F, -10.3333F));
 
-		PartDefinition tail = body.addOrReplaceChild("tail", CubeListBuilder.create().texOffs(0, 21).addBox(-6.0F, -0.5F, 0.6667F, 12.0F, 1.0F, 6.0F, new CubeDeformation(0.0F))
-		.texOffs(26, 35).addBox(-6.0F, -0.5F, -1.3333F, 4.0F, 1.0F, 2.0F, new CubeDeformation(0.0F))
-		.texOffs(36, 36).addBox(2.0F, -0.5F, -1.3333F, 4.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(0.1111F, -0.1111F, 11.0F));
+		PartDefinition tail = body.addOrReplaceChild("tail", CubeListBuilder.create().texOffs(27, 0).addBox(-6.0F, -0.2615F, -0.3447F, 12.0F, 0.0F, 3.0F, new CubeDeformation(0.0F))
+				.texOffs(14, 28).addBox(-2.0F, -0.7615F, -0.3447F, 4.0F, 1.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.1111F, -0.1111F, 8.0F));
 
-		PartDefinition finn = body.addOrReplaceChild("finn", CubeListBuilder.create().texOffs(39, 6).addBox(0.0F, -0.5F, -1.0F, 3.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(3.1111F, -0.1111F, -5.3333F));
+		PartDefinition tail2 = tail.addOrReplaceChild("tail2", CubeListBuilder.create().texOffs(0, 21).addBox(-6.0F, 0.0F, -0.5F, 12.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -0.2615F, 3.1553F));
 
-		PartDefinition finn2 = body.addOrReplaceChild("finn2", CubeListBuilder.create().texOffs(16, 34).addBox(0.0F, -0.5F, -1.0F, 4.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(3.1111F, -0.1111F, -3.3333F));
+		PartDefinition finn = body.addOrReplaceChild("finn", CubeListBuilder.create().texOffs(24, 37).addBox(0.0F, -0.5F, -1.0F, 3.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(3.1111F, -0.1111F, -5.3333F));
 
-		PartDefinition finn3 = body.addOrReplaceChild("finn3", CubeListBuilder.create().texOffs(30, 24).addBox(0.0F, -0.5F, -1.0F, 5.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(3.1111F, -0.1111F, -1.3333F));
+		PartDefinition finn2 = body.addOrReplaceChild("finn2", CubeListBuilder.create().texOffs(26, 34).addBox(0.0F, -0.5F, -1.0F, 4.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(3.1111F, -0.1111F, -3.3333F));
 
-		PartDefinition finn4 = body.addOrReplaceChild("finn4", CubeListBuilder.create().texOffs(26, 28).addBox(0.0F, -0.5F, -1.0F, 6.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(3.1111F, -0.1111F, 0.6667F));
+		PartDefinition finn3 = body.addOrReplaceChild("finn3", CubeListBuilder.create().texOffs(33, 27).addBox(0.0F, -0.5F, -1.0F, 5.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(3.1111F, -0.1111F, -1.3333F));
 
-		PartDefinition finn5 = body.addOrReplaceChild("finn5", CubeListBuilder.create().texOffs(30, 21).addBox(0.0F, -0.5F, -1.0F, 5.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(3.1111F, -0.1111F, 2.6667F));
+		PartDefinition finn4 = body.addOrReplaceChild("finn4", CubeListBuilder.create().texOffs(30, 6).addBox(0.0F, -0.5F, -1.0F, 6.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(3.1111F, -0.1111F, 0.6667F));
 
-		PartDefinition finn6 = body.addOrReplaceChild("finn6", CubeListBuilder.create().texOffs(32, 32).addBox(0.0F, -0.5F, -1.0F, 4.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(3.1111F, -0.1111F, 4.6667F));
+		PartDefinition finn5 = body.addOrReplaceChild("finn5", CubeListBuilder.create().texOffs(33, 24).addBox(0.0F, -0.5F, -1.0F, 5.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(3.1111F, -0.1111F, 2.6667F));
 
-		PartDefinition finn7 = body.addOrReplaceChild("finn7", CubeListBuilder.create().texOffs(39, 0).addBox(0.0F, -0.5F, -1.0F, 3.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(3.1111F, -0.1111F, 6.6667F));
+		PartDefinition finn6 = body.addOrReplaceChild("finn6", CubeListBuilder.create().texOffs(14, 34).addBox(0.0F, -0.5F, -1.0F, 4.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(3.1111F, -0.1111F, 4.6667F));
 
-		PartDefinition finn8 = body.addOrReplaceChild("finn8", CubeListBuilder.create().texOffs(24, 38).addBox(-3.0F, -0.5F, -1.0F, 3.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(-2.8889F, -0.1111F, -5.3333F));
+		PartDefinition finn7 = body.addOrReplaceChild("finn7", CubeListBuilder.create().texOffs(14, 37).addBox(0.0F, -0.5F, -1.0F, 3.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(3.1111F, -0.1111F, 6.6667F));
 
-		PartDefinition finn9 = body.addOrReplaceChild("finn9", CubeListBuilder.create().texOffs(22, 31).addBox(-4.0F, -0.5F, -1.0F, 4.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(-2.8889F, -0.1111F, -3.3333F));
+		PartDefinition finn8 = body.addOrReplaceChild("finn8", CubeListBuilder.create().texOffs(0, 37).addBox(-3.0F, -0.5F, -1.0F, 3.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(-2.8889F, -0.1111F, -5.3333F));
 
-		PartDefinition finn10 = body.addOrReplaceChild("finn10", CubeListBuilder.create().texOffs(30, 15).addBox(-5.0F, -0.5F, -1.0F, 5.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(-2.8889F, -0.1111F, -1.3333F));
+		PartDefinition finn9 = body.addOrReplaceChild("finn9", CubeListBuilder.create().texOffs(0, 34).addBox(-4.0F, -0.5F, -1.0F, 4.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(-2.8889F, -0.1111F, -3.3333F));
 
-		PartDefinition finn11 = body.addOrReplaceChild("finn11", CubeListBuilder.create().texOffs(10, 28).addBox(-6.0F, -0.5F, -1.0F, 6.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(-2.8889F, -0.1111F, 0.6667F));
+		PartDefinition finn10 = body.addOrReplaceChild("finn10", CubeListBuilder.create().texOffs(33, 21).addBox(-5.0F, -0.5F, -1.0F, 5.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(-2.8889F, -0.1111F, -1.3333F));
 
-		PartDefinition finn12 = body.addOrReplaceChild("finn12", CubeListBuilder.create().texOffs(30, 12).addBox(-5.0F, -0.5F, -1.0F, 5.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(-2.8889F, -0.1111F, 2.6667F));
+		PartDefinition finn11 = body.addOrReplaceChild("finn11", CubeListBuilder.create().texOffs(30, 3).addBox(-6.0F, -0.5F, -1.0F, 6.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(-2.8889F, -0.1111F, 0.6667F));
 
-		PartDefinition finn13 = body.addOrReplaceChild("finn13", CubeListBuilder.create().texOffs(10, 31).addBox(-4.0F, -0.5F, -1.0F, 4.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(-2.8889F, -0.1111F, 4.6667F));
+		PartDefinition finn12 = body.addOrReplaceChild("finn12", CubeListBuilder.create().texOffs(30, 15).addBox(-5.0F, -0.5F, -1.0F, 5.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(-2.8889F, -0.1111F, 2.6667F));
 
-		PartDefinition finn14 = body.addOrReplaceChild("finn14", CubeListBuilder.create().texOffs(16, 37).addBox(-3.0F, -0.5F, -1.0F, 3.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(-2.8889F, -0.1111F, 6.6667F));
+		PartDefinition finn13 = body.addOrReplaceChild("finn13", CubeListBuilder.create().texOffs(33, 30).addBox(-4.0F, -0.5F, -1.0F, 4.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(-2.8889F, -0.1111F, 4.6667F));
+
+		PartDefinition finn14 = body.addOrReplaceChild("finn14", CubeListBuilder.create().texOffs(36, 35).addBox(-3.0F, -0.5F, -1.0F, 3.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(-2.8889F, -0.1111F, 6.6667F));
 
 		return LayerDefinition.create(meshdefinition, 64, 64);
 	}

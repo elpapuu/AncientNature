@@ -9,12 +9,14 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.reaper.ancientnature.AncientNature;
 import net.reaper.ancientnature.client.model.entity.AnomalocarisModel;
+import net.reaper.ancientnature.client.model.entity.DodoModel;
+import net.reaper.ancientnature.common.entity.ground.DodoEntity;
 import net.reaper.ancientnature.common.entity.water.Anomalocaris;
 
-@OnlyIn(Dist.CLIENT)
 public class AnomalocarisRenderer extends MobRenderer<Anomalocaris, AnomalocarisModel> {
-    ResourceLocation ANOMALOCARIS = new ResourceLocation(AncientNature.MOD_ID, "textures/entity/anomalocaris_texture.png");
-    ResourceLocation EMOLOCARIS = new ResourceLocation(AncientNature.MOD_ID, "textures/entity/emolocaris_texture.png");
+    ResourceLocation IS_MALE = new ResourceLocation(AncientNature.MOD_ID, "textures/entity/anomalocaris/anomalocaris_male.png");
+    ResourceLocation FEMALE = new ResourceLocation(AncientNature.MOD_ID, "textures/entity/anomalocaris/anomalocaris_male.png");
+    ResourceLocation EMO = new ResourceLocation(AncientNature.MOD_ID, "textures/entity/anomalocaris/emolocaris_texture.png");
 
     public AnomalocarisRenderer(EntityRendererProvider.Context pContext) {
         super(pContext, new AnomalocarisModel(pContext.bakeLayer(AnomalocarisModel.ANOMALOCARIS_LAYER)), .6f);
@@ -22,7 +24,7 @@ public class AnomalocarisRenderer extends MobRenderer<Anomalocaris, Anomalocaris
 
     @Override
     public ResourceLocation getTextureLocation(Anomalocaris pEntity) {
-        return (pEntity.hasCustomName() && pEntity.getName().getString().equals("2009")) ? EMOLOCARIS : ANOMALOCARIS;
+        return (pEntity.hasCustomName() && pEntity.getName().getString().equals("2009")) ? EMO : IS_MALE;
     }
 
     @Override
@@ -40,4 +42,5 @@ public class AnomalocarisRenderer extends MobRenderer<Anomalocaris, Anomalocaris
 
         super.scale(pLivingEntity, pMatrixStack, pPartialTickTime);
     }
+
 }
