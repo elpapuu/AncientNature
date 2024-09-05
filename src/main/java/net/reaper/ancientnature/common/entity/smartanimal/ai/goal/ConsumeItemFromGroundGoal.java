@@ -1,9 +1,17 @@
 package net.reaper.ancientnature.common.entity.smartanimal.ai.goal;
 
+import net.minecraft.core.particles.ItemParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.Path;
+import net.minecraft.world.phys.Vec3;
 import net.reaper.ancientnature.common.entity.smartanimal.SmartAnimatedAnimal;
 
 import java.util.Comparator;
@@ -29,6 +37,7 @@ public class ConsumeItemFromGroundGoal extends Goal {
     private final int eatDelay;
     private final int animationLength;
     private boolean shouldCountTillNextAttack = false;
+    private boolean shouldCreateParticles = false;
 
     public ConsumeItemFromGroundGoal(SmartAnimatedAnimal pMob, double pSpeedModifier, boolean pFollowingTargetEvenIfNotSeen, int eatDelay, int animationLength) {
         this.mob = pMob;
@@ -150,9 +159,62 @@ public class ConsumeItemFromGroundGoal extends Goal {
             this.ticksUntilNextAttack = Math.max(this.ticksUntilNextAttack - 1, 0);
             this.checkAndPerformAttack(item, distance);
 
+            if (this.mob.position().distanceToSqr(this.pathedTargetX, this.pathedTargetY, this.pathedTargetZ) <= 0.5D) {
+                this.shouldCreateParticles = true;
+            }
+
+            if (this.shouldCreateParticles) {
+                this.calculateAndSpawnItemParticles(item.getItem(), 8);
+            }
+
             if (!this.mob.isTame() && item.getOwner() instanceof Player player) {
                 this.mob.tame(player);
             }
+        }
+    }
+
+    @SuppressWarnings("all")
+    private void calculateAndSpawnItemParticles(ItemStack pStack, int particlesToCreate) {
+
+        for(int i = 0; i < particlesToCreate; ++i) {
+
+            final Vec3 location = eatingParticleLocation(this.mob, this.mob.level().random);
+
+            final Vec3 speed = eatingParticleSpeed(this.mob, this.mob.level().random);
+
+            this.spawnEatingParticles(this.mob.level(), pStack, location, speed);
+        }
+
+        shouldCreateParticles = false;
+    }
+
+    private static Vec3 eatingParticleSpeed(LivingEntity entity, RandomSource random) {
+
+        Vec3 speed = new Vec3(((double)random.nextFloat() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D);
+        speed = speed.xRot(-entity.getXRot() * ((float)Math.PI / 180F));
+        speed = speed.yRot(-entity.getYRot() * ((float)Math.PI / 180F));
+
+        return speed;
+    }
+
+    private static Vec3 eatingParticleLocation(LivingEntity entity, RandomSource random) {
+        double initialYSpeed = (double)(-random.nextFloat()) * 0.6D - 0.3D;
+
+        Vec3 location = new Vec3(((double)random.nextFloat() - 0.5D) * 0.3D, initialYSpeed, 0.6D);
+        location = location.xRot(-entity.getXRot() * ((float)Math.PI / 180F));
+        location = location.yRot(-entity.getYRot() * ((float)Math.PI / 180F));
+
+        location = location.add(entity.getX(), entity.getEyeY(), entity.getZ());
+
+        return location;
+    }
+
+    private void spawnEatingParticles(Level level, ItemStack stack, Vec3 location, Vec3 speed) {
+        if (level instanceof ServerLevel serverLevel) {
+            serverLevel.sendParticles(new ItemParticleOption(ParticleTypes.ITEM, stack), location.x, location.y, location.z, 1, speed.x, speed.y + 0.05D, speed.z, 0.0D);
+        }
+        else {
+            level.addParticle(new ItemParticleOption(ParticleTypes.ITEM, stack), location.x, location.y, location.z, speed.x, speed.y + 0.05D, speed.z);
         }
     }
 
@@ -161,6 +223,7 @@ public class ConsumeItemFromGroundGoal extends Goal {
             shouldCountTillNextAttack = true;
             if (isTimeToStartAttackAnimation()) {
                 mob.setEating(true);
+                shouldCreateParticles = true;
             }
             if (isTimeToAttack()) {
                 this.mob.getLookControl().setLookAt(item.getX(), item.getEyeY(), item.getZ());
@@ -171,6 +234,7 @@ public class ConsumeItemFromGroundGoal extends Goal {
             shouldCountTillNextAttack = false;
             mob.setEating(false);
             mob.eatAnimationTimeout = 0;
+            shouldCreateParticles = false;
         }
     }
 
