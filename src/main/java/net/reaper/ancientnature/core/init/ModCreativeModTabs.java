@@ -56,6 +56,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.COOKED_PARANOGMIUS.get());
                         pOutput.accept(ModItems.FISH_ROE.get());
                         pOutput.accept(ModBlocks.ARANDASPIS_ROE.get());
+                        pOutput.accept(ModBlocks.PARANOGMIUS_ROE.get());
                         pOutput.accept(ModBlocks.ANOMALOCARIS_EGGS.get());
                         pOutput.accept(ModItems.ARANDASPIS_SPAWN_EGG.get());
                         pOutput.accept(ModItems.ANOMALOCARIS_SPAWN_EGG.get());
