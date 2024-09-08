@@ -42,8 +42,18 @@ public class ModBlocks {
     public static final RegistryObject<BrushableBlock> MUD_WITH_FOSSILS = registryBlock("mud_with_fossils", () -> new MudFossilBlock(Blocks.MUD, BlockBehaviour.Properties.copy(Blocks.MUD), SoundEvents.BRUSH_GRAVEL, SoundEvents.BRUSH_GRAVEL_COMPLETED, ModLootTables.MUD_FOSSIL_BRUSH));
     public static final RegistryObject<RevivalStand> REVIVAL_STAND = register("revival_stand", RevivalStand::new, b -> new RevivalStandItem(b, new Item.Properties()));
 
-    public static final RegistryObject<RoeBlock> ARANDASPIS_ROE = register("arandaspis_roe", () -> new RoeBlock(BlockBehaviour.Properties.copy(Blocks.FROGSPAWN), 3600, 12000, 1, 4, ModEntities.ARANDASPIS::get), () -> new Item.Properties().stacksTo(16));
-    public static final RegistryObject<RoeBlock> ANOMALOCARIS_EGGS = register("anomalocaris_eggs", () -> new RoeBlock(BlockBehaviour.Properties.copy(Blocks.FROGSPAWN), 3600, 12000, 1, 4, ModEntities.ANOMALOCARIS::get), () -> new Item.Properties().stacksTo(16));
+    public static final RegistryObject<RoeBlock> ARANDASPIS_ROE = register("arandaspis_roe", () ->
+            new RoeBlock(BlockBehaviour.Properties.copy(Blocks.FROGSPAWN),
+                    3600, 12000, 1, 4, ModEntities.ARANDASPIS::get, false),
+            () -> new Item.Properties().stacksTo(16));
+    public static final RegistryObject<RoeBlock> ANOMALOCARIS_EGGS = register("anomalocaris_eggs", () ->
+            new RoeBlock(BlockBehaviour.Properties.copy(Blocks.FROGSPAWN),
+                    3600, 12000, 1, 4, ModEntities.ANOMALOCARIS::get, false),
+            () -> new Item.Properties().stacksTo(16));
+    public static final RegistryObject<RoeBlock> PARANOGMIUS_ROE = register("paranogmius_roe", () ->
+            new RoeBlock(BlockBehaviour.Properties.copy(Blocks.FROGSPAWN),
+                    3600, 12000, 1, 4, ModEntities.PARANOGMIUS::get, true),
+            () -> new Item.Properties().stacksTo(16));
 
     public static final RegistryObject<FourEggBlock> DODO_EGG = register("dodo_egg",
             () -> new FourEggBlock(BlockBehaviour.Properties.copy(Blocks.TURTLE_EGG),

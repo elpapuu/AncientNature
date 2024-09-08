@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class ParanogmiusRenderer extends MobRenderer<Paranogmius, ParanogmiusModel> implements ICustomPlayerRidePos {
     private final ResourceLocation ADULT = new ResourceLocation(AncientNature.MOD_ID, "textures/entity/paranogmius/paranogmius_male_a.png");
-    private final ResourceLocation BABY = new ResourceLocation(AncientNature.MOD_ID, "textures/entity/paranogmius/paranogmius_female_a.png");
+    private final ResourceLocation BABY = new ResourceLocation(AncientNature.MOD_ID, "textures/entity/paranogmius/paranogmius_baby_b.png");
 
     public ParanogmiusRenderer(EntityRendererProvider.Context pContext) {
         super(pContext, new ParanogmiusModel(pContext.bakeLayer(ParanogmiusModel.PARANOGMIUS_LAYER)), 0.6f);
