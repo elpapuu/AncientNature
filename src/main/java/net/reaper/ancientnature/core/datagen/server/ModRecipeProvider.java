@@ -28,5 +28,6 @@ public class ModRecipeProvider extends RecipeProvider {
         WaterWashingBuilder.builder(ModItems.STONE_PERMIAN_FOSSIL.get()).probability(0.16f).input(ModItems.MUDDY_PERMIAN_FOSSIL.get()).build(pWriter);
         RevivalStandRecipeBuilder.builder(ModBlocks.ANOMALOCARIS_EGGS.get(), 3).fossil(5, ModItems.ANOMALOCARIS_FOSSIL.get()).amber(ModTags.Items.ANIMAL_AMBERS).amberInfusionTime(230).fossilInfusionTime(350).baseRoe(ModItems.FISH_ROE.get()).build(pWriter);
         RevivalStandRecipeBuilder.builder(ModBlocks.ARANDASPIS_ROE.get(), 3).fossil(3, ModItems.ARANDASPIS_FOSSIL.get()).amber(ModTags.Items.ANIMAL_AMBERS).amberInfusionTime(100).fossilInfusionTime(100).baseRoe(ModItems.FISH_ROE.get()).build(pWriter);
+        RevivalStandRecipeBuilder.builder(ModBlocks.PARANOGMIUS_ROE.get(), 3).fossil(3, ModItems.PARANOGMIUS_FOSSIL.get()).amber(ModTags.Items.ANIMAL_AMBERS).amberInfusionTime(100).fossilInfusionTime(100).baseRoe(ModItems.FISH_ROE.get()).build(pWriter);
     }
 }

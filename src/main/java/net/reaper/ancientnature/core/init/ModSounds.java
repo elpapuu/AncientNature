@@ -19,9 +19,12 @@ public class ModSounds {
     public static final RegistryObject<SoundEvent> ANOMALOCARIS_HURT_2 = registerSoundEvents("anomalocaris_hurt_2");
     public static final RegistryObject<SoundEvent> ANOMALOCARIS_DEATH_1 = registerSoundEvents("anomalocaris_death_1");
     public static final RegistryObject<SoundEvent> ANOMALOCARIS_DEATH_2 = registerSoundEvents("anomalocaris_death_2");
-
     public static final RegistryObject<SoundEvent> WHERE_YOUR_JOURNEY_BEGINS_DISC = registerSoundEvents("where_your_journey_begins_disc");
-
+    public static final RegistryObject<SoundEvent> DODO_IDLE_1 = registerSoundEvents("dodo_idle_1");
+    public static final RegistryObject<SoundEvent> DODO_IDLE_2 = registerSoundEvents("dodo_idle_2");
+    public static final RegistryObject<SoundEvent> DODO_HURT_1 = registerSoundEvents("dodo_hurt_1");
+    public static final RegistryObject<SoundEvent> DODO_HURT_2 = registerSoundEvents("dodo_hurt_2");
+    public static final RegistryObject<SoundEvent> DODO_DIYING = registerSoundEvents("dodo_die");
     // ABOVE PLEASE
     private static  RegistryObject<SoundEvent> registerSoundEvents(String name) {
         return SOUND_EVENTS.register(name,() -> SoundEvent.createVariableRangeEvent(new ResourceLocation(AncientNature.MOD_ID, name)));

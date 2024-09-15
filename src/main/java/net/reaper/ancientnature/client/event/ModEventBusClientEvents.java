@@ -32,7 +32,7 @@ public class ModEventBusClientEvents {
     @SubscribeEvent
     public static void registerLayer(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(ArandaspisModel.ARANDASPIS_LAYER, ArandaspisModel::createBodyLayer);
-        event.registerLayerDefinition(TuataraModel.TUATARA_LAYER, TuataraModel::createBodyLayer);
+        event.registerLayerDefinition(TutuaraModel.TUATARA_LAYER, TutuaraModel::createBodyLayer);
         event.registerLayerDefinition(DunkleosteusModel.DUNKLEOSTEUS_LAYER, DunkleosteusModel::createBodyLayer);
         event.registerLayerDefinition(AnomalocarisModel.ANOMALOCARIS_LAYER, AnomalocarisModel::createBodyLayer);
         event.registerLayerDefinition(ParanogmiusModel.PARANOGMIUS_LAYER, ParanogmiusModel::createBodyLayer);

@@ -3,13 +3,16 @@ package net.reaper.ancientnature.common.entity.ground;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Fox;
@@ -41,9 +44,11 @@ import net.reaper.ancientnature.common.entity.goals.PanicSprintingGoal;
 import net.reaper.ancientnature.common.entity.smartanimal.SmartAnimalPose;
 import net.reaper.ancientnature.common.entity.smartanimal.SmartAnimatedAnimal;
 import net.reaper.ancientnature.common.entity.util.AnimalDiet;
+import net.reaper.ancientnature.core.init.ModSounds;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.Nonnull;
 import java.util.EnumSet;
 import java.util.List;
 
@@ -51,6 +56,14 @@ public class DodoEntity extends SmartAnimatedAnimal {
 
     public DodoEntity(EntityType<? extends TamableAnimal> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
+        this.moveControl = new MoveControl(this) {
+            @Override
+            public void tick() {
+                if (!DodoEntity.this.isSleeping()) {
+                    super.tick();
+                }
+            }
+        };
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -76,7 +89,7 @@ public class DodoEntity extends SmartAnimatedAnimal {
             case RUN -> (int)(0.72F*20.0);
             case SWIM -> (int)(1.28F*20.0);
             case COMMUNICATE -> (int)(0.5417F*20.0);
-            case EAT -> (int)(2.12F*20.0);
+            case EAT -> (int)(2.16F*20.0);
             case ATTACK -> (int)(.72*20.0);
             case ATTACK2 -> 0;
             case ATTACK3 -> 0;
@@ -89,6 +102,21 @@ public class DodoEntity extends SmartAnimatedAnimal {
             case SLEEP -> (int)(2.88F*20.0);
         };
 
+    }
+    @Nullable
+    @Override
+    protected SoundEvent getHurtSound(@Nonnull DamageSource pDamageSource) {
+        return this.random.nextInt(2) == 0 ? ModSounds.DODO_HURT_1.get() : ModSounds.DODO_HURT_2.get();
+    }
+    @Nullable
+    @Override
+    protected SoundEvent getDeathSound() {
+        return this.random.nextInt(2) == 0 ? ModSounds.DODO_DIYING.get() : ModSounds.DODO_DIYING.get();
+    }
+    @Nullable
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return this.random.nextInt(2) == 0 ? ModSounds.DODO_IDLE_1.get() : ModSounds.DODO_IDLE_2.get();
     }
 
     @Override

@@ -1,14 +1,21 @@
 package net.reaper.ancientnature.common.entity.ground;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.WaterAnimal;
@@ -17,37 +24,40 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.phys.Vec3;
 import net.reaper.ancientnature.common.entity.goals.PanicSprintingGoal;
+import net.reaper.ancientnature.common.entity.smartanimal.SmartAnimalPose;
+import net.reaper.ancientnature.common.entity.smartanimal.SmartAnimatedAnimal;
+import net.reaper.ancientnature.common.entity.util.AnimalDiet;
+import net.reaper.ancientnature.common.entity.util.IShakeScreenOnStep;
+import net.reaper.ancientnature.common.messages.NetworkHandler;
+import net.reaper.ancientnature.common.messages.packets.MessageServerEntityEvent;
+import net.reaper.ancientnature.common.messages.util.EventData;
+import net.reaper.ancientnature.common.messages.util.LevelEventManager;
+import net.reaper.ancientnature.common.util.EntityUtils;
+import net.reaper.ancientnature.common.util.ScreenShakeUtils;
 import net.reaper.ancientnature.core.init.ModEntities;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class TuataraEntity extends Animal {
+import java.util.List;
 
-    private static final EntityDataAccessor<Boolean> IS_MALE = SynchedEntityData.defineId(TuataraEntity.class, EntityDataSerializers.BOOLEAN);
-    public AnimationState idleAnimation = new AnimationState();
+public class TuataraEntity extends SmartAnimatedAnimal {
+    public float tailRot;
+    public float prevTailRot;
+    public int tickControlled;
 
-    public TuataraEntity(EntityType<? extends Animal> pEntityType, Level pLevel) {
+    public TuataraEntity(EntityType<? extends TamableAnimal> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
+        this.moveControl = new MoveControl(this) {
+            @Override
+            public void tick() {
+                if (!TuataraEntity.this.isSleeping()) {
+                    super.tick();
+                }
+            }
+        };
     }
-
-    @Override
-    public void addAdditionalSaveData(CompoundTag pCompound) {
-        super.addAdditionalSaveData(pCompound);
-        pCompound.putBoolean("isMale", isMale());
-    }
-
-    @Override
-    public void readAdditionalSaveData(CompoundTag pCompound) {
-        super.readAdditionalSaveData(pCompound);
-        setMale(pCompound.getBoolean("isMale"));
-    }
-
-    @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(IS_MALE, true);
-    }
-
     @Override
     protected void registerGoals() {
         super.registerGoals();
@@ -67,19 +77,17 @@ public class TuataraEntity extends Animal {
         setMale(random.nextBoolean());
         return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
     }
-
-    public boolean isMale(){
-        return this.entityData.get(IS_MALE);
-    }
-
-    public void setMale(boolean male){
-        this.entityData.set(IS_MALE, male);
+    @Override
+    public void tick() {
+        super.tick();
+        this.prevTailRot = this.tailRot;
+        this.tailRot += (-(this.yBodyRot - this.yBodyRotO) - this.tailRot) * 0.15F;
     }
 
     public static AttributeSupplier.Builder createAttributes() {
         return WaterAnimal.createLivingAttributes()
                 .add(Attributes.MAX_HEALTH, 4)
-                .add(Attributes.MOVEMENT_SPEED, 0.1d)
+                .add(Attributes.MOVEMENT_SPEED, 0.125d)
                 .add(Attributes.FOLLOW_RANGE, 25d);
 
     }
@@ -88,5 +96,54 @@ public class TuataraEntity extends Animal {
     @Override
     public AgeableMob getBreedOffspring(ServerLevel pLevel, AgeableMob pOtherParent) {
         return ModEntities.TUATARA.get().create(level());
+    }
+    @Override
+    public void defineDiet(AnimalDiet.Builder pDietBuilder) {
+        super.defineDiet(pDietBuilder);
+        pDietBuilder.addItems(Items.SPIDER_EYE, Items.FERMENTED_SPIDER_EYE);
+    }
+
+    @Override
+    public int getAttackAnimationDamageDelay() {
+        return 6;
+    }
+
+    @Override
+    public int getEatAnimationConsumeDelay() {
+        return 20;
+    }
+
+    @Override
+    protected int getAnimationLengthInTicks(SmartAnimalPose pSmartPose) {
+        return switch (pSmartPose) {
+            case IDLE -> (int) ((this.isBaby() ? .96 : 1.25) * 20.0);
+            case WALK -> (int) ((this.isBaby() ? .96 : 1) * 40.0);
+            case RUN -> (int) ((this.isBaby() ? .48 : .51) * 20.0);
+            case EAT -> (int) ((this.isBaby() ? .48 : 1.46) * 20.0);
+            case ATTACK -> (int) ((this.isBaby() ? .44 : .5) * 20.0);
+            case ATTACK2 -> 0;
+            case ATTACK3 -> 0;
+            case ROAR -> 0;
+            case DOWN -> 0;
+            case FALL_ASLEEP -> (int) (.88 * 1);
+            case WAKE_UP -> (int) ((this.isBaby() ? 1.2 : 1) * 20.0);
+            case UP -> 0;
+            case SIT -> 0;
+            case SLEEP -> (int) ((this.isBaby() ? 1.44 : 2.8) * 20.0);
+            case SWIM -> (int) (1 * 20.0);
+            case COMMUNICATE -> 0;
+        };
+    }
+
+    @Override
+    protected void updateWalkAnimation(float pPartialTick) {
+        float speed = !this.isBaby() ? (this.isSprinting() ? 0.7F : 6.0F) : 1.3F;
+        float f = this.getPose() == Pose.STANDING ? Math.min(pPartialTick * speed, 1.0F) : 0.0F;
+        this.walkAnimation.update(f, 1.0F);
+    }
+
+    @Override
+    public boolean canSpawnSprintParticle() {
+        return false;
     }
 }

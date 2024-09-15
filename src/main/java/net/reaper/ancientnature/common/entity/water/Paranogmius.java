@@ -560,7 +560,7 @@ public class Paranogmius extends AquaticAnimal implements IMouseInput {
         protected boolean isValidTarget(LevelReader pLevel, BlockPos pPos) {
             BlockState state = pLevel.getBlockState(pPos);
             BlockState below = pLevel.getBlockState(pPos.below());
-            return !pLevel.canSeeSkyFromBelowWater(pPos) && state.is(Blocks.WATER) && below.isSolid() && !below.is(ModBlocks.ARANDASPIS_ROE.get());
+            return !pLevel.canSeeSkyFromBelowWater(pPos) && state.is(Blocks.WATER) && below.isSolid() && !below.is(ModBlocks.PARANOGMIUS_ROE.get());
         }
 
         public boolean canContinueToUse() {
@@ -572,7 +572,7 @@ public class Paranogmius extends AquaticAnimal implements IMouseInput {
             BlockPos entitypos = this.entity.blockPosition();
             if (this.entity.isInWater() && this.isReachedTarget()) {
                 Level level = this.entity.level();
-                BlockState blockstate = ModBlocks.ARANDASPIS_ROE.get().defaultBlockState().setValue(BlockStateProperties.FACING, Direction.DOWN);
+                BlockState blockstate = ModBlocks.PARANOGMIUS_ROE.get().defaultBlockState().setValue(BlockStateProperties.FACING, Direction.DOWN);
                 level.setBlock(blockPos, blockstate, 3);
                 level.gameEvent(GameEvent.BLOCK_PLACE, blockPos, GameEvent.Context.of(this.entity, blockstate));
                 this.entity.setHasEggs(false);

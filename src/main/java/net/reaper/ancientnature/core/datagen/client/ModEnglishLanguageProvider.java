@@ -56,9 +56,13 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         auto(ModItems.ANOMALOCARIS_SPAWN_EGG.get());
         auto(ModItems.DODO_SPAWN_EGG.get());
         auto(ModItems.HORSESHOE_CRAB_SPAWN_EGG.get());
+        auto(ModItems.LYTHRONAX_SPAWN_EGG.get());
+        auto(ModItems.TUATARA_SPAWN_EGG.get());
+        auto(ModItems.TREX_SPAWN_EGG.get());
         auto(ModItems.PARANOGMIUS_SPAWN_EGG.get());
 
         auto(ModBlocks.ARANDASPIS_ROE.get());
+        auto(ModBlocks.PARANOGMIUS_ROE.get());
         auto(ModBlocks.ANOMALOCARIS_EGGS.get());
         auto(ModBlocks.REVIVAL_STAND.get());
         auto(ModBlocks.MUD_WITH_FOSSILS.get());
@@ -71,6 +75,8 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         auto(ModBlocks.CRETACEOUS_FOSSILS.get());
         auto(ModBlocks.QUATERNARY_FOSSILS.get());
         auto(ModBlocks.STONE_AMBER.get());
+
+        auto(ModItems.WHERE_YOUR_JOURNEY_BEGINS_MUSIC_DISC.get());
 
         auto(ModEntities.ARANDASPIS.get());
         auto(ModEntities.ANOMALOCARIS.get());

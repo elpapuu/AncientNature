@@ -34,6 +34,7 @@ import java.util.function.Supplier;
 
 public class RoeBlock extends Block implements SimpleWaterloggedBlock {
     protected final int minHatchTicks, maxHatchTicks, minEntities, maxEntities;
+    protected final boolean floating;
     protected final Supplier<EntityType<?>> entitySupplier;
 
     /**
@@ -44,39 +45,52 @@ public class RoeBlock extends Block implements SimpleWaterloggedBlock {
      * @param maxEntities    the max amount of entities that can come out (inclusvie)
      * @param entitySupplier the entity that will spawn, note that the supplier is required otherwise this will throw errors
      */
-    public RoeBlock(Properties pProperties, int minHatchTicks, int maxHatchTicks, int minEntities, int maxEntities, Supplier<EntityType<?>> entitySupplier) {
+    public RoeBlock(Properties pProperties, int minHatchTicks, int maxHatchTicks, int minEntities, int maxEntities, Supplier<EntityType<?>> entitySupplier, boolean floating) {
         super(pProperties);
         this.minHatchTicks = minHatchTicks;
         this.maxHatchTicks = maxHatchTicks;
         this.minEntities = minEntities;
         this.maxEntities = maxEntities;
         this.entitySupplier = entitySupplier;
+        this.floating = floating;
     }
 
     @Override
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
         Direction dir = pState.getValue(BlockStateProperties.FACING);
-        return switch (dir) {
-            case DOWN -> Block.box(0.0D, 0.0D, 0.0D, 16.0D, 1.5D, 16.0D);
-            case UP -> Block.box(0d, 14.5d, 0d, 16d, 16d, 16d);
-            case NORTH -> Block.box(0, 0, 0, 16, 16, 1.5d);
-            case EAST -> Block.box(14.5d, 0d, 0d, 16d, 16d, 16d);
-            case SOUTH -> Block.box(0d, 0d, 14.5d, 16d, 16d, 16d);
-            default -> Block.box(0, 0, 0, 1.5d, 16d, 16d);
+        if (floating){
+           return Block.box(0.0D, 0.0D, 0.0D, 16.0D, 1.5D, 16.0D);
+        }else {
+            return switch (dir) {
+                case DOWN -> Block.box(0.0D, 0.0D, 0.0D, 16.0D, 1.5D, 16.0D);
+                case UP -> Block.box(0d, 14.5d, 0d, 16d, 16d, 16d);
+                case NORTH -> Block.box(0, 0, 0, 16, 16, 1.5d);
+                case EAST -> Block.box(14.5d, 0d, 0d, 16d, 16d, 16d);
+                case SOUTH -> Block.box(0d, 0d, 14.5d, 16d, 16d, 16d);
+                default -> Block.box(0, 0, 0, 1.5d, 16d, 16d);
 
-        };
+            };
+        }
+
     }
 
     @Override
     public boolean canSurvive(BlockState pState, LevelReader pLevel, BlockPos pPos) {
-        FluidState fluidstate = pLevel.getFluidState(pPos);
-        return fluidstate.getType() == Fluids.WATER && pLevel.getBlockState(pPos.relative(pState.getValue(BlockStateProperties.FACING))).isFaceSturdy(pLevel, pPos.relative(pState.getValue(BlockStateProperties.FACING)), pState.getValue(BlockStateProperties.FACING).getOpposite());
+        if (floating){
+            return mayPlaceOn(pLevel, pPos.below());
+        }else {
+            FluidState fluidstate = pLevel.getFluidState(pPos);
+            return fluidstate.getType() == Fluids.WATER && pLevel.getBlockState(pPos.relative(pState.getValue(BlockStateProperties.FACING)))
+                    .isFaceSturdy(pLevel, pPos.relative(pState.getValue(BlockStateProperties.FACING)), pState.getValue(BlockStateProperties.FACING).getOpposite());
+        }
+
     }
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext pContext) {
         FluidState fluidState = pContext.getLevel().getFluidState(pContext.getClickedPos());
-        return this.defaultBlockState().setValue(BlockStateProperties.FACING, pContext.getClickedFace().getOpposite()).setValue(BlockStateProperties.WATERLOGGED, fluidState.getType() == Fluids.WATER);
+        return this.defaultBlockState().setValue(BlockStateProperties.FACING, pContext.getClickedFace().getOpposite())
+                .setValue(BlockStateProperties.WATERLOGGED, fluidState.getType() == Fluids.WATER);
     }
 
     @Override
@@ -164,5 +178,11 @@ public class RoeBlock extends Block implements SimpleWaterloggedBlock {
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
         super.createBlockStateDefinition(pBuilder);
         pBuilder.add(BlockStateProperties.FACING, BlockStateProperties.WATERLOGGED);
+    }
+
+    private static boolean mayPlaceOn(BlockGetter pLevel, BlockPos pPos) {
+        FluidState fluidstate = pLevel.getFluidState(pPos);
+        FluidState fluidstate1 = pLevel.getFluidState(pPos.above());
+        return fluidstate.getType() == Fluids.WATER && fluidstate1.getType() == Fluids.EMPTY;
     }
 }

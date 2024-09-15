@@ -37,6 +37,7 @@ public class ModBlockStatesProvider extends BlockStateProvider {
         revivalStand(ModBlocks.REVIVAL_STAND.get());
         roeBlock(ModBlocks.ARANDASPIS_ROE.get(), false);
         roeBlock(ModBlocks.ANOMALOCARIS_EGGS.get(), false);
+        floatingRoeBlock(ModBlocks.PARANOGMIUS_ROE.get(), false);
     }
 
     protected void revivalStand(Block block){
@@ -98,6 +99,14 @@ public class ModBlockStatesProvider extends BlockStateProvider {
                 });
         if (generateBlockItem)
             simpleBlockItem(block, model);
+    }
+
+    protected void floatingRoeBlock(Block block, boolean generateBlockItem){
+        ResourceLocation name = ForgeRegistries.BLOCKS.getKey(block);
+        ModelFile model = models().withExistingParent(name.toString(), modLoc("block/roe_prefab"))
+                .texture("roe", ResourceLocationUtils.prepend(name, "block/")).renderType(mcLoc("cutout"));
+        getVariantBuilder(block)
+                .partialState().setModels(new ConfiguredModel(model));
     }
     @Override
     public void simpleBlock(Block block, ModelFile model) {
