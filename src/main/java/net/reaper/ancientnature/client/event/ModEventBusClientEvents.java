@@ -39,6 +39,7 @@ public class ModEventBusClientEvents {
         event.registerLayerDefinition(CitipatiModel.CitipatiLayer, CitipatiModel::createBodyLayer);
         event.registerLayerDefinition(LythronaxModel.LYTHRONAX_LAYER, LythronaxModel::createBodyLayer);
         event.registerLayerDefinition(DodoModel.DODO_LAYER, DodoModel::createBodyLayer);
+        event.registerLayerDefinition(ThylacineModel.THYLACINE_LAYER, ThylacineModel::createBodyLayer);
         event.registerLayerDefinition(ModModelLayers.TREX_LAYER, TRexModel::createBodyLayer);
         event.registerLayerDefinition(ModModelLayers.BABY_LYTHRONAX_LAYER, LythronaxBabyModel::createBodyLayer);
     }
@@ -53,6 +54,7 @@ public class ModEventBusClientEvents {
         event.registerEntityRenderer(ModEntities.DUNKLEOSTEUS.get(), DunkleosteusRenderer::new);
         event.registerEntityRenderer(ModEntities.CITIPATI.get(), CitipatiRenderer::new);
         event.registerEntityRenderer(ModEntities.LYTHRONAX.get(), LythronaxRenderer::new);
+        event.registerEntityRenderer(ModEntities.THYLACINE.get(), ThylacineRenderer::new);
         event.registerEntityRenderer(ModEntities.TREX.get(), TRexRenderer::new);
         event.registerEntityRenderer(ModEntities.DODO.get(), pContext -> new SmartAnimalRenderer<>(pContext, new DodoModel(pContext.bakeLayer(DodoModel.DODO_LAYER))));
         event.registerBlockEntityRenderer(ModBlockEntities.REVIVAL_STAND_ENTITY.get(), RevivalStandRenderer::new);
@@ -61,6 +63,12 @@ public class ModEventBusClientEvents {
     @SubscribeEvent
     public static void entitySpawnRestriction(SpawnPlacementRegisterEvent event) {
         event.register(ModEntities.DODO.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                Animal::checkAnimalSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
+
+        event.register(ModEntities.THYLACINE.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                Animal::checkAnimalSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
+
+        event.register(ModEntities.TUATARA.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 Animal::checkAnimalSpawnRules, SpawnPlacementRegisterEvent.Operation.REPLACE);
     }
     @SubscribeEvent

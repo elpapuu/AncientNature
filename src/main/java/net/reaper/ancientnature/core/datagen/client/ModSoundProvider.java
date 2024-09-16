@@ -28,6 +28,11 @@ public class ModSoundProvider extends SoundDefinitionsProvider {
         simple(ModSounds.ANOMALOCARIS_EAT_2.get());
         simple(ModSounds.ANOMALOCARIS_HURT_1.get());
         simple(ModSounds.ANOMALOCARIS_HURT_2.get());
+        simple(ModSounds.DODO_IDLE_1.get());
+        simple(ModSounds.DODO_IDLE_2.get());
+        simple(ModSounds.DODO_HURT_1.get());
+        simple(ModSounds.DODO_HURT_2.get());
+        simple(ModSounds.DODO_DIYING.get());
         //there is no ogg file for this sound event so i excluded it from the datagen
         //simple(ModSounds.CLEANED_FOSSIL.get());
     }

@@ -50,7 +50,9 @@ public class ModEntities {
     public static final RegistryObject<EntityType<LythronaxEntity>> LYTHRONAX =
             ENTITY_TYPES.register("lythronax", () -> EntityType.Builder.of(LythronaxEntity::new, MobCategory.CREATURE)
                     .sized(2, 2).build("lythronax"));
-
+    public static final RegistryObject<EntityType<ThylacineEntity>> THYLACINE =
+            ENTITY_TYPES.register("thylacine", () -> EntityType.Builder.of(ThylacineEntity::new, MobCategory.CREATURE)
+                    .sized(1F,0.8F).build("thylacine"));
     public static final RegistryObject<EntityType<TRexEntity>> TREX =
             ENTITY_TYPES.register("trex", () -> EntityType.Builder.of(TRexEntity::new, MobCategory.CREATURE)
                     .sized(3.65456434F,4.23423F).build("trex"));

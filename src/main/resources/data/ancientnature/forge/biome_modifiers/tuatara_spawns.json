@@ -1,0 +1,10 @@
+{
+  "type": "forge:add_spawns",
+  "biomes": "minecraft:jungle",
+  "spawners": {
+    "type": "ancientnature:tuatara",
+    "weight": 6,
+    "minCount": 1,
+    "maxCount": 3
+  }
+}

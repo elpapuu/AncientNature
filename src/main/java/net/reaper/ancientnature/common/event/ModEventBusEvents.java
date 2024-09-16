@@ -25,6 +25,7 @@ public class ModEventBusEvents {
         event.put(ModEntities.TUATARA.get(), TuataraEntity.createAttributes().build());
         event.put(ModEntities.PARANOGMIUS.get(), Paranogmius.createAttributes().build());
         event.put(ModEntities.LYTHRONAX.get(), LythronaxEntity.createAttributes().build());
+        event.put(ModEntities.THYLACINE.get(), ThylacineEntity.createAttributes().build());
         event.put(ModEntities.TREX.get(), TRexEntity.createAttributes().build());
     }
     @SubscribeEvent

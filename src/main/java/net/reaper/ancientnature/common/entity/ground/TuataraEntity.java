@@ -2,6 +2,7 @@ package net.reaper.ancientnature.common.entity.ground;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -9,6 +10,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -49,6 +51,8 @@ public class TuataraEntity extends SmartAnimatedAnimal {
 
     public TuataraEntity(EntityType<? extends TamableAnimal> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
+        this.xpReward = 1;
+        this.setTame(false);
         this.moveControl = new MoveControl(this) {
             @Override
             public void tick() {
@@ -86,7 +90,7 @@ public class TuataraEntity extends SmartAnimatedAnimal {
 
     public static AttributeSupplier.Builder createAttributes() {
         return WaterAnimal.createLivingAttributes()
-                .add(Attributes.MAX_HEALTH, 4)
+                .add(Attributes.MAX_HEALTH, 6)
                 .add(Attributes.MOVEMENT_SPEED, 0.125d)
                 .add(Attributes.FOLLOW_RANGE, 25d);
 
@@ -144,6 +148,9 @@ public class TuataraEntity extends SmartAnimatedAnimal {
 
     @Override
     public boolean canSpawnSprintParticle() {
-        return false;
+        return true;
+    }
+    public static boolean canSpawn(EntityType<TuataraEntity> tEntityType, ServerLevelAccessor serverLevelAccessor, MobSpawnType spawnType, BlockPos blockPos, RandomSource randomSource) {
+    return Animal.checkAnimalSpawnRules(tEntityType, serverLevelAccessor, spawnType, blockPos, randomSource) && !serverLevelAccessor.getLevelData().isRaining();
     }
 }
