@@ -61,6 +61,9 @@ public class ModItems {
     public static final RegistryObject<Item> RAW_PARANOGMIUS = ITEMS.register("raw_paranogmius", () -> new Item(new Item.Properties().food(ModFoods.RAW_PARANOGMIUS)));
     public static final RegistryObject<Item> COOKED_PARANOGMIUS = ITEMS.register("cooked_paranogmius", () -> new Item(new Item.Properties().food(ModFoods.COOKED_PARANOGMIUS)));
 
+    public static final RegistryObject<Item> PARANOGMIUS_ROE = ITEMS.register("paranogmius_roe", () ->
+            new PlaceOnWaterBlockItem(ModBlocks.PARANOGMIUS_ROE.get(), new Item.Properties().stacksTo(16)));
+
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }

@@ -59,7 +59,7 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         auto(ModItems.PARANOGMIUS_SPAWN_EGG.get());
 
         auto(ModBlocks.ARANDASPIS_ROE.get());
-        auto(ModBlocks.PARANOGMIUS_ROE.get());
+        add(ModBlocks.PARANOGMIUS_ROE.get(), "Paranogmius Roe");
         auto(ModBlocks.ANOMALOCARIS_EGGS.get());
         auto(ModBlocks.REVIVAL_STAND.get());
         auto(ModBlocks.MUD_WITH_FOSSILS.get());
