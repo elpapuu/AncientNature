@@ -91,7 +91,7 @@ public abstract class SmartAnimatedAnimal extends TamableAnimal {
 
     @Override
     public InteractionResult mobInteract(Player pPlayer, InteractionHand pHand) {
-        if(!level().isClientSide()&&pHand==InteractionHand.MAIN_HAND){
+        if(!level().isClientSide()&&pHand==InteractionHand.MAIN_HAND && isTame()){
             setOrder(getOrder() == TameableOrders.SIT ? TameableOrders.FOLLOW : TameableOrders.SIT);
             pPlayer.sendSystemMessage(Component.literal("Order: " + getOrder().name()));
             return InteractionResult.SUCCESS;
@@ -106,7 +106,7 @@ public abstract class SmartAnimatedAnimal extends TamableAnimal {
     public void defineDiet(AnimalDiet.Builder pDietBuilder){}
 
     public boolean shouldSleep() {
-        return this.entityData.get(DAY_TIME) > 13000+getBedtimeVariance() || this.entityData.get(DAY_TIME) < 1000+getBedtimeVariance();
+        return this.entityData.get(DAY_TIME) > 6000+getBedtimeVariance() || this.entityData.get(DAY_TIME) < 1000+getBedtimeVariance();
     }
 
 

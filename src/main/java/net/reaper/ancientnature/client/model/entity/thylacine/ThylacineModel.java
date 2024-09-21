@@ -1,4 +1,4 @@
-package net.reaper.ancientnature.client.model.entity;// Made with Blockbench 4.10.4
+package net.reaper.ancientnature.client.model.entity.thylacine;// Made with Blockbench 4.10.4
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports
 
@@ -12,32 +12,44 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.reaper.ancientnature.AncientNature;
-import net.reaper.ancientnature.client.animations.entity.ThylacineAnimations;
+import net.reaper.ancientnature.client.animations.entity.thylacine.ThylacineAnimations;
+import net.reaper.ancientnature.client.model.entity.SmartAnimalModel;
 import net.reaper.ancientnature.common.entity.ground.ThylacineEntity;
 
 public class ThylacineModel extends SmartAnimalModel<ThylacineEntity> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation THYLACINE_LAYER = new ModelLayerLocation(new ResourceLocation(
 			AncientNature.MOD_ID, "thylacine"), "main");
-
 	ResourceLocation BENJAMIN = new ResourceLocation(AncientNature.MOD_ID, "textures/entity/thylacine/thylacine_benjamin.png");
-	private final ModelPart thylacine;
+
+	private final ModelPart root;
+	public ModelPart thylacine;
 	public ModelPart body;
 	public ModelPart head;
 	public ModelPart tail;
 
 	public ThylacineModel(ModelPart root) {
-		this.thylacine = root.getChild("thylacine");
+		this.root = root.getChild("root");
+		this.thylacine = this.root.getChild("thylacine");
 		this.body = this.thylacine.getChild("body");
 		this.head = this.body.getChild("head");
 		this.tail = this.body.getChild("tail");
 	}
+	@Override
+	public ResourceLocation getTexture(ThylacineEntity pEntity) {
+		if((pEntity.hasCustomName() && pEntity.getName().getString().equals("Benjamin")))
+			return BENJAMIN;
+		return super.getTexture(pEntity);
+	}
+
 
 	public static LayerDefinition createBodyLayer() {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		PartDefinition thylacine = partdefinition.addOrReplaceChild("thylacine", CubeListBuilder.create(), PartPose.offset(0.0F, 13.0F, -3.0F));
+		PartDefinition root = partdefinition.addOrReplaceChild("root", CubeListBuilder.create(), PartPose.offset(0.0F, 13.0F, -3.0F));
+
+		PartDefinition thylacine = root.addOrReplaceChild("thylacine", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
 		PartDefinition body = thylacine.addOrReplaceChild("body", CubeListBuilder.create(), PartPose.offset(0.0F, 1.5F, 3.0F));
 
@@ -76,7 +88,7 @@ public class ThylacineModel extends SmartAnimalModel<ThylacineEntity> {
 
 	@Override
 	public float shadowRadius() {
-		return .5f;
+		return .8f;
 	}
 
 	@Override
@@ -143,8 +155,7 @@ public class ThylacineModel extends SmartAnimalModel<ThylacineEntity> {
 		pNetHeadYaw = Mth.clamp(pNetHeadYaw, -10.0F, 10.0F);
 		pHeadPitch = Mth.clamp(pHeadPitch, -25.0F, 45.0F);
 
-		this.body.getChild("head").yRot = pNetHeadYaw * 0.017453292F;
-		this.body.getChild("head").xRot = pHeadPitch * 0.017453292F;
+		this.head.yRot = pNetHeadYaw * 0.017453292F;
 		this.head.xRot = pHeadPitch * 0.017453292F;
 	}
 
@@ -156,6 +167,6 @@ public class ThylacineModel extends SmartAnimalModel<ThylacineEntity> {
 
 	@Override
 	public ModelPart root() {
-		return thylacine;
+		return root;
 	}
 }

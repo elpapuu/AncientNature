@@ -11,6 +11,7 @@ import net.minecraft.world.entity.Pose;
 import net.reaper.ancientnature.client.model.entity.SmartAnimalModel;
 import net.reaper.ancientnature.client.model.entity.lythronax.LythronaxBabyModel;
 import net.reaper.ancientnature.client.model.layer.ModModelLayers;
+import net.reaper.ancientnature.client.model.entity.thylacine.ThylacineBabyModel;
 import net.reaper.ancientnature.common.entity.ground.DodoEntity;
 import net.reaper.ancientnature.common.entity.ground.LythronaxEntity;
 import net.reaper.ancientnature.common.entity.smartanimal.SmartAnimatedAnimal;

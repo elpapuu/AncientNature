@@ -53,6 +53,7 @@ public class ModItems {
     public static final RegistryObject<ForgeSpawnEggItem> PARANOGMIUS_SPAWN_EGG = ITEMS.register("paranogmius_spawn_egg", () -> new ForgeSpawnEggItem(ModEntities.PARANOGMIUS, 0x205471, 0xd0b72f, new Item.Properties()));
     public static final RegistryObject<ForgeSpawnEggItem> DODO_SPAWN_EGG = ITEMS.register("dodo_spawn_egg", () -> new ForgeSpawnEggItem(ModEntities.DODO, 0x3b404d, 0xc98b66, new Item.Properties()));
     public static final RegistryObject<ForgeSpawnEggItem> LYTHRONAX_SPAWN_EGG = ITEMS.register("lythronax_spawn_egg", () -> new ForgeSpawnEggItem(ModEntities.LYTHRONAX, 0xbe7a4a, 0xc442825, new Item.Properties()));
+public static final RegistryObject<ForgeSpawnEggItem> THYLACINE_SPAWN_EGG = ITEMS.register("thylacine_spawn_egg", () -> new ForgeSpawnEggItem(ModEntities.THYLACINE, 0x8f6743, 0x674138, new Item.Properties()));
     public static final RegistryObject<ForgeSpawnEggItem> TUATARA_SPAWN_EGG = ITEMS.register("tuatara_spawn_egg", () -> new ForgeSpawnEggItem(ModEntities.TUATARA, 0x86683c, 0xc4c3f, new Item.Properties()));
     public static final RegistryObject<ForgeSpawnEggItem> TREX_SPAWN_EGG = ITEMS.register("trex_spawn_egg", () -> new ForgeSpawnEggItem(ModEntities.TREX, 0x2d2627, 0x793237, new Item.Properties()));
 
