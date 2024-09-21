@@ -148,7 +148,7 @@ public class TuataraEntity extends SmartAnimatedAnimal {
 
     @Override
     public boolean canSpawnSprintParticle() {
-        return true;
+        return false;
     }
     public static boolean canSpawn(EntityType<TuataraEntity> tEntityType, ServerLevelAccessor serverLevelAccessor, MobSpawnType spawnType, BlockPos blockPos, RandomSource randomSource) {
     return Animal.checkAnimalSpawnRules(tEntityType, serverLevelAccessor, spawnType, blockPos, randomSource) && !serverLevelAccessor.getLevelData().isRaining();

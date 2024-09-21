@@ -57,6 +57,7 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         auto(ModItems.DODO_SPAWN_EGG.get());
         auto(ModItems.HORSESHOE_CRAB_SPAWN_EGG.get());
         auto(ModItems.LYTHRONAX_SPAWN_EGG.get());
+        auto(ModItems.THYLACINE_SPAWN_EGG.get());
         auto(ModItems.TUATARA_SPAWN_EGG.get());
         auto(ModItems.TREX_SPAWN_EGG.get());
         auto(ModItems.PARANOGMIUS_SPAWN_EGG.get());

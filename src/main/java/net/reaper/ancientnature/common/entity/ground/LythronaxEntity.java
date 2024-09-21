@@ -163,7 +163,7 @@ public class LythronaxEntity extends SmartAnimatedAnimal implements IShakeScreen
             case IDLE -> (int) ((this.isBaby() ? .96 : 1.92) * 20.0);
             case WALK -> (int) ((this.isBaby() ? .96 : 1.92) * 20.0);
             case RUN -> (int) ((this.isBaby() ? .48 : .84) * 20.0);
-            case EAT -> (int) ((this.isBaby() ? 2.04 : 2.84) * 20.0);
+            case EAT -> (int) ((this.isBaby() ? .48 : .84) * 20.0);
             case ATTACK -> (int) ((this.isBaby() ? .44 : .72) * 20.0);
             case ATTACK2 -> 0;
             case ATTACK3 -> 0;
