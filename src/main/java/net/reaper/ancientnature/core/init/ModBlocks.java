@@ -50,9 +50,9 @@ public class ModBlocks {
             new RoeBlock(BlockBehaviour.Properties.copy(Blocks.FROGSPAWN),
                     3600, 12000, 1, 4, ModEntities.ANOMALOCARIS::get, false),
             () -> new Item.Properties().stacksTo(16));
-    public static final RegistryObject<RoeBlock> PARANOGMIUS_ROE = register("paranogmius_roe", () ->
-            new RoeBlock(BlockBehaviour.Properties.copy(Blocks.FROGSPAWN),
-                    3600, 12000, 1, 4, ModEntities.PARANOGMIUS::get, true),
+    public static final RegistryObject<RoeBlock> PARANOGMIUS_ROE = register("paranogmius_roe_block", () ->
+                    new RoeBlock(BlockBehaviour.Properties.copy(Blocks.FROGSPAWN),
+                            3600, 12000, 1, 4, ModEntities.PARANOGMIUS::get, true),
             () -> new Item.Properties().stacksTo(16));
 
     public static final RegistryObject<FourEggBlock> DODO_EGG = register("dodo_egg",

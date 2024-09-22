@@ -57,6 +57,7 @@ public static final RegistryObject<ForgeSpawnEggItem> THYLACINE_SPAWN_EGG = ITEM
     public static final RegistryObject<ForgeSpawnEggItem> TUATARA_SPAWN_EGG = ITEMS.register("tuatara_spawn_egg", () -> new ForgeSpawnEggItem(ModEntities.TUATARA, 0x86683c, 0xc4c3f, new Item.Properties()));
     public static final RegistryObject<ForgeSpawnEggItem> TREX_SPAWN_EGG = ITEMS.register("trex_spawn_egg", () -> new ForgeSpawnEggItem(ModEntities.TREX, 0x2d2627, 0x793237, new Item.Properties()));
 
+    public static final RegistryObject<Item> PARANOGMIUS_ROE = ITEMS.register("paranogmius_roe", () -> new PlaceOnWaterBlockItem(ModBlocks.PARANOGMIUS_ROE.get(), new Item.Properties().stacksTo(16)));
 
     public static final RegistryObject<Item> RAW_DODO = ITEMS.register("raw_dodo", () -> new Item(new Item.Properties().food(ModFoods.RAW_DODO)));
     public static final RegistryObject<Item> COOKED_DODO = ITEMS.register("cooked_dodo", () -> new Item(new Item.Properties().food(ModFoods.COOKED_DODO)));

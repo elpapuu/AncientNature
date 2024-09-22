@@ -40,7 +40,7 @@ public class ModItemModelsProvider extends ItemModelProvider {
         simple(ModItems.LYTHRONAX_FOSSIL.get());
         simple(ModItems.PARANOGMIUS_FOSSIL.get());
         simple(ModBlocks.ARANDASPIS_ROE.get());
-        simple(ModBlocks.PARANOGMIUS_ROE.get());
+        simple(ModItems.PARANOGMIUS_ROE.get());
         simple(ModBlocks.ANOMALOCARIS_EGGS.get());
         spawnEgg(ModItems.ARANDASPIS_SPAWN_EGG.get());
         spawnEgg(ModItems.ANOMALOCARIS_SPAWN_EGG.get());
