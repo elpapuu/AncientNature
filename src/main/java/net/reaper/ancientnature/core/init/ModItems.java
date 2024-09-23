@@ -2,6 +2,8 @@ package net.reaper.ancientnature.core.init;
 
 import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.ForgeSpawnEggItem;
@@ -10,6 +12,8 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+
+import java.util.function.Supplier;
 
 
 public class ModItems {
@@ -57,12 +61,14 @@ public static final RegistryObject<ForgeSpawnEggItem> THYLACINE_SPAWN_EGG = ITEM
     public static final RegistryObject<ForgeSpawnEggItem> TUATARA_SPAWN_EGG = ITEMS.register("tuatara_spawn_egg", () -> new ForgeSpawnEggItem(ModEntities.TUATARA, 0x86683c, 0xc4c3f, new Item.Properties()));
     public static final RegistryObject<ForgeSpawnEggItem> TREX_SPAWN_EGG = ITEMS.register("trex_spawn_egg", () -> new ForgeSpawnEggItem(ModEntities.TREX, 0x2d2627, 0x793237, new Item.Properties()));
 
+    public static final RegistryObject<ForgeSpawnEggItem> WORM_SPAWN_EGG = ITEMS.register("worm_spawn_egg", () -> new ForgeSpawnEggItem((Supplier<? extends EntityType<? extends Mob>>) ModEntities.WORM, 0xd47965, 0xda996d, new Item.Properties()));
     public static final RegistryObject<Item> PARANOGMIUS_ROE = ITEMS.register("paranogmius_roe", () -> new PlaceOnWaterBlockItem(ModBlocks.PARANOGMIUS_ROE.get(), new Item.Properties().stacksTo(16)));
 
     public static final RegistryObject<Item> RAW_DODO = ITEMS.register("raw_dodo", () -> new Item(new Item.Properties().food(ModFoods.RAW_DODO)));
     public static final RegistryObject<Item> COOKED_DODO = ITEMS.register("cooked_dodo", () -> new Item(new Item.Properties().food(ModFoods.COOKED_DODO)));
     public static final RegistryObject<Item> RAW_PARANOGMIUS = ITEMS.register("raw_paranogmius", () -> new Item(new Item.Properties().food(ModFoods.RAW_PARANOGMIUS)));
     public static final RegistryObject<Item> COOKED_PARANOGMIUS = ITEMS.register("cooked_paranogmius", () -> new Item(new Item.Properties().food(ModFoods.COOKED_PARANOGMIUS)));
+    public static final RegistryObject<Item> WORM = ITEMS.register("worm", () -> new Item(new Item.Properties().food(ModFoods.WORM)));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

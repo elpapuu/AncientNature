@@ -51,6 +51,7 @@ public class ModItemModelsProvider extends ItemModelProvider {
         spawnEgg(ModItems.TREX_SPAWN_EGG.get());
         spawnEgg(ModItems.HORSESHOE_CRAB_SPAWN_EGG.get());
         spawnEgg(ModItems.PARANOGMIUS_SPAWN_EGG.get());
+        spawnEgg(ModItems.WORM_SPAWN_EGG.get());
         handheldItem(ModItems.BLOOD_DAGGER);
         simple(ModItems.LYTHRONAX_TEETH.get());
         simple(ModItems.ROPE.get());
@@ -60,6 +61,7 @@ public class ModItemModelsProvider extends ItemModelProvider {
         simple(ModItems.COOKED_PARANOGMIUS.get());
         simple(ModItems.WHERE_YOUR_JOURNEY_BEGINS_MUSIC_DISC.get());
         simple(ModItems.LYTHRONAX_SADDLE.get());
+        simple(ModItems.WORM.get());
     }
 
    private ItemModelBuilder handheldItem(RegistryObject<Item>item) {

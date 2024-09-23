@@ -10,5 +10,6 @@ public class ModFoods {
     public static final FoodProperties COOKED_DODO = new FoodProperties.Builder().nutrition(3).saturationMod(0.7f).build();
     public static final FoodProperties RAW_PARANOGMIUS = new FoodProperties.Builder().nutrition(4).saturationMod(0.3f).meat().build();
     public static final FoodProperties COOKED_PARANOGMIUS = new FoodProperties.Builder().nutrition(7).saturationMod(0.7f).build();
+    public static final FoodProperties WORM = new FoodProperties.Builder().nutrition(1).saturationMod(0.2f).meat().effect(() -> new MobEffectInstance(MobEffects.CONFUSION, 100), 0.1f).build();
 
 }

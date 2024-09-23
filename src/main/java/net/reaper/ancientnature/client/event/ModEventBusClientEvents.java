@@ -45,6 +45,7 @@ public class ModEventBusClientEvents {
         event.registerLayerDefinition(ModModelLayers.BABY_THYLACINE_LAYER, ThylacineBabyModel::createBodyLayer);
         event.registerLayerDefinition(ModModelLayers.TREX_LAYER, TRexModel::createBodyLayer);
         event.registerLayerDefinition(ModModelLayers.BABY_LYTHRONAX_LAYER, LythronaxBabyModel::createBodyLayer);
+        event.registerLayerDefinition(WormModel.WORM_LAYER, WormModel::createBodyLayer);
     }
 
     @SubscribeEvent
@@ -60,6 +61,7 @@ public class ModEventBusClientEvents {
         event.registerEntityRenderer(ModEntities.THYLACINE.get(), ThylacineRenderer::new);
         event.registerEntityRenderer(ModEntities.TREX.get(), TRexRenderer::new);
         event.registerEntityRenderer(ModEntities.DODO.get(), pContext -> new SmartAnimalRenderer<>(pContext, new DodoModel(pContext.bakeLayer(DodoModel.DODO_LAYER))));
+        event.registerEntityRenderer(ModEntities.WORM.get(), WormRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.REVIVAL_STAND_ENTITY.get(), RevivalStandRenderer::new);
     }
 
