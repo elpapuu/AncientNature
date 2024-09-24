@@ -6,11 +6,11 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
-public class CustomMobEffectInstance extends MobEffectInstance {
-
-    public CustomMobEffectInstance(MobEffect pEffect, int pDuration, int pAmplifier) {
-        super(pEffect, pDuration, pAmplifier);
+public class CustomEffectInstance extends MobEffectInstance {
+    public CustomEffectInstance(MobEffect pEffect, int pDuration, int pAmplifier, boolean pAmbient, boolean pVisible, boolean pShowIcon) {
+        super(pEffect, pDuration, pAmplifier, pAmbient, pVisible, pShowIcon);
     }
 
     @Override
@@ -18,3 +18,4 @@ public class CustomMobEffectInstance extends MobEffectInstance {
         return Collections.emptyList();
     }
 }
+

@@ -21,6 +21,7 @@ public class BloodDaggerItem extends SwordItem {
     public BloodDaggerItem(Properties properties) {
         super(Tiers.STONE, 2, 10.0F, new Item.Properties().rarity(Rarity.UNCOMMON));
     }
+
 }
 
 
