@@ -102,6 +102,9 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         add("advancements.unusual_potions.title", "Unusual Potions");
         add("advancements.unusual_potions.descr", "I think this isnt for potions");
 
+        //effects
+        add(ModEffects.BLEEDING.get(), "Bleeding");
+
         //subtitles
         add(ModSounds.CLEANED_FOSSIL.get(), "Fossil cleaning");
         add(ModSounds.ANOMALOCARIS_EAT_1.get(), "Anomalocaris eating");

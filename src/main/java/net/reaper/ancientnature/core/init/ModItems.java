@@ -10,6 +10,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import net.reaper.ancientnature.common.item.BloodDaggerItem;
 
 
 public class ModItems {
@@ -37,7 +38,7 @@ public class ModItems {
 
     public static final RegistryObject<Item> ROPE = ITEMS.register("rope", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> LYTHRONAX_TEETH = ITEMS.register("lythronax_teeth", () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
-    public static final RegistryObject<Item> BLOOD_DAGGER = ITEMS.register("blood_dagger", () -> new SwordItem(Tiers.STONE,2, -0.3F, new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> BLOOD_DAGGER = ITEMS.register("blood_dagger", () -> new BloodDaggerItem(new Item.Properties()));
 
     public static final RegistryObject<Item> WHERE_YOUR_JOURNEY_BEGINS_MUSIC_DISC = ITEMS.register("where_your_journey_begins_disc", () -> new RecordItem(6, ModSounds.WHERE_YOUR_JOURNEY_BEGINS_DISC, new Item.Properties().stacksTo(1),80*20));
 
@@ -61,6 +62,7 @@ public class ModItems {
     public static final RegistryObject<Item> COOKED_DODO = ITEMS.register("cooked_dodo", () -> new Item(new Item.Properties().food(ModFoods.COOKED_DODO)));
     public static final RegistryObject<Item> RAW_PARANOGMIUS = ITEMS.register("raw_paranogmius", () -> new Item(new Item.Properties().food(ModFoods.RAW_PARANOGMIUS)));
     public static final RegistryObject<Item> COOKED_PARANOGMIUS = ITEMS.register("cooked_paranogmius", () -> new Item(new Item.Properties().food(ModFoods.COOKED_PARANOGMIUS)));
+
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
