@@ -69,7 +69,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.TREX_SPAWN_EGG.get());
                         pOutput.accept(ModItems.HORSESHOE_CRAB_SPAWN_EGG.get());
                         pOutput.accept(ModItems.PARANOGMIUS_SPAWN_EGG.get());
-                        pOutput.accept(ModItems.WORM_SPAWN_EGG.get());
+//                        pOutput.accept(ModItems.WORM_SPAWN_EGG.get());
 
                         pOutput.accept(ModBlocks.DODO_EGG.get());
                     })

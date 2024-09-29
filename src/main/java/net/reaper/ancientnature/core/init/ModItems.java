@@ -12,6 +12,8 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import net.reaper.ancientnature.common.item.ScarySkull;
+import net.reaper.ancientnature.common.item.TyrantAxe;
 
 import java.util.function.Supplier;
 
@@ -61,7 +63,7 @@ public static final RegistryObject<ForgeSpawnEggItem> THYLACINE_SPAWN_EGG = ITEM
     public static final RegistryObject<ForgeSpawnEggItem> TUATARA_SPAWN_EGG = ITEMS.register("tuatara_spawn_egg", () -> new ForgeSpawnEggItem(ModEntities.TUATARA, 0x86683c, 0xc4c3f, new Item.Properties()));
     public static final RegistryObject<ForgeSpawnEggItem> TREX_SPAWN_EGG = ITEMS.register("trex_spawn_egg", () -> new ForgeSpawnEggItem(ModEntities.TREX, 0x2d2627, 0x793237, new Item.Properties()));
 
-    public static final RegistryObject<ForgeSpawnEggItem> WORM_SPAWN_EGG = ITEMS.register("worm_spawn_egg", () -> new ForgeSpawnEggItem((Supplier<? extends EntityType<? extends Mob>>) ModEntities.WORM, 0xd47965, 0xda996d, new Item.Properties()));
+    //public static final RegistryObject<ForgeSpawnEggItem> WORM_SPAWN_EGG = ITEMS.register("worm_spawn_egg", () -> new ForgeSpawnEggItem((Supplier<? extends EntityType<? extends Mob>>) ModEntities.WORM, 0xd47965, 0xda996d, new Item.Properties()));
     public static final RegistryObject<Item> PARANOGMIUS_ROE = ITEMS.register("paranogmius_roe", () -> new PlaceOnWaterBlockItem(ModBlocks.PARANOGMIUS_ROE.get(), new Item.Properties().stacksTo(16)));
 
     public static final RegistryObject<Item> RAW_DODO = ITEMS.register("raw_dodo", () -> new Item(new Item.Properties().food(ModFoods.RAW_DODO)));
@@ -70,6 +72,8 @@ public static final RegistryObject<ForgeSpawnEggItem> THYLACINE_SPAWN_EGG = ITEM
     public static final RegistryObject<Item> COOKED_PARANOGMIUS = ITEMS.register("cooked_paranogmius", () -> new Item(new Item.Properties().food(ModFoods.COOKED_PARANOGMIUS)));
     public static final RegistryObject<Item> WORM = ITEMS.register("worm", () -> new Item(new Item.Properties().food(ModFoods.WORM)));
 
+    public static final RegistryObject<Item> TYRANT_AXE = ITEMS.register("tyrant_axe",()-> new TyrantAxe(new Item.Properties().stacksTo(1)));
+    public static final RegistryObject<Item> SCARY_SKULL = ITEMS.register("scary_skull",()-> new ScarySkull(new Item.Properties().stacksTo(1).setNoRepair()));
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }

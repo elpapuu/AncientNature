@@ -19,7 +19,7 @@ import net.minecraft.world.level.pathfinder.WalkNodeEvaluator;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.reaper.ancientnature.AncientNature;
-import net.reaper.ancientnature.common.entity.ground.AbstractDinoAnimal;
+import net.reaper.ancientnature.common.entity.ground.AbstractTrexEntity;
 import net.reaper.ancientnature.common.pathfinding.NodeProcessorFly;
 import net.reaper.ancientnature.common.pathfinding.NodeProcessorWalk;
 import net.reaper.ancientnature.common.pathfinding.raycoms.pathjobs.*;
@@ -328,8 +328,8 @@ public class AdvancedPathNavigate extends AbstractAdvancedPathNavigate {
         if (this.mob instanceof TamableAnimal) {
             if (((TamableAnimal) this.mob).isTame())
                 return;
-            if (this.mob instanceof AbstractDinoAnimal) {
-                if (((AbstractDinoAnimal) this.mob).isInSittingPose())
+            if (this.mob instanceof AbstractTrexEntity) {
+                if (((AbstractTrexEntity) this.mob).isInSittingPose())
                     return;
             }
 

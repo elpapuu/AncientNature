@@ -2,28 +2,26 @@ package net.reaper.ancientnature.common.entity.goals;
 
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.reaper.ancientnature.common.entity.ground.AbstractDinoAnimal;
 import net.reaper.ancientnature.common.entity.ground.TRexEntity;
 
+import java.util.Objects;
+
 public class ANMeleeGoalAttack extends MeleeAttackGoal {
-    private final TRexEntity entity;
-    private int attackDelay = 40;
-    private int ticksUntilNextAttack = 40;
+    private final TRexEntity animal;
+    private final int attackDelay;
+    private final int animationLength;
+    private int ticksUntilNextAttack;
     private boolean shouldCountTillNextAttack = false;
 
-    public ANMeleeGoalAttack(PathfinderMob pMob, double pSpeedModifier, boolean pFollowingTargetEvenIfNotSeen) {
+    public ANMeleeGoalAttack(TRexEntity pMob, double pSpeedModifier, boolean pFollowingTargetEvenIfNotSeen,int attackDelay, int attackAnimationLength) {
         super(pMob, pSpeedModifier, pFollowingTargetEvenIfNotSeen);
-        entity = ((TRexEntity) pMob);
+        animal = pMob;
+        this.attackDelay = attackDelay;
+        this.animationLength = attackAnimationLength;
+        this.ticksUntilNextAttack = attackAnimationLength-attackDelay;
     }
 
-    @Override
-    public void start() {
-        super.start();
-        attackDelay = 40;
-        ticksUntilNextAttack = 40;
-    }
 
     @Override
     protected void checkAndPerformAttack(LivingEntity pEnemy, double pDistToEnemySqr) {
@@ -31,7 +29,7 @@ public class ANMeleeGoalAttack extends MeleeAttackGoal {
             shouldCountTillNextAttack = true;
 
             if(isTimeToStartAttackAnimation()) {
-                entity.setAttacking(true);
+                animal.setAttacking(true);
             }
 
             if(isTimeToAttack()) {
@@ -41,17 +39,19 @@ public class ANMeleeGoalAttack extends MeleeAttackGoal {
         } else {
             resetAttackCooldown();
             shouldCountTillNextAttack = false;
-            entity.setAttacking(false);
-            entity.attackAnimationTimeout = 0;
+            animal.setAttacking(false);
+            animal.attackAnimationTimeout = 0;
         }
     }
+
+
 
     private boolean isEnemyWithinAttackDistance(LivingEntity pEnemy, double pDistToEnemySqr) {
         return pDistToEnemySqr <= this.getAttackReachSqr(pEnemy);
     }
 
     protected void resetAttackCooldown() {
-        this.ticksUntilNextAttack = this.adjustedTickDelay(attackDelay * 2);
+        this.ticksUntilNextAttack = this.adjustedTickDelay(animationLength);
     }
 
     protected boolean isTimeToAttack() {
@@ -81,10 +81,14 @@ public class ANMeleeGoalAttack extends MeleeAttackGoal {
         }
     }
 
+    @Override
+    public boolean canUse() {
+        return super.canUse()&&animal.canAttack(Objects.requireNonNull(animal.getTarget()));
+    }
 
     @Override
     public void stop() {
-        entity.setAttacking(false);
+        animal.setAttacking(false);
         super.stop();
     }
 }

@@ -18,11 +18,13 @@ public class ScareEffect extends MobEffect
         if (pLivingEntity instanceof Player) {
             Player player = (Player) pLivingEntity;
             AttributeInstance movementSpeed = player.getAttribute(Attributes.MOVEMENT_SPEED);
-
-            if (movementSpeed != null) {
-                // Reduces movement speed by 20% per amplifier level
+            double baseMS = movementSpeed.getBaseValue();
+            if (movementSpeed != null && pLivingEntity.hasEffect(this)) {
                 double reductionAmount = 0.2 * (pAmplifier + 1);
                 movementSpeed.setBaseValue(movementSpeed.getBaseValue() * (1 - reductionAmount));
+            }
+            else {
+                movementSpeed.setBaseValue(baseMS);
             }
         }
     }

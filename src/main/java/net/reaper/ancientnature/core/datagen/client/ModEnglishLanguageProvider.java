@@ -62,7 +62,7 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         auto(ModItems.TUATARA_SPAWN_EGG.get());
         auto(ModItems.TREX_SPAWN_EGG.get());
         auto(ModItems.PARANOGMIUS_SPAWN_EGG.get());
-        auto(ModItems.WORM_SPAWN_EGG.get());
+//        auto(ModItems.WORM_SPAWN_EGG.get());
 
         auto(ModBlocks.ARANDASPIS_ROE.get());
         add(ModBlocks.PARANOGMIUS_ROE.get(), "Paranogmius Roe");
@@ -93,7 +93,7 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         auto(ModEntities.LYTHRONAX.get());
         auto(ModEntities.THYLACINE.get());
         auto(ModEntities.TREX.get());
-        auto(ModEntities.WORM.get());
+//        auto(ModEntities.WORM.get());
 
         guiTranslation(ModBlockEntities.REVIVAL_STAND_ENTITY.get());
 

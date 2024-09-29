@@ -2,18 +2,18 @@ package net.reaper.ancientnature.common.entity.goals;
 
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.reaper.ancientnature.common.entity.ground.AbstractDinoAnimal;
+import net.reaper.ancientnature.common.entity.ground.AbstractTrexEntity;
 
 import java.util.EnumSet;
 
 public class AILookIdle extends Goal
 {
-    private final AbstractDinoAnimal dragon;
+    private final AbstractTrexEntity dragon;
     private double lookX;
     private double lookZ;
     private int idleTime;
 
-    public AILookIdle(AbstractDinoAnimal prehistoric) {
+    public AILookIdle(AbstractTrexEntity prehistoric) {
         this.dragon = prehistoric;
         this.setFlags(EnumSet.of(Flag.LOOK));
     }

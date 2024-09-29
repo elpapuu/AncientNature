@@ -71,6 +71,8 @@ public class WormEntity extends SmartAnimatedAnimal {
             case DOWN -> 0;
             case FALL_ASLEEP -> 0;
             case WAKE_UP -> 0;
+            case SNIFF -> 0;
+            case INTIMATED -> 0;
             case UP -> 0;
             case SIT -> 0;
             case SLEEP -> 0;

@@ -22,7 +22,7 @@ public class LevelEvents {
     public void onRoarEvent(BlockPos pBlockPos, Level pLevel, EventData[] pEventData) {
         Entity entity = pLevel.getEntity(pEventData[0].asInteger());
         if (entity instanceof LythronaxEntity lythronax) {
-            lythronax.setRoarTicks(60);
+            //lythronax.setRoarTicks(60);
         }
     }
 }

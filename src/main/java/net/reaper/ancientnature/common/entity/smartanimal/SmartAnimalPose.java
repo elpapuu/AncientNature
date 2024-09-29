@@ -16,5 +16,7 @@ public enum SmartAnimalPose {
     SLEEP,
     WAKE_UP,
     ROAR,
+    SNIFF,
+    INTIMATED,
     UP;
 }

@@ -3,21 +3,19 @@ package net.reaper.ancientnature.common.entity.goals;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
-import net.reaper.ancientnature.common.entity.ground.AbstractDinoAnimal;
+import net.reaper.ancientnature.common.entity.ground.AbstractTrexEntity;
 
 import java.util.EnumSet;
 import java.util.List;
 
 public class ProtectEggGoal extends Goal {
-    private final AbstractDinoAnimal mob;
+    private final AbstractTrexEntity mob;
     private final double speedModifier;
     private final double eggPosX, eggPosY, eggPosZ;
     private LivingEntity target;
 
-    public ProtectEggGoal(AbstractDinoAnimal mob, double speedModifier, double eggPosX, double eggPosY, double eggPosZ) {
+    public ProtectEggGoal(AbstractTrexEntity mob, double speedModifier, double eggPosX, double eggPosY, double eggPosZ) {
         this.mob = mob;
         this.speedModifier = speedModifier;
         this.eggPosX = eggPosX;

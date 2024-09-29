@@ -51,7 +51,7 @@ public class ModItemModelsProvider extends ItemModelProvider {
         spawnEgg(ModItems.TREX_SPAWN_EGG.get());
         spawnEgg(ModItems.HORSESHOE_CRAB_SPAWN_EGG.get());
         spawnEgg(ModItems.PARANOGMIUS_SPAWN_EGG.get());
-        spawnEgg(ModItems.WORM_SPAWN_EGG.get());
+//        spawnEgg(ModItems.WORM_SPAWN_EGG.get());
         handheldItem(ModItems.BLOOD_DAGGER);
         simple(ModItems.LYTHRONAX_TEETH.get());
         simple(ModItems.ROPE.get());

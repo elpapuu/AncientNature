@@ -49,9 +49,9 @@ public class LythronaxBabyModel extends SmartAnimalModel<LythronaxEntity> {
 
     @Override
     protected void dynamicTail(@NotNull LythronaxEntity pEntity) {
-        float targetYaw = pEntity.prevTailRot + (pEntity.tailRot - pEntity.prevTailRot) * Minecraft.getInstance().getPartialTick();
-        this.tail1.yRot = Mth.lerp(0.05F, this.tail1.yRot, targetYaw);
-        this.tail2.yRot = Mth.lerp(0.07F, this.tail2.yRot, targetYaw);
+//        float targetYaw = pEntity.prevTailRot + (pEntity.tailRot - pEntity.prevTailRot) * Minecraft.getInstance().getPartialTick();
+//        this.tail1.yRot = Mth.lerp(0.05F, this.tail1.yRot, targetYaw);
+//        this.tail2.yRot = Mth.lerp(0.07F, this.tail2.yRot, targetYaw);
     }
 
     @Override

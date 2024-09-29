@@ -1,12 +1,9 @@
 package net.reaper.ancientnature.client.event;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -16,21 +13,22 @@ import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.ViewportEvent;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
-import net.minecraftforge.client.gui.overlay.NamedGuiOverlay;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
-import net.minecraftforge.common.IForgeShearable;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.reaper.ancientnature.AncientNature;
+import net.reaper.ancientnature.common.entity.ground.AbstractTrexEntity;
 import net.reaper.ancientnature.common.entity.smartanimal.SmartAnimatedAnimal;
 import net.reaper.ancientnature.common.entity.util.ICustomPlayerRidePos;
 import net.reaper.ancientnature.common.entity.util.IMouseInput;
+import net.reaper.ancientnature.common.entity.util.IRoaringMob;
 import net.reaper.ancientnature.common.entity.water.Paranogmius;
 import net.reaper.ancientnature.common.util.RenderUtil;
 import net.reaper.ancientnature.common.util.ScreenShakeUtils;
 import net.reaper.ancientnature.common.util.ScreenUtils;
+import org.lwjgl.glfw.GLFW;
 
 @Mod.EventBusSubscriber(modid = AncientNature.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ModClientEvents {
@@ -39,6 +37,9 @@ public class ModClientEvents {
     public static final ResourceLocation PRIMORDIAL_INSTINCT_BAR = new ResourceLocation(AncientNature.MOD_ID, "textures/gui/primordial_instinct_bar.png");
     public static final ResourceLocation HUNGER_BAR = new ResourceLocation(AncientNature.MOD_ID, "textures/gui/hunger_bar.png");
     public static final ResourceLocation STAMINA_BAR = new ResourceLocation(AncientNature.MOD_ID, "textures/gui/stamina_bar.png");
+
+    public static final int ROAR_COOLDOWN = 100;
+    private static long lastRoarTime = 0;
 
     @SubscribeEvent
     public static void onComputeCameraAngle(ViewportEvent.ComputeCameraAngles pEvent) {
@@ -84,11 +85,23 @@ public class ModClientEvents {
                     pEvent.setCanceled(true);
                 }
             }
-            if (vehicle instanceof Paranogmius paranogmius) {
+            else if (vehicle instanceof Paranogmius paranogmius) {
                 int lifeProgress = ScreenUtils.getScaledInt((int) paranogmius.getHealth(), (int) paranogmius.getMaxHealth(), 164);
                 int timerProgress = ScreenUtils.getScaledInt(paranogmius.getRemainingRideTicks(), 12000, 164);
                 ScreenUtils.renderBar(pEvent, SWIMMING_INSTINCT_BAR, d0 + 120, d1 + 15, d0 + 126, d1 + 15, lifeProgress, 30.5F, 180, 24, 27);
                 ScreenUtils.renderBar(pEvent, TIME_BAR, d0 - 297, d1 + 15, d0 - 291, d1 + 18, timerProgress, 30.5F, 180, 24, 27);
+                if (pEvent.getOverlay().id().equals(VanillaGuiOverlay.MOUNT_HEALTH.id())) {
+                    pEvent.setCanceled(true);
+                }
+            }
+            else if(vehicle instanceof AbstractTrexEntity animal)
+            {
+                int lifeProgress = ScreenUtils.getScaledInt((int) animal.getHealth(), (int) animal.getMaxHealth(), 167);
+                int hungerProgress = ScreenUtils.getScaledInt((int) animal.getHunger(), 100, 167);
+                int staminaProgress = ScreenUtils.getScaledInt((int) animal.getStamina(), 100, 167);
+                ScreenUtils.renderBar(pEvent, PRIMORDIAL_INSTINCT_BAR, d0 + 280, d1 - 40, d0 + 283, d1 - 39, lifeProgress, 30.5F, 180, 24, 27);
+                ScreenUtils.renderBar(pEvent, HUNGER_BAR, d0 + 280, d1 - 15, d0 + 283, d1 - 15, hungerProgress, 25.7F, 180, 24, 27);
+                ScreenUtils.renderBar(pEvent, STAMINA_BAR, d0 + 280, d1 + 7, d0 + 283, d1 + 9, staminaProgress, 25.7F, 180, 24, 27);
                 if (pEvent.getOverlay().id().equals(VanillaGuiOverlay.MOUNT_HEALTH.id())) {
                     pEvent.setCanceled(true);
                 }

@@ -4,5 +4,6 @@ public enum TameableOrders {
     IDLE,
     SIT,
     FOLLOW,
+    ATTACK,
     WANDER;
 }

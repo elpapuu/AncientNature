@@ -1,11 +1,9 @@
 package net.reaper.ancientnature.common.entity.ground;
 
-import com.google.common.base.Predicate;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -14,12 +12,14 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
-import net.minecraft.world.*;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
@@ -34,7 +34,6 @@ import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.DismountHelper;
-import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -45,19 +44,20 @@ import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.level.pathfinder.NodeEvaluator;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.minecraftforge.event.ForgeEventFactory;
-import net.minecraftforge.network.NetworkHooks;
-import net.reaper.ancientnature.client.event.CameraShakeEvent;
 import net.reaper.ancientnature.common.entity.goals.*;
 import net.reaper.ancientnature.common.entity.ground.util.IHasCustomizableAttributes;
 import net.reaper.ancientnature.common.entity.smartanimal.SmartAnimalPose;
 import net.reaper.ancientnature.common.entity.smartanimal.TameableOrders;
+import net.reaper.ancientnature.common.entity.util.IMouseInput;
+import net.reaper.ancientnature.common.entity.util.IRoaringMob;
+import net.reaper.ancientnature.common.event.CameraShakeManager;
 import net.reaper.ancientnature.common.pathfinding.raycoms.AdvancedPathNavigate;
 import net.reaper.ancientnature.common.pathfinding.raycoms.PathingStuckHandler;
 import net.reaper.ancientnature.common.util.ANMath;
+import net.reaper.ancientnature.common.util.EntityUtils;
 import net.reaper.ancientnature.core.init.ModEffects;
+import net.reaper.ancientnature.core.init.ModEntities;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -66,26 +66,28 @@ import java.util.Objects;
 
 import static net.reaper.ancientnature.common.pathfinding.raycoms.PathingStuckHandler.createStuckHandler;
 
-public abstract class AbstractDinoAnimal extends TamableAnimal implements IHasCustomizableAttributes, IEntityAdditionalSpawnData, Saddleable, ContainerListener {
+public abstract class AbstractTrexEntity extends TamableAnimal implements IHasCustomizableAttributes, Saddleable, IMouseInput, IRoaringMob {
 
-    private static final EntityDataAccessor<Boolean> GENDER = SynchedEntityData.defineId(AbstractDinoAnimal.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> SLEEPING = SynchedEntityData.defineId(AbstractDinoAnimal.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> ATTACKING = SynchedEntityData.defineId(AbstractDinoAnimal.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> EATING = SynchedEntityData.defineId(AbstractDinoAnimal.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> ROARING = SynchedEntityData.defineId(AbstractDinoAnimal.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Integer> ORDER = SynchedEntityData.defineId(AbstractDinoAnimal.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Byte> DATA_ID_FLAGS = SynchedEntityData.defineId(AbstractDinoAnimal.class, EntityDataSerializers.BYTE);
-    private static final EntityDataAccessor<Boolean> SADDLED = SynchedEntityData.defineId(AbstractDinoAnimal.class,EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> SPRINTING = SynchedEntityData.defineId(AbstractDinoAnimal.class,EntityDataSerializers.BOOLEAN);
-
-
+    private static final EntityDataAccessor<Boolean> GENDER = SynchedEntityData.defineId(AbstractTrexEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> SLEEPING = SynchedEntityData.defineId(AbstractTrexEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> ATTACKING = SynchedEntityData.defineId(AbstractTrexEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> EATING = SynchedEntityData.defineId(AbstractTrexEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> ROARING = SynchedEntityData.defineId(AbstractTrexEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> ORDER = SynchedEntityData.defineId(AbstractTrexEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> SADDLED = SynchedEntityData.defineId(AbstractTrexEntity.class,EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> SPRINTING = SynchedEntityData.defineId(AbstractTrexEntity.class,EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Float> STAMINA = SynchedEntityData.defineId(AbstractTrexEntity.class,EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Float> HUNGER = SynchedEntityData.defineId(AbstractTrexEntity.class,EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Boolean> INTIMATED = SynchedEntityData.defineId(AbstractTrexEntity.class,EntityDataSerializers.BOOLEAN);
+    public int tickControlled;
     public int poseTicks;
     public SmartAnimalPose currentPose = SmartAnimalPose.IDLE;
-    protected SimpleContainer inventory;
-    protected AbstractDinoAnimal(EntityType<? extends TamableAnimal> entityType, Level level) {
+    protected AbstractTrexEntity(EntityType<? extends TamableAnimal> entityType, Level level) {
         super(entityType, level);
         this.configureAttributes();
-        switchNavigator(0);
+        this.setMaxUpStep(1.3F);
+        this.setStamina(100);
+        this.setHunger(100);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -101,50 +103,32 @@ public abstract class AbstractDinoAnimal extends TamableAnimal implements IHasCu
     @Nullable
     @Override
     public AgeableMob getBreedOffspring(@NotNull ServerLevel serverLevel, @NotNull AgeableMob ageableMob) {
-        return null;
+        return ModEntities.TREX.get().create(serverLevel);
     }
 
     @Override
     protected void registerGoals() {
         super.registerGoals();
-        this.goalSelector.addGoal(0, new SitWhenOrderedToGoal(this));
-        this.goalSelector.addGoal(1, new FloatGoal(this));
-        this.goalSelector.addGoal(1, new RoarGoal(this, 50, 100));
 
-        this.goalSelector.addGoal(1, new ANMeleeGoalAttack(this, 1.0D, false));
-        this.goalSelector.addGoal(4, new BreedGoal(this, 1.4D));
-        this.goalSelector.addGoal(4, new AIEscort(this, 1.0D));
-        this.goalSelector.addGoal(8, new AILookIdle(this));
-        this.goalSelector.addGoal(9, new DinoRandomStrollGoal(this, 1.0D));
-        this.goalSelector.addGoal(10, new TemptGoal(this, 1.2D, Ingredient.of(Items.COOKED_BEEF), true));
+        this.goalSelector.addGoal(0, new FloatGoal(this));
+        this.goalSelector.addGoal(1, new RoarGoal(this, 50, 100));
+        this.goalSelector.addGoal(2, new SitWhenOrderedToGoal(this));
+        this.goalSelector.addGoal(6, new AIEscort(this, 1.0D));
+        this.goalSelector.addGoal(7, new BreedGoal(this, 1.4D));
+        this.goalSelector.addGoal(8, new DinoRandomStrollGoal(this, 1.0D));
         this.goalSelector.addGoal(9, new CooldownAfterKillGoal(this, 200));
+
+        this.goalSelector.addGoal(10, new AILookIdle(this));
+        this.goalSelector.addGoal(10, new TemptGoal(this, 1.2D, Ingredient.of(Items.COOKED_BEEF), true));
 
         this.targetSelector.addGoal(0, new OwnerHurtTargetGoal(this));
         this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
         this.targetSelector.addGoal(3, new HurtByTargetGoal(this));
-        this.targetSelector.addGoal(4, new AINonTamed<>(this, LivingEntity.class, false, new Predicate<LivingEntity>() {
-            @Override
-            public boolean apply(@Nullable LivingEntity entity) {
-                return (!(entity instanceof Player) || !((Player) entity).isCreative());
-            }
-        }));
-        this.targetSelector.addGoal(5, new AITargetGoal<>(this, LivingEntity.class, true, new Predicate<LivingEntity>() {
-            @Override
-            public boolean apply(@Nullable LivingEntity entity) {
-                return entity instanceof LivingEntity && entity.getType() != AbstractDinoAnimal.this.getType();
-            }
-        }));
-        this.targetSelector.addGoal(5, new AITargetGoal<>(this, Player.class, true, new Predicate<LivingEntity>() {
-            @Override
-            public boolean apply(@Nullable LivingEntity entity) {
-                return entity instanceof LivingEntity && entity.getType() != AbstractDinoAnimal.this.getType();
-            }
-        }));
+        this.targetSelector.addGoal(4, new AINonTamed<>(this, LivingEntity.class, false, entity -> (!(entity instanceof Player) || !((Player) entity).isCreative())));
+        this.targetSelector.addGoal(5, new AITargetGoal<>(this, LivingEntity.class, true, entity -> entity instanceof LivingEntity && entity.getType() != AbstractTrexEntity.this.getType()));
+        this.targetSelector.addGoal(5, new AITargetGoal<>(this, Player.class, true, entity -> entity instanceof LivingEntity && entity.getType() != AbstractTrexEntity.this.getType()));
+    }
 
-    }
-    protected int getInventorySize() {
-        return 1;
-    }
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
@@ -154,17 +138,15 @@ public abstract class AbstractDinoAnimal extends TamableAnimal implements IHasCu
         this.entityData.define(EATING, false);
         this.entityData.define(ROARING, false);
         this.entityData.define(ORDER, TameableOrders.IDLE.ordinal());
-        this.entityData.define(DATA_ID_FLAGS, (byte)0);
         this.entityData.define(SADDLED, false);
         this.entityData.define(SPRINTING, false);
+        this.entityData.define(STAMINA, 0.0F);
+        this.entityData.define(HUNGER, 0.0F);
+        this.entityData.define(INTIMATED, false);
     }
 
     @Override
     public void configureAttributes() {
-        if (this.isSprinting()) {
-            AttributeModifier modifier = new AttributeModifier("modifier", 4.0, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            Objects.requireNonNull(this.getAttribute(Attributes.MOVEMENT_SPEED)).addTransientModifier(modifier);
-        }
     }
     protected PathNavigation createNavigator(Level worldIn, AdvancedPathNavigate.MovementType type) {
         return createNavigator(worldIn, type, createStuckHandler());
@@ -181,63 +163,11 @@ public abstract class AbstractDinoAnimal extends TamableAnimal implements IHasCu
         return newNavigator;
     }
 
-    protected void createInventory() {
-        SimpleContainer simplecontainer = this.inventory;
-        this.inventory = new SimpleContainer(this.getInventorySize());
-        if (simplecontainer != null) {
-            simplecontainer.removeListener(this);
-            int i = Math.min(simplecontainer.getContainerSize(), this.inventory.getContainerSize());
-
-            for (int j = 0; j < i; ++j) {
-                ItemStack itemstack = simplecontainer.getItem(j);
-                if (!itemstack.isEmpty()) {
-                    this.inventory.setItem(j, itemstack.copy());
-                }
-            }
-        }
-        this.inventory.addListener(this);
-        this.updateContainerEquipment();
-    }
-
-    protected void updateContainerEquipment() {
-        if (!this.level().isClientSide) {
-            this.setFlag(4, !this.inventory.getItem(0).isEmpty());
-            this.entityData.set(SADDLED, this.inventory.getItem(0).is(Items.SADDLE));
-        }
-    }
-
-    public void containerChanged(Container pInvBasic) {
-        boolean flag = this.isSaddled();
-        this.updateContainerEquipment();
-        if (this.tickCount > 20 && !flag && this.isSaddled()) {
-            this.playSound(SoundEvents.HORSE_SADDLE, 0.5F, 1.0F);
-        }
-    }
-
-
     protected void switchNavigator(int navigatorType) {
         if (navigatorType == 0) {
-            this.moveControl = new AbstractDinoAnimal.GroundMoveHelper(this);
+            this.moveControl = new GroundMoveHelper(this);
             this.navigation = createNavigator(level(), AdvancedPathNavigate.MovementType.WALKING, createStuckHandler().withTeleportSteps(5));
         }
-    }
-
-    public void openCustomInventoryScreen(Player pPlayer) {
-        if (!this.level().isClientSide && (!this.isVehicle() || this.hasPassenger(pPlayer)) && this.isTame()) {
-            this.openInventory(pPlayer);
-        }
-
-    }
-    public void openInventory(Player player) {
-        if (!this.level().isClientSide)
-            NetworkHooks.openScreen((ServerPlayer) player, getMenuProvider());
-        
-    }
-
-
-    private MenuProvider getMenuProvider()
-    {
-        return new SimpleMenuProvider((containerId, playerInventory, player) -> new InventoryMenu(playerInventory,true,player), this.getDisplayName());
     }
 
     public boolean getGender() {
@@ -288,14 +218,24 @@ public abstract class AbstractDinoAnimal extends TamableAnimal implements IHasCu
         this.entityData.set(SPRINTING, sprinting);
     }
 
-    protected void setFlag(int pFlagId, boolean pValue) {
-        byte b0 = (Byte)this.entityData.get(DATA_ID_FLAGS);
-        if (pValue) {
-            this.entityData.set(DATA_ID_FLAGS, (byte)(b0 | pFlagId));
-        } else {
-            this.entityData.set(DATA_ID_FLAGS, (byte)(b0 & ~pFlagId));
-        }
+    public float getStamina()
+    {
+        return this.entityData.get(STAMINA);
+    }
 
+    public void setStamina(float stamina)
+    {
+        this.entityData.set(STAMINA,stamina);
+    }
+
+    public float getHunger()
+    {
+        return this.entityData.get(HUNGER);
+    }
+
+    public void setHunger(float hunger)
+    {
+        this.entityData.set(HUNGER,hunger);
     }
 
     public TameableOrders getOrder() {
@@ -347,6 +287,16 @@ public abstract class AbstractDinoAnimal extends TamableAnimal implements IHasCu
         return this.entityData.get(SADDLED);
     }
 
+    public boolean isIntimated()
+    {
+        return this.entityData.get(INTIMATED);
+    }
+
+    public void setIntimated(boolean intimated)
+    {
+        this.entityData.set(INTIMATED,intimated);
+    }
+
     @Override
     public void addAdditionalSaveData(@NotNull CompoundTag compound) {
         super.addAdditionalSaveData(compound);
@@ -355,6 +305,9 @@ public abstract class AbstractDinoAnimal extends TamableAnimal implements IHasCu
         compound.putBoolean("TamedDragon", this.isTame());
         compound.putInt("order", getOrder().ordinal());
         compound.putBoolean("Saddled", this.isSaddled());
+        compound.putFloat("Stamina",this.getStamina());
+        compound.putFloat("Hunger",this.getHunger());
+        compound.putBoolean("Intimated",this.isIntimated());
     }
 
     @Override
@@ -365,40 +318,90 @@ public abstract class AbstractDinoAnimal extends TamableAnimal implements IHasCu
         this.setTame(compound.getBoolean("TamedDragon"));
         this.setOrder(TameableOrders.values()[compound.getInt("order")]);
         this.entityData.set(SADDLED, compound.getBoolean("Saddled"));
-    }
-
-    @Override
-    public void setInSittingPose(boolean sleeping) {
-        this.entityData.set(SLEEPING, sleeping);
-        if (sleeping)
-            this.getNavigation().stop();
-    }
-
-    @Override
-    public void setOrderedToSit(boolean sitting) {
-        byte b0 = this.entityData.get(DATA_FLAGS_ID);
-        if (sitting) {
-            this.entityData.set(DATA_FLAGS_ID, (byte) (b0 | 1));
-            this.getNavigation().stop();
-        } else {
-            this.entityData.set(DATA_FLAGS_ID, (byte) (b0 & -2));
-        }
-    }
-    @Override
-    public void writeSpawnData(FriendlyByteBuf friendlyByteBuf) {
-
-    }
-
-    @Override
-    public void readSpawnData(FriendlyByteBuf friendlyByteBuf) {
-
+        this.setStamina(compound.getFloat("Stamina"));
+        this.setHunger(compound.getFloat("Hunger"));
+        this.setIntimated(compound.getBoolean("Intimated"));
     }
 
     @Override
     public void tick() {
+        int moveTime = 0;
         super.tick();
         updateSleepState();
         updatePoseTicks();
+        updateEntityAttributes();
+        if(!level().isClientSide){
+            if(this.walkAnimation.isMoving())
+            {
+                moveTime++;
+
+                int finalMoveTime = moveTime;
+                level().players().forEach(player -> {
+                    if(player instanceof ServerPlayer sp)
+                    {
+                        if(finalMoveTime > 0)
+                        {
+                            CameraShakeManager.applyCameraShake(sp, (finalMoveTime),5.0F);
+                        }
+
+                    }
+                });
+            }
+        }
+        if(this.isVehicle())
+        {
+            ++this.tickControlled;
+        }
+        else{
+            this.tickControlled = 0;
+        }
+    }
+
+
+    private void updateEntityAttributes() {
+        if(level().isClientSide) return;
+
+        float curSpeed = this.getSpeed();
+        if (this.walkAnimation.isMoving()) {
+            if (this.isSprinting()) {
+                float newStamina = Mth.clamp(this.getStamina() - (curSpeed * 0.1F), 0, this.getMaxStamina());
+                this.setStamina(newStamina);
+
+                if (newStamina > 0) {
+                    this.setSpeed(Mth.clamp(curSpeed, 0.1F, curSpeed * (newStamina / this.getMaxStamina())));
+                } else {
+                    this.setSprinting(false);
+                    this.setSpeed(0.1F);
+                }
+
+            } else {
+                float staminaRecovery = Mth.clamp(this.getStamina() + 0.05F, 0, this.getMaxStamina());
+                this.setStamina(staminaRecovery);
+                this.setSpeed(curSpeed);
+            }
+
+            if (this.isSprinting() && !this.isEating()) {
+                float newHunger = Mth.clamp(this.getHunger() - (curSpeed * 0.05F), 0, this.getMaxHunger());
+                this.setHunger(newHunger);
+
+                if (newHunger <= 0) {
+                    this.setSprinting(false);
+                }
+            } else if (this.isEating()) {
+                float hungerRecovery = Mth.clamp(this.getHunger() + 0.1F, 0, this.getMaxHunger());
+                this.setHunger(hungerRecovery);
+            }
+        }
+    }
+
+    private float getMaxHunger()
+    {
+        return 100.0F;
+    }
+
+    private float getMaxStamina()
+    {
+        return 100.0F;
     }
 
 
@@ -416,7 +419,8 @@ public abstract class AbstractDinoAnimal extends TamableAnimal implements IHasCu
 
     public boolean canMove() {
         return !this.isOrderedToSit() && !this.isSleeping() &&
-                this.getControllingPassenger() == null && !this.isPassenger();
+                this.getControllingPassenger() == null && !this.isPassenger()
+                && !(this.getHunger() > 10)&& this.getStamina() != 0 && !this.isIntimated();
     }
 
     @Override
@@ -425,34 +429,58 @@ public abstract class AbstractDinoAnimal extends TamableAnimal implements IHasCu
     }
 
     @Override
-    public boolean canAttack(LivingEntity pTarget) {
-        return !(pTarget instanceof AbstractDinoAnimal);
+    public boolean canAttack(@NotNull LivingEntity pTarget) {
+        return !(pTarget instanceof AbstractTrexEntity) && !this.isIntimated();
+    }
+
+    @Override
+    protected void tickRidden(@NotNull Player pRider, @NotNull Vec3 pTravelVector) {
+        super.tickRidden(pRider, pTravelVector);
+        this.setTarget(null);
+        if (pRider.xxa != 0.0F || pRider.zza != 0.0F) {
+            EntityUtils.smoothVehicleYawToRider(pRider, this, 0.1F, 0.14F);
+        }
     }
 
     public @NotNull InteractionResult mobInteract(Player pPlayer, @NotNull InteractionHand pHand) {
         ItemStack itemstack = pPlayer.getItemInHand(pHand);
-        Item item = itemstack.getItem();
 
         Item itemForTaming = Items.COOKED_BEEF;
 
-        if (itemstack.is(itemForTaming) && !isTame()) {
-            if (this.level().isClientSide()) {
-                return InteractionResult.CONSUME;
-            } else {
-                if (!pPlayer.getAbilities().instabuild) {
-                    itemstack.shrink(1);
+
+//        if (itemstack.is(itemForTaming) && !isTame()) {
+//            if (this.level().isClientSide()) {
+//                return InteractionResult.CONSUME;
+//            } else {
+//                if (!pPlayer.getAbilities().instabuild) {
+//                    itemstack.shrink(1);
+//                }
+//
+//
+//            }
+//        }
+        RandomSource source = this.level().getRandom();
+        double chance = source.nextDouble();
+        if(!(chance < 0.1))
+        {
+            if(this.isIntimated())
+            {
+                if (this.isEating()) {
+                    if (!this.isTame()) {
+                        this.tame(Objects.requireNonNull(level().getNearestPlayer(this, 4)));
+
+                        this.navigation.recomputePath();
+
+                        this.setTarget(null);
+
+                        this.level().broadcastEntityEvent(this, (byte) 7);
+
+                        this.setOrderedToSit(true);
+                        this.setInSittingPose(true);
+
+                    }
                 }
 
-                if (!ForgeEventFactory.onAnimalTame(this, pPlayer)) {
-                    this.tame(pPlayer);
-                    this.navigation.recomputePath();
-                    this.setTarget(null);
-                    this.level().broadcastEntityEvent(this, (byte) 7);
-                    setOrderedToSit(true);
-                    this.setInSittingPose(true);
-                }
-
-                return InteractionResult.SUCCESS;
             }
         }
 
@@ -460,7 +488,7 @@ public abstract class AbstractDinoAnimal extends TamableAnimal implements IHasCu
             if (pHand == InteractionHand.MAIN_HAND && !isFood(itemstack)) {
                 if (itemstack.is(Items.SADDLE) && !this.isSaddled()) {
                     if (!this.level().isClientSide()) {
-                        this.entityData.set(SADDLED,true); // Ensure you have a setSaddled method
+                        this.entityData.set(SADDLED,true);
                         if (!pPlayer.getAbilities().instabuild) {
                             itemstack.shrink(1);
                         }
@@ -468,17 +496,25 @@ public abstract class AbstractDinoAnimal extends TamableAnimal implements IHasCu
                     return InteractionResult.SUCCESS;
                 }
 
-                if(isTame() && !isFood(itemstack)) {
-                    if(!pPlayer.isCrouching()) {
+                else if (isTame() && !isFood(itemstack)) {
+                    if (!pPlayer.isCrouching()) {
                         setRiding(pPlayer);
                     } else {
-                        // TOGGLES SITTING FOR OUR ENTITY
+
                         setOrder(getOrder() == TameableOrders.SIT ? TameableOrders.FOLLOW : TameableOrders.SIT);
-                        setOrderedToSit(!isOrderedToSit());
-                        setInSittingPose(!isOrderedToSit());
+                        boolean currentlySitting = isOrderedToSit();
+                        setOrderedToSit(!currentlySitting);
+                        setInSittingPose(!currentlySitting);
+
+                        if (isOrderedToSit()) {
+                            this.getNavigation().stop();
+                        } else {
+                            this.getNavigation().recomputePath();
+                        }
                     }
                     return InteractionResult.SUCCESS;
                 }
+
             }
         }
 
@@ -490,18 +526,34 @@ public abstract class AbstractDinoAnimal extends TamableAnimal implements IHasCu
         return interactionResult;
     }
 
+    @Nullable
+    @Override
+    public LivingEntity getControllingPassenger() {
+        return ((LivingEntity) this.getFirstPassenger());
+    }
+
+    protected void updateWalkAnimation(float v) {
+        float f;
+        if (this.getPose() == Pose.STANDING) {
+            f = Math.min(v * 6.0F, 1.0F);
+        } else {
+            f = 0.0F;
+        }
+
+        this.walkAnimation.update(f, 0.2F);
+    }
 
     @Override
-    protected PathNavigation createNavigation(Level pLevel) {
+    protected @NotNull PathNavigation createNavigation(@NotNull Level pLevel) {
         return new GroundPathNavigation(this,pLevel);
     }
 
     private void setRiding(Player pPlayer) {
-        this.setInSittingPose(false);
-
-        pPlayer.setYRot(this.getYRot());
-        pPlayer.setXRot(this.getXRot());
-        pPlayer.startRiding(this);
+        if(this.isSaddled() && !this.isSitting() || !this.isInSittingPose()){
+            pPlayer.setYRot(this.getYRot());
+            pPlayer.setXRot(this.getXRot());
+            pPlayer.startRiding(this);
+        }
     }
     @Override
     public boolean isFood(ItemStack stack) {
@@ -523,8 +575,8 @@ public abstract class AbstractDinoAnimal extends TamableAnimal implements IHasCu
     }
 
     @Override
-    public void travel(Vec3 pTravelVector) {
-        if(this.isVehicle() && getControllingPassenger() instanceof Player && !this.isInSittingPose()) {
+    public void travel(@NotNull Vec3 pTravelVector) {
+        if(this.isVehicle() && getControllingPassenger() instanceof Player) {
             LivingEntity livingentity = this.getControllingPassenger();
             this.setYRot(livingentity.getYRot());
             this.yRotO = this.getYRot();
@@ -535,25 +587,22 @@ public abstract class AbstractDinoAnimal extends TamableAnimal implements IHasCu
             float f = livingentity.xxa * 0.5F;
             float f1 = livingentity.zza;
 
+            // Inside this if statement, we are on the client!
             if (this.isControlledByLocalInstance()) {
                 float newSpeed = (float) this.getAttributeValue(Attributes.MOVEMENT_SPEED);
+                // increasing speed by 100% if the spring key is held down (number for testing purposes)
                 if(Minecraft.getInstance().options.keySprint.isDown()) {
                     newSpeed *= 2f;
                     this.setSprinting(true);
-
                 }
-
+                else this.setSprinting(false);
                 this.setSpeed(newSpeed);
                 super.travel(new Vec3(f, pTravelVector.y, f1));
             }
         } else {
+            this.setSprinting(false);
             super.travel(pTravelVector);
         }
-    }
-    @Nullable
-    @Override
-    public LivingEntity getControllingPassenger() {
-        return this.getFirstPassenger() instanceof LivingEntity ? (LivingEntity) this.getFirstPassenger() : null;
     }
 
     @Override
@@ -580,8 +629,10 @@ public abstract class AbstractDinoAnimal extends TamableAnimal implements IHasCu
                 }
             }
         }
-        return Objects.requireNonNull(DismountHelper.findSafeDismountLocation(pLivingEntity.getType(), this.level(), this.blockPosition().relative(direction), false));
+
+        return super.getDismountLocationForPassenger(pLivingEntity);
     }
+
 
     public void roar() {
         if (this.isDeadOrDying()) {
@@ -596,19 +647,23 @@ public abstract class AbstractDinoAnimal extends TamableAnimal implements IHasCu
         final List<Entity> entities = level().getEntities(this, this.getBoundingBox().expandTowards(size, size, size));
 
         for (final Entity entity : entities) {
-            final boolean isStrongerDragon = entity instanceof AbstractDinoAnimal;
+            final boolean isStrongerDragon = entity instanceof AbstractTrexEntity;
             if (entity instanceof LivingEntity living && !isStrongerDragon) {
                 if (this.isOwnedBy(living) ) {
                     living.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 30 * size));
                 } else {
                     living.addEffect(new MobEffectInstance(ModEffects.SCARE.get(),30*size));
                 }
+                this.stopRoar();
             }
             if (!level().isClientSide) {
                 level().players().forEach(player -> {
                     double distance = this.distanceTo(player);
                     if (distance < 40.0) {
-                        MinecraftForge.EVENT_BUS.post(new CameraShakeEvent(player, 4.0f, 20)); // intensity 1.0f, duration 20 ticks
+                        if(player instanceof ServerPlayer sp)
+                        {
+                            CameraShakeManager.applyCameraShake(sp,100,5.0F);
+                        }
                     }
                 });
             }
@@ -617,18 +672,26 @@ public abstract class AbstractDinoAnimal extends TamableAnimal implements IHasCu
     }
 
     @Override
-    protected void positionRider(Entity pPassenger, MoveFunction pCallback) {
-        super.positionRider(pPassenger, pCallback);
-        if(this.isVehicle() && this.getControllingPassenger() instanceof Player)
-        {
+    public void stopRoar() {
+        this.setRoaring(false);
+    }
+
+    @Override
+    public void positionRider(@NotNull Entity passenger, @NotNull MoveFunction callback) {
+        super.positionRider(passenger, callback);
+        if (this.hasPassenger(passenger)) {
+
+              //  passenger.setPos(passenger.getX(), passenger.getY() + 2, passenger.getZ());
 
         }
-
     }
+
 
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag)
     {
+        this.setStamina(100);
+        this.setHunger(100);
         this.setGender(this.random.nextBoolean());
         return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
     }
@@ -672,10 +735,10 @@ public abstract class AbstractDinoAnimal extends TamableAnimal implements IHasCu
         return super.isInvulnerableTo(source);
     }
 
-    class GroundMoveHelper extends MoveControl
+    static class GroundMoveHelper extends MoveControl
     {
-        private AbstractDinoAnimal mob;
-        public GroundMoveHelper(AbstractDinoAnimal livingEntityIn) {
+        private final AbstractTrexEntity mob;
+        public GroundMoveHelper(AbstractTrexEntity livingEntityIn) {
             super(livingEntityIn);
             this.mob = livingEntityIn;
         }
@@ -687,7 +750,7 @@ public abstract class AbstractDinoAnimal extends TamableAnimal implements IHasCu
         @Override
         public void tick() {
             if (this.operation == Operation.STRAFE) {
-                float f = (float) this.mob.getAttribute(Attributes.MOVEMENT_SPEED).getValue();
+                float f = (float) Objects.requireNonNull(this.mob.getAttribute(Attributes.MOVEMENT_SPEED)).getValue();
                 float f1 = (float) this.speedModifier * f;
                 float f2 = this.strafeForwards;
                 float f3 = this.strafeRight;

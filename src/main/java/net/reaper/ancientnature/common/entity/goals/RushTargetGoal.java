@@ -3,19 +3,19 @@ package net.reaper.ancientnature.common.entity.goals;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
-import net.reaper.ancientnature.common.entity.ground.AbstractDinoAnimal;
+import net.reaper.ancientnature.common.entity.ground.AbstractTrexEntity;
 
 import java.util.EnumSet;
 
 public class RushTargetGoal extends Goal {
 
-    private final AbstractDinoAnimal mob;
+    private final AbstractTrexEntity mob;
     private LivingEntity target;
     private final double speedModifier;
     private final PathNavigation navigation;
     private int delayCounter;
 
-    public RushTargetGoal(AbstractDinoAnimal mob, double speedModifier) {
+    public RushTargetGoal(AbstractTrexEntity mob, double speedModifier) {
         this.mob = mob;
         this.speedModifier = speedModifier;
         this.navigation = mob.getNavigation();
