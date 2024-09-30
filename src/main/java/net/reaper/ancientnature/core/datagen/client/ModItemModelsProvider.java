@@ -40,16 +40,18 @@ public class ModItemModelsProvider extends ItemModelProvider {
         simple(ModItems.LYTHRONAX_FOSSIL.get());
         simple(ModItems.PARANOGMIUS_FOSSIL.get());
         simple(ModBlocks.ARANDASPIS_ROE.get());
-        simple(ModBlocks.PARANOGMIUS_ROE.get());
+        simple(ModItems.PARANOGMIUS_ROE.get());
         simple(ModBlocks.ANOMALOCARIS_EGGS.get());
         spawnEgg(ModItems.ARANDASPIS_SPAWN_EGG.get());
         spawnEgg(ModItems.ANOMALOCARIS_SPAWN_EGG.get());
         spawnEgg(ModItems.DODO_SPAWN_EGG.get());
         spawnEgg(ModItems.LYTHRONAX_SPAWN_EGG.get());
+        spawnEgg(ModItems.THYLACINE_SPAWN_EGG.get());
         spawnEgg(ModItems.TUATARA_SPAWN_EGG.get());
         spawnEgg(ModItems.TREX_SPAWN_EGG.get());
         spawnEgg(ModItems.HORSESHOE_CRAB_SPAWN_EGG.get());
         spawnEgg(ModItems.PARANOGMIUS_SPAWN_EGG.get());
+//        spawnEgg(ModItems.WORM_SPAWN_EGG.get());
         handheldItem(ModItems.BLOOD_DAGGER);
         simple(ModItems.LYTHRONAX_TEETH.get());
         simple(ModItems.ROPE.get());
@@ -59,6 +61,7 @@ public class ModItemModelsProvider extends ItemModelProvider {
         simple(ModItems.COOKED_PARANOGMIUS.get());
         simple(ModItems.WHERE_YOUR_JOURNEY_BEGINS_MUSIC_DISC.get());
         simple(ModItems.LYTHRONAX_SADDLE.get());
+        simple(ModItems.WORM.get());
     }
 
    private ItemModelBuilder handheldItem(RegistryObject<Item>item) {

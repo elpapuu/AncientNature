@@ -27,6 +27,7 @@ public class ModEventBusEvents {
         event.put(ModEntities.LYTHRONAX.get(), LythronaxEntity.createAttributes().build());
         event.put(ModEntities.THYLACINE.get(), ThylacineEntity.createAttributes().build());
         event.put(ModEntities.TREX.get(), TRexEntity.createAttributes().build());
+//        event.put(ModEntities.WORM.get(), WormEntity.createAttributes().build());
     }
     @SubscribeEvent
     public static void registerSpawnPlacements(SpawnPlacementRegisterEvent event) {

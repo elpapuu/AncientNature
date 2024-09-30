@@ -2,17 +2,17 @@ package net.reaper.ancientnature.common.entity.goals;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.reaper.ancientnature.common.entity.ground.AbstractDinoAnimal;
+import net.reaper.ancientnature.common.entity.ground.AbstractTrexEntity;
 
 import java.util.EnumSet;
 
 public class AIEscort extends Goal
 {
-    private final AbstractDinoAnimal dragon;
+    private final AbstractTrexEntity dragon;
     private BlockPos previousPosition;
     private final float maxRange = 2000F;
 
-    public AIEscort(AbstractDinoAnimal entityIn, double movementSpeedIn) {
+    public AIEscort(AbstractTrexEntity entityIn, double movementSpeedIn) {
         this.dragon = entityIn;
         this.setFlags(EnumSet.of(Flag.MOVE));
     }
@@ -41,6 +41,9 @@ public class AIEscort extends Goal
 
     @Override
     public boolean canContinueToUse() {
-        return this.dragon.canMove() && this.dragon.getTarget() == null && this.dragon.getOwner() != null && this.dragon.getOwner().isAlive() && (this.dragon.distanceTo(this.dragon.getOwner()) > 15 || !this.dragon.getNavigation().isDone());
+        return this.dragon.canMove() && this.dragon.getTarget() == null &&
+                this.dragon.getOwner() != null && this.dragon.getOwner().isAlive() &&
+                (this.dragon.distanceTo(this.dragon.getOwner()) > 15 ||
+                        !this.dragon.getNavigation().isDone()) && !this.dragon.isSitting() && !this.dragon.isInSittingPose();
     }
 }

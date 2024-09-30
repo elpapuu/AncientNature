@@ -16,6 +16,8 @@ import net.reaper.ancientnature.AncientNature;
 import net.reaper.ancientnature.client.model.entity.*;
 import net.reaper.ancientnature.client.model.entity.lythronax.LythronaxBabyModel;
 import net.reaper.ancientnature.client.model.entity.lythronax.LythronaxModel;
+import net.reaper.ancientnature.client.model.entity.thylacine.ThylacineBabyModel;
+import net.reaper.ancientnature.client.model.entity.thylacine.ThylacineModel;
 import net.reaper.ancientnature.client.model.layer.ModModelLayers;
 import net.reaper.ancientnature.client.renderer.blockentity.RevivalStandRenderer;
 import net.reaper.ancientnature.client.renderer.entity.*;
@@ -40,8 +42,10 @@ public class ModEventBusClientEvents {
         event.registerLayerDefinition(LythronaxModel.LYTHRONAX_LAYER, LythronaxModel::createBodyLayer);
         event.registerLayerDefinition(DodoModel.DODO_LAYER, DodoModel::createBodyLayer);
         event.registerLayerDefinition(ThylacineModel.THYLACINE_LAYER, ThylacineModel::createBodyLayer);
+        event.registerLayerDefinition(ModModelLayers.BABY_THYLACINE_LAYER, ThylacineBabyModel::createBodyLayer);
         event.registerLayerDefinition(ModModelLayers.TREX_LAYER, TRexModel::createBodyLayer);
         event.registerLayerDefinition(ModModelLayers.BABY_LYTHRONAX_LAYER, LythronaxBabyModel::createBodyLayer);
+        event.registerLayerDefinition(WormModel.WORM_LAYER, WormModel::createBodyLayer);
     }
 
     @SubscribeEvent
@@ -57,6 +61,7 @@ public class ModEventBusClientEvents {
         event.registerEntityRenderer(ModEntities.THYLACINE.get(), ThylacineRenderer::new);
         event.registerEntityRenderer(ModEntities.TREX.get(), TRexRenderer::new);
         event.registerEntityRenderer(ModEntities.DODO.get(), pContext -> new SmartAnimalRenderer<>(pContext, new DodoModel(pContext.bakeLayer(DodoModel.DODO_LAYER))));
+        //event.registerEntityRenderer(ModEntities.WORM.get(), WormRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.REVIVAL_STAND_ENTITY.get(), RevivalStandRenderer::new);
     }
 

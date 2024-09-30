@@ -12,10 +12,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import net.reaper.ancientnature.common.block.FourEggBlock;
-import net.reaper.ancientnature.common.block.MudFossilBlock;
-import net.reaper.ancientnature.common.block.RevivalStand;
-import net.reaper.ancientnature.common.block.RoeBlock;
+import net.reaper.ancientnature.common.block.*;
 import net.reaper.ancientnature.common.item.RevivalStandItem;
 
 import java.util.function.Function;
@@ -42,6 +39,9 @@ public class ModBlocks {
     public static final RegistryObject<BrushableBlock> MUD_WITH_FOSSILS = registryBlock("mud_with_fossils", () -> new MudFossilBlock(Blocks.MUD, BlockBehaviour.Properties.copy(Blocks.MUD), SoundEvents.BRUSH_GRAVEL, SoundEvents.BRUSH_GRAVEL_COMPLETED, ModLootTables.MUD_FOSSIL_BRUSH));
     public static final RegistryObject<RevivalStand> REVIVAL_STAND = register("revival_stand", RevivalStand::new, b -> new RevivalStandItem(b, new Item.Properties()));
 
+    public static final RegistryObject<Block> WORM_DIRT = registryBlock("worm_dirt",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.DIRT)));
+
     public static final RegistryObject<RoeBlock> ARANDASPIS_ROE = register("arandaspis_roe", () ->
             new RoeBlock(BlockBehaviour.Properties.copy(Blocks.FROGSPAWN),
                     3600, 12000, 1, 4, ModEntities.ARANDASPIS::get, false),
@@ -50,9 +50,9 @@ public class ModBlocks {
             new RoeBlock(BlockBehaviour.Properties.copy(Blocks.FROGSPAWN),
                     3600, 12000, 1, 4, ModEntities.ANOMALOCARIS::get, false),
             () -> new Item.Properties().stacksTo(16));
-    public static final RegistryObject<RoeBlock> PARANOGMIUS_ROE = register("paranogmius_roe", () ->
-            new RoeBlock(BlockBehaviour.Properties.copy(Blocks.FROGSPAWN),
-                    3600, 12000, 1, 4, ModEntities.PARANOGMIUS::get, true),
+    public static final RegistryObject<RoeBlock> PARANOGMIUS_ROE = register("paranogmius_roe_block", () ->
+                    new RoeBlock(BlockBehaviour.Properties.copy(Blocks.FROGSPAWN),
+                            3600, 12000, 1, 4, ModEntities.PARANOGMIUS::get, true),
             () -> new Item.Properties().stacksTo(16));
 
     public static final RegistryObject<FourEggBlock> DODO_EGG = register("dodo_egg",

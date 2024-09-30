@@ -47,6 +47,7 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         auto(ModItems.COOKED_DODO.get());
         auto(ModItems.RAW_PARANOGMIUS.get());
         auto(ModItems.COOKED_PARANOGMIUS.get());
+        auto(ModItems.WORM.get());
 
         auto(ModItems.FISH_ROE.get());
         auto(ModItems.ARANDASPIS_BUCKET.get());
@@ -57,12 +58,14 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         auto(ModItems.DODO_SPAWN_EGG.get());
         auto(ModItems.HORSESHOE_CRAB_SPAWN_EGG.get());
         auto(ModItems.LYTHRONAX_SPAWN_EGG.get());
+        auto(ModItems.THYLACINE_SPAWN_EGG.get());
         auto(ModItems.TUATARA_SPAWN_EGG.get());
         auto(ModItems.TREX_SPAWN_EGG.get());
         auto(ModItems.PARANOGMIUS_SPAWN_EGG.get());
+//        auto(ModItems.WORM_SPAWN_EGG.get());
 
         auto(ModBlocks.ARANDASPIS_ROE.get());
-        auto(ModBlocks.PARANOGMIUS_ROE.get());
+        add(ModBlocks.PARANOGMIUS_ROE.get(), "Paranogmius Roe");
         auto(ModBlocks.ANOMALOCARIS_EGGS.get());
         auto(ModBlocks.REVIVAL_STAND.get());
         auto(ModBlocks.MUD_WITH_FOSSILS.get());
@@ -75,6 +78,7 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         auto(ModBlocks.CRETACEOUS_FOSSILS.get());
         auto(ModBlocks.QUATERNARY_FOSSILS.get());
         auto(ModBlocks.STONE_AMBER.get());
+        auto(ModBlocks.WORM_DIRT.get());
 
         auto(ModItems.WHERE_YOUR_JOURNEY_BEGINS_MUSIC_DISC.get());
 
@@ -89,6 +93,7 @@ public class ModEnglishLanguageProvider extends LanguageProvider {
         auto(ModEntities.LYTHRONAX.get());
         auto(ModEntities.THYLACINE.get());
         auto(ModEntities.TREX.get());
+//        auto(ModEntities.WORM.get());
 
         guiTranslation(ModBlockEntities.REVIVAL_STAND_ENTITY.get());
 

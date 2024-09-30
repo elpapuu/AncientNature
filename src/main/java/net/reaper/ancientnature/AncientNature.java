@@ -16,8 +16,8 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.RegistryObject;
-import net.reaper.ancientnature.client.event.DinoHealthBarRenderer;
 import net.reaper.ancientnature.common.config.AncientNatureConfig;
+import net.reaper.ancientnature.common.event.CameraShakeManager;
 import net.reaper.ancientnature.common.messages.NetworkHandler;
 import net.reaper.ancientnature.common.messages.util.EventHandlerRegistry;
 import net.reaper.ancientnature.common.messages.util.LevelEventManager;
@@ -54,8 +54,8 @@ public class AncientNature {
         ModParticles.PARTICLES.register(modEventBus);
         ModMenus.MENUS.register(modEventBus);
         ModLootModifiers.LOOT_MODIFIERS.register(modEventBus);
-        MinecraftForge.EVENT_BUS.register(new DinoHealthBarRenderer(Component.translatable("gui.Dino")));
         modEventBus.addListener(this::addCreative);
+        CameraShakeManager.init();
         EventHandlerRegistry.LevelEventHandler.registerCommonHandler(new ResourceLocation(MOD_ID, "common_process"), new LevelEventManager());
     }
     private void commonSetup(final FMLCommonSetupEvent event) {

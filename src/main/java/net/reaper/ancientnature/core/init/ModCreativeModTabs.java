@@ -31,6 +31,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModBlocks.CRETACEOUS_FOSSILS.get());
                         pOutput.accept(ModBlocks.QUATERNARY_FOSSILS.get());
                         pOutput.accept(ModBlocks.STONE_AMBER.get());
+                        pOutput.accept(ModBlocks.WORM_DIRT.get());
                         pOutput.accept(ModItems.CAMBRIAN_FOSSIL.get());
                         pOutput.accept(ModItems.DEVONIAN_FOSSIL.get());
                         pOutput.accept(ModItems.CARBONIFEROUS_FOSSIL.get());
@@ -52,20 +53,23 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.LYTHRONAX_TEETH.get());
                         pOutput.accept(ModItems.RAW_DODO.get());
                         pOutput.accept(ModItems.RAW_PARANOGMIUS.get());
+                        pOutput.accept(ModItems.WORM.get());
                         pOutput.accept(ModItems.COOKED_DODO.get());
                         pOutput.accept(ModItems.COOKED_PARANOGMIUS.get());
                         pOutput.accept(ModItems.FISH_ROE.get());
                         pOutput.accept(ModBlocks.ARANDASPIS_ROE.get());
-                        pOutput.accept(ModBlocks.PARANOGMIUS_ROE.get());
+                        pOutput.accept(ModItems.PARANOGMIUS_ROE.get());
                         pOutput.accept(ModBlocks.ANOMALOCARIS_EGGS.get());
                         pOutput.accept(ModItems.ARANDASPIS_SPAWN_EGG.get());
                         pOutput.accept(ModItems.ANOMALOCARIS_SPAWN_EGG.get());
                         pOutput.accept(ModItems.DODO_SPAWN_EGG.get());
-                        pOutput.accept(ModItems.HORSESHOE_CRAB_SPAWN_EGG.get());
                         pOutput.accept(ModItems.LYTHRONAX_SPAWN_EGG.get());
-                        pOutput.accept(ModItems.PARANOGMIUS_SPAWN_EGG.get());
+                        pOutput.accept(ModItems.THYLACINE_SPAWN_EGG.get());
                         pOutput.accept(ModItems.TUATARA_SPAWN_EGG.get());
                         pOutput.accept(ModItems.TREX_SPAWN_EGG.get());
+                        pOutput.accept(ModItems.HORSESHOE_CRAB_SPAWN_EGG.get());
+                        pOutput.accept(ModItems.PARANOGMIUS_SPAWN_EGG.get());
+//                        pOutput.accept(ModItems.WORM_SPAWN_EGG.get());
 
                         pOutput.accept(ModBlocks.DODO_EGG.get());
                     })

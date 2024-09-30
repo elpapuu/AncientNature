@@ -86,6 +86,8 @@ public class ThylacineEntity extends SmartAnimatedAnimal {
             case DOWN -> (int)(1F*20.0);
             case FALL_ASLEEP -> (int)(1F*20.0);
             case WAKE_UP -> (int)(2.08F*20.0);
+            case SNIFF -> 0;
+            case INTIMATED -> 0;
             case UP -> (int)(1F*20.0);
             case SIT -> (int)(2F*20.0);
             case SLEEP -> (int)(2F*20.0);

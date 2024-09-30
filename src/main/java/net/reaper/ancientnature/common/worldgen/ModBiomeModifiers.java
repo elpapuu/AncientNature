@@ -21,6 +21,7 @@ public class ModBiomeModifiers {
     public static final ResourceKey<BiomeModifier> ADD_CRETACEOUS_FOSSILS = registerKey("add_cretaceous_fossils");
     public static final ResourceKey<BiomeModifier> ADD_QUATERNARY_FOSSILS = registerKey("add_quaternary_fossils");
     public static final ResourceKey<BiomeModifier> ADD_STONE_AMBER_ORES = registerKey("add_stone_amber_ores");
+    public static final ResourceKey<BiomeModifier> ADD_WORM_DIRT = registerKey("add_worm_dirt");
 
 
     public static void bootstrap(BootstapContext<BiomeModifier> context) {
@@ -66,6 +67,11 @@ public class ModBiomeModifiers {
                 biomes.getOrThrow(BiomeTags.IS_MOUNTAIN),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.STONE_AMBER_ORE_PLACED_KEY)),
                 GenerationStep.Decoration.UNDERGROUND_ORES));
+
+        context.register(ADD_WORM_DIRT, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.WORM_DIRT_PLACED_KEY)),
+                GenerationStep.Decoration.SURFACE_STRUCTURES));
 
     }
 

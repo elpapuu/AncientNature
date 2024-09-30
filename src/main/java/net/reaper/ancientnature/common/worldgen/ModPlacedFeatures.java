@@ -24,6 +24,7 @@ public class ModPlacedFeatures {
     public static final ResourceKey<PlacedFeature> CRETACEOUS_FOSSILS_PLACED_KEY = registerKey("cretaceous_fossils_placed");
     public static final ResourceKey<PlacedFeature> QUATERNARY_FOSSILS_PLACED_KEY = registerKey("quaternary_fossils_placed");
     public static final ResourceKey<PlacedFeature> STONE_AMBER_ORE_PLACED_KEY = registerKey("stone_amber_ore_placed");
+    public static final ResourceKey<PlacedFeature> WORM_DIRT_PLACED_KEY = registerKey("worm_dirt_placed");
 
     public static void bootstrap(BootstapContext<PlacedFeature> context) {
         HolderGetter<ConfiguredFeature<?, ?>> configuredFeatures = context.lookup(Registries.CONFIGURED_FEATURE);
@@ -59,6 +60,9 @@ public class ModPlacedFeatures {
         register(context, QUATERNARY_FOSSILS_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.OVERWORLD_QUATERNARY_FOSSILS_KEY),
                 ModOrePlacement.commonOrePlacement(9,
                         HeightRangePlacement.uniform(VerticalAnchor.absolute(51), VerticalAnchor.absolute(64))));
+        register(context, WORM_DIRT_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.OVERWORLD_WORM_DIRT_KEY),
+                ModOrePlacement.commonOrePlacement(3,
+                        HeightRangePlacement.uniform(VerticalAnchor.absolute(51), VerticalAnchor.absolute(80))));
 
     }
 

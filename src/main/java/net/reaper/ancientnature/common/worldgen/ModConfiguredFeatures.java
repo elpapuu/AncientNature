@@ -27,10 +27,12 @@ public class ModConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> OVERWORLD_CRETACEOUS_FOSSILS_KEY = registerKey("cretaceous_fossils");
     public static final ResourceKey<ConfiguredFeature<?, ?>> OVERWORLD_QUATERNARY_FOSSILS_KEY = registerKey("quaternary_fossils");
     static final ResourceKey<ConfiguredFeature<?, ?>> OVERWORLD_STONE_AMBER_ORE_KEY = registerKey("stone_amber_ore");
+    static final ResourceKey<ConfiguredFeature<?, ?>> OVERWORLD_WORM_DIRT_KEY = registerKey("worm_dirt");
 
     public static void bootstrap(BootstapContext<ConfiguredFeature<?, ?>> context) {
         RuleTest stoneReplaceable = new TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES);
         RuleTest deepslateReplaceables = new TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES);
+        RuleTest dirtReplaceables = new TagMatchTest(BlockTags.DIRT);
 
         List<OreConfiguration.TargetBlockState> overworldCretaceousFossilsOres = List.of(OreConfiguration.target(stoneReplaceable,
                         ModBlocks.CRETACEOUS_FOSSILS.get().defaultBlockState()),
@@ -80,6 +82,12 @@ public class ModConfiguredFeatures {
                 OreConfiguration.target(deepslateReplaceables, ModBlocks.STONE_AMBER.get().defaultBlockState()));
 
         register(context, OVERWORLD_STONE_AMBER_ORE_KEY, Feature.ORE, new OreConfiguration(overworldStoneAmberOres, 7));
+
+        List<OreConfiguration.TargetBlockState> overworldWormmDirt = List.of(OreConfiguration.target(dirtReplaceables,
+                        ModBlocks.WORM_DIRT.get().defaultBlockState()),
+                OreConfiguration.target(stoneReplaceable, ModBlocks.WORM_DIRT.get().defaultBlockState()));
+
+        register(context, OVERWORLD_WORM_DIRT_KEY, Feature.ORE, new OreConfiguration(overworldWormmDirt, 4));
     }
 
 

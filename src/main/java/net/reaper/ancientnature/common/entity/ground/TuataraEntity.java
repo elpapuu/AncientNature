@@ -131,6 +131,8 @@ public class TuataraEntity extends SmartAnimatedAnimal {
             case DOWN -> 0;
             case FALL_ASLEEP -> (int) (.88 * 1);
             case WAKE_UP -> (int) ((this.isBaby() ? 1.2 : 1) * 20.0);
+            case SNIFF -> 0;
+            case INTIMATED -> 0;
             case UP -> 0;
             case SIT -> 0;
             case SLEEP -> (int) ((this.isBaby() ? 1.44 : 2.8) * 20.0);
@@ -148,7 +150,7 @@ public class TuataraEntity extends SmartAnimatedAnimal {
 
     @Override
     public boolean canSpawnSprintParticle() {
-        return true;
+        return false;
     }
     public static boolean canSpawn(EntityType<TuataraEntity> tEntityType, ServerLevelAccessor serverLevelAccessor, MobSpawnType spawnType, BlockPos blockPos, RandomSource randomSource) {
     return Animal.checkAnimalSpawnRules(tEntityType, serverLevelAccessor, spawnType, blockPos, randomSource) && !serverLevelAccessor.getLevelData().isRaining();

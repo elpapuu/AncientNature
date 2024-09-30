@@ -2,7 +2,7 @@ package net.reaper.ancientnature.common.entity.goals;
 
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.reaper.ancientnature.common.entity.ground.AbstractDinoAnimal;
+import net.reaper.ancientnature.common.entity.ground.AbstractTrexEntity;
 import net.reaper.ancientnature.common.messages.NetworkHandler;
 import net.reaper.ancientnature.common.messages.packets.CameraShakePacket;
 
@@ -10,11 +10,11 @@ import java.util.EnumSet;
 import java.util.List;
 
 public class RoarGoal extends Goal {
-    private final AbstractDinoAnimal mob;
+    private final AbstractTrexEntity mob;
     private final double roarRadius;
     private int roarCooldown;
 
-    public RoarGoal(AbstractDinoAnimal mob, double roarRadius, int roarCooldown) {
+    public RoarGoal(AbstractTrexEntity mob, double roarRadius, int roarCooldown) {
         this.mob = mob;
         this.roarRadius = roarRadius;
         this.roarCooldown = roarCooldown;

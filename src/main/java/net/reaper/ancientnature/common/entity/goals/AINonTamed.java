@@ -6,15 +6,15 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.phys.AABB;
-import net.reaper.ancientnature.common.entity.ground.AbstractDinoAnimal;
+import net.reaper.ancientnature.common.entity.ground.AbstractTrexEntity;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.EnumSet;
 
 public class AINonTamed<T extends LivingEntity> extends NearestAttackableTargetGoal<T> {
-    private final AbstractDinoAnimal dragon;
+    private final AbstractTrexEntity dragon;
 
-    public AINonTamed(AbstractDinoAnimal entityIn, Class<T> classTarget, boolean checkSight, Predicate<LivingEntity> targetSelector) {
+    public AINonTamed(AbstractTrexEntity entityIn, Class<T> classTarget, boolean checkSight, Predicate<LivingEntity> targetSelector) {
         super(entityIn, classTarget, 5, checkSight, false, targetSelector);
         this.setFlags(EnumSet.of(Flag.TARGET));
         this.dragon = entityIn;

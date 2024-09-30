@@ -34,6 +34,7 @@ public class ModBlockStatesProvider extends BlockStateProvider {
         makeFossil(ModBlocks.MUD_WITH_FOSSILS.get());;
         simpleBlock(ModBlocks.STONE_AMBER.get());
         simpleBlock(ModBlocks.QUATERNARY_FOSSILS.get());
+        simpleBlock(ModBlocks.WORM_DIRT.get());
         revivalStand(ModBlocks.REVIVAL_STAND.get());
         roeBlock(ModBlocks.ARANDASPIS_ROE.get(), false);
         roeBlock(ModBlocks.ANOMALOCARIS_EGGS.get(), false);
