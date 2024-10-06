@@ -43,13 +43,14 @@ public class RevivalStandRecipe implements Recipe<RevivalStandBlockEntity> {
 
     @Override
     public boolean matches(RevivalStandBlockEntity pContainer, Level pLevel) {
-        if (amber.test(pContainer.getItem(1)) && fossil.test(pContainer.getItem(2))) {
-            int counter = 0;
-            for (int i = 3; i <= 5; i++) {
-                if (this.baseRoe.test(pContainer.getItem(i)))
-                    counter++;
-            }
-            return counter >= this.eggs.getCount();
+        boolean amberMatch = amber.test(pContainer.getItem(1));
+        boolean fossilMatch = fossil.test(pContainer.getItem(2));
+        boolean baseRoeMatch = this.baseRoe.test(pContainer.getItem(3));
+        int eggCount = pContainer.getItem(3).getCount();
+        int requiredEggCount = 1;
+
+        if (amberMatch && fossilMatch) {
+            return baseRoeMatch && eggCount >= requiredEggCount;
         }
         return false;
     }

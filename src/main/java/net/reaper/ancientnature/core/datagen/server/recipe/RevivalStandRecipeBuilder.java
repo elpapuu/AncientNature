@@ -22,10 +22,10 @@ import java.util.function.Consumer;
 public class RevivalStandRecipeBuilder {
 
     public static RevivalStandRecipeBuilder builder(ItemLike egg){
-        return builder(egg, 3);
+        return builder(egg, 1);
     }
     public static RevivalStandRecipeBuilder builder(ItemLike egg, int count) {
-        return builder(new ItemStack(egg, Mth.clamp(count, 1, 3)));
+        return builder(new ItemStack(egg, Mth.clamp(count, 1, 1)));
     }
     public static RevivalStandRecipeBuilder builder(ItemStack egg){
         return new RevivalStandRecipeBuilder(egg);
@@ -38,7 +38,7 @@ public class RevivalStandRecipeBuilder {
 
     public RevivalStandRecipeBuilder(ItemStack eggs) {
         this.eggs = eggs;
-        this.eggs.setCount(Mth.clamp(this.eggs.getCount(), 1, 3));
+        this.eggs.setCount(Mth.clamp(this.eggs.getCount(), 1, 1));
     }
 
 

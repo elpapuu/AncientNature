@@ -21,18 +21,38 @@ public class RevivalStandScreen extends AbstractContainerScreen<RevivalStandMenu
 
     @Override
     protected void renderLabels(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY) {
-        pGuiGraphics.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY, 4210752, false);
-        pGuiGraphics.drawString(this.font, this.playerInventoryTitle, this.inventoryLabelX, this.inventoryLabelY, 4210752, false);
+        pGuiGraphics.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY - 17, 4210752, false);
+        pGuiGraphics.drawString(this.font, this.playerInventoryTitle, this.inventoryLabelX, this.inventoryLabelY + 12, 4210752, false);
     }
+
+
 
     @Override
     protected void renderBg(GuiGraphics pGuiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
-        pGuiGraphics.blit(TEXTURE, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
-        ScreenUtils.renderImageAnimationBottomTop(pGuiGraphics, TEXTURE, this.leftPos + 9, this.topPos + 31, 186, 6, 8, 21, this.menu.getTileEntity().getFuel(), this.menu.getTileEntity().getMaxFuel());
-        int amberScale = ScreenUtils.getScaledInt(this.menu.getTileEntity().getAmberProgress(), this.menu.getTileEntity().getMaxAmberProgress(), 40);
-        pGuiGraphics.blit(TEXTURE, this.leftPos + 36, this.topPos + 21, 176, 28, amberScale, 9);
-        int fossilScale = ScreenUtils.getScaledInt(this.menu.getTileEntity().getFossilProgress(), this.menu.getTileEntity().getMaxFossilProgress(), 28);
-        pGuiGraphics.blit(TEXTURE, this.leftPos + 97, this.topPos + 15, 176, 0, 10, fossilScale);
+        //main gui
+        pGuiGraphics.blit(TEXTURE, this.leftPos, this.topPos - 17, 0, 0, this.imageWidth, 196);
+
+        //amber progress
+        ScreenUtils.renderImageAnimationBottomTop(pGuiGraphics, TEXTURE,
+                this.leftPos + 85, this.topPos + 20,
+                180, 7, 5, 11,
+                this.menu.getTileEntity().getAmberProgress(),
+                this.menu.getTileEntity().getMaxAmberProgress());
+
+        //fuel progress
+        ScreenUtils.renderImageAnimationBottomTop(pGuiGraphics, TEXTURE,
+                this.leftPos + 82, this.topPos + 53,
+                176, 21, 11, 15,
+                this.menu.getTileEntity().getFuel(),
+                this.menu.getTileEntity().getMaxFuel());
+
+        //fossil progress
+        int fossilScale = ScreenUtils.getScaledInt(
+                this.menu.getTileEntity().getFossilProgress(),
+                this.menu.getTileEntity().getMaxFossilProgress(), 25);
+        pGuiGraphics.blit(TEXTURE,
+                this.leftPos + 60, this.topPos + 23,
+                176, 1, fossilScale,4 );
     }
 
     @Override

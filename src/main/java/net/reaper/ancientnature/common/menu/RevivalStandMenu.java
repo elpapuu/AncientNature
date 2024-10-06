@@ -24,15 +24,12 @@ public class RevivalStandMenu extends BaseTileEntityMenu<RevivalStandBlockEntity
 
     @Override
     public void init() {
-        this.addSlot(new SpecialFuelSlot(this.tileEntity, 0, 19, 51, ModRecipes.REVIVAL_STAND_RECIPE.get()));//fuel slot
-        this.addSlot(new Slot(this.tileEntity, 1, 19, 18));//Amber slot
-        this.addSlot(new Slot(this.tileEntity, 2, 80, 17));//fossil slot
+        this.addSlot(new SpecialFuelSlot(this.tileEntity, 0, 80, 71, ModRecipes.REVIVAL_STAND_RECIPE.get()));//fuel slot
+         this.addSlot(new Slot(this.tileEntity, 1, 80, 35));//Amber slot
+         this.addSlot(new Slot(this.tileEntity, 2, 43, 17));//fossil slot
+         this.addSlot(new SingletonSlot(this.tileEntity, 3, 80, -3));//egg slot
 
-        this.addSlot(new SingletonSlot(this.tileEntity, 3, 57, 51));//egg 1
-        this.addSlot(new SingletonSlot(this.tileEntity, 4, 80, 58));//egg 2
-        this.addSlot(new SingletonSlot(this.tileEntity, 5, 103, 51));//egg 3
-
-        addPlayerInventory(8, 84);
+        addPlayerInventory(8, 97);
 
         this.addDataSlots(this.tileEntity.data);
     }
