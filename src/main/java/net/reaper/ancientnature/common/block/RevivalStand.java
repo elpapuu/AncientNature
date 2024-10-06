@@ -1,6 +1,8 @@
 package net.reaper.ancientnature.common.block;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -37,8 +39,9 @@ public class RevivalStand extends BlockEntityBlock {
 
     public static final IntegerProperty STAGE = IntegerProperty.create("stage", 1, 4);
     public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
+    private int tickCount = 0;
 
-    protected static final VoxelShape SHAPE = Shapes.or(Block.box(1.0D, 0.0D, 1.0D, 15.0D, 2.0D, 15.0D), Block.box(8.0D, 0.0D, 7.0D, 10.0D, 10.0D, 9.0D));
+    protected static final VoxelShape SHAPE = Shapes.or(Block.box(4.0D, 0.0D, 4.0D, 12.0D, 31.0D, 12.0D));
 
     public RevivalStand() {
         super(RevivalStandBlockEntity::new, Properties.copy(Blocks.BREWING_STAND).strength(1.5f).noOcclusion());
@@ -50,7 +53,7 @@ public class RevivalStand extends BlockEntityBlock {
         if (pState.getValue(STAGE) == 4) {
             if (!pLevel.isClientSide) {
                 RevivalStandBlockEntity te = WorldUtils.getTileEntity(RevivalStandBlockEntity.class, pLevel, pPos);
-                if (te != null){
+                if (te != null) {
                     NetworkHooks.openScreen((ServerPlayer) pPlayer, te, pPos);
                 }
             }
@@ -97,16 +100,31 @@ public class RevivalStand extends BlockEntityBlock {
         super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
     }
 
+
     @Override
     public void animateTick(BlockState pState, Level pLevel, BlockPos pPos, RandomSource pRandom) {
         if (pState.getValue(ACTIVE) && pLevel.getBlockState(pPos.above()).isAir()) {
-            for (int i = 0; i < 3; i++) {
-                double dx = Mth.nextDouble(pRandom, -.02d, .02d);
-                double dz = Mth.nextDouble(pRandom, -.02d, .02d);
-                pLevel.addParticle(ModParticles.REVIVAL_STAND_PARTICLE.get(), pPos.getX() + .5d, pPos.getY() + 1d, pPos.getZ() + 0.5d, dx, 0.04D, dz);
+            int count = 25;
+
+            for (int i = 0; i < count; i++) {
+                double dx = 0.04 * (pRandom.nextDouble() - 0.5);
+                double dz = 0.04 * (pRandom.nextDouble() - 0.5);
+                double dy = 0.0008 + pRandom.nextDouble() * 0.02;
+
+                pLevel.addParticle(ParticleTypes.FLAME,
+                        pPos.getX() + 0.5D, pPos.getY() + 0.01D, pPos.getZ() + 0.5D,
+                        dx, dy, dz);
             }
+            double dx = Mth.nextDouble(pRandom, -.02d, .02d);
+            double dz = Mth.nextDouble(pRandom, -.02d, .02d);
+            pLevel.addParticle(ModParticles.REVIVAL_STAND_PARTICLE.get(),
+                    pPos.getX() + .5d, pPos.getY() + 1d, pPos.getZ() + 0.5d, dx, 0.04D, dz);
         }
+
     }
+
+
+
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {

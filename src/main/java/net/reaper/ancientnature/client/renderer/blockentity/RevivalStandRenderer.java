@@ -15,6 +15,7 @@ import net.reaper.ancientnature.core.init.ModItems;
 import net.reaper.ancientnature.core.init.ModTags;
 import org.checkerframework.checker.units.qual.A;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Vector3f;
 
 public class RevivalStandRenderer implements BlockEntityRenderer<RevivalStandBlockEntity> {
 
@@ -26,25 +27,39 @@ public class RevivalStandRenderer implements BlockEntityRenderer<RevivalStandBlo
 
     @Override
     public void render(RevivalStandBlockEntity pBlockEntity, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int pPackedOverlay) {
-        if (!pBlockEntity.getItem(1).isEmpty()){
-            renderItem(pBlockEntity.getItem(1), pPartialTick, pPoseStack, pBuffer, pPackedLight, pPackedOverlay, .52d, .7d, .45d);
+
+        if (!pBlockEntity.getItem(3).isEmpty()) {
+            renderItem(pBlockEntity.getItem(3), pPartialTick, pPoseStack, pBuffer, pPackedLight, pPackedOverlay,
+                    .5d, 2.12d, .5d, 0.4f, 3f, 0.02, 4, 0);
         }
-        if (!pBlockEntity.getItem(3).isEmpty()){
-            renderItem(pBlockEntity.getItem(3), pPartialTick, pPoseStack, pBuffer, pPackedLight, pPackedOverlay, .75d, .2d, .2d);
+
+        if (!pBlockEntity.getItem(1).isEmpty()) {
+            renderItem(pBlockEntity.getItem(1), pPartialTick, pPoseStack, pBuffer, pPackedLight, pPackedOverlay,
+                    .5d, 1.12d, .5d, 0.4f, 2f , 0.02, 4, 20);
         }
-        if (!pBlockEntity.getItem(4).isEmpty()){
-            renderItem(pBlockEntity.getItem(4), pPartialTick, pPoseStack, pBuffer, pPackedLight, pPackedOverlay, .75d, .2d, .7d);
-        }
-        if (!pBlockEntity.getItem(5).isEmpty()){
-            renderItem(pBlockEntity.getItem(5), pPartialTick, pPoseStack, pBuffer, pPackedLight, pPackedOverlay, .25d, .2d, .45d);
+
+        if (!pBlockEntity.getItem(0).isEmpty()) {
+            renderItem(pBlockEntity.getItem(0), pPartialTick, pPoseStack, pBuffer, pPackedLight, pPackedOverlay,
+                    .5d, .22d, .5, 0.5f, 1f, 0.01, 4, 40);
         }
     }
 
-    protected void renderItem(ItemStack stack, float pPartialTick, PoseStack matrixStack, MultiBufferSource source, int packedLight, int packedOverlay, double xOffset, double yOffset, double zOffset){
+    protected void renderItem(ItemStack stack, float pPartialTick, PoseStack matrixStack, MultiBufferSource source,
+                              int packedLight, int packedOverlay, double xOffset,  double baseY, double zOffset,
+                              float scale, float rotationSpeed, double hoverHeight, double hoverSpeed, double hoverOffset){
+
         matrixStack.pushPose();
+
+        double yOffset = baseY + Math.sin((Minecraft.getInstance().level.getGameTime() + pPartialTick + hoverOffset) / hoverSpeed) * hoverHeight;
         matrixStack.translate(xOffset, yOffset, zOffset);
-        matrixStack.scale(.5f, .5f, .5f);
-        Minecraft.getInstance().getItemRenderer().renderStatic(stack, ItemDisplayContext.FIRST_PERSON_RIGHT_HAND, packedLight, packedOverlay, matrixStack, source, Minecraft.getInstance().level, 1);
+
+        float gameTime = Minecraft.getInstance().level.getGameTime() + pPartialTick;
+        float angle = (gameTime % 360) * rotationSpeed;
+
+        matrixStack.mulPose(Axis.YP.rotationDegrees(angle));
+        matrixStack.scale(scale, scale, scale);
+        Minecraft.getInstance().getItemRenderer().renderStatic(stack, ItemDisplayContext.FIXED,
+                packedLight, packedOverlay, matrixStack, source, Minecraft.getInstance().level, 1);
         matrixStack.popPose();
     }
 }

@@ -59,7 +59,7 @@ public class ModBlockStatesProvider extends BlockStateProvider {
              */
             ModelBuilder<?> modelBuilder = models().getBuilder(name).parent(models().getExistingFile(AncientNature.modLoc("block/revival_stand_prefab"))).texture("texture", AncientNature.modLoc("block/" + name));
             if (state.getValue(RevivalStand.ACTIVE)){
-                modelBuilder = modelBuilder.renderType(mcLoc("translucent"));
+                modelBuilder = modelBuilder.renderType(mcLoc("cutout"));
             }else {
                 modelBuilder = modelBuilder.renderType(mcLoc("cutout"));
             }
